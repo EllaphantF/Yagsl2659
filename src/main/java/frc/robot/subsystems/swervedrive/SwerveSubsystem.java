@@ -28,6 +28,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -45,6 +46,8 @@ import org.json.simple.parser.ParseException;
 import swervelib.SwerveController;
 import swervelib.SwerveDrive;
 import swervelib.SwerveDriveTest;
+import swervelib.SwerveModule;
+import swervelib.encoders.CANCoderSwerve;
 import swervelib.math.SwerveMath;
 import swervelib.parser.SwerveControllerConfiguration;
 import swervelib.parser.SwerveDriveConfiguration;
@@ -97,6 +100,8 @@ public class SwerveSubsystem extends SubsystemBase
     swerveDrive.setModuleEncoderAutoSynchronize(false,
                                                 1); // Enable if you want to resynchronize your absolute encoders and motor encoders periodically when they are not moving.
 //    swerveDrive.pushOffsetsToEncoders(); // Set the absolute encoder to be used over the internal encoder and push the offsets onto it. Throws warning if not possible
+
+
     if (visionDriveTest)
     {
 //      setupPhotonVision();
@@ -132,6 +137,7 @@ public class SwerveSubsystem extends SubsystemBase
   @Override
   public void periodic()
   {
+    updateSD();
     /*// When vision is enabled we must manually update odometry in SwerveDrive
     if (visionDriveTest)
     {
@@ -262,8 +268,8 @@ public class SwerveSubsystem extends SubsystemBase
   {
 // Create the constraints to use while pathfinding
     PathConstraints constraints = new PathConstraints(
-        swerveDrive.getMaximumChassisVelocity(), 4.0,
-        swerveDrive.getMaximumChassisAngularVelocity(), Units.degreesToRadians(720));
+        swerveDrive.getMaximumChassisVelocity(), 4/25,
+        swerveDrive.getMaximumChassisAngularVelocity(), Units.degreesToRadians(720/20));
 
 // Since AutoBuilder is configured, we can use it to build pathfinding commands
     return AutoBuilder.pathfindToPose(
@@ -480,7 +486,7 @@ public class SwerveSubsystem extends SubsystemBase
     swerveDrive.drive(translation,
                       rotation,
                       fieldRelative,
-                      false); // Open loop is disabled since it shouldn't be used most of the time.
+                      true); // Open loop is disabled since it shouldn't be used most of the time.
   }
 
   /**
@@ -741,6 +747,24 @@ public class SwerveSubsystem extends SubsystemBase
   public SwerveDrive getSwerveDrive()
   {
     return swerveDrive;
+  }
+
+  private void updateSD(){
+    /* Dashboard Encoder Offsets */
+    SwerveModule mod0 = swerveDrive.getModules()[0];
+    SwerveModule mod1 = swerveDrive.getModules()[1];
+    SwerveModule mod2 = swerveDrive.getModules()[2];
+    SwerveModule mod3 = swerveDrive.getModules()[3];
+
+    CANCoderSwerve CANCoder0 = (CANCoderSwerve) mod0.getAbsoluteEncoder();
+    CANCoderSwerve CANCoder1 = (CANCoderSwerve) mod1.getAbsoluteEncoder();
+    CANCoderSwerve CANCoder2 = (CANCoderSwerve) mod2.getAbsoluteEncoder();
+    CANCoderSwerve CANCoder3 = (CANCoderSwerve) mod3.getAbsoluteEncoder();
+
+    SmartDashboard.putNumber("Absolute Encoder mod0" +  " Angle (degrees): ", CANCoder0.getAbsolutePosition());
+    SmartDashboard.putNumber("Absolute Encoder mod1" +  " Angle (degrees): ", CANCoder1.getAbsolutePosition());
+    SmartDashboard.putNumber("Absolute Encoder mod2" +  " Angle (degrees): ", CANCoder2.getAbsolutePosition());
+    SmartDashboard.putNumber("Absolute Encoder mod3" +  " Angle (degrees): ", CANCoder3.getAbsolutePosition());
   }
 
 }
