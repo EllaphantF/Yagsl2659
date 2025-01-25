@@ -57,8 +57,8 @@ public class RobotContainer
    * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular velocity.
    */
   SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
-                                                                () -> driverXbox.getLeftY() * -1,
-                                                                () -> driverXbox.getLeftX() * -1)
+                                                                () -> driverXbox.getLeftY() * 1,
+                                                                () -> driverXbox.getLeftX() * 1)
                                                             .withControllerRotationAxis(driverXbox::getRightX)
                                                             .deadband(OperatorConstants.DEADBAND)
                                                             .scaleTranslation(0.8)
@@ -104,10 +104,10 @@ public class RobotContainer
   SwerveInputStream driveDirectAngleSim     = driveAngularVelocitySim.copy()
                                                                      .withControllerHeadingAxis(() -> Math.sin(
                                                                                                     driverXbox.getRawAxis(
-                                                                                                        -1) * Math.PI) * (Math.PI * 2),
+                                                                                                        2) * Math.PI) * (Math.PI * 2),
                                                                                                 () -> Math.cos(
                                                                                                     driverXbox.getRawAxis(
-                                                                                                        -1) * Math.PI) *
+                                                                                                        2) * Math.PI) *
                                                                                                       (Math.PI * 2))
                                                                      .headingWhile(true);
 
@@ -152,8 +152,11 @@ public class RobotContainer
       driverXbox.y().whileTrue(drivebase.driveToDistanceCommand(1.0, 0.2));
       driverXbox.start().onTrue((Commands.runOnce(drivebase::zeroGyro)));
       driverXbox.back().whileTrue(drivebase.centerModulesCommand());
-      driverXbox.leftBumper().onTrue(Commands.none());
-      driverXbox.rightBumper().onTrue(Commands.none());
+      driverXbox.leftBumper().whileTrue(drivebase.driveToPose(
+        new Pose2d(new Translation2d(3.5 ,3.5),Rotation2d.fromDegrees(30))));
+      driverXbox.rightBumper().whileTrue(drivebase.driveToPose(
+        new Pose2d(new Translation2d(3,3),Rotation2d.fromDegrees(0))));
+
     } else
     {
       driverXbox.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
