@@ -22,6 +22,7 @@ import edu.wpi.first.networktables.NetworkTablesJNI;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import java.awt.Desktop;
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ public class Vision
    * April Tag Field Layout of the year.
    */
   public static final AprilTagFieldLayout fieldLayout                     = AprilTagFieldLayout.loadField(
-      AprilTagFields.k2024Crescendo);
+      AprilTagFields.k2025Reefscape);
   /**
    * Photon Vision Simulation
    */
@@ -138,6 +139,7 @@ public class Vision
       if (poseEst.isPresent())
       {
         var pose = poseEst.get();
+        //SmartDashboard.putString("direct vision pose",pose.estimatedPose.toPose2d().toString());
         swerveDrive.addVisionMeasurement(pose.estimatedPose.toPose2d(),
                                          pose.timestampSeconds,
                                          camera.curStdDevs);
@@ -158,6 +160,7 @@ public class Vision
   public Optional<EstimatedRobotPose> getEstimatedGlobalPose(Cameras camera)
   {
     Optional<EstimatedRobotPose> poseEst = camera.getEstimatedGlobalPose();
+    
     if (Robot.isSimulation())
     {
       Field2d debugField = visionSim.getDebugField();
@@ -283,30 +286,29 @@ public class Vision
     /**
      * Left Camera
      */
-    LEFT_CAM("left",
+    /*LEFT_CAM("left",
              new Rotation3d(0, Math.toRadians(-24.094), Math.toRadians(30)),
              new Translation3d(Units.inchesToMeters(12.056),
                                Units.inchesToMeters(10.981),
                                Units.inchesToMeters(8.44)),
-             VecBuilder.fill(4, 4, 8), VecBuilder.fill(0.5, 0.5, 1)),
+             VecBuilder.fill(4, 4, 8), VecBuilder.fill(0.5, 0.5, 1)),*/ //BVN - temporarily removed left camera
     /**
      * Right Camera
      */
-    RIGHT_CAM("right",
-              new Rotation3d(0, Math.toRadians(-24.094), Math.toRadians(-30)),
-              new Translation3d(Units.inchesToMeters(12.056),
-                                Units.inchesToMeters(-10.981),
-                                Units.inchesToMeters(8.44)),
-              VecBuilder.fill(4, 4, 8), VecBuilder.fill(0.5, 0.5, 1)),
+    RIGHT_CAM("Arducam_Camera_Right",//"right",
+              new Rotation3d(0, 20*Math.PI / 180, -180 * Math.PI / 180),
+              new Translation3d(-0.311, -0.111, .4064), //from Encore
+              VecBuilder.fill(.5, .5, 1), VecBuilder.fill(0.1, 0.1, .15))//,
     /**
      * Center Camera
      */
+    /*
     CENTER_CAM("center",
                new Rotation3d(0, Units.degreesToRadians(18), 0),
                new Translation3d(Units.inchesToMeters(-4.628),
                                  Units.inchesToMeters(-10.687),
                                  Units.inchesToMeters(16.129)),
-               VecBuilder.fill(4, 4, 8), VecBuilder.fill(0.5, 0.5, 1));
+               VecBuilder.fill(4, 4, 8), VecBuilder.fill(0.5, 0.5, 1))*/; //BVN - removed "center" camera
 
     /**
      * Latency alert to use when high latency is detected.

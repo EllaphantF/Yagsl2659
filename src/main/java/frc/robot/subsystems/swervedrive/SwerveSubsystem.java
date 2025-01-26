@@ -28,21 +28,23 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
 import frc.robot.Constants;
-//import frc.robot.subsystems.swervedrive.Vision.Cameras;
+import frc.robot.subsystems.swervedrive.Vision.Cameras;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 import org.json.simple.parser.ParseException;
-//import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonPipelineResult;
 import swervelib.SwerveController;
 import swervelib.SwerveDrive;
 import swervelib.SwerveDriveTest;
@@ -65,11 +67,11 @@ public class SwerveSubsystem extends SubsystemBase
   /**
    * Enable vision odometry updates while driving.
    */
-  private final boolean             visionDriveTest     = false;
+  private final boolean             visionDriveTest     = true;
   /**
    * PhotonVision class to keep an accurate odometry.
    */
-//  private       Vision              vision;
+  private       Vision              vision;
 
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
@@ -104,7 +106,7 @@ public class SwerveSubsystem extends SubsystemBase
 
     if (visionDriveTest)
     {
-//      setupPhotonVision();
+      setupPhotonVision();
       // Stop the odometry thread if we are using vision that way we can synchronize updates better.
       swerveDrive.stopOdometryThread();
     }
@@ -129,21 +131,21 @@ public class SwerveSubsystem extends SubsystemBase
 //  /**
 //   * Setup the photon vision class.
 //   */
-//  public void setupPhotonVision()
-//  {
-//    vision = new Vision(swerveDrive::getPose, swerveDrive.field);
-//  }
+  public void setupPhotonVision()
+  {
+    vision = new Vision(swerveDrive::getPose, swerveDrive.field);
+  }
 
   @Override
   public void periodic()
   {
     updateSD();
-    /*// When vision is enabled we must manually update odometry in SwerveDrive
+    // When vision is enabled we must manually update odometry in SwerveDrive
     if (visionDriveTest)
     {
       swerveDrive.updateOdometry();
-//      vision.updatePoseEstimation(swerveDrive);
-    }*/
+      vision.updatePoseEstimation(swerveDrive);
+    }
   }
 
   @Override
@@ -227,24 +229,24 @@ public class SwerveSubsystem extends SubsystemBase
 //   *
 //   * @return A {@link Command} which will run the alignment.
 //   */
-//  public Command aimAtTarget(Cameras camera)
-//  {
+  public Command aimAtTarget(Cameras camera)
+  {
 //
-//    return run(() -> {
-//      Optional<PhotonPipelineResult> resultO = camera.getBestResult();
-//      if (resultO.isPresent())
-//      {
-//        var result = resultO.get();
-//        if (result.hasTargets())
-//        {
-//          drive(getTargetSpeeds(0,
-//                                0,
-//                                Rotation2d.fromDegrees(result.getBestTarget()
-//                                                             .getYaw()))); // Not sure if this will work, more math may be required.
-//        }
-//      }
-//    });
-//  }
+    return run(() -> {
+      Optional<PhotonPipelineResult> resultO = camera.getBestResult();
+      if (resultO.isPresent())
+      {
+        var result = resultO.get();
+        if (result.hasTargets())
+        {
+          drive(getTargetSpeeds(0,
+                                0,
+                                Rotation2d.fromDegrees(result.getBestTarget()
+                                                             .getYaw()))); // Not sure if this will work, more math may be required.
+        }
+      }
+    });
+  }
 
   /**
    * Get the path follower with events.
@@ -765,6 +767,13 @@ public class SwerveSubsystem extends SubsystemBase
     SmartDashboard.putNumber("Absolute Encoder mod1" +  " Angle (degrees): ", CANCoder1.getAbsolutePosition());
     SmartDashboard.putNumber("Absolute Encoder mod2" +  " Angle (degrees): ", CANCoder2.getAbsolutePosition());
     SmartDashboard.putNumber("Absolute Encoder mod3" +  " Angle (degrees): ", CANCoder3.getAbsolutePosition());
+  
+    SmartDashboard.putData("Field",swerveDrive.field);
+    SmartDashboard.putNumber("XPos",swerveDrive.getPose().getX());
+    
+    //    SmartDashboard.putData("visionCheck", );
+    SmartDashboard.putNumber("visionDistToID2",vision.getDistanceFromAprilTag(2));
+
   }
 
 }
