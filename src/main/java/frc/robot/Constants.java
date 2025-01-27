@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import swervelib.math.Matter;
@@ -47,5 +49,21 @@ public final class Constants
     public static final double LEFT_Y_DEADBAND = 0.1;
     public static final double RIGHT_X_DEADBAND = 0.1;
     public static final double TURN_CONSTANT    = 6;
+  }
+
+  public static class ReefScoringLocations{
+  // BRANCH POSES
+      public static final Pose2d BLUE_1 = new Pose2d(2.860, 4.187, Rotation2d.fromDegrees(0));
+      public static final Pose2d BLUE_2 = new Pose2d(2.860, 3.857, Rotation2d.fromDegrees(0));
+      public static final Pose2d BLUE_3 = new Pose2d(3.527, 2.694, Rotation2d.fromDegrees(60));
+      public static final Pose2d BLUE_4 = new Pose2d(3.813, 2.535, Rotation2d.fromDegrees(60));
+      public static final Pose2d BLUE_5 = new Pose2d(5.160, 2.529, Rotation2d.fromDegrees(120));
+      public static final Pose2d BLUE_6 = new Pose2d(5.445, 2.694, Rotation2d.fromDegrees(120));
+      public static final Pose2d BLUE_7 = new Pose2d(6.119, 3.857, Rotation2d.fromDegrees(180));
+      public static final Pose2d BLUE_8 = new Pose2d(6.119, 4.187, Rotation2d.fromDegrees(180));
+      public static final Pose2d BLUE_9 = new Pose2d(5.452, 5.343, Rotation2d.fromDegrees(-120));
+      public static final Pose2d BLUE_10 = new Pose2d(5.166, 5.527, Rotation2d.fromDegrees(-120));
+      public static final Pose2d BLUE_11 = new Pose2d(3.826, 5.508, Rotation2d.fromDegrees(-60));
+      public static final Pose2d BLUE_12 = new Pose2d(3.534, 5.368, Rotation2d.fromDegrees(-60));
   }
 }

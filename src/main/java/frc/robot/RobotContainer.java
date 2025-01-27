@@ -58,8 +58,9 @@ public class RobotContainer
    */
   SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
                                                                 () -> driverXbox.getLeftY() * -1,
-                                                                () -> driverXbox.getLeftX() * -1)
-                                                            .withControllerRotationAxis(driverXbox::getRightX)
+                                                                () -> driverXbox.getLeftX() * -1)//
+                                                          //.withControllerRotationAxis(driverXbox::getRightX)
+                                                            .withControllerRotationAxis(() -> driverXbox.getRightX()) //BVN 1-26-25 - added this to reverse the rotation input
                                                             .deadband(OperatorConstants.DEADBAND)
                                                             .scaleTranslation(0.8)
                                                             .allianceRelativeControl(true);
@@ -132,7 +133,7 @@ public class RobotContainer
    * controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight joysticks}.
    */
 
-  private void configureBindings()
+  private void configureBindings() //BVN Note - periodically called from "set drive mode" method below, which is periodically called in robot.java
   {
     // (Condition) ? Return-On-True : Return-on-False
     drivebase.setDefaultCommand(!RobotBase.isSimulation() ?
@@ -143,7 +144,8 @@ public class RobotContainer
     {
       driverXbox.start().onTrue(Commands.runOnce(() -> drivebase.resetOdometry(new Pose2d(3, 3, new Rotation2d()))));
     }
-    if (DriverStation.isTest())
+    if (DriverStation.isTest()) //BVN 1-26-25 note, if we enable test itll bind these, but it doesnt unbind them if we enable tele, it just over writes
+                                // so some of the button bindings are still there from enabling one mode(i.e. test), then enabling the other (i.e. tele).
     {
       drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity); // Overrides drive command above!
 
