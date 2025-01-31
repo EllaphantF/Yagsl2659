@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems;
+/* package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -26,10 +26,10 @@ public class EndeffectorElevatorSubsystem extends SubsystemBase {
     private static final TalonFX mElevatorRight = new TalonFX(1);//BVN 1-26-25 need to put IDs in constants and link them here
     private static final TalonFX mElevatorLeft = new TalonFX(1);//
     private static final TalonFX mEndeffectorPivot = new TalonFX(1);//
-    private static final TalonFX mEndeffectorRollers = new TalonFX(1);//
+    private static final TalonFX mEndeffectorRollers = new TalonFX(1);// */
 
   /** Creates a new ExampleSubsystem. */
-  public EndeffectorElevatorSubsystem() {
+  /* public EndeffectorElevatorSubsystem() {
         mElevatorRight.getConfigurator().apply(new TalonFXConfiguration());
         mElevatorLeft.getConfigurator().apply(new TalonFXConfiguration());
         mEndeffectorPivot.getConfigurator().apply(new TalonFXConfiguration());
@@ -94,14 +94,14 @@ public class EndeffectorElevatorSubsystem extends SubsystemBase {
         () -> {
           /* one-time action goes here */
         });
-  }
+  } */
 
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).
    *
    * @return value of some boolean subsystem state, such as a digital sensor.
    */
-  public boolean exampleCondition() {
+  /* public boolean exampleCondition() {
     // Query some boolean state, such as a digital sensor.
     return false;
   }
@@ -154,4 +154,4 @@ public class EndeffectorElevatorSubsystem extends SubsystemBase {
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
   }
-}
+} */
