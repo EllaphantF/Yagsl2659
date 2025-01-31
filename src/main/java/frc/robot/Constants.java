@@ -50,6 +50,12 @@ public final class Constants
     public static final double RIGHT_X_DEADBAND = 0.1;
     public static final double TURN_CONSTANT    = 6;
   }
+  
+  /* EndEffector and Elevator IDs */
+  public static final int endEffectorWheelID = 14;
+  public static final int endEffectorPivotID = 15;
+  public static final int elevatorLeftID = 17;
+  public static final int elevatorRightID = 16;
 
   public static class ReefScoringLocations{
   // BRANCH POSES
