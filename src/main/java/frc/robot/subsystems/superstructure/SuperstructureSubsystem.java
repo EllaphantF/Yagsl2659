@@ -23,7 +23,6 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public double pivotTarget = 0;
   public double intakeTarget = 0;
   public final double intake = -20;
-  public SuperstructureState TARGETSTATE;
   public double sequenceState = 0;
   public double scoreLevel = 0;
   public boolean hasCoral = false;
@@ -35,6 +34,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public boolean scoringCoral = false;
 
   public SuperstructureStates STATE = new SuperstructureStates();
+  public SuperstructureState TARGETSTATE = STATE.StartingConfig;
 
   private static final TalonFX mElevatorRight = new TalonFX(Constants.elevatorRightID);//MPF Hi I have IDs
   private static final TalonFX mElevatorLeft = new TalonFX(Constants.elevatorLeftID);//

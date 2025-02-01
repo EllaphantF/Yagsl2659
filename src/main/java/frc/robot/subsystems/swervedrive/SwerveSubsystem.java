@@ -26,8 +26,12 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -59,7 +63,9 @@ import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 
 public class SwerveSubsystem extends SubsystemBase
 {
-
+  private double autoDriveSequence = 0;
+  private double reefPoseSelect = 5;
+  public Pose2d autoDrivePose = new Pose2d(0,0,new Rotation2d(0.0));
   /**
    * Swerve drive object.
    */
@@ -73,7 +79,6 @@ public class SwerveSubsystem extends SubsystemBase
    */
   private       Vision              vision;
 
-  private double autoDriveSequence = 0;
 
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
@@ -82,6 +87,8 @@ public class SwerveSubsystem extends SubsystemBase
    */
   public SwerveSubsystem(File directory)
   {
+    SmartDashboard.putNumber("Select Scoring Location", reefPoseSelect);
+
     // Configure the Telemetry before creating the SwerveDrive to avoid unnecessary objects being created.
     SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
     try
@@ -142,6 +149,7 @@ public class SwerveSubsystem extends SubsystemBase
   public void periodic()
   {
     updateSD();
+    updateAutoDrivePose();
     // When vision is enabled we must manually update odometry in SwerveDrive
     if (visionDriveTest)
     {
@@ -272,8 +280,71 @@ public class SwerveSubsystem extends SubsystemBase
   {
 // Create the constraints to use while pathfinding
     PathConstraints constraints = new PathConstraints(
-        swerveDrive.getMaximumChassisVelocity(), 4/25, //.08m/s - testing w/ slow translation
-        swerveDrive.getMaximumChassisAngularVelocity(), Units.degreesToRadians(720/20));
+        swerveDrive.getMaximumChassisVelocity(), 4/5, //.08m/s - testing w/ slow translation
+        swerveDrive.getMaximumChassisAngularVelocity(), Units.degreesToRadians(720/5));
+    
+// Since AutoBuilder is configured, we can use it to build pathfinding commands
+    return AutoBuilder.pathfindToPose(
+        pose,
+        constraints,
+        edu.wpi.first.units.Units.MetersPerSecond.of(0) // Goal end velocity in meters/sec
+                                     );
+  }
+
+  private void updateAutoDrivePose(){
+  reefPoseSelect = SmartDashboard.getNumber("Select Scoring Location",0);
+   if(isRedAlliance()){
+      if(reefPoseSelect ==  1 ) autoDrivePose = Constants.ReefScoringLocations.RED_1;
+      if(reefPoseSelect ==  2 ) autoDrivePose = Constants.ReefScoringLocations.RED_2;
+      if(reefPoseSelect ==  3 ) autoDrivePose = Constants.ReefScoringLocations.RED_3;
+      if(reefPoseSelect ==  4 ) autoDrivePose = Constants.ReefScoringLocations.RED_4;
+      if(reefPoseSelect ==  5 ) autoDrivePose = Constants.ReefScoringLocations.RED_5;
+      if(reefPoseSelect ==  6 ) autoDrivePose = Constants.ReefScoringLocations.RED_6;
+      if(reefPoseSelect ==  7 ) autoDrivePose = Constants.ReefScoringLocations.RED_7;
+      if(reefPoseSelect ==  8 ) autoDrivePose = Constants.ReefScoringLocations.RED_8;
+      if(reefPoseSelect ==  9 ) autoDrivePose = Constants.ReefScoringLocations.RED_9;
+      if(reefPoseSelect ==  10 ) autoDrivePose = Constants.ReefScoringLocations.RED_10;
+      if(reefPoseSelect ==  11 ) autoDrivePose = Constants.ReefScoringLocations.RED_11;
+      if(reefPoseSelect ==  12 ) autoDrivePose = Constants.ReefScoringLocations.RED_12;
+      //if(reefPoseSelect ==  13 ) autoDrivePos = Constants.ReefScoringLocations.RED_1;
+     
+  }else{
+      if(reefPoseSelect ==  1 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_1;
+      if(reefPoseSelect ==  2 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_2;
+      if(reefPoseSelect ==  3 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_3;
+      if(reefPoseSelect ==  4 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_4;
+      if(reefPoseSelect ==  5 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_5;
+      if(reefPoseSelect ==  6 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_6;
+      if(reefPoseSelect ==  7 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_7;
+      if(reefPoseSelect ==  8 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_8;
+      if(reefPoseSelect ==  9 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_9;
+      if(reefPoseSelect ==  10 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_10;
+      if(reefPoseSelect ==  11 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_11;
+      if(reefPoseSelect ==  12 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_12;
+    
+  }
+      SmartDashboard.putString("Auto drive target pose", autoDrivePose.toString());
+  }
+  /**
+   * Use PathPlanner Path finding to go to a point on the field.
+   *
+   * @param pose Target {@link Pose2d} to go to.
+   * @return PathFinding command
+   */
+  public Command autoDriveToReef(double select)
+  {
+    //reefPoseSelect = scoringLocation.getDouble(5); //we will set up a button box to select reefPose
+    updateAutoDrivePose();
+    Pose2d pose = new Pose2d(new Translation2d(0,0), new Rotation2d(0));
+    //Integer value = (int)reefPos;
+    //reefPoseSelect = SmartDashboard.getNumber("Select Scoring Location", 0);
+    pose = autoDrivePose;
+    
+// Create the constraints to use while pathfinding
+    PathConstraints constraints = new PathConstraints(
+        swerveDrive.getMaximumChassisVelocity(), 4/5, //.08m/s - testing w/ slow translation
+        swerveDrive.getMaximumChassisAngularVelocity(), Units.degreesToRadians(720/5));
+        
 
 // Since AutoBuilder is configured, we can use it to build pathfinding commands
     return AutoBuilder.pathfindToPose(
@@ -775,6 +846,10 @@ public class SwerveSubsystem extends SubsystemBase
     
     //    SmartDashboard.putData("visionCheck", );
     SmartDashboard.putNumber("visionDistToID2",vision.getDistanceFromAprilTag(2));
+
+//    SmartDashboard.putNumber("Select Scoring Location", );
+    reefPoseSelect = SmartDashboard.getNumber("Select Scoring Location", 5);
+
 
   }
 

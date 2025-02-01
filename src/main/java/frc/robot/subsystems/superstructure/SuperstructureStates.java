@@ -2,6 +2,7 @@ package frc.robot.subsystems.superstructure;
 
 public class SuperstructureStates {
 
+    public SuperstructureState StartingConfig;
     public SuperstructureState Home;
     public SuperstructureState Intake;
     public SuperstructureState CoralL1;
@@ -24,6 +25,7 @@ public class SuperstructureStates {
     public SuperstructureState PreScoreCoral;
 
     public SuperstructureStates(){
+        StartingConfig = new SuperstructureState(0, 0, 0);
         Home = new SuperstructureState(0, 0, 0);
         Intake = new SuperstructureState(0, 0, 0);
         CoralL1 = new SuperstructureState(0, 0, 0);
