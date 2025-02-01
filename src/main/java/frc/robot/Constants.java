@@ -56,7 +56,14 @@ public final class Constants
   public static final int endEffectorPivotID = 15;
   public static final int elevatorLeftID = 17;
   public static final int elevatorRightID = 16;
+  public static final int intakePivotID = 18;
+  public static final int intakeWheelsID = 19;
 
+/* Clearance positions*/
+  public static final double crossbarClearancePos = 0; //elevator height to clear crossbar (must be below)
+  public static final double intakeEndeffectorClearancePos = 0; //intake pivot position to clear the endeffector (intake must be deployed enough)
+  public static final double endeffectorElevatorClearancePos = 0; //Endeffector pivot position to clear elevator
+  
   public static class ReefScoringLocations{
   // BRANCH POSES
       public static final Pose2d BLUE_1 = new Pose2d(2.860, 4.187, Rotation2d.fromDegrees(0));

@@ -73,6 +73,8 @@ public class SwerveSubsystem extends SubsystemBase
    */
   private       Vision              vision;
 
+  private double autoDriveSequence = 0;
+
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
    *

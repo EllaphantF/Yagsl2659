@@ -87,14 +87,14 @@ public class EndeffectorElevatorSubsystem extends SubsystemBase {
    *
    * @return a command
    */
-  public Command exampleMethodCommand() {
+  //public Command exampleMethodCommand() {
     // Inline construction of command goes here.
     // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
+  //  return runOnce(
+  //      () -> {
           /* one-time action goes here */
-        });
-  } */
+  //      });
+  //} */
 
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).
