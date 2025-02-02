@@ -20,6 +20,9 @@ import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ProxyCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
@@ -182,9 +185,14 @@ public class RobotContainer
       //driverXbox.start().whileTrue(Commands.none());
       driverXbox.start().whileTrue(Commands.runOnce(() -> drivebase.resetOdometry(new Pose2d(new Translation2d(5,5),new Rotation2d(0)))));
       driverXbox.back().whileTrue(Commands.none());
-      driverXbox.leftBumper().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
+      //driverXbox.leftBumper().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
       //driverXbox.rightBumper().onTrue(Commands.none());
-      driverXbox.rightBumper().whileTrue(getAutoDriveCommand());
+      //driverXbox.rightBumper().onTrue(new InstantCommand(() -> getAutoDriveCommand()));
+      //driverXbox.rightBumper().whileTrue(new RunCommand(() -> getAutoDriveCommand()));
+      
+//      driverXbox.rightBumper().whileTrue(getAutoDriveCommand()); //works but only goes to the first pose - i.e. cant update target pose
+      
+      //driverXbox.rightBumper().whileTrue(new InstantCommand(() -> drivebase.autoDriveToReef()));
       
       operatorXbox.a().onTrue(Commands.runOnce(superstructure::intake));
       operatorXbox.b().onTrue(Commands.runOnce(superstructure::stow));
@@ -204,7 +212,43 @@ public class RobotContainer
   }
 
   public Command getAutoDriveCommand(){
-    return drivebase.autoDriveToReef(SmartDashboard.getNumber("Select Scoring Location", 0));
+    double selectPose = SmartDashboard.getNumber("Select Scoring Location",0);
+    Pose2d autoDrivePose = new Pose2d(new Translation2d(0,0), new Rotation2d(0));
+   if(drivebase.isRedAlliance()){
+      if(selectPose ==  1 ) autoDrivePose = Constants.ReefScoringLocations.RED_1;
+      if(selectPose ==  2 ) autoDrivePose = Constants.ReefScoringLocations.RED_2;
+      if(selectPose ==  3 ) autoDrivePose = Constants.ReefScoringLocations.RED_3;
+      if(selectPose ==  4 ) autoDrivePose = Constants.ReefScoringLocations.RED_4;
+      if(selectPose ==  5 ) autoDrivePose = Constants.ReefScoringLocations.RED_5;
+      if(selectPose ==  6 ) autoDrivePose = Constants.ReefScoringLocations.RED_6;
+      if(selectPose ==  7 ) autoDrivePose = Constants.ReefScoringLocations.RED_7;
+      if(selectPose ==  8 ) autoDrivePose = Constants.ReefScoringLocations.RED_8;
+      if(selectPose ==  9 ) autoDrivePose = Constants.ReefScoringLocations.RED_9;
+      if(selectPose ==  10 ) autoDrivePose = Constants.ReefScoringLocations.RED_10;
+      if(selectPose ==  11 ) autoDrivePose = Constants.ReefScoringLocations.RED_11;
+      if(selectPose ==  12 ) autoDrivePose = Constants.ReefScoringLocations.RED_12;
+      //if(selectPose ==  13 ) autoDrivePos = Constants.ReefScoringLocations.RED_1;
+  }else{
+      if(selectPose ==  1 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_1;
+      if(selectPose ==  2 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_2;
+      if(selectPose ==  3 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_3;
+      if(selectPose ==  4 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_4;
+      if(selectPose ==  5 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_5;
+      if(selectPose ==  6 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_6;
+      if(selectPose ==  7 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_7;
+      if(selectPose ==  8 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_8;
+      if(selectPose ==  9 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_9;
+      if(selectPose ==  10 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_10;
+      if(selectPose ==  11 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_11;
+      if(selectPose ==  12 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_12;
+  }
+  //  return drivebase.autoDriveToReef();
+  return ( drivebase.driveToPose(autoDrivePose));
+  }
+
+  public Command autoscoreDriveCommand(){
+  //  return drivebase.autoDriveToReef();
+  return ( drivebase.autoDriveToReef());
   }
 
   public void setDriveMode()

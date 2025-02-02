@@ -65,6 +65,7 @@ public class SwerveSubsystem extends SubsystemBase
 {
   private double autoDriveSequence = 0;
   private double reefPoseSelect = 5;
+  private double count = 0;
   public Pose2d autoDrivePose = new Pose2d(0,0,new Rotation2d(0.0));
   /**
    * Swerve drive object.
@@ -280,7 +281,7 @@ public class SwerveSubsystem extends SubsystemBase
   {
 // Create the constraints to use while pathfinding
     PathConstraints constraints = new PathConstraints(
-        swerveDrive.getMaximumChassisVelocity(), 4/5, //.08m/s - testing w/ slow translation
+        swerveDrive.getMaximumChassisVelocity(), 4, //.08m/s - testing w/ slow translation
         swerveDrive.getMaximumChassisAngularVelocity(), Units.degreesToRadians(720/5));
     
 // Since AutoBuilder is configured, we can use it to build pathfinding commands
@@ -292,35 +293,35 @@ public class SwerveSubsystem extends SubsystemBase
   }
 
   private void updateAutoDrivePose(){
-  reefPoseSelect = SmartDashboard.getNumber("Select Scoring Location",0);
+  double selectPose = SmartDashboard.getNumber("Select Scoring Location",0);
    if(isRedAlliance()){
-      if(reefPoseSelect ==  1 ) autoDrivePose = Constants.ReefScoringLocations.RED_1;
-      if(reefPoseSelect ==  2 ) autoDrivePose = Constants.ReefScoringLocations.RED_2;
-      if(reefPoseSelect ==  3 ) autoDrivePose = Constants.ReefScoringLocations.RED_3;
-      if(reefPoseSelect ==  4 ) autoDrivePose = Constants.ReefScoringLocations.RED_4;
-      if(reefPoseSelect ==  5 ) autoDrivePose = Constants.ReefScoringLocations.RED_5;
-      if(reefPoseSelect ==  6 ) autoDrivePose = Constants.ReefScoringLocations.RED_6;
-      if(reefPoseSelect ==  7 ) autoDrivePose = Constants.ReefScoringLocations.RED_7;
-      if(reefPoseSelect ==  8 ) autoDrivePose = Constants.ReefScoringLocations.RED_8;
-      if(reefPoseSelect ==  9 ) autoDrivePose = Constants.ReefScoringLocations.RED_9;
-      if(reefPoseSelect ==  10 ) autoDrivePose = Constants.ReefScoringLocations.RED_10;
-      if(reefPoseSelect ==  11 ) autoDrivePose = Constants.ReefScoringLocations.RED_11;
-      if(reefPoseSelect ==  12 ) autoDrivePose = Constants.ReefScoringLocations.RED_12;
-      //if(reefPoseSelect ==  13 ) autoDrivePos = Constants.ReefScoringLocations.RED_1;
+      if(selectPose ==  1 ) autoDrivePose = Constants.ReefScoringLocations.RED_1;
+      if(selectPose ==  2 ) autoDrivePose = Constants.ReefScoringLocations.RED_2;
+      if(selectPose ==  3 ) autoDrivePose = Constants.ReefScoringLocations.RED_3;
+      if(selectPose ==  4 ) autoDrivePose = Constants.ReefScoringLocations.RED_4;
+      if(selectPose ==  5 ) autoDrivePose = Constants.ReefScoringLocations.RED_5;
+      if(selectPose ==  6 ) autoDrivePose = Constants.ReefScoringLocations.RED_6;
+      if(selectPose ==  7 ) autoDrivePose = Constants.ReefScoringLocations.RED_7;
+      if(selectPose ==  8 ) autoDrivePose = Constants.ReefScoringLocations.RED_8;
+      if(selectPose ==  9 ) autoDrivePose = Constants.ReefScoringLocations.RED_9;
+      if(selectPose ==  10 ) autoDrivePose = Constants.ReefScoringLocations.RED_10;
+      if(selectPose ==  11 ) autoDrivePose = Constants.ReefScoringLocations.RED_11;
+      if(selectPose ==  12 ) autoDrivePose = Constants.ReefScoringLocations.RED_12;
+      //if(selectPose ==  13 ) autoDrivePos = Constants.ReefScoringLocations.RED_1;
      
   }else{
-      if(reefPoseSelect ==  1 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_1;
-      if(reefPoseSelect ==  2 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_2;
-      if(reefPoseSelect ==  3 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_3;
-      if(reefPoseSelect ==  4 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_4;
-      if(reefPoseSelect ==  5 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_5;
-      if(reefPoseSelect ==  6 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_6;
-      if(reefPoseSelect ==  7 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_7;
-      if(reefPoseSelect ==  8 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_8;
-      if(reefPoseSelect ==  9 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_9;
-      if(reefPoseSelect ==  10 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_10;
-      if(reefPoseSelect ==  11 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_11;
-      if(reefPoseSelect ==  12 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_12;
+      if(selectPose ==  1 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_1;
+      if(selectPose ==  2 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_2;
+      if(selectPose ==  3 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_3;
+      if(selectPose ==  4 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_4;
+      if(selectPose ==  5 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_5;
+      if(selectPose ==  6 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_6;
+      if(selectPose ==  7 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_7;
+      if(selectPose ==  8 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_8;
+      if(selectPose ==  9 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_9;
+      if(selectPose ==  10 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_10;
+      if(selectPose ==  11 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_11;
+      if(selectPose ==  12 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_12;
     
   }
       SmartDashboard.putString("Auto drive target pose", autoDrivePose.toString());
@@ -331,15 +332,18 @@ public class SwerveSubsystem extends SubsystemBase
    * @param pose Target {@link Pose2d} to go to.
    * @return PathFinding command
    */
-  public Command autoDriveToReef(double select)
+  public Command autoDriveToReef()
   {
     //reefPoseSelect = scoringLocation.getDouble(5); //we will set up a button box to select reefPose
-    updateAutoDrivePose();
-    Pose2d pose = new Pose2d(new Translation2d(0,0), new Rotation2d(0));
+    //updateAutoDrivePose();
+    //Pose2d pose = new Pose2d(new Translation2d(0,0), new Rotation2d(0));
     //Integer value = (int)reefPos;
     //reefPoseSelect = SmartDashboard.getNumber("Select Scoring Location", 0);
-    pose = autoDrivePose;
-    
+    //pose = autoDrivePose;
+    count++;
+    SmartDashboard.putNumber("autoDrive Calls", count);
+    SmartDashboard.putString("auto command target pose", autoDrivePose.toString());
+    SmartDashboard.putNumber("pose selection Parrot", SmartDashboard.getNumber("Select Scoring Location", 99));
 // Create the constraints to use while pathfinding
     PathConstraints constraints = new PathConstraints(
         swerveDrive.getMaximumChassisVelocity(), 4/5, //.08m/s - testing w/ slow translation
@@ -348,7 +352,7 @@ public class SwerveSubsystem extends SubsystemBase
 
 // Since AutoBuilder is configured, we can use it to build pathfinding commands
     return AutoBuilder.pathfindToPose(
-        pose,
+        autoDrivePose,
         constraints,
         edu.wpi.first.units.Units.MetersPerSecond.of(0) // Goal end velocity in meters/sec
                                      );
@@ -662,7 +666,7 @@ public class SwerveSubsystem extends SubsystemBase
    *
    * @return true if the red alliance, false if blue. Defaults to false if none is available.
    */
-  private boolean isRedAlliance()
+  public boolean isRedAlliance()
   {
     var alliance = DriverStation.getAlliance();
     return alliance.isPresent() ? alliance.get() == DriverStation.Alliance.Red : false;
@@ -848,7 +852,7 @@ public class SwerveSubsystem extends SubsystemBase
     SmartDashboard.putNumber("visionDistToID2",vision.getDistanceFromAprilTag(2));
 
 //    SmartDashboard.putNumber("Select Scoring Location", );
-    reefPoseSelect = SmartDashboard.getNumber("Select Scoring Location", 5);
+    //reefPoseSelect = SmartDashboard.getNumber("Select Scoring Location", 5);
 
 
   }
