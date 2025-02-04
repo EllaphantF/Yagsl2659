@@ -24,6 +24,7 @@ public class Robot extends TimedRobot
   private        Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+  private double remapLimiterCount = 0;
 
   private Timer disabledTimer;
   final         CommandXboxController driverXbox = new CommandXboxController(0);
@@ -69,9 +70,11 @@ public class Robot extends TimedRobot
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     //
-
-    driverXbox.rightBumper().whileTrue(m_robotContainer.autoScoreSequenceCommand());
-    
+    remapLimiterCount++;
+    if(remapLimiterCount > 10){
+      driverXbox.rightBumper().whileTrue(m_robotContainer.autoScoreSequenceCommand());
+      remapLimiterCount = 0;  
+    }
     //driverXbox.leftBumper().whileTrue(m_robotContainer.autoscoreDriveCommand());
     
     CommandScheduler.getInstance().run();

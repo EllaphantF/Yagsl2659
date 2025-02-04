@@ -225,72 +225,9 @@ public class RobotContainer
 
   public Command autoScoreSequenceCommand(){
     double selectPose = SmartDashboard.getNumber("Select Scoring Location",0);
-    Pose2d prescoreDrivePose = new Pose2d(new Translation2d(0,0), new Rotation2d(0));
-    Pose2d scoreDrivePose = new Pose2d(new Translation2d(0,0), new Rotation2d(0));
-   if(drivebase.isRedAlliance()){
-      if(selectPose ==  1 ) scoreDrivePose = Constants.ReefScoringLocations.RED_1;
-      if(selectPose ==  2 ) scoreDrivePose = Constants.ReefScoringLocations.RED_2;
-      if(selectPose ==  3 ) scoreDrivePose = Constants.ReefScoringLocations.RED_3;
-      if(selectPose ==  4 ) scoreDrivePose = Constants.ReefScoringLocations.RED_4;
-      if(selectPose ==  5 ) scoreDrivePose = Constants.ReefScoringLocations.RED_5;
-      if(selectPose ==  6 ) scoreDrivePose = Constants.ReefScoringLocations.RED_6;
-      if(selectPose ==  7 ) scoreDrivePose = Constants.ReefScoringLocations.RED_7;
-      if(selectPose ==  8 ) scoreDrivePose = Constants.ReefScoringLocations.RED_8;
-      if(selectPose ==  9 ) scoreDrivePose = Constants.ReefScoringLocations.RED_9;
-      if(selectPose ==  10 ) scoreDrivePose = Constants.ReefScoringLocations.RED_10;
-      if(selectPose ==  11 ) scoreDrivePose = Constants.ReefScoringLocations.RED_11;
-      if(selectPose ==  12 ) scoreDrivePose = Constants.ReefScoringLocations.RED_12;
-
-      if(selectPose ==  1 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_1;
-      if(selectPose ==  2 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_2;
-      if(selectPose ==  3 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_3;
-      if(selectPose ==  4 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_4;
-      if(selectPose ==  5 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_5;
-      if(selectPose ==  6 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_6;
-      if(selectPose ==  7 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_7;
-      if(selectPose ==  8 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_8;
-      if(selectPose ==  9 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_9;
-      if(selectPose ==  10 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_10;
-      if(selectPose ==  11 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_11;
-      if(selectPose ==  12 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_12;
-  }else{
-      if(selectPose ==  1 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_1;
-      if(selectPose ==  2 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_2;
-      if(selectPose ==  3 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_3;
-      if(selectPose ==  4 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_4;
-      if(selectPose ==  5 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_5;
-      if(selectPose ==  6 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_6;
-      if(selectPose ==  7 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_7;
-      if(selectPose ==  8 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_8;
-      if(selectPose ==  9 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_9;
-      if(selectPose ==  10 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_10;
-      if(selectPose ==  11 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_11;
-      if(selectPose ==  12 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_12;
-
-      if(selectPose ==  1 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_1;
-      if(selectPose ==  2 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_2;
-      if(selectPose ==  3 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_3;
-      if(selectPose ==  4 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_4;
-      if(selectPose ==  5 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_5;
-      if(selectPose ==  6 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_6;
-      if(selectPose ==  7 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_7;
-      if(selectPose ==  8 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_8;
-      if(selectPose ==  9 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_9;
-      if(selectPose ==  10 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_10;
-      if(selectPose ==  11 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_11;
-      if(selectPose ==  12 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_12;
-  }
-  //  return drivebase.autoDriveToReef();
-  //return (new SequentialCommandGroup(drivebase.driveToPose(prescoreDrivePose),pidToPose(scoreDrivePose)));
-  //return  (new SequentialCommandGroup(drivebase.driveToPose(prescoreDrivePose),new InstantCommand(() -> drivebase.resetProfiledPID()),drivebase.driveToTargetPosePID(scoreDrivePose)));
+    Pose2d prescoreDrivePose = drivebase.getPrescorePose(selectPose);
+    Pose2d scoreDrivePose = drivebase.getScorePose(selectPose);
   return  (new SequentialCommandGroup(drivebase.driveToPose(prescoreDrivePose),drivebase.driveToTargetPosePID(scoreDrivePose)));
-  
-  //  return (new SequentialCommandGroup(drivebase.driveToPose(prescoreDrivePose),drivebase.driveToPose(scoreDrivePose)));
-  }
-
-  public Command autoscoreDriveCommand(){
-  //  return drivebase.autoDriveToReef();
-  return ( drivebase.autoDriveToReef());
   }
 
   public void setDriveMode()
