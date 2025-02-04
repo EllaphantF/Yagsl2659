@@ -5,9 +5,13 @@
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
@@ -23,6 +27,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ProxyCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
@@ -30,6 +35,8 @@ import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import frc.robot.subsystems.superstructure.SuperstructureSubsystem;
 import java.io.File;
+
+import drivebase.driveToPose;
 import swervelib.SwerveInputStream;
 
 /**
@@ -52,7 +59,8 @@ public class RobotContainer
     // the mechanism root node
   MechanismRoot2d root = mech.getRoot("intake", 2, 0);
   
-  
+  public double count = 0;
+
   // Applies deadbands and inverts controls because joysticks
   // are back-right positive while robot
   // controls are front-left positive
@@ -76,10 +84,10 @@ public class RobotContainer
    * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular velocity.
    */
   SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
-                                                                () -> driverXbox.getLeftY() * 1,
-                                                                () -> driverXbox.getLeftX() * 1)//
+                                                                () -> driverXbox.getLeftY() * -1,
+                                                                () -> driverXbox.getLeftX() * -1)//
                                                           //.withControllerRotationAxis(driverXbox::getRightX)
-                                                            .withControllerRotationAxis(() -> driverXbox.getRightX()*-1) //BVN 1-26-25 - added this to reverse the rotation input
+                                                            .withControllerRotationAxis(() -> driverXbox.getRightX()*-1) //BVN 1-26-25 - added negative to reverse the rotation input, removed 2/3
                                                             .deadband(OperatorConstants.DEADBAND)
                                                             .scaleTranslation(0.8)
                                                             .allianceRelativeControl(true);
@@ -114,8 +122,8 @@ public class RobotContainer
   Command driveSetpointGen = drivebase.driveWithSetpointGeneratorFieldRelative(driveDirectAngle);
 
   SwerveInputStream driveAngularVelocitySim = SwerveInputStream.of(drivebase.getSwerveDrive(),
-                                                                   () -> -driverXbox.getLeftY(),
-                                                                   () -> -driverXbox.getLeftX())
+                                                                   () -> driverXbox.getLeftY(),
+                                                                   () -> driverXbox.getLeftX())
                                                                .withControllerRotationAxis(() -> driverXbox.getRawAxis(1))
                                                                .deadband(OperatorConstants.DEADBAND)
                                                                .scaleTranslation(0.8)
@@ -178,6 +186,9 @@ public class RobotContainer
         new Pose2d(new Translation2d(3,3),Rotation2d.fromDegrees(0))));*/
     } else
     {
+      driverXbox.povLeft().onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", SmartDashboard.getNumber("Select Scoring Location",0)-.5)));
+      driverXbox.povRight().onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", SmartDashboard.getNumber("Select Scoring Location",0)+.5)));
+
       driverXbox.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
       driverXbox.x().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
       driverXbox.b().whileTrue(drivebase.driveToPose(new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0))));
@@ -191,7 +202,8 @@ public class RobotContainer
       //driverXbox.rightBumper().whileTrue(new RunCommand(() -> getAutoDriveCommand()));
       
 //      driverXbox.rightBumper().whileTrue(getAutoDriveCommand()); //works but only goes to the first pose - i.e. cant update target pose
-      
+//      driverXbox.rightBumper().whileTrue(autoScoreSequenceCommand()); //running this one in robot periodic constantly updates the path to the pose 
+
       //driverXbox.rightBumper().whileTrue(new InstantCommand(() -> drivebase.autoDriveToReef()));
       
       operatorXbox.a().onTrue(Commands.runOnce(superstructure::intake));
@@ -211,39 +223,69 @@ public class RobotContainer
     return drivebase.getAutonomousCommand("New Auto");
   }
 
-  public Command getAutoDriveCommand(){
+  public Command autoScoreSequenceCommand(){
     double selectPose = SmartDashboard.getNumber("Select Scoring Location",0);
-    Pose2d autoDrivePose = new Pose2d(new Translation2d(0,0), new Rotation2d(0));
+    Pose2d prescoreDrivePose = new Pose2d(new Translation2d(0,0), new Rotation2d(0));
+    Pose2d scoreDrivePose = new Pose2d(new Translation2d(0,0), new Rotation2d(0));
    if(drivebase.isRedAlliance()){
-      if(selectPose ==  1 ) autoDrivePose = Constants.ReefScoringLocations.RED_1;
-      if(selectPose ==  2 ) autoDrivePose = Constants.ReefScoringLocations.RED_2;
-      if(selectPose ==  3 ) autoDrivePose = Constants.ReefScoringLocations.RED_3;
-      if(selectPose ==  4 ) autoDrivePose = Constants.ReefScoringLocations.RED_4;
-      if(selectPose ==  5 ) autoDrivePose = Constants.ReefScoringLocations.RED_5;
-      if(selectPose ==  6 ) autoDrivePose = Constants.ReefScoringLocations.RED_6;
-      if(selectPose ==  7 ) autoDrivePose = Constants.ReefScoringLocations.RED_7;
-      if(selectPose ==  8 ) autoDrivePose = Constants.ReefScoringLocations.RED_8;
-      if(selectPose ==  9 ) autoDrivePose = Constants.ReefScoringLocations.RED_9;
-      if(selectPose ==  10 ) autoDrivePose = Constants.ReefScoringLocations.RED_10;
-      if(selectPose ==  11 ) autoDrivePose = Constants.ReefScoringLocations.RED_11;
-      if(selectPose ==  12 ) autoDrivePose = Constants.ReefScoringLocations.RED_12;
-      //if(selectPose ==  13 ) autoDrivePos = Constants.ReefScoringLocations.RED_1;
+      if(selectPose ==  1 ) scoreDrivePose = Constants.ReefScoringLocations.RED_1;
+      if(selectPose ==  2 ) scoreDrivePose = Constants.ReefScoringLocations.RED_2;
+      if(selectPose ==  3 ) scoreDrivePose = Constants.ReefScoringLocations.RED_3;
+      if(selectPose ==  4 ) scoreDrivePose = Constants.ReefScoringLocations.RED_4;
+      if(selectPose ==  5 ) scoreDrivePose = Constants.ReefScoringLocations.RED_5;
+      if(selectPose ==  6 ) scoreDrivePose = Constants.ReefScoringLocations.RED_6;
+      if(selectPose ==  7 ) scoreDrivePose = Constants.ReefScoringLocations.RED_7;
+      if(selectPose ==  8 ) scoreDrivePose = Constants.ReefScoringLocations.RED_8;
+      if(selectPose ==  9 ) scoreDrivePose = Constants.ReefScoringLocations.RED_9;
+      if(selectPose ==  10 ) scoreDrivePose = Constants.ReefScoringLocations.RED_10;
+      if(selectPose ==  11 ) scoreDrivePose = Constants.ReefScoringLocations.RED_11;
+      if(selectPose ==  12 ) scoreDrivePose = Constants.ReefScoringLocations.RED_12;
+
+      if(selectPose ==  1 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_1;
+      if(selectPose ==  2 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_2;
+      if(selectPose ==  3 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_3;
+      if(selectPose ==  4 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_4;
+      if(selectPose ==  5 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_5;
+      if(selectPose ==  6 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_6;
+      if(selectPose ==  7 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_7;
+      if(selectPose ==  8 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_8;
+      if(selectPose ==  9 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_9;
+      if(selectPose ==  10 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_10;
+      if(selectPose ==  11 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_11;
+      if(selectPose ==  12 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_12;
   }else{
-      if(selectPose ==  1 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_1;
-      if(selectPose ==  2 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_2;
-      if(selectPose ==  3 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_3;
-      if(selectPose ==  4 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_4;
-      if(selectPose ==  5 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_5;
-      if(selectPose ==  6 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_6;
-      if(selectPose ==  7 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_7;
-      if(selectPose ==  8 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_8;
-      if(selectPose ==  9 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_9;
-      if(selectPose ==  10 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_10;
-      if(selectPose ==  11 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_11;
-      if(selectPose ==  12 ) autoDrivePose = Constants.ReefScoringLocations.BLUE_12;
+      if(selectPose ==  1 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_1;
+      if(selectPose ==  2 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_2;
+      if(selectPose ==  3 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_3;
+      if(selectPose ==  4 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_4;
+      if(selectPose ==  5 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_5;
+      if(selectPose ==  6 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_6;
+      if(selectPose ==  7 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_7;
+      if(selectPose ==  8 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_8;
+      if(selectPose ==  9 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_9;
+      if(selectPose ==  10 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_10;
+      if(selectPose ==  11 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_11;
+      if(selectPose ==  12 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_12;
+
+      if(selectPose ==  1 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_1;
+      if(selectPose ==  2 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_2;
+      if(selectPose ==  3 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_3;
+      if(selectPose ==  4 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_4;
+      if(selectPose ==  5 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_5;
+      if(selectPose ==  6 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_6;
+      if(selectPose ==  7 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_7;
+      if(selectPose ==  8 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_8;
+      if(selectPose ==  9 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_9;
+      if(selectPose ==  10 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_10;
+      if(selectPose ==  11 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_11;
+      if(selectPose ==  12 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_12;
   }
   //  return drivebase.autoDriveToReef();
-  return ( drivebase.driveToPose(autoDrivePose));
+  //return (new SequentialCommandGroup(drivebase.driveToPose(prescoreDrivePose),pidToPose(scoreDrivePose)));
+  //return  (new SequentialCommandGroup(drivebase.driveToPose(prescoreDrivePose),new InstantCommand(() -> drivebase.resetProfiledPID()),drivebase.driveToTargetPosePID(scoreDrivePose)));
+  return  (new SequentialCommandGroup(drivebase.driveToPose(prescoreDrivePose),drivebase.driveToTargetPosePID(scoreDrivePose)));
+  
+  //  return (new SequentialCommandGroup(drivebase.driveToPose(prescoreDrivePose),drivebase.driveToPose(scoreDrivePose)));
   }
 
   public Command autoscoreDriveCommand(){
@@ -260,4 +302,34 @@ public class RobotContainer
   {
     drivebase.setMotorBrake(brake);
   }
+
+  /*private Command pidToPose(Pose2d targetPosePID){
+    Pose2d currentPose = drivebase.getPose();
+    TrapezoidProfile.Constraints xyConstraints = new Constraints(3 ,3);
+    TrapezoidProfile.Constraints thetaConstraints = new Constraints(Math.PI*2,Math.PI*4);
+    
+    ProfiledPIDController xcontroller = new ProfiledPIDController(.2, 0, 0, xyConstraints);
+    ProfiledPIDController ycontroller = new ProfiledPIDController(.2, 0, 0, xyConstraints);
+    ProfiledPIDController thetacontroller = new ProfiledPIDController(.1, 0, 0, thetaConstraints);
+    
+    //PIDController xcontroller = new PIDController(1, 0, 0);
+    //PIDController ycontroller = new PIDController(1, 0, 0);
+    //PIDController thetacontroller = new PIDController(1, 0, 0);
+    //thetacontroller.enableContinuousInput(-Math.PI,Math.PI);
+    
+    count++;
+    SmartDashboard.putNumber("RobotContainer PID Debug", count);
+    SwerveInputStream pidDrive = SwerveInputStream.of(drivebase.getSwerveDrive(),
+        () -> xcontroller.calculate(currentPose.getX(), targetPosePID.getX()) * -1,
+        () -> ycontroller.calculate(currentPose.getY(), targetPosePID.getY()) * -1)//
+      //.withControllerRotationAxis(driverXbox::getRightX)
+      .withControllerRotationAxis(() -> thetacontroller.calculate(currentPose.getRotation().getRadians(), targetPosePID.getRotation().getRadians()) * -1) //
+      .deadband(0.001)
+      .scaleTranslation(.8)
+      .allianceRelativeControl(false);
+
+    Command drivePIDtoPose = drivebase.driveFieldOriented(pidDrive);
+    return drivePIDtoPose;
+  } */
+  
 }

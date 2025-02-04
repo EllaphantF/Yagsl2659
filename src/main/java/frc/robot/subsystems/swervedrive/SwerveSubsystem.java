@@ -18,6 +18,9 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.DriveFeedforwards;
 import com.pathplanner.lib.util.swerve.SwerveSetpoint;
 import com.pathplanner.lib.util.swerve.SwerveSetpointGenerator;
+
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -25,6 +28,8 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -36,7 +41,10 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
 import frc.robot.Constants;
 import frc.robot.subsystems.swervedrive.Vision.Cameras;
@@ -67,6 +75,7 @@ public class SwerveSubsystem extends SubsystemBase
   private double reefPoseSelect = 5;
   private double count = 0;
   public Pose2d autoDrivePose = new Pose2d(0,0,new Rotation2d(0.0));
+
   /**
    * Swerve drive object.
    */
@@ -259,6 +268,49 @@ public class SwerveSubsystem extends SubsystemBase
     });
   }
 
+  /*public void resetProfiledPID(){
+    ProfiledPIDController xcontroller = new ProfiledPIDController(5, 0.1, 2, xyConstraints);
+    ProfiledPIDController ycontroller = new ProfiledPIDController(5, 0.1, 2, xyConstraints);
+    ProfiledPIDController thetacontroller = new ProfiledPIDController(30, 0, 0, thetaConstraints);
+  }*/
+
+/**
+ * 2659 custom - drive into the reef with a profiled PID controller to perform the final approach. We'll put our superstructure into scoring position right before this command is called 
+ * @param targetPose
+ * @return
+ */
+  public Command driveToTargetPosePID(Pose2d targetPose)
+  {
+    TrapezoidProfile.Constraints xyConstraints = new Constraints(1 ,1);
+    TrapezoidProfile.Constraints thetaConstraints = new Constraints(540,720);
+    
+    ProfiledPIDController xcontroller = new ProfiledPIDController(5, 0.1, 2, xyConstraints);
+    ProfiledPIDController ycontroller = new ProfiledPIDController(5, 0.1, 2, xyConstraints);
+    ProfiledPIDController thetacontroller = new ProfiledPIDController(30, 0, 0, thetaConstraints);
+    Command resetTheThing = new InstantCommand(
+      () ->     { xcontroller.reset(getPose().getX());
+                  ycontroller.reset(getPose().getY());
+                  thetacontroller.enableContinuousInput(-180, 180);
+                  thetacontroller.reset(getPose().getRotation().getDegrees());} );
+
+    Command doTheThing = run(() -> {
+      driveFieldOriented(getTargetSpeeds( xcontroller.calculate(getPose().getX(), targetPose.getX()),
+                                          ycontroller.calculate(getPose().getY(), targetPose.getY()),
+                                          //Rotation2d.fromDegrees(thetacontroller.calculate(getPose().getRotation().getDegrees(), targetPose.getRotation().getDegrees())))
+                                          targetPose.getRotation()));
+    });
+
+/*    return run(() -> {
+        driveFieldOriented(getTargetSpeeds( xcontroller.calculate(getPose().getX(), targetPose.getX()),
+                                            ycontroller.calculate(getPose().getY(), targetPose.getY()),
+                                            //Rotation2d.fromDegrees(thetacontroller.calculate(getPose().getRotation().getDegrees(), targetPose.getRotation().getDegrees())))
+                                            targetPose.getRotation())
+                                            );
+
+      });*/
+      return new SequentialCommandGroup(resetTheThing, doTheThing);
+    
+  }
   /**
    * Get the path follower with events.
    *
@@ -817,6 +869,7 @@ public class SwerveSubsystem extends SubsystemBase
   {
     swerveDrive.addVisionMeasurement(new Pose2d(3, 3, Rotation2d.fromDegrees(65)), Timer.getFPGATimestamp());
   }
+
 
   /**
    * Gets the swerve drive object.

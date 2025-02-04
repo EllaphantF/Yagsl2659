@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -67,8 +68,12 @@ public class Robot extends TimedRobot
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
-    driverXbox.rightBumper().whileTrue(m_robotContainer.getAutoDriveCommand());
-    driverXbox.leftBumper().whileTrue(m_robotContainer.autoscoreDriveCommand());
+    //
+
+    driverXbox.rightBumper().whileTrue(m_robotContainer.autoScoreSequenceCommand());
+    
+    //driverXbox.leftBumper().whileTrue(m_robotContainer.autoscoreDriveCommand());
+    
     CommandScheduler.getInstance().run();
   }
 
