@@ -73,6 +73,7 @@ public class Robot extends TimedRobot
     remapLimiterCount++;
     if(remapLimiterCount > 10){
       driverXbox.rightBumper().whileTrue(m_robotContainer.autoScoreSequenceCommand());
+      //driverXbox.leftBumper().whileTrue(m_robotContainer.getAutoScoreCommand());
       remapLimiterCount = 0;  
     }
     //driverXbox.leftBumper().whileTrue(m_robotContainer.autoscoreDriveCommand());

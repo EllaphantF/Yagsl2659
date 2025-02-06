@@ -31,6 +31,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.*;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import frc.robot.subsystems.superstructure.SuperstructureSubsystem;
@@ -143,6 +144,8 @@ public class RobotContainer
 
   Command driveSetpointGenSim = drivebase.driveWithSetpointGeneratorFieldRelative(driveDirectAngleSim);
 
+  AutoScoreCommand AutoScoreCommand = new AutoScoreCommand(superstructure, drivebase);
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -189,13 +192,13 @@ public class RobotContainer
       driverXbox.povLeft().onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", SmartDashboard.getNumber("Select Scoring Location",0)-.5)));
       driverXbox.povRight().onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", SmartDashboard.getNumber("Select Scoring Location",0)+.5)));
 
-      driverXbox.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+      //driverXbox.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
       driverXbox.x().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
       driverXbox.b().whileTrue(drivebase.driveToPose(new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0))));
       // driverXbox.y().whileTrue(drivebase.aimAtSpeaker(2));
       //driverXbox.start().whileTrue(Commands.none());
       driverXbox.start().whileTrue(Commands.runOnce(() -> drivebase.resetOdometry(new Pose2d(new Translation2d(5,5),new Rotation2d(0)))));
-      driverXbox.back().whileTrue(Commands.none());
+      driverXbox.a().whileTrue(AutoScoreCommand);
       //driverXbox.leftBumper().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
       //driverXbox.rightBumper().onTrue(Commands.none());
       //driverXbox.rightBumper().onTrue(new InstantCommand(() -> getAutoDriveCommand()));
@@ -222,7 +225,11 @@ public class RobotContainer
     // An example command will be run in autonomous
     return drivebase.getAutonomousCommand("New Auto");
   }
-
+  public Command getAutoScoreCommand()
+  {
+    // An example command will be run in autonomous
+    return new AutoScoreCommand(superstructure, drivebase);
+  }
   public Command autoScoreSequenceCommand(){
     double selectPose = SmartDashboard.getNumber("Select Scoring Location",0);
     Pose2d prescoreDrivePose = drivebase.getPrescorePose(selectPose);
