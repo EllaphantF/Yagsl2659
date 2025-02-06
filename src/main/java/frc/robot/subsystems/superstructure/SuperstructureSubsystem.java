@@ -4,19 +4,11 @@
 
 package frc.robot.subsystems.superstructure;
 
-import edu.wpi.first.util.sendable.Sendable;
-import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
-import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
-import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 import com.ctre.phoenix6.*;
-import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.ctre.phoenix6.configs.MotorOutputConfigs;
-import com.ctre.phoenix6.configs.Slot1Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
@@ -50,29 +42,15 @@ public class SuperstructureSubsystem extends SubsystemBase {
   private static final TalonFX mEndeffectorRollers = new TalonFX(Constants.endEffectorWheelID);//
   private static final TalonFX mIntakePivot = new TalonFX(Constants.intakePivotID);//
   private static final TalonFX mIntakeWheels = new TalonFX(Constants.intakeWheelsID);//
-  private static final TalonFX mFunnelWheels = new TalonFX(Constants.funnelWheelsID);//
-
-  private final Mechanism2d mech;
-  private final MechanismRoot2d root;
-  private final MechanismLigament2d m_ElevatorLeft;
-  private final MechanismLigament2d m_ElevatorRight;
-  private final MechanismLigament2d m_EndeffectorPivot;
-  private final MechanismLigament2d m_EndeffectorRollers;
-  private final MechanismLigament2d m_IntakePivot;
-  private final MechanismLigament2d m_IntakeWheels;
-  private final MechanismLigament2d m_FunnelWheels;
 
   /** Creates a new ExampleSubsystem. */
   public SuperstructureSubsystem() {
-
-    /* Configurations */
         mElevatorRight.getConfigurator().apply(new TalonFXConfiguration());
         mElevatorLeft.getConfigurator().apply(new TalonFXConfiguration());
         mEndeffectorPivot.getConfigurator().apply(new TalonFXConfiguration());
         mEndeffectorRollers.getConfigurator().apply(new TalonFXConfiguration());
         mIntakePivot.getConfigurator().apply(new TalonFXConfiguration());
         mIntakeWheels.getConfigurator().apply(new TalonFXConfiguration());
-        mFunnelWheels.getConfigurator().apply(new TalonFXConfiguration());
         
         TalonFXConfiguration elevatorConfigLeft = new TalonFXConfiguration();
         elevatorConfigLeft.Slot0.kG = 0.3; // Volts to overcome gravity
@@ -119,55 +97,6 @@ public class SuperstructureSubsystem extends SubsystemBase {
         endeffectorPivotConfig.MotionMagic.MotionMagicAcceleration = 2500 / 10; //also stolen from 3255
 
         mEndeffectorPivot.getConfigurator().apply(endeffectorPivotConfig);
-
-        TalonFXConfiguration intakeWheelsConfig = new TalonFXConfiguration();
-        intakeWheelsConfig.Slot0.kG = 0.3; // Volts to overcome gravity
-        intakeWheelsConfig.Slot0.kS = 0.4; // Volts to overcome static friction
-        intakeWheelsConfig.Slot0.kV = 0.001; // Volts for a velocity target of 1 rps
-        intakeWheelsConfig.Slot0.kA = 0.001; // Volts for an acceleration of 1 rps/s
-        intakeWheelsConfig.Slot0.kP = 0.1;//
-        intakeWheelsConfig.Slot0.kI = 0.01; //
-        intakeWheelsConfig.Slot0.kV = 0.12; //
-        intakeWheelsConfig.Slot0.kD = 0.00001; //
-        intakeWheelsConfig.CurrentLimits.SupplyCurrentLimit = 30.0 / 10;//
-        intakeWheelsConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = .08;        
-        intakeWheelsConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .08;
-        intakeWheelsConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .08;
-        intakeWheelsConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .08;
-        intakeWheelsConfig.MotionMagic.MotionMagicCruiseVelocity = 350 / 10; //stolen from 3255
-        intakeWheelsConfig.MotionMagic.MotionMagicAcceleration = 2500 / 10; //also stolen from 3255
-
-        mIntakeWheels.getConfigurator().apply(intakeWheelsConfig);
-
-        TalonFXConfiguration funnelConfig = new TalonFXConfiguration();
-        funnelConfig.Slot0.kG = 0.3; // Volts to overcome gravity
-        funnelConfig.Slot0.kS = 0.4; // Volts to overcome static friction
-        funnelConfig.Slot0.kV = 0.001; // Volts for a velocity target of 1 rps
-        funnelConfig.Slot0.kA = 0.001; // Volts for an acceleration of 1 rps/s
-        funnelConfig.Slot0.kP = 0.1;//
-        funnelConfig.Slot0.kI = 0.01; //
-        funnelConfig.Slot0.kV = 0.12; //
-        funnelConfig.Slot0.kD = 0.00001; //
-        funnelConfig.CurrentLimits.SupplyCurrentLimit = 30 / 10;//was 20
-        funnelConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = .08;        
-        funnelConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .08;
-        funnelConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .08;
-        funnelConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .08;
-        funnelConfig.MotionMagic.MotionMagicCruiseVelocity = 350 / 10; //stolen from 3255, added '/10' to start slow
-        funnelConfig.MotionMagic.MotionMagicAcceleration = 2500 / 10; //also stolen from 3255, added '/10' to start slow
-
-        mFunnelWheels.getConfigurator().apply(funnelConfig);
-
-        /* Mechanism2d */
-        mech = new Mechanism2d(25, 100);
-        root = mech.getRoot("Root", 12.5, 12.5);
-        m_ElevatorLeft = root.append(new MechanismLigament2d("ElevatorLeft", 96.75, 90));
-        m_ElevatorRight = root.append(new MechanismLigament2d("ElevatorLeft", 96.75, 90));
-        m_EndeffectorPivot = root.append(new MechanismLigament2d("ElevatorLeft", 96.75, 90));
-        m_EndeffectorRollers = root.append(new MechanismLigament2d("ElevatorLeft", 96.75, 90));
-        m_IntakePivot = root.append(new MechanismLigament2d("ElevatorLeft", 96.75, 90));
-        m_IntakeWheels = root.append(new MechanismLigament2d("ElevatorLeft", 96.75, 90));
-        m_FunnelWheels = root.append(new MechanismLigament2d("ElevatorLeft", 96.75, 90));
   }
 
   /**
@@ -352,32 +281,10 @@ public class SuperstructureSubsystem extends SubsystemBase {
     if(intakeTraversing)intake();
     if(homing)stow();
     if(lifting)lift();
-
-    MECH2d();
-    
   }
 
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
-  }
-
-  public void MECH2d(){
-    SmartDashboard.putData("MyMechanism", mech);
-    SmartDashboard.putNumber("ElevatorLeft", mElevatorLeft.getPosition().getValueAsDouble());
-    SmartDashboard.putNumber("ElevatorRight", mElevatorRight.getPosition().getValueAsDouble());
-    SmartDashboard.putNumber("EndeffectorPivot", mEndeffectorPivot.getPosition().getValueAsDouble());
-    SmartDashboard.putNumber("IntakePivot", mIntakePivot.getPosition().getValueAsDouble());
-    SmartDashboard.putNumber("EndeffectorRollers", mEndeffectorRollers.getPosition().getValueAsDouble()); 
-    SmartDashboard.putNumber("IntakeWheels", mIntakeWheels.getPosition().getValueAsDouble());
-    SmartDashboard.putNumber("FunnelWheels", mFunnelWheels.getPosition().getValueAsDouble());
-
-    m_ElevatorLeft.setLength(mElevatorLeft.getPosition().getValueAsDouble());
-    m_ElevatorRight.setLength(mElevatorRight.getPosition().getValueAsDouble());
-    m_EndeffectorPivot.setAngle(mEndeffectorPivot.getPosition().getValueAsDouble());
-    m_IntakePivot.setAngle(mIntakePivot.getPosition().getValueAsDouble());
-    m_EndeffectorRollers.setLength(mEndeffectorRollers.getPosition().getValueAsDouble());
-    m_IntakeWheels.setLength(mIntakeWheels.getPosition().getValueAsDouble());
-    m_FunnelWheels.setLength(mFunnelWheels.getPosition().getValueAsDouble());
   }
 }
