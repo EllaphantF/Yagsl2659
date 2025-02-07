@@ -137,7 +137,7 @@ public class Robot extends TimedRobot
     }
      m_robotContainer.setDriveMode();
 
-     driverXbox.rightBumper().whileTrue(m_robotContainer.getScoreSequenceCommand());
+     //driverXbox.rightBumper().whileTrue(m_robotContainer.getScoreSequenceCommand());
     // m_robotContainer.setMotorBrake(true);
   }
 
@@ -147,12 +147,12 @@ public class Robot extends TimedRobot
   @Override
   public void teleopPeriodic()
   {
-    remapLimiterCount++;
+    /*remapLimiterCount++;
     if(remapLimiterCount > 25){
       driverXbox.rightBumper().whileTrue(m_robotContainer.getScoreSequenceCommand());
       //driverXbox.leftBumper().whileTrue(m_robotContainer.getAutoScoreCommand());
       remapLimiterCount = 0;  
-    }
+    }*/
   }
 
   @Override

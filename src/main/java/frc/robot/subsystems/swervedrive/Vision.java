@@ -298,8 +298,8 @@ public class Vision
      * Right Camera
      */
     RIGHT_CAM("Arducam_Camera_Right",//"right",
-              new Rotation3d(0, 20*Math.PI / 180, - Math.PI + Math.PI ),
-              new Translation3d(0.311, 0.111, .4064), //from Encore
+              new Rotation3d(0, 20*Math.PI / 180, Math.PI - Math.PI),
+              new Translation3d(0.311, 0.111, .4064), //from Encore //krobottocamera
               VecBuilder.fill(5, 5, 80), VecBuilder.fill(1, 1, 10))//,
     /**
      * Center Camera
