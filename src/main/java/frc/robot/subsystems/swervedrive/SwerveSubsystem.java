@@ -53,6 +53,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 import org.json.simple.parser.ParseException;
@@ -101,6 +102,7 @@ public class SwerveSubsystem extends SubsystemBase
 
     // Configure the Telemetry before creating the SwerveDrive to avoid unnecessary objects being created.
     SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
+    //SwerveDriveTelemetry.verbosity = TelemetryVerbosity.INFO;
     try
     {
       swerveDrive = new SwerveParser(directory).createSwerveDrive(Constants.MAX_SPEED,
@@ -209,9 +211,9 @@ public class SwerveSubsystem extends SubsystemBase
           // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
           new PPHolonomicDriveController(
               // PPHolonomicController is the built in path following controller for holonomic drive trains
-              new PIDConstants(5.0, 0.0, 0.0),
+              new PIDConstants(5.0/5, 0.0, 0.0),
               // Translation PID constants
-              new PIDConstants(5.0, 0.0, 0.0)
+              new PIDConstants(5.0/5, 0.0, 0.0)
               // Rotation PID constants
           ),
           config,
@@ -274,31 +276,45 @@ public class SwerveSubsystem extends SubsystemBase
  */
   public Command driveToTargetPosePID(Pose2d targetPose)
   {
-    TrapezoidProfile.Constraints xyConstraints = new Constraints(1 ,1);
-    TrapezoidProfile.Constraints thetaConstraints = new Constraints(540,720);
+    SmartDashboard.putNumber("Max Vel PID",   SmartDashboard.getNumber("Max Vel PID", 2));
+    SmartDashboard.putNumber("max Accel PID", SmartDashboard.getNumber("max Accel PID",2));
+    SmartDashboard.putNumber("kP PID",        SmartDashboard.getNumber("kP PID", 2));
+    SmartDashboard.putNumber("kI PID",        SmartDashboard.getNumber("kI PID", .2));
+    SmartDashboard.putNumber("kD PID",        SmartDashboard.getNumber("kD PID", .2));
+
+    TrapezoidProfile.Constraints xyConstraints = new Constraints(SmartDashboard.getNumber("Max Vel PID", 2), SmartDashboard.getNumber("max Accel PID",2));
+    //TrapezoidProfile.Constraints thetaConstraints = new Constraints(540,720);
     
-    ProfiledPIDController xcontroller = new ProfiledPIDController(5, 0.2, 2, xyConstraints);
-    ProfiledPIDController ycontroller = new ProfiledPIDController(5, 0.2, 2, xyConstraints);
-    ProfiledPIDController thetacontroller = new ProfiledPIDController(30, 0, 0, thetaConstraints);
-    thetacontroller.enableContinuousInput(-180, 180);
+    ProfiledPIDController xcontroller = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 2), SmartDashboard.getNumber("kI PID", .2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
+    ProfiledPIDController ycontroller = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 2), SmartDashboard.getNumber("kI PID", .2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
 
-    xcontroller.setIZone(.5);
-    xcontroller.setTolerance(.01);
+    //ProfiledPIDController thetacontroller = new ProfiledPIDController(30, 0, 0, thetaConstraints);
+    //thetacontroller.enableContinuousInput(-180, 180);
 
-    ycontroller.setIZone(.5);
-    ycontroller.setTolerance(.01);
+    xcontroller.setIZone(1);
+    xcontroller.setTolerance(.05);
+    
+    ycontroller.setIZone(1);
+    ycontroller.setTolerance(.05);
+
+    BooleanSupplier atTarget = () -> (xcontroller.atGoal() && ycontroller.atSetpoint());
 
     Command resetTheThing = new InstantCommand(
       () ->     { xcontroller.reset(getPose().getX());
                   ycontroller.reset(getPose().getY());
-                  thetacontroller.reset(getPose().getRotation().getDegrees());} );
+                  } );
 
     Command doTheThing = run(() -> {
       driveFieldOriented(getTargetSpeeds( xcontroller.calculate(getPose().getX(), targetPose.getX()),
                                           ycontroller.calculate(getPose().getY(), targetPose.getY()),
                                           //Rotation2d.fromDegrees(thetacontroller.calculate(getPose().getRotation().getDegrees(), targetPose.getRotation().getDegrees())))
                                           targetPose.getRotation()));
-    });
+                                          SmartDashboard.putNumber("targetpose X",targetPose.getX());
+                                          SmartDashboard.putNumber("targetpose Y",targetPose.getY());
+                                          SmartDashboard.putBoolean("x at goal", xcontroller.atGoal());
+                                          SmartDashboard.putBoolean("y at goal", ycontroller.atGoal());
+      
+    }).until(atTarget);
       return new SequentialCommandGroup(resetTheThing, doTheThing);
   }
   
@@ -324,7 +340,7 @@ public class SwerveSubsystem extends SubsystemBase
   {
 // Create the constraints to use while pathfinding
     PathConstraints constraints = new PathConstraints(
-        swerveDrive.getMaximumChassisVelocity(), 4, //.08m/s - testing w/ slow translation
+        swerveDrive.getMaximumChassisVelocity(), 4 / 2, //.08m/s - testing w/ slow translation
         swerveDrive.getMaximumChassisAngularVelocity(), Units.degreesToRadians(720/5));
     
 // Since AutoBuilder is configured, we can use it to build pathfinding commands
@@ -341,8 +357,8 @@ public class SwerveSubsystem extends SubsystemBase
    * @return
    */
   public Pose2d getScorePose(double selectPose)
-    {
-     Pose2d scoreDrivePose = getPose(); 
+    {Pose2d scoreDrivePose = Constants.ReefScoringLocations.getScorePose(isRedAlliance(),selectPose); 
+     /*Pose2d scoreDrivePose = getPose(); 
         if(isRedAlliance()){
           if(selectPose ==  1 ) scoreDrivePose = Constants.ReefScoringLocations.RED_1;
           if(selectPose ==  2 ) scoreDrivePose = Constants.ReefScoringLocations.RED_2;
@@ -369,7 +385,7 @@ public class SwerveSubsystem extends SubsystemBase
           if(selectPose ==  10 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_10;
           if(selectPose ==  11 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_11;
           if(selectPose ==  12 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_12;
-      }
+      }*/
       return scoreDrivePose;
     }  
     
@@ -381,8 +397,8 @@ public class SwerveSubsystem extends SubsystemBase
    */  
   public Pose2d getPrescorePose(double selectPose)
   {
-   Pose2d prescoreDrivePose = getPose(); 
-      if(isRedAlliance()){
+   Pose2d prescoreDrivePose = Constants.ReefScoringLocations.getPrescorePose(isRedAlliance(),selectPose); 
+      /*if(isRedAlliance()){
         if(selectPose ==  1 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_1;
         if(selectPose ==  2 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_2;
         if(selectPose ==  3 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_3;
@@ -408,7 +424,7 @@ public class SwerveSubsystem extends SubsystemBase
         if(selectPose ==  10 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_10;
         if(selectPose ==  11 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_11;
         if(selectPose ==  12 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_12;
-    }
+    }*/
     return prescoreDrivePose;
   }  
   

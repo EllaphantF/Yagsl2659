@@ -145,7 +145,7 @@ public class Vision
                                          camera.curStdDevs);
       }
     }
-
+    
   }
 
   /**
@@ -174,6 +174,8 @@ public class Vision
             debugField.getObject("VisionEstimation").setPoses();
           });
     }
+    
+
     return poseEst;
   }
 
@@ -296,9 +298,9 @@ public class Vision
      * Right Camera
      */
     RIGHT_CAM("Arducam_Camera_Right",//"right",
-              new Rotation3d(0, 20*Math.PI / 180, -180 * Math.PI / 180),
-              new Translation3d(-0.311, -0.111, .4064), //from Encore
-              VecBuilder.fill(.5, .5, 1), VecBuilder.fill(0.1, 0.1, .15))//,
+              new Rotation3d(0, 20*Math.PI / 180, - Math.PI + Math.PI ),
+              new Translation3d(0.311, 0.111, .4064), //from Encore
+              VecBuilder.fill(5, 5, 80), VecBuilder.fill(1, 1, 10))//,
     /**
      * Center Camera
      */

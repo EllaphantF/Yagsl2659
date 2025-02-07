@@ -70,12 +70,7 @@ public class Robot extends TimedRobot
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     //
-    remapLimiterCount++;
-    if(remapLimiterCount > 10){
-      driverXbox.rightBumper().whileTrue(m_robotContainer.autoScoreSequenceCommand());
-      //driverXbox.leftBumper().whileTrue(m_robotContainer.getAutoScoreCommand());
-      remapLimiterCount = 0;  
-    }
+
     //driverXbox.leftBumper().whileTrue(m_robotContainer.autoscoreDriveCommand());
     
     CommandScheduler.getInstance().run();
@@ -141,6 +136,8 @@ public class Robot extends TimedRobot
       CommandScheduler.getInstance().cancelAll();
     }
      m_robotContainer.setDriveMode();
+
+     driverXbox.rightBumper().whileTrue(m_robotContainer.getScoreSequenceCommand());
     // m_robotContainer.setMotorBrake(true);
   }
 
@@ -150,6 +147,12 @@ public class Robot extends TimedRobot
   @Override
   public void teleopPeriodic()
   {
+    remapLimiterCount++;
+    if(remapLimiterCount > 25){
+      driverXbox.rightBumper().whileTrue(m_robotContainer.getScoreSequenceCommand());
+      //driverXbox.leftBumper().whileTrue(m_robotContainer.getAutoScoreCommand());
+      remapLimiterCount = 0;  
+    }
   }
 
   @Override

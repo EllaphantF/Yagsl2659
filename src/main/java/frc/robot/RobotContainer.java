@@ -31,7 +31,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.*;
+//import frc.robot.commands.*;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import frc.robot.subsystems.superstructure.SuperstructureSubsystem;
@@ -144,7 +144,7 @@ public class RobotContainer
 
   Command driveSetpointGenSim = drivebase.driveWithSetpointGeneratorFieldRelative(driveDirectAngleSim);
 
-  AutoScoreCommand AutoScoreCommand = new AutoScoreCommand(superstructure, drivebase);
+ // AutoScoreCommand AutoScoreCommand = new AutoScoreCommand(superstructure, drivebase);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -192,13 +192,28 @@ public class RobotContainer
       driverXbox.povLeft().onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", SmartDashboard.getNumber("Select Scoring Location",0)-.5)));
       driverXbox.povRight().onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", SmartDashboard.getNumber("Select Scoring Location",0)+.5)));
 
-      //driverXbox.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
-      driverXbox.x().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
+      driverXbox.start().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+      driverXbox.back().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
       driverXbox.b().whileTrue(drivebase.driveToPose(new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0))));
       // driverXbox.y().whileTrue(drivebase.aimAtSpeaker(2));
       //driverXbox.start().whileTrue(Commands.none());
-      driverXbox.start().whileTrue(Commands.runOnce(() -> drivebase.resetOdometry(new Pose2d(new Translation2d(5,5),new Rotation2d(0)))));
-      driverXbox.a().whileTrue(AutoScoreCommand);
+      //driverXbox.start().whileTrue(Commands.runOnce(() -> drivebase.resetOdometry(new Pose2d(new Translation2d(5,5),new Rotation2d(0)))));
+      //driverXbox.a().whileTrue(getScoreSequenceCommand());
+      //driverXbox.a().whileTrue(Commands.run(this::selectCommand));
+      driverXbox.a().and(driverXbox.povUp()).whileTrue(autoScoreSequenceCommand(1));
+      driverXbox.a().and(driverXbox.povUpRight()).whileTrue(autoScoreSequenceCommand(2));
+      driverXbox.a().and(driverXbox.povRight()).whileTrue(autoScoreSequenceCommand(3));
+      driverXbox.a().and(driverXbox.povDownRight()).whileTrue(autoScoreSequenceCommand(4));
+      driverXbox.a().and(driverXbox.povDown()).whileTrue(autoScoreSequenceCommand(5));
+      driverXbox.a().and(driverXbox.povDownLeft()).whileTrue(autoScoreSequenceCommand(6));
+      driverXbox.a().and(driverXbox.povLeft()).whileTrue(autoScoreSequenceCommand(7));
+      driverXbox.a().and(driverXbox.povUpLeft()).whileTrue(autoScoreSequenceCommand(8));
+      driverXbox.x().and(driverXbox.povUp()).whileTrue(autoScoreSequenceCommand(9));
+      driverXbox.x().and(driverXbox.povRight()).whileTrue(autoScoreSequenceCommand(10));
+      driverXbox.x().and(driverXbox.povDown()).whileTrue(autoScoreSequenceCommand(11));
+      driverXbox.x().and(driverXbox.povLeft()).whileTrue(autoScoreSequenceCommand(12));
+      
+      //driverXbox.a().whileTrue(autoScoreSequenceCommand(1)).and(new Trigger((SmartDashboard.getNumber("Select Scoring Location", 0)==2))).whileTrue(closedAbsoluteDriveAdv);
       //driverXbox.leftBumper().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
       //driverXbox.rightBumper().onTrue(Commands.none());
       //driverXbox.rightBumper().onTrue(new InstantCommand(() -> getAutoDriveCommand()));
@@ -225,16 +240,60 @@ public class RobotContainer
     // An example command will be run in autonomous
     return drivebase.getAutonomousCommand("New Auto");
   }
-  public Command getAutoScoreCommand()
+  private Command selectCommand() {
+    double select = SmartDashboard.getNumber("Select Scoring Location", 0);
+    int commandIndex = (int) Math.floor(select);
+    SmartDashboard.putNumber("Debug-select command", commandIndex);
+    switch (commandIndex) {
+        case 1: return autoScoreSequenceCommand(1);
+        case 2: return autoScoreSequenceCommand(2);
+        case 3: return autoScoreSequenceCommand(3);
+        case 4: return autoScoreSequenceCommand(4);
+        case 5: return autoScoreSequenceCommand(5);
+        case 6: return autoScoreSequenceCommand(6);
+        case 7: return autoScoreSequenceCommand(7);
+        case 8: return autoScoreSequenceCommand(8);
+        case 9: return autoScoreSequenceCommand(9);
+        case 10: return autoScoreSequenceCommand(10);
+        case 11: return autoScoreSequenceCommand(11);
+        case 12: return autoScoreSequenceCommand(12);
+        default: return autoScoreSequenceCommand(4); // Default command
+    }
+  }
+ /* public Command getAutoScoreCommand()
   {
     // An example command will be run in autonomous
     return new AutoScoreCommand(superstructure, drivebase);
+  }*/
+
+  public Command getScoreSequenceCommand(){
+    //double selectPose = SmartDashboard.getNumber("Select Scoring Location",0);
+    //Pose2d prescoreDrivePose = drivebase.getPrescorePose(selectPose);
+    //Pose2d scoreDrivePose = drivebase.getScorePose(selectPose);
+    /*Command selectReefPoses = new InstantCommand(() -> {selectPose = SmartDashboard.getNumber("Select Scoring Location",0);
+                                                        prescoreDrivePose = drivebase.getPrescorePose(selectPose);
+                                                        scoreDrivePose = drivebase.getScorePose(selectPose);});
+    Command driveToPrescore = drivebase.driveToTargetPosePID(prescoreDrivePose);
+    Command driveToScore = drivebase.driveToTargetPosePID(scoreDrivePose);
+    return  (new SequentialCommandGroup(selectReefPoses,driveToPrescore,driveToScore));*/
+    Command driveToPrescore = drivebase.driveToTargetPosePID(drivebase.getPrescorePose(SmartDashboard.getNumber("Select Scoring Location",0)));
+    Command driveToScore = drivebase.driveToTargetPosePID(drivebase.getScorePose(SmartDashboard.getNumber("Select Scoring Location",0)));
+    Command autoScoreSequence = new SequentialCommandGroup(driveToPrescore, driveToScore);
+    
+    return autoScoreSequence;
   }
-  public Command autoScoreSequenceCommand(){
-    double selectPose = SmartDashboard.getNumber("Select Scoring Location",0);
-    Pose2d prescoreDrivePose = drivebase.getPrescorePose(selectPose);
-    Pose2d scoreDrivePose = drivebase.getScorePose(selectPose);
-  return  (new SequentialCommandGroup(drivebase.driveToPose(prescoreDrivePose),drivebase.driveToTargetPosePID(scoreDrivePose)));
+
+  /**
+   * Gets a score sequence command from user selected node
+   * @param selection
+   * @return
+   */
+  public Command autoScoreSequenceCommand(double selection){
+    Command driveToPrescore = drivebase.driveToTargetPosePID(drivebase.getPrescorePose(selection));
+    Command driveToScore = drivebase.driveToTargetPosePID(drivebase.getScorePose(selection));
+    Command autoScoreSequence = new SequentialCommandGroup(driveToPrescore, driveToScore);
+    
+    return autoScoreSequence;
   }
 
   public void setDriveMode()
