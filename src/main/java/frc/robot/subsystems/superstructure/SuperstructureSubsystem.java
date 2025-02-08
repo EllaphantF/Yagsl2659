@@ -58,7 +58,8 @@ public class SuperstructureSubsystem extends SubsystemBase {
   private final MechanismLigament2d m_ElevatorRight;
   private final MechanismLigament2d m_EndeffectorPivot;
   private final MechanismLigament2d m_EndeffectorRollers;
-  private final MechanismLigament2d m_IntakePivot;
+  private final MechanismLigament2d m_IntakeLeftPivot;
+  private final MechanismLigament2d m_IntakeRightPivot;
   private final MechanismLigament2d m_IntakeWheels;
   private final MechanismLigament2d m_FunnelWheels;
 
@@ -159,16 +160,21 @@ public class SuperstructureSubsystem extends SubsystemBase {
 
         mFunnelWheels.getConfigurator().apply(funnelConfig);*/
 
-        /* Mechanism2d */
-        //mech = new Mechanism2d(25, 100);
-        mech = new Mechanism2d(100, 100);
-        root = mech.getRoot("Root", 12.5, 12.5);
-        m_ElevatorLeft = root.append(new MechanismLigament2d("ElevatorLeft", 96.75, 90));
-        m_ElevatorRight = root.append(new MechanismLigament2d("ElevatorRight", 96.75, 90));
-        m_EndeffectorPivot = root.append(new MechanismLigament2d("EEPivot", 96.75, 90));
-        m_EndeffectorRollers = root.append(new MechanismLigament2d("EERoller", 96.75, 90));
-        m_IntakePivot = root.append(new MechanismLigament2d("IntakePivot", 96.75, 90));
-        m_IntakeWheels = root.append(new MechanismLigament2d("IntakeWheels", 96.75, 90));
+         /* Mechanism2d */
+        mech = new Mechanism2d(27, 100);
+        root = mech.getRoot("Center", 13.5, 13.5);
+        MechanismRoot2d elevatorLeftRoot = mech.getRoot("ElevatorLeftRoot", 1, 9.375);
+        MechanismRoot2d elevatorRightRoot = mech.getRoot("ElevatorRightRoot", 26, 9.375);
+        MechanismRoot2d endEffectorPivot = mech.getRoot("EndEffectorPivotRoot", 1.0, 9.375);
+        MechanismRoot2d intakePivotLeftRoot = mech.getRoot("IntakePivotLeftRoot", 1.0, 9.375);
+        MechanismRoot2d intakePivotRightRoot = mech.getRoot("IntakePivotRightRoot", 1.0, 9.375);
+        m_ElevatorLeft = elevatorLeftRoot.append(new MechanismLigament2d("ElevatorLeft", 96.75, 90));
+        m_ElevatorRight = elevatorRightRoot.append(new MechanismLigament2d("ElevatorRight", 96.75, 90));
+        m_EndeffectorPivot = endEffectorPivot.append(new MechanismLigament2d("EndeffectorPivot", 96.75, 90));
+        m_EndeffectorRollers = endEffectorPivot.append(new MechanismLigament2d("EndeffectorRollers", 96.75, 90));
+        m_IntakeLeftPivot = intakePivotLeftRoot.append(new MechanismLigament2d("IntakePivot", 96.75, 45));
+        m_IntakeRightPivot = intakePivotRightRoot.append(new MechanismLigament2d("IntakePivot", 96.75, 45));
+        m_IntakeWheels = intakePivotLeftRoot.append(new MechanismLigament2d("IntakeWheels", 25, 90));
         m_FunnelWheels = root.append(new MechanismLigament2d("FunnelWheels", 96.75, 90));
   }
 
@@ -377,7 +383,8 @@ public class SuperstructureSubsystem extends SubsystemBase {
     m_ElevatorLeft.setLength(mElevatorLeft.getPosition().getValueAsDouble());
     m_ElevatorRight.setLength(mElevatorRight.getPosition().getValueAsDouble());
     m_EndeffectorPivot.setAngle(mEndeffectorPivot.getPosition().getValueAsDouble());
-    m_IntakePivot.setAngle(mIntakePivot.getPosition().getValueAsDouble());
+    m_IntakeRightPivot.setAngle(mIntakePivot.getPosition().getValueAsDouble());
+    m_IntakeLeftPivot.setAngle(mIntakePivot.getPosition().getValueAsDouble());
     m_EndeffectorRollers.setLength(mEndeffectorRollers.getPosition().getValueAsDouble());
     m_IntakeWheels.setLength(mIntakeWheels.getPosition().getValueAsDouble());
     m_FunnelWheels.setLength(mFunnelWheels.getPosition().getValueAsDouble());
