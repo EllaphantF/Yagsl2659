@@ -42,6 +42,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ProfiledPIDCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -57,7 +58,10 @@ import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 import org.json.simple.parser.ParseException;
+import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
+
 import swervelib.SwerveController;
 import swervelib.SwerveDrive;
 import swervelib.SwerveDriveTest;
@@ -77,6 +81,7 @@ public class SwerveSubsystem extends SubsystemBase
   private double count = 0;
   public Pose2d autoDrivePose = new Pose2d(0,0,new Rotation2d(0.0));
 
+  final PhotonCamera objectCamera = new PhotonCamera("Front_Color_Camera");
   /**
    * Swerve drive object.
    */
@@ -215,7 +220,7 @@ public class SwerveSubsystem extends SubsystemBase
               //new PIDConstants(SmartDashboard.getNumber("kP PID", 5), SmartDashboard.getNumber("kI PID", 1), SmartDashboard.getNumber("kD PID", .5)),
               new PIDConstants(6.0, 0.8, 0.5),
               // Translation PID constants
-              new PIDConstants(5.0, 0.0, 0.0)
+              new PIDConstants(6.0, 0.0, 0.0)
               // Rotation PID constants
           ),
           config,
@@ -270,6 +275,39 @@ public class SwerveSubsystem extends SubsystemBase
       }
     });
   }
+
+  public Command visionIntake(){
+        return run(() -> {
+            var result = objectCamera.getLatestResult();
+            if (result.hasTargets()) {
+                var targets = result.getTargets();
+                PhotonTrackedTarget bestTarget = null;
+                for (var target : targets) {
+                    if (target.getDetectedObjectClassID() == 1) {
+                        if (bestTarget == null || target.getDetectedObjectConfidence() > bestTarget.getDetectedObjectConfidence()) {
+                            bestTarget = target;
+                        }
+                    }
+                }
+                if (bestTarget != null) {
+                    double x = bestTarget.getBestCameraToTarget().getX();
+                    double y = bestTarget.getBestCameraToTarget().getY();
+
+                    TrapezoidProfile.Constraints xyConstraints = new Constraints(SmartDashboard.getNumber("Max Vel PID", 2), SmartDashboard.getNumber("max Accel PID", 2));
+                    ProfiledPIDController xController = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 2), SmartDashboard.getNumber("kI PID", .2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
+                    ProfiledPIDController yController = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 2), SmartDashboard.getNumber("kI PID", .2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
+
+                    xController.setGoal(x);
+                    yController.setGoal(y);
+
+                    driveCommand(() -> xController.calculate(x), () -> 0.0,  () -> yController.calculate(y));
+                }
+            }
+        });
+    
+   
+  }
+  
 
 /**
  * 2659 custom - drive into the reef with a profiled PID controller to perform the final approach. We'll put our superstructure into scoring position right before this command is called 

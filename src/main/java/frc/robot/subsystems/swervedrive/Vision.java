@@ -288,10 +288,12 @@ public class Vision
     /**
      * Left Camera
      */
+    /*
     LEFT_CAM("Arducam_Camera_Left",
              new Rotation3d(0,  20*Math.PI / 180, Math.PI - Math.PI),
              new Translation3d(0.311, -0.111, .4064),
              VecBuilder.fill(4, 4, 8), VecBuilder.fill(0.5, 0.5, 1)), //BVN - temporarily removed left camera
+    */
     /**
      * Right Camera
      */
@@ -299,6 +301,7 @@ public class Vision
               new Rotation3d(0, 20*Math.PI / 180, Math.PI - Math.PI),
               new Translation3d(0.311, 0.111, .4064), //from Encore //krobottocamera
               VecBuilder.fill(5, 5, 80), VecBuilder.fill(1, 1, 10))//,
+              
     /**
      * Center Camera
      */

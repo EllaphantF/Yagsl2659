@@ -227,7 +227,7 @@ public class RobotContainer
 //      driverXbox.rightBumper().whileTrue(autoScoreSequenceCommand()); //running this one in robot periodic constantly updates the path to the pose 
 
       //driverXbox.rightBumper().whileTrue(new InstantCommand(() -> drivebase.autoDriveToReef()));
-      
+      driverXbox.leftBumper().whileTrue(visionIntake());
       operatorXbox.a().onTrue(Commands.runOnce(superstructure::intake));
       operatorXbox.b().onTrue(Commands.runOnce(superstructure::stow));
 
@@ -278,6 +278,10 @@ public class RobotContainer
     // An example command will be run in autonomous
     return new AutoScoreCommand(superstructure, drivebase);
   }*/
+
+  public Command visionIntake(){
+    return drivebase.visionIntake();
+  }
 
   public Command getScoreSequenceCommand(){
     double selectPose = SmartDashboard.getNumber("Select Scoring Location",0);
