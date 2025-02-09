@@ -5,9 +5,9 @@
 package frc.robot.subsystems.superstructure;
 
 import edu.wpi.first.util.sendable.Sendable;
-import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
-import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
-import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
+//import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
+//import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
+//import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -51,7 +51,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
   private static final TalonFX mIntakePivot = new TalonFX(Constants.intakePivotID);//
   private static final TalonFX mIntakeWheels = new TalonFX(Constants.intakeWheelsID);//
   private static final TalonFX mFunnelWheels = new TalonFX(Constants.funnelWheelsID);//
-
+/*
   private final Mechanism2d mech;
   private final MechanismRoot2d root;
   private final MechanismLigament2d m_ElevatorLeft;
@@ -62,7 +62,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
   private final MechanismLigament2d m_IntakeRightPivot;
   private final MechanismLigament2d m_IntakeWheels;
   private final MechanismLigament2d m_FunnelWheels;
-
+*/
   /** Creates a new ExampleSubsystem. */
   public SuperstructureSubsystem() {
 
@@ -161,6 +161,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
         mFunnelWheels.getConfigurator().apply(funnelConfig);*/
 
          /* Mechanism2d */
+         /*
         mech = new Mechanism2d(27, 100);
         root = mech.getRoot("Center", 13.5, 13.5);
         MechanismRoot2d elevatorLeftRoot = mech.getRoot("ElevatorLeftRoot", 1, 9.375);
@@ -175,7 +176,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
         m_IntakeLeftPivot = intakePivotLeftRoot.append(new MechanismLigament2d("IntakePivot", 96.75, 45));
         m_IntakeRightPivot = intakePivotRightRoot.append(new MechanismLigament2d("IntakePivot", 96.75, 45));
         m_IntakeWheels = intakePivotLeftRoot.append(new MechanismLigament2d("IntakeWheels", 25, 90));
-        m_FunnelWheels = root.append(new MechanismLigament2d("FunnelWheels", 96.75, 90));
+        m_FunnelWheels = root.append(new MechanismLigament2d("FunnelWheels", 96.75, 90));*/
   }
 
   /**
@@ -361,7 +362,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
     if(homing)stow();
     if(lifting)lift();
 
-    MECH2d();
+    //MECH2d();
     
   }
 
@@ -369,7 +370,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
   }
-
+/*
   public void MECH2d(){
     SmartDashboard.putData("MyMechanism", mech);
     SmartDashboard.putNumber("ElevatorLeft", mElevatorLeft.getPosition().getValueAsDouble());
@@ -388,5 +389,5 @@ public class SuperstructureSubsystem extends SubsystemBase {
     m_EndeffectorRollers.setLength(mEndeffectorRollers.getPosition().getValueAsDouble());
     m_IntakeWheels.setLength(mIntakeWheels.getPosition().getValueAsDouble());
     m_FunnelWheels.setLength(mFunnelWheels.getPosition().getValueAsDouble());
-  }
+  }*/
 }

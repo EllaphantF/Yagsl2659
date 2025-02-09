@@ -288,12 +288,10 @@ public class Vision
     /**
      * Left Camera
      */
-    /*LEFT_CAM("left",
-             new Rotation3d(0, Math.toRadians(-24.094), Math.toRadians(30)),
-             new Translation3d(Units.inchesToMeters(12.056),
-                               Units.inchesToMeters(10.981),
-                               Units.inchesToMeters(8.44)),
-             VecBuilder.fill(4, 4, 8), VecBuilder.fill(0.5, 0.5, 1)),*/ //BVN - temporarily removed left camera
+    LEFT_CAM("Arducam_Camera_Left",
+             new Rotation3d(0,  20*Math.PI / 180, Math.PI - Math.PI),
+             new Translation3d(0.311, -0.111, .4064),
+             VecBuilder.fill(4, 4, 8), VecBuilder.fill(0.5, 0.5, 1)), //BVN - temporarily removed left camera
     /**
      * Right Camera
      */
@@ -380,6 +378,7 @@ public class Vision
       poseEstimator = new PhotonPoseEstimator(Vision.fieldLayout,
                                               PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
                                               robotToCamTransform);
+      //poseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
       poseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
 
       this.singleTagStdDevs = singleTagStdDevs;

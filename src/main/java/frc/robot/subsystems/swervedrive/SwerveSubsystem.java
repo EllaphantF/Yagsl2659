@@ -103,6 +103,7 @@ public class SwerveSubsystem extends SubsystemBase
     // Configure the Telemetry before creating the SwerveDrive to avoid unnecessary objects being created.
     SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
     //SwerveDriveTelemetry.verbosity = TelemetryVerbosity.INFO;
+    //SwerveDriveTelemetry.verbosity = TelemetryVerbosity.LOW;
     try
     {
       swerveDrive = new SwerveParser(directory).createSwerveDrive(Constants.MAX_SPEED,
@@ -211,9 +212,10 @@ public class SwerveSubsystem extends SubsystemBase
           // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
           new PPHolonomicDriveController(
               // PPHolonomicController is the built in path following controller for holonomic drive trains
-              new PIDConstants(5.0/5, 0.0, 0.0),
+              //new PIDConstants(SmartDashboard.getNumber("kP PID", 5), SmartDashboard.getNumber("kI PID", 1), SmartDashboard.getNumber("kD PID", .5)),
+              new PIDConstants(6.0, 0.8, 0.5),
               // Translation PID constants
-              new PIDConstants(5.0/5, 0.0, 0.0)
+              new PIDConstants(5.0, 0.0, 0.0)
               // Rotation PID constants
           ),
           config,
@@ -925,9 +927,10 @@ public class SwerveSubsystem extends SubsystemBase
   
     SmartDashboard.putData("Field",swerveDrive.field);
     SmartDashboard.putNumber("XPos",swerveDrive.getPose().getX());
+    SmartDashboard.putNumber("YPos",swerveDrive.getPose().getY());
     
     //    SmartDashboard.putData("visionCheck", );
-    SmartDashboard.putNumber("visionDistToID2",vision.getDistanceFromAprilTag(2));
+    //SmartDashboard.putNumber("visionDistToID2",vision.getDistanceFromAprilTag(2));
 
 //    SmartDashboard.putNumber("Select Scoring Location", );
     //reefPoseSelect = SmartDashboard.getNumber("Select Scoring Location", 5);

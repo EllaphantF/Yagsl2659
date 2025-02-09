@@ -5,18 +5,18 @@
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
+//import edu.wpi.first.math.controller.PIDController;
+//import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
-import edu.wpi.first.networktables.GenericEntry;
+//import edu.wpi.first.math.trajectory.TrapezoidProfile;
+//import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+//import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+//import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
@@ -25,10 +25,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ProxyCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
+//import edu.wpi.first.wpilibj2.command.ProxyCommand;
+//import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
+//import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
@@ -38,7 +39,7 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import frc.robot.subsystems.superstructure.SuperstructureSubsystem;
 import java.io.File;
 
-import drivebase.driveToPose;
+//import drivebase.driveToPose;
 import swervelib.SwerveInputStream;
 
 /**
@@ -168,7 +169,8 @@ public class RobotContainer
   {
     // (Condition) ? Return-On-True : Return-on-False
     drivebase.setDefaultCommand(!RobotBase.isSimulation() ?
-                                driveFieldOrientedDirectAngle :
+                                //driveFieldOrientedDirectAngle :
+                                driveFieldOrientedAnglularVelocity:
                                 driveFieldOrientedAnglularVelocity);
 
     if (Robot.isSimulation())
@@ -231,10 +233,10 @@ public class RobotContainer
 
       // Bind the Xbox button to the getScoreSequenceCommand
       driverXbox.rightBumper().whileTrue(new StartEndCommand(
-          () -> getScoreSequenceCommand().schedule(), 
+          () -> getScoreSequenceCommand().schedule(),
           () -> getScoreSequenceCommand().cancel()
       ));
-      driverXbox.rightBumper().whileFalse(new InstantCommand(() -> getScoreSequenceCommand().cancel()));
+      //driverXbox.rightBumper().whileFalse(new InstantCommand(() -> getScoreSequenceCommand().cancel()));
 
     }
 
@@ -250,6 +252,7 @@ public class RobotContainer
     // An example command will be run in autonomous
     return drivebase.getAutonomousCommand("New Auto");
   }
+  /*
   private Command selectCommand() {
     double select = SmartDashboard.getNumber("Select Scoring Location", 0);
     int commandIndex = (int) Math.floor(select);
@@ -269,7 +272,7 @@ public class RobotContainer
         case 12: return autoScoreSequenceCommand(12);
         default: return autoScoreSequenceCommand(4); // Default command
     }
-  }
+  }*/
  /* public Command getAutoScoreCommand()
   {
     // An example command will be run in autonomous
@@ -284,6 +287,7 @@ public class RobotContainer
                                                         prescoreDrivePose = drivebase.getPrescorePose(selectPose);
                                                         scoreDrivePose = drivebase.getScorePose(selectPose);});*/
     Command driveToPrescore = drivebase.driveToPose(prescoreDrivePose);
+    //Command driveToPrescore = drivebase.driveToTargetPosePID(prescoreDrivePose);
     Command driveToScore = drivebase.driveToTargetPosePID(scoreDrivePose);
     //return  (new SequentialCommandGroup(selectReefPoses,driveToPrescore,driveToScore));*/
     //Command driveToPrescore = drivebase.driveToTargetPosePID(drivebase.getPrescorePose(SmartDashboard.getNumber("Select Scoring Location",0)));
@@ -298,14 +302,14 @@ public class RobotContainer
    * @param selection
    * @return
    */
-  public Command autoScoreSequenceCommand(double selection){
+  /*public Command autoScoreSequenceCommand(double selection){
     Command driveToPrescore = drivebase.driveToTargetPosePID(drivebase.getPrescorePose(selection));
     Command driveToScore = drivebase.driveToTargetPosePID(drivebase.getScorePose(selection));
     Command autoScoreSequence = new SequentialCommandGroup(driveToPrescore, driveToScore);
     
     return autoScoreSequence;
   }
-
+*/
   public void setDriveMode()
   {
     configureBindings();
