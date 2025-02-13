@@ -290,9 +290,13 @@ public class SwerveSubsystem extends SubsystemBase
                     }
                 }
                 if (bestTarget != null) {
-                    double x = bestTarget.getBestCameraToTarget().getX();
-                    double y = bestTarget.getBestCameraToTarget().getY();
-
+                    double x = bestTarget.getYaw();
+                    double y = bestTarget.getPitch();
+                    //double x = bestTarget.getBestCameraToTarget().getX();
+                    //double y = bestTarget.getBestCameraToTarget().getY();
+                    SmartDashboard.putNumber("visionIntakeYaw", x);
+                    SmartDashboard.putNumber("visionIntakePitch", y);
+                    
                     TrapezoidProfile.Constraints xyConstraints = new Constraints(SmartDashboard.getNumber("Max Vel PID", 2), SmartDashboard.getNumber("max Accel PID", 2));
                     ProfiledPIDController xController = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 2), SmartDashboard.getNumber("kI PID", .2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
                     ProfiledPIDController yController = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 2), SmartDashboard.getNumber("kI PID", .2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
@@ -300,7 +304,7 @@ public class SwerveSubsystem extends SubsystemBase
                     xController.setGoal(x);
                     yController.setGoal(y);
 
-                    driveCommand(() -> xController.calculate(x), () -> 0.0,  () -> yController.calculate(y));
+                    drive(new Translation2d(xController.calculate(x), 0.0), yController.calculate(y), false);
                 }
             }
         });
