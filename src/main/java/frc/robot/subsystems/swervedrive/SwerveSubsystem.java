@@ -301,17 +301,49 @@ public class SwerveSubsystem extends SubsystemBase
                     ProfiledPIDController xController = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 2), SmartDashboard.getNumber("kI PID", .2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
                     ProfiledPIDController yController = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 2), SmartDashboard.getNumber("kI PID", .2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
 
-                    xController.setGoal(x);
-                    yController.setGoal(y);
+                    xController.setGoal(0);
+                    yController.setGoal(0);
 
                     drive(new Translation2d(xController.calculate(x), 0.0), yController.calculate(y), false);
                 }
             }
         });
-    
-   
   }
+  /**
+   * This is going to take the pose of an apriltag and treat it like a gamepiece
+   * Not currently working
+   * @return
+   */
+  public Command visionIntakeSimTest(){
   
+    TrapezoidProfile.Constraints xyConstraints = new Constraints(SmartDashboard.getNumber("Max Vel PID", 2), SmartDashboard.getNumber("max Accel PID", 2));
+    ProfiledPIDController xController = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 2), SmartDashboard.getNumber("kI PID", .2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
+    ProfiledPIDController yController = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 2), SmartDashboard.getNumber("kI PID", .2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
+
+    return run(() -> { 
+      //PhotonTrackedTarget resultO = vision.getTargetFromId(2, Cameras.RIGHT_CAM);
+
+      var result = vision.getTargetFromId(18, Cameras.RIGHT_CAM); //ID 2 is top right / red right side loading station, 8 is reef top right, 18 is blue facing alliance station
+      if (result != null) 
+      {
+          double x = result.getPitch();
+          double y = result.getYaw();
+          //double x = bestTarget.getBestCameraToTarget().getX();
+          //double y = bestTarget.getBestCameraToTarget().getY();
+          SmartDashboard.putNumber("visionIntakePitch", x);
+          SmartDashboard.putNumber("visionIntakeYaw", y);
+          
+
+          
+          xController.setGoal(0);
+          yController.setGoal(0);
+
+          //drive(new Translation2d(0.0, -xController.calculate(x)), yController.calculate(y), false);
+          drive(new Translation2d(-xController.calculate(x), 0.0), yController.calculate(y), false);
+      
+        }
+    });
+}
 
 /**
  * 2659 custom - drive into the reef with a profiled PID controller to perform the final approach. We'll put our superstructure into scoring position right before this command is called 

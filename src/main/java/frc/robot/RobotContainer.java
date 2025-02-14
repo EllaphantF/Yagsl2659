@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 //import edu.wpi.first.wpilibj2.command.ProxyCommand;
@@ -227,15 +228,20 @@ public class RobotContainer
 //      driverXbox.rightBumper().whileTrue(autoScoreSequenceCommand()); //running this one in robot periodic constantly updates the path to the pose 
 
       //driverXbox.rightBumper().whileTrue(new InstantCommand(() -> drivebase.autoDriveToReef()));
-      driverXbox.leftBumper().whileTrue(visionIntake());
+     
+
       operatorXbox.a().onTrue(Commands.runOnce(superstructure::intake));
       operatorXbox.b().onTrue(Commands.runOnce(superstructure::stow));
 
+
+      driverXbox.leftBumper().whileTrue(visionIntake());
       // Bind the Xbox button to the getScoreSequenceCommand
       driverXbox.rightBumper().whileTrue(new StartEndCommand(
           () -> getScoreSequenceCommand().schedule(),
           () -> getScoreSequenceCommand().cancel()
-      ));
+          ));
+      driverXbox.rightBumper().onFalse(Commands.runOnce(() -> CommandScheduler.getInstance().cancelAll())); //this seems to work, but might cancel other commands? Drive seems to work fine after this is called
+          //
       //driverXbox.rightBumper().whileFalse(new InstantCommand(() -> getScoreSequenceCommand().cancel()));
 
     }
@@ -280,7 +286,8 @@ public class RobotContainer
   }*/
 
   public Command visionIntake(){
-    return drivebase.visionIntake();
+    if (!Robot.isSimulation()) return drivebase.visionIntake();
+    else return drivebase.visionIntakeSimTest();
   }
 
   public Command getScoreSequenceCommand(){
