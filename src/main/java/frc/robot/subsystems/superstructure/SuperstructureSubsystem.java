@@ -67,7 +67,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public SuperstructureSubsystem() {
 
     /* Configurations */
-        mElevatorRight.getConfigurator().apply(new TalonFXConfiguration());
+        mElevatorRight.getConfigurator().apply(Constants.SuperstructureConfigs.getElevatorConfigRight());
         mElevatorLeft.getConfigurator().apply(Constants.SuperstructureConfigs.getElevatorConfigLeft());
         mEndeffectorPivot.getConfigurator().apply(Constants.SuperstructureConfigs.getEndeffectorPivotConfig());
         mEndeffectorRollers.getConfigurator().apply(Constants.SuperstructureConfigs.getIntakeWheelsConfiguration());//using intake config for now, should be similar. Once we tune one of the EE rollers / funnel / intake rollers, we can copy that starting point for the others
@@ -208,6 +208,13 @@ public class SuperstructureSubsystem extends SubsystemBase {
     mElevatorRight.setControl(new Follower(mElevatorLeft.getDeviceID(), true));
     mEndeffectorPivot.setControl(new MotionMagicVoltage(PivotPosTarget));
     mIntakePivot.setControl(new MotionMagicVoltage(IntakePosTarget));
+  }
+
+  public void manualMotionMagicElevatorTEST(){
+    SmartDashboard.putNumber("ElevatorTestTarget", SmartDashboard.getNumber("ElevatorTestTarget", mElevatorLeft.getPosition().getValueAsDouble()));
+    double ElevatorTestTarget = SmartDashboard.getNumber("ElevatorTestTarget", mElevatorLeft.getPosition().getValueAsDouble());
+    mElevatorLeft.setControl(new MotionMagicVoltage(ElevatorTestTarget));
+    mElevatorRight.setControl(new Follower(mElevatorLeft.getDeviceID(), true));
   }
 
   public void manualUpdateTargets(double ElevatorPosTarget, double PivotPosTarget, double IntakePosTarget){
@@ -356,8 +363,9 @@ public class SuperstructureSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    motionMagicSetElevatorAndEndeffector(TARGETSTATE.elevator, TARGETSTATE.pivot, TARGETSTATE.intake);
-
+    
+    //motionMagicSetElevatorAndEndeffector(TARGETSTATE.elevator, TARGETSTATE.pivot, TARGETSTATE.intake);
+    manualMotionMagicElevatorTEST();
     if(intakeTraversing)intake();
     if(homing)stow();
     if(lifting)lift();

@@ -89,7 +89,7 @@ public class SwerveSubsystem extends SubsystemBase
   /**
    * Enable vision odometry updates while driving.
    */
-  private final boolean             visionDriveTest     = true;
+  private final boolean             visionDriveTest     = false;
   /**
    * PhotonVision class to keep an accurate odometry.
    */
@@ -297,14 +297,25 @@ public class SwerveSubsystem extends SubsystemBase
                     SmartDashboard.putNumber("visionIntakeYaw", x);
                     SmartDashboard.putNumber("visionIntakePitch", y);
                     
-                    TrapezoidProfile.Constraints xyConstraints = new Constraints(SmartDashboard.getNumber("Max Vel PID", 2), SmartDashboard.getNumber("max Accel PID", 2));
-                    ProfiledPIDController xController = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 2), SmartDashboard.getNumber("kI PID", .2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
-                    ProfiledPIDController yController = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 2), SmartDashboard.getNumber("kI PID", .2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
+                    //TrapezoidProfile.Constraints xyConstraints = new Constraints(SmartDashboard.getNumber("Max Vel PID", 2), SmartDashboard.getNumber("max Accel PID", 2));
+                    //ProfiledPIDController xController = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 2), SmartDashboard.getNumber("kI PID", .2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
+                    //ProfiledPIDController yController = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 2), SmartDashboard.getNumber("kI PID", .2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
+                    TrapezoidProfile.Constraints xyConstraints = new Constraints(1,1);
+                    ProfiledPIDController xController = new ProfiledPIDController(.2, 0.0 , 0.02, xyConstraints);
+                    ProfiledPIDController yController = new ProfiledPIDController(.2, 0.0 , 0.02, xyConstraints);
 
-                    xController.setGoal(0);
+                    xController.setGoal(-3);
                     yController.setGoal(0);
-
-                    drive(new Translation2d(xController.calculate(x), 0.0), yController.calculate(y), false);
+                    double xSet = xController.calculate(x);
+                    SmartDashboard.putNumber("xSetVisionIntake", xSet);
+                    if (xSet > 1) xSet = 1;
+                    if (xSet < -1) xSet = -1;
+                    //double ySet = yController.calculate(y);
+                    double ySet = y / 10;
+                    SmartDashboard.putNumber("ySetVisionIntake", ySet);
+                    if (ySet > 1) ySet = 1;
+                    if (ySet < -1) ySet = -1;
+                    drive(new Translation2d(-xSet, 0.0), -ySet, false);
                 }
             }
         });

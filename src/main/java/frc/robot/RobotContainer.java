@@ -56,7 +56,8 @@ public class RobotContainer
   final         CommandXboxController operatorXbox = new CommandXboxController(1);
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem       drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
-                                                                                "swerve/neo"));
+                                                                                //"swerve/neo"));
+                                                                                "swerve/falcon"));
   private final SuperstructureSubsystem superstructure = new SuperstructureSubsystem();
       // the main mechanism object
   Mechanism2d mech = new Mechanism2d(3, 3);
@@ -182,11 +183,14 @@ public class RobotContainer
                                 // so some of the button bindings are still there from enabling one mode(i.e. test), then enabling the other (i.e. tele).
     {
       drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity); // Overrides drive command above!
-      driverXbox.b().whileTrue(drivebase.sysIdDriveMotorCommand());
-      driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
-      driverXbox.y().whileTrue(drivebase.driveToDistanceCommand(1.0, 0.2));
-      driverXbox.start().onTrue((Commands.runOnce(drivebase::zeroGyro)));
-      driverXbox.back().whileTrue(drivebase.centerModulesCommand());
+      //driverXbox.b().whileTrue(drivebase.sysIdDriveMotorCommand());
+      //driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
+      //driverXbox.y().whileTrue(drivebase.driveToDistanceCommand(1.0, 0.2));
+      //driverXbox.start().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+      //driverXbox.back().whileTrue(drivebase.centerModulesCommand());
+      //driverXbox.x().whileTrue(Commands.runOnce(superstructure::manualMotionMagicElevatorTEST,superstructure));
+      driverXbox.x().onTrue(new InstantCommand( () -> superstructure.manualUpdateTargets(-1, 0, 0)));
+      driverXbox.y().onTrue(new InstantCommand( () -> superstructure.manualUpdateTargets(-50, 0, 0)));
       /*driverXbox.leftBumper().whileTrue(drivebase.driveToPose(
         new Pose2d(new Translation2d(3.5 ,3.5),Rotation2d.fromDegrees(30))));
       driverXbox.rightBumper().whileTrue(drivebase.driveToPose(
@@ -234,7 +238,7 @@ public class RobotContainer
       operatorXbox.b().onTrue(Commands.runOnce(superstructure::stow));
 
 
-      driverXbox.leftBumper().whileTrue(visionIntake());
+      //driverXbox.leftBumper().whileTrue(visionIntake());
       // Bind the Xbox button to the getScoreSequenceCommand
       driverXbox.rightBumper().whileTrue(new StartEndCommand(
           () -> getScoreSequenceCommand().schedule(),
@@ -287,7 +291,7 @@ public class RobotContainer
 
   public Command visionIntake(){
     if (!Robot.isSimulation()) return drivebase.visionIntake();
-    else return drivebase.visionIntakeSimTest();
+    else return drivebase.visionIntake();
   }
 
   public Command getScoreSequenceCommand(){

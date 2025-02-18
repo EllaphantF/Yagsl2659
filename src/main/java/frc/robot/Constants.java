@@ -205,19 +205,43 @@ public final class Constants
           elevatorConfigLeft.Slot0.kS = 0.4; // Volts to overcome static friction
           elevatorConfigLeft.Slot0.kV = 0.001; // Volts for a velocity target of 1 rps
           elevatorConfigLeft.Slot0.kA = 0.001; // Volts for an acceleration of 1 rps/s
-          elevatorConfigLeft.Slot0.kP = 0.1;//
+          elevatorConfigLeft.Slot0.kP = 10;//
           elevatorConfigLeft.Slot0.kI = 0.01; //
           elevatorConfigLeft.Slot0.kV = 0.12; //
-          elevatorConfigLeft.Slot0.kD = 0.00001; //
-          elevatorConfigLeft.CurrentLimits.SupplyCurrentLimit = 30 / 10;//was 20
-          elevatorConfigLeft.OpenLoopRamps.VoltageOpenLoopRampPeriod = .08;        
+          elevatorConfigLeft.Slot0.kD = 0.005; //
+          elevatorConfigLeft.CurrentLimits.SupplyCurrentLimit = 30 / 3;//was 20
+          elevatorConfigLeft.OpenLoopRamps.VoltageOpenLoopRampPeriod = .08;
           elevatorConfigLeft.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .08;
           elevatorConfigLeft.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .08;
           elevatorConfigLeft.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .08;
-          elevatorConfigLeft.MotionMagic.MotionMagicCruiseVelocity = 350 / 10; //stolen from 3255, added '/10' to start slow
-          elevatorConfigLeft.MotionMagic.MotionMagicAcceleration = 2500 / 10; //also stolen from 3255, added '/10' to start slow
+          elevatorConfigLeft.MotionMagic.MotionMagicCruiseVelocity = 350 / 1; //stolen from 3255, added '/10' to start slow
+          elevatorConfigLeft.MotionMagic.MotionMagicAcceleration = 2500 / 1.5; //also stolen from 3255, added '/10' to start slow
+          elevatorConfigLeft.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+          elevatorConfigLeft.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+          elevatorConfigLeft.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 74;
+          elevatorConfigLeft.SoftwareLimitSwitch.ReverseSoftLimitThreshold = -0.5;
           elevatorConfigLeft.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
           return elevatorConfigLeft;
+        }
+        public static TalonFXConfiguration getElevatorConfigRight() {
+          TalonFXConfiguration elevatorConfigRight = new TalonFXConfiguration();
+          elevatorConfigRight.Slot0.kG = 0.3; // Volts to overcome gravity
+          elevatorConfigRight.Slot0.kS = 0.4; // Volts to overcome static friction
+          elevatorConfigRight.Slot0.kV = 0.001; // Volts for a velocity target of 1 rps
+          elevatorConfigRight.Slot0.kA = 0.001; // Volts for an acceleration of 1 rps/s
+          elevatorConfigRight.Slot0.kP = 10;//
+          elevatorConfigRight.Slot0.kI = 0.01; //
+          elevatorConfigRight.Slot0.kV = 0.12; //
+          elevatorConfigRight.Slot0.kD = 0.005; //
+          elevatorConfigRight.CurrentLimits.SupplyCurrentLimit = 30 / 3;//was 20
+          elevatorConfigRight.OpenLoopRamps.VoltageOpenLoopRampPeriod = .08;        
+          elevatorConfigRight.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .08;
+          elevatorConfigRight.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .08;
+          elevatorConfigRight.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .08;
+          elevatorConfigRight.MotionMagic.MotionMagicCruiseVelocity = 350 / 1; //stolen from 3255, added '/10' to start slow
+          elevatorConfigRight.MotionMagic.MotionMagicAcceleration = 2500 / 1.5; //also stolen from 3255, added '/10' to start slow
+          elevatorConfigRight.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+          return elevatorConfigRight;
         }
 
         public static TalonFXConfiguration getEndeffectorPivotConfig(){
