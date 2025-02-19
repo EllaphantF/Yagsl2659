@@ -39,6 +39,8 @@ public final class Constants
   public static final double MAX_SPEED  = Units.feetToMeters(14.5);
   // Maximum speed of the robot in meters per second, used to limit acceleration.
 
+  public static final double scoringPositionTolerance = 0.1; // Scoring position tolerance for superstructure
+  public static final double positionTolerance = 0.2; // general position tolerance for superstructure
 //  public static final class AutonConstants
 //  {
 //
@@ -73,9 +75,9 @@ public final class Constants
   public static final int funnelWheelsID = 20;
 
 /* Clearance positions*/
-  public static final double crossbarClearancePos = 0; //elevator height to clear crossbar (must be below)
-  public static final double intakeEndeffectorClearancePos = 0; //intake pivot position to clear the endeffector (intake must be deployed enough)
-  public static final double endeffectorElevatorClearancePos = 0; //Endeffector pivot position to clear elevator
+  public static final double crossbarClearancePos = 4; //elevator height to clear crossbar (must be below)
+  public static final double intakeEndeffectorClearancePos = 5; //intake pivot position to clear the endeffector (intake must be deployed enough)
+  public static final double endeffectorElevatorClearancePos = 4; //Endeffector pivot position to clear elevator
   
   public static class ReefScoringLocations{
       // REEF PRE-SCORING POSES
@@ -225,21 +227,22 @@ public final class Constants
         }
         public static TalonFXConfiguration getElevatorConfigRight() {
           TalonFXConfiguration elevatorConfigRight = new TalonFXConfiguration();
-          elevatorConfigRight.Slot0.kG = 0.3; // Volts to overcome gravity
-          elevatorConfigRight.Slot0.kS = 0.4; // Volts to overcome static friction
-          elevatorConfigRight.Slot0.kV = 0.001; // Volts for a velocity target of 1 rps
-          elevatorConfigRight.Slot0.kA = 0.001; // Volts for an acceleration of 1 rps/s
-          elevatorConfigRight.Slot0.kP = 10;//
-          elevatorConfigRight.Slot0.kI = 0.01; //
-          elevatorConfigRight.Slot0.kV = 0.12; //
-          elevatorConfigRight.Slot0.kD = 0.005; //
-          elevatorConfigRight.CurrentLimits.SupplyCurrentLimit = 30 / 3;//was 20
-          elevatorConfigRight.OpenLoopRamps.VoltageOpenLoopRampPeriod = .08;        
-          elevatorConfigRight.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .08;
-          elevatorConfigRight.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .08;
-          elevatorConfigRight.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .08;
-          elevatorConfigRight.MotionMagic.MotionMagicCruiseVelocity = 350 / 1; //stolen from 3255, added '/10' to start slow
-          elevatorConfigRight.MotionMagic.MotionMagicAcceleration = 2500 / 1.5; //also stolen from 3255, added '/10' to start slow
+          elevatorConfigRight = getElevatorConfigLeft();
+          //elevatorConfigRight.Slot0.kG = 0.3; // Volts to overcome gravity
+          //elevatorConfigRight.Slot0.kS = 0.4; // Volts to overcome static friction
+          //elevatorConfigRight.Slot0.kV = 0.001; // Volts for a velocity target of 1 rps
+          //elevatorConfigRight.Slot0.kA = 0.001; // Volts for an acceleration of 1 rps/s
+          //elevatorConfigRight.Slot0.kP = 10;//
+          //elevatorConfigRight.Slot0.kI = 0.01; //
+          //elevatorConfigRight.Slot0.kV = 0.12; //
+          //elevatorConfigRight.Slot0.kD = 0.005; //
+          //elevatorConfigRight.CurrentLimits.SupplyCurrentLimit = 30 / 3;//was 20
+          //elevatorConfigRight.OpenLoopRamps.VoltageOpenLoopRampPeriod = .08;        
+          //elevatorConfigRight.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .08;
+          //elevatorConfigRight.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .08;
+          //elevatorConfigRight.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .08;
+          //elevatorConfigRight.MotionMagic.MotionMagicCruiseVelocity = 350 / 1; //stolen from 3255, added '/10' to start slow
+          //elevatorConfigRight.MotionMagic.MotionMagicAcceleration = 2500 / 1.5; //also stolen from 3255, added '/10' to start slow
           elevatorConfigRight.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
           return elevatorConfigRight;
         }

@@ -17,38 +17,38 @@ public class SuperstructureStates {
     public SuperstructureState CoralPostL2;
     public SuperstructureState CoralPostL3;
     public SuperstructureState CoralPostL4;
-    public SuperstructureState PassOff;
-    public SuperstructureState StowClear;
+    public SuperstructureState AlgaePassOff;
+    public SuperstructureState StowEEClear;
     public SuperstructureState StowClearIntakeDeployed;
-    public SuperstructureState StowCoral;
-    public SuperstructureState StowAlgae;
+    public SuperstructureState StowWithCoral;
+    public SuperstructureState StowWithAlgae;
     public SuperstructureState PreScoreCoral;
 
     public SuperstructureStates(){
         StartingConfig = new SuperstructureState(0, 0, 0);
-        Home = new SuperstructureState(0, 0, 0);
-        Intake = new SuperstructureState(0, 0, 0);
-        CoralL1 = new SuperstructureState(0, 0, 0);
-        CoralL2 = new SuperstructureState(0, 0, 0);
-        CoralL3 = new SuperstructureState(0, 0, 0);
-        CoralL4 = new SuperstructureState(0, 0, 0);
+        Home = new SuperstructureState(2, 0, 6);
+        Intake = new SuperstructureState(-1, 0.2, 25);
+        CoralL1 = new SuperstructureState(12, 3, 6);
+        CoralL2 = new SuperstructureState(10, 10, 6);
+        CoralL3 = new SuperstructureState(10, 40, 6);
+        CoralL4 = new SuperstructureState(8, 72, 6);
 
         /* need to send the elevator up with endeffector in so we dont crash into the reef */
-        CoralPreL1 = new SuperstructureState(0, 0, 0);
-        CoralPreL2 = new SuperstructureState(0, 0, 0);
-        CoralPreL3 = new SuperstructureState(0, 0, 0);
-        CoralPreL4 = new SuperstructureState(0, 0, 0);
+        CoralPreL1 = new SuperstructureState(6, 3, 6);
+        CoralPreL2 = new SuperstructureState(6, 11, 6);
+        CoralPreL3 = new SuperstructureState(6, 41, 6);
+        CoralPreL4 = new SuperstructureState(6, 73, 6);
 
-        CoralPostL1 = new SuperstructureState(0, 0, 0);
-        CoralPostL2 = new SuperstructureState(0, 0, 0);
-        CoralPostL3 = new SuperstructureState(0, 0, 0);
-        CoralPostL4 = new SuperstructureState(0, 0, 0);
+        CoralPostL1 = new SuperstructureState(6, 3,6);
+        CoralPostL2 = new SuperstructureState(6, 11, 6);
+        CoralPostL3 = new SuperstructureState(6, 41, 6);
+        CoralPostL4 = new SuperstructureState(6, 73,6);
 
-        PassOff = new SuperstructureState(0, 0, 0);
-        StowClear = new SuperstructureState(0, 0, 0); //intended as a safe position with endeffector clear from crashing with elevator stages
-        StowClearIntakeDeployed = new SuperstructureState(0, 0, 0);
-        StowCoral = new SuperstructureState(0, 0, 0);
-        StowAlgae = new SuperstructureState(0, 0, 0);
+        AlgaePassOff = new SuperstructureState(-3, 4, 4); //
+        StowEEClear = new SuperstructureState(5, 1, 5); //intended as a safe position with endeffector clear from crashing with elevator stages or the intake
+        StowClearIntakeDeployed = new SuperstructureState(5, 1, 25);
+        StowWithCoral = new SuperstructureState(0, 0, 0);
+        StowWithAlgae = new SuperstructureState(0, 0, 0);
         PreScoreCoral = new SuperstructureState(0, 0, 0);
     }
 

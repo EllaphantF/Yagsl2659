@@ -61,7 +61,7 @@ public class AutoScoreCommand extends Command {
     SmartDashboard.putNumber("Autocommand Count",count);
     count = count + 1;
 
-    Command superstructurePrescore = new InstantCommand(()-> m_SuperstructureSub.setPreScoreCoralPos(ScoringLevel));
+    Command superstructurePrescore = new InstantCommand(()-> m_SuperstructureSub.setPreScoreCoralState(ScoringLevel));
 
     prescoreDrivePose = m_DrivetrainSub.getPrescorePose(ScoringLocation);
     scoreDrivePose = m_DrivetrainSub.getScorePose(ScoringLocation);
