@@ -56,8 +56,8 @@ public class RobotContainer
   final         CommandXboxController operatorXbox = new CommandXboxController(1);
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem       drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
-                                                                                "swerve/neo"));
-                                                                                //"swerve/falcon"));
+                                                                                //"swerve/neo"));
+                                                                                "swerve/falcon"));
   private final SuperstructureSubsystem superstructure = new SuperstructureSubsystem();
       // the main mechanism object
   Mechanism2d mech = new Mechanism2d(3, 3);
@@ -189,9 +189,8 @@ public class RobotContainer
       //driverXbox.start().onTrue((Commands.runOnce(drivebase::zeroGyro)));
       //driverXbox.back().whileTrue(drivebase.centerModulesCommand());
       //driverXbox.x().whileTrue(Commands.runOnce(superstructure::manualMotionMagicElevatorTEST,superstructure));
-      driverXbox.x().onTrue(new InstantCommand( () -> superstructure.updateElevatorConfigsFromSD()));
-      driverXbox.y().onTrue(new InstantCommand( () -> superstructure.updateEEPivotConfigsFromSD()));
-      
+      driverXbox.x().onTrue(new InstantCommand( () -> superstructure.manualUpdateTargets(-1, 0, 0)));
+      driverXbox.y().onTrue(new InstantCommand( () -> superstructure.manualUpdateTargets(-50, 0, 0)));
       /*driverXbox.leftBumper().whileTrue(drivebase.driveToPose(
         new Pose2d(new Translation2d(3.5 ,3.5),Rotation2d.fromDegrees(30))));
       driverXbox.rightBumper().whileTrue(drivebase.driveToPose(
@@ -201,9 +200,10 @@ public class RobotContainer
       driverXbox.povLeft().onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", SmartDashboard.getNumber("Select Scoring Location",0)-.5)));
       driverXbox.povRight().onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", SmartDashboard.getNumber("Select Scoring Location",0)+.5)));
 
-      driverXbox.start().onTrue((Commands.runOnce(drivebase::zeroGyro)));
-      driverXbox.back().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
+      //driverXbox.start().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+      //driverXbox.back().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
       //driverXbox.b().whileTrue(drivebase.driveToPose(new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0))));
+      
       // driverXbox.y().whileTrue(drivebase.aimAtSpeaker(2));
       //driverXbox.start().whileTrue(Commands.none());
       //driverXbox.start().whileTrue(Commands.runOnce(() -> drivebase.resetOdometry(new Pose2d(new Translation2d(5,5),new Rotation2d(0)))));
@@ -233,15 +233,21 @@ public class RobotContainer
 //      driverXbox.rightBumper().whileTrue(autoScoreSequenceCommand()); //running this one in robot periodic constantly updates the path to the pose 
 
       //driverXbox.rightBumper().whileTrue(new InstantCommand(() -> drivebase.autoDriveToReef()));
-     
-
-      //operatorXbox.a().onTrue(Commands.runOnce(superstructure::intake));
-      //operatorXbox.b().onTrue(Commands.runOnce(superstructure::stow));
-
-      driverXbox.a().onTrue(new InstantCommand(() -> superstructure.intake()));
-      driverXbox.b().onTrue(new InstantCommand(() -> superstructure.lift()));
+      driverXbox.leftBumper().onTrue(new InstantCommand(() -> superstructure.setCoralLevel(1.)));
+      driverXbox.back().onTrue(new InstantCommand(() -> superstructure.setCoralLevel(2.)));
+      driverXbox.start().onTrue(new InstantCommand(() -> superstructure.setCoralLevel(3.)));
+      driverXbox.rightBumper().onTrue(new InstantCommand(() -> superstructure.setCoralLevel(4.)));
+      //driverXbox.b().onTrue(new InstantCommand(() -> superstructure.);
+      driverXbox.y().onTrue(new InstantCommand(() -> superstructure.startLifting()));
       driverXbox.x().onTrue(new InstantCommand(() -> superstructure.goHome()));
-      driverXbox.y().onTrue(new InstantCommand(() -> superstructure.setCoralLevel(4.0)));
+      driverXbox.a().onTrue(new InstantCommand(() -> superstructure.intake()));
+      driverXbox.b().whileTrue(new InstantCommand(() -> superstructure.testReleaseCoral()).repeatedly());
+      driverXbox.b().onFalse(new InstantCommand(() -> superstructure.testUnreleaseCoral()));
+      
+      
+      operatorXbox.a().onTrue(Commands.runOnce(superstructure::intake));
+      operatorXbox.b().onTrue(Commands.runOnce(superstructure::stow));
+
 
       //driverXbox.leftBumper().whileTrue(visionIntake());
       // Bind the Xbox button to the getScoreSequenceCommand
@@ -309,10 +315,11 @@ public class RobotContainer
     Command driveToPrescore = drivebase.driveToPose(prescoreDrivePose);
     //Command driveToPrescore = drivebase.driveToTargetPosePID(prescoreDrivePose);
     Command driveToScore = drivebase.driveToTargetPosePID(scoreDrivePose);
+    Command superStructureScore = new InstantCommand(() -> superstructure.startLifting());
     //return  (new SequentialCommandGroup(selectReefPoses,driveToPrescore,driveToScore));*/
     //Command driveToPrescore = drivebase.driveToTargetPosePID(drivebase.getPrescorePose(SmartDashboard.getNumber("Select Scoring Location",0)));
     //Command driveToScore = drivebase.driveToTargetPosePID(drivebase.getScorePose(SmartDashboard.getNumber("Select Scoring Location",0)));
-    Command autoScoreSequence = new SequentialCommandGroup(driveToPrescore, driveToScore);
+    Command autoScoreSequence = new SequentialCommandGroup(driveToPrescore, superStructureScore, driveToScore);
     
     return autoScoreSequence;
   }

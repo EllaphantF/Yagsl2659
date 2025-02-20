@@ -290,24 +290,33 @@ public class SwerveSubsystem extends SubsystemBase
                     }
                 }
                 if (bestTarget != null) {
-                    double x = bestTarget.getYaw();
-                    double y = bestTarget.getPitch();
+                    double xDeg = bestTarget.getPitch();
+                    double y = bestTarget.getYaw();
                     //double x = bestTarget.getBestCameraToTarget().getX();
                     //double y = bestTarget.getBestCameraToTarget().getY();
-                    SmartDashboard.putNumber("visionIntakeYaw", x);
-                    SmartDashboard.putNumber("visionIntakePitch", y);
+                    SmartDashboard.putNumber("visionIntakeYaw", y);
+                    SmartDashboard.putNumber("visionIntakePitch", xDeg);
                     
                     //TrapezoidProfile.Constraints xyConstraints = new Constraints(SmartDashboard.getNumber("Max Vel PID", 2), SmartDashboard.getNumber("max Accel PID", 2));
                     //ProfiledPIDController xController = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 2), SmartDashboard.getNumber("kI PID", .2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
                     //ProfiledPIDController yController = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 2), SmartDashboard.getNumber("kI PID", .2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
                     TrapezoidProfile.Constraints xyConstraints = new Constraints(1,1);
+                    //PIDController xController = new PIDController(.2, 0.0 , 0.02);
+                    //PIDController yController = new PIDController(.2, 0.0 , 0.02);
                     ProfiledPIDController xController = new ProfiledPIDController(.2, 0.0 , 0.02, xyConstraints);
-                    ProfiledPIDController yController = new ProfiledPIDController(.2, 0.0 , 0.02, xyConstraints);
+                    PIDController yController = new PIDController(.2, 0.0 , 0.02);
 
-                    xController.setGoal(-3);
-                    yController.setGoal(0);
+                    xController.setGoal(20);
+                    yController.setSetpoint(0);
+
+                    double cameraAngleDown = 20;
+                    double camerainchesOffGround = 30;
+                    double x = camerainchesOffGround / Math.tan(Math.toRadians(cameraAngleDown - xDeg)); //change x degrees into x distance in inches... Double check this geometry
+                    SmartDashboard.putNumber("visionIntakeObjectDist", x);
+
                     double xSet = xController.calculate(x);
                     SmartDashboard.putNumber("xSetVisionIntake", xSet);
+                    
                     if (xSet > 1) xSet = 1;
                     if (xSet < -1) xSet = -1;
                     //double ySet = yController.calculate(y);

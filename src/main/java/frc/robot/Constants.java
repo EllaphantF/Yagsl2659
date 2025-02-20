@@ -76,9 +76,12 @@ public final class Constants
 
 /* Clearance positions*/
   public static final double crossbarClearancePos = 4; //elevator height to clear crossbar (must be below)
-  public static final double intakeEndeffectorClearancePos = 5; //intake pivot position to clear the endeffector (intake must be deployed enough)
+  public static final double intakeEndeffectorClearancePos = 3; //intake pivot position to clear the endeffector (intake must be deployed enough)
   public static final double endeffectorElevatorClearancePos = 4; //Endeffector pivot position to clear elevator
   
+  public static final double intakePivotGearRatio = 200; // 200:1 gear ratio
+  public static final double endEffectorPivotGearRatio = 30; // 30:1 gear ratio
+
   public static class ReefScoringLocations{
       // REEF PRE-SCORING POSES
       public static   final Pose2d  BLUEPRESCORE_1  = new Pose2d( 6.417, 3.826,   Rotation2d.fromDegrees(   	180	)); 

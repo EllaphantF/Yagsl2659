@@ -4,7 +4,9 @@
 
 package frc.robot.subsystems.superstructure;
 
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
@@ -12,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.RobotBase;
 
 import com.ctre.phoenix6.*;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
@@ -20,28 +23,42 @@ import com.ctre.phoenix6.configs.Slot1Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.controls.compound.Diff_MotionMagicVoltage_Position;
+import com.ctre.phoenix6.controls.compound.Diff_PositionVoltage_Position;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.hardware.TalonFXS;
 import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.sim.TalonFXSimState;
 
 public class SuperstructureSubsystem extends SubsystemBase {
 
   private double simulatedMotorMotionTimer = 0;
   public double elevatorTarget = 0;
   public double pivotTarget = 0;
-  public double intakeTarget = 0;
+  public double intakeTarget = 0;  
+  public double elevatorPos = 0;
+  public double pivotPos = 0;
+  public double intakePos = 0;
+  public double releaseTimer = 0;
   public final double intake = -20;
   public double sequenceState = 0;
   public double scoreLevel = 0;
   public boolean hasCoral = false;
   public boolean hasAlgae = false;
   
+  
+  public static boolean autoReleaseCoral = true;
+
   public boolean intakeTraversing = false;
   public boolean intaking = false;
-  public boolean homing = false;
+  public boolean stowing = false;
   public boolean lifting = false;
   public boolean scoringCoral = false;
+  public boolean releasingCoral = false;
+  public boolean manualOverride = false;
 
   public SuperstructureStates STATE = new SuperstructureStates();
   public SuperstructureState TARGETSTATE = STATE.StartingConfig;
@@ -54,20 +71,23 @@ public class SuperstructureSubsystem extends SubsystemBase {
   private static final TalonFX mIntakeWheels = new TalonFX(Constants.intakeWheelsID);//
   private static final TalonFX mFunnelWheels = new TalonFX(Constants.funnelWheelsID);//
 
+  //private final TalonFXSimState mElevatorLeftSim = new TalonFXSimState(mElevatorLeft);
+  //private final TalonFXSimState mEndeffectorPivotSim = new TalonFXSimState(mEndeffectorPivot);
+  //private final TalonFXSimState mIntakePivotSim = new TalonFXSimState(mIntakePivot);
+
   private final Mechanism2d mech;
   private final MechanismRoot2d root;
   private final MechanismLigament2d m_ElevatorLeft;
-  private final MechanismLigament2d m_ElevatorRight;
+  //private final MechanismLigament2d m_ElevatorRight;
   private final MechanismLigament2d m_EndeffectorPivot;
   private final MechanismLigament2d m_EndeffectorRollers;
   private final MechanismLigament2d m_IntakeLeftPivot;
-  private final MechanismLigament2d m_IntakeRightPivot;
+  //private final MechanismLigament2d m_IntakeRightPivot;
   private final MechanismLigament2d m_IntakeWheels;
   private final MechanismLigament2d m_FunnelWheels;
 
   /** Creates a new ExampleSubsystem. */
   public SuperstructureSubsystem() {
-
     /* Configurations */
         mElevatorRight.getConfigurator().apply(Constants.SuperstructureConfigs.getElevatorConfigRight());
         mElevatorLeft.getConfigurator().apply(Constants.SuperstructureConfigs.getElevatorConfigLeft());
@@ -81,22 +101,23 @@ public class SuperstructureSubsystem extends SubsystemBase {
         
 
          /* Mechanism2d */
-         
-        mech = new Mechanism2d(27, 100);
+        
+        mech = new Mechanism2d(50, 120);
         root = mech.getRoot("Center", 13.5, 13.5);
-        MechanismRoot2d elevatorLeftRoot = mech.getRoot("ElevatorLeftRoot", 1, 9.375);
-        MechanismRoot2d elevatorRightRoot = mech.getRoot("ElevatorRightRoot", 26, 9.375);
-        MechanismRoot2d endEffectorPivot = mech.getRoot("EndEffectorPivotRoot", 1.0, 9.375);
-        MechanismRoot2d intakePivotLeftRoot = mech.getRoot("IntakePivotLeftRoot", 1.0, 9.375);
-        MechanismRoot2d intakePivotRightRoot = mech.getRoot("IntakePivotRightRoot", 1.0, 9.375);
-        m_ElevatorLeft = elevatorLeftRoot.append(new MechanismLigament2d("ElevatorLeft", 96.75, 90));
-        m_ElevatorRight = elevatorRightRoot.append(new MechanismLigament2d("ElevatorRight", 96.75, 90));
-        m_EndeffectorPivot = endEffectorPivot.append(new MechanismLigament2d("EndeffectorPivot", 96.75, 90));
-        m_EndeffectorRollers = endEffectorPivot.append(new MechanismLigament2d("EndeffectorRollers", 96.75, 90));
-        m_IntakeLeftPivot = intakePivotLeftRoot.append(new MechanismLigament2d("IntakePivot", 96.75, 45));
-        m_IntakeRightPivot = intakePivotRightRoot.append(new MechanismLigament2d("IntakePivot", 96.75, 45));
-        m_IntakeWheels = intakePivotLeftRoot.append(new MechanismLigament2d("IntakeWheels", 25, 90));
-        m_FunnelWheels = root.append(new MechanismLigament2d("FunnelWheels", 96.75, 90));
+        MechanismRoot2d elevatorLeftRoot = mech.getRoot("ElevatorLeftRoot", 10, 25);
+        //MechanismRoot2d elevatorRightRoot = mech.getRoot("ElevatorRightRoot", 26, 9.375);
+        //MechanismRoot2d endEffectorPivot = mech.getRoot("EndEffectorPivotRoot", 10, 40);
+        MechanismRoot2d intakePivotLeftRoot = mech.getRoot("IntakePivotLeftRoot", 20, 5);
+        //MechanismRoot2d intakePivotRightRoot = mech.getRoot("IntakePivotRightRoot", 1.0, 9.375);
+        m_ElevatorLeft = elevatorLeftRoot.append(new MechanismLigament2d("ElevatorLeft", 65, 90));
+        //m_ElevatorRight = elevatorRightRoot.append(new MechanismLigament2d("ElevatorRight", 96.75, 90));
+        m_EndeffectorPivot = m_ElevatorLeft.append(new MechanismLigament2d("EndeffectorPivot", 12, 270));
+        m_EndeffectorRollers = m_ElevatorLeft.append(new MechanismLigament2d("EndeffectorRollers", 3, 90));
+        m_IntakeLeftPivot = intakePivotLeftRoot.append(new MechanismLigament2d("IntakePivot", 15, 90));
+        //m_IntakeRightPivot = intakePivotRightRoot.append(new MechanismLigament2d("IntakePivot", 96.75, 45));
+        m_IntakeWheels = m_IntakeLeftPivot.append(new MechanismLigament2d("IntakeWheels", 3, 90));
+        m_FunnelWheels = root.append(new MechanismLigament2d("FunnelWheels", 3, 90));
+
   }
 
   /**
@@ -126,8 +147,8 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public void motionMagicSetElevatorAndEndeffector(double ElevatorPosTarget, double PivotPosTarget, double IntakePosTarget){
     mElevatorLeft.setControl(new MotionMagicVoltage(ElevatorPosTarget));
     mElevatorRight.setControl(new Follower(mElevatorLeft.getDeviceID(), true));
-    mEndeffectorPivot.setControl(new MotionMagicVoltage(PivotPosTarget));
-    mIntakePivot.setControl(new MotionMagicVoltage(IntakePosTarget));
+    mEndeffectorPivot.setControl(new MotionMagicVoltage(PivotPosTarget * Constants.endEffectorPivotGearRatio));
+    mIntakePivot.setControl(new MotionMagicVoltage(IntakePosTarget * Constants.intakePivotGearRatio));
   }
 
   public void SD_motionMagicElevatorTEST(){
@@ -233,7 +254,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public void intakeTraverse(){
     intakeTraversing = true;
     /* This block checks that the system is in a safe spot before it commands motion, and if there's potential interference(i.e. endeffector would crash) then it goes to a safe stow position first until its below a safety threshold */
-    if(mElevatorLeft.getPosition().getValueAsDouble() > Constants.crossbarClearancePos){ //If elevator is above the crossbar
+    if(elevatorPos > Constants.crossbarClearancePos){ //If elevator is above the crossbar
         //if(mIntakePivot.getPosition().getValueAsDouble() < Constants.intakeEndeffectorClearancePos){ //If intake is retracted (i.e. endeffector would hit it) 
         //  TARGETSTATE = STATE.StowClear;//put the intake down and bring the elevator down with the endeffector towards the scoring side of the robot 
         //}else{
@@ -241,7 +262,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
         //}
     }
     else { //if the elevator is below the crossbar (i.e. wont crash the endeffector into the crossbar)    
-        if(mIntakePivot.getPosition().getValueAsDouble() < Constants.intakeEndeffectorClearancePos){ //If intake is retracted (i.e. endeffector would hit it) 
+        if(intakePos < Constants.intakeEndeffectorClearancePos){ //If intake is retracted (i.e. endeffector would hit it) 
           TARGETSTATE = STATE.StowClearIntakeDeployed;//put the intake down and bring the elevator down with the endeffector towards the scoring side of the robot 
         }else {
           TARGETSTATE = STATE.Intake; //If the elevator is below the crossbar and the endeffector will clear the intake, go to full intake
@@ -252,28 +273,36 @@ public class SuperstructureSubsystem extends SubsystemBase {
   }
 
   public void intaking(){
+    hasCoral = true; //temporary for testing 2/19/2025
     setEndeffectorWheelSpeed(1);
     setIntakeWheelSpeed(1);
     setFunnelWheelSpeed(1);
     if (mEndeffectorRollers.getStatorCurrent().getValueAsDouble() > 5){
+      setEndeffectorHold();
+      setIntakeWheelSpeed(0);
+      setFunnelWheelSpeed(0);
       intaking = false;
-      homing = true;
+      stowing = true;
     }
   }
 
   public void setEndeffectorWheelSpeed(double wheelSpeed){
     mEndeffectorRollers.setControl(new VelocityVoltage(wheelSpeed));
+    if(RobotBase.isSimulation()) m_EndeffectorRollers.setAngle(m_EndeffectorRollers.getAngle()+10);
   }
+
   public void setEndeffectorHold(){
-    mEndeffectorRollers.setControl(new VelocityVoltage(-.02)); //stall, but we can eventually change this to PID position hold
+    mEndeffectorRollers.setControl(new VoltageOut(-.5)); //stall, but we can decide to change this to PID position hold
   }
 
   public void setIntakeWheelSpeed(double wheelSpeed){
     mIntakeWheels.setControl(new VelocityVoltage(wheelSpeed));
+    if(RobotBase.isSimulation()) m_IntakeWheels.setAngle(m_IntakeWheels.getAngle()+10);
   }
 
   public void setFunnelWheelSpeed(double wheelSpeed){
     mFunnelWheels.setControl(new VelocityVoltage(wheelSpeed));
+    if(RobotBase.isSimulation()) m_FunnelWheels.setAngle(m_FunnelWheels.getAngle()+10);
   }
 
 
@@ -282,7 +311,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
    * @return
    */
   public Boolean safeToStow(){
-    if(mElevatorLeft.getPosition().getValueAsDouble() > Constants.crossbarClearancePos || mIntakePivot.getPosition().getValueAsDouble() < Constants.intakeEndeffectorClearancePos){ //if the elevator is above the crossbar or the intake is retracted
+    if(elevatorPos > Constants.crossbarClearancePos || intakePos < Constants.intakeEndeffectorClearancePos){ //if the elevator is above the crossbar or the intake is retracted
       return false;
     }
     else return true;
@@ -293,25 +322,26 @@ public class SuperstructureSubsystem extends SubsystemBase {
    * @return
    */
   public Boolean safeToLift(){
-    if(mEndeffectorPivot.getPosition().getValueAsDouble() > Constants.endeffectorElevatorClearancePos){
+    if(pivotPos > Constants.endeffectorElevatorClearancePos){
       return true;
     }
     else return false;
   }
 
   public void clearMotionStates(){
-    homing = false;
+    stowing = false;
     intakeTraversing = false;
     lifting = false;
     intaking = false;
+    releasingCoral = false;
   }
 
   public void goHome(){
     clearMotionStates();
-    homing = true;
+    stowing = true;
     if(safeToStow()){
       TARGETSTATE = STATE.Home;
-      homing = false;
+      stowing = false;
     }
     else TARGETSTATE = STATE.StowEEClear;
   }
@@ -321,20 +351,28 @@ public class SuperstructureSubsystem extends SubsystemBase {
       // elevatorTarget = 0; //reference constants or arm pos file or replace these with states
       // pivotTarget = 0;
       TARGETSTATE = STATE.StowWithCoral;
+      stowing = false;
       // STATE.StowCoral; //option for putting positions in a state
     }
     else if (hasAlgae && safeToStow()){
       // elevatorTarget = 0; //reference constants or arm pos file 
       // pivotTarget = 0;
       TARGETSTATE = STATE.StowWithAlgae;
+      stowing = false;
     }
     else{
       // elevatorTarget = 0; //reference constants or arm pos file 
       // pivotTarget = 0;
       TARGETSTATE = STATE.StowEEClear;
+      stowing = false;
+
     }
   }
 
+  /**
+   * Sets the elevator and endeffector pivot to the pre-score position for the coral
+   * @param level
+   */
   public void setPreScoreCoralState(Double level){ //sets up elevator and EE pivot for pre-score position for drive-up 
     // elevatorTarget = 0; //reference constants or arm pos file 
     // pivotTarget = 0;    
@@ -367,46 +405,109 @@ public class SuperstructureSubsystem extends SubsystemBase {
     sequenceState = 0;
   }
 
+  public void justGotCoral(){
+    hasCoral = true;
+    mEndeffectorRollers.setPosition(0.0);
+    mEndeffectorRollers.setControl(new PositionVoltage(-.1));
+  }
+
   public void releaseCoral(){
-    setEndeffectorWheelSpeed(1);
+    releasingCoral = true;
+    mEndeffectorRollers.setControl(new PositionVoltage(10));
+    if(mEndeffectorRollers.getPosition().getValueAsDouble() > 9) {
+      hasCoral = false;
+      releasingCoral = false;
+      setEndeffectorWheelSpeed(0);
+    }
+  }
+
+  /**
+   * releases coral with a timer to clear the 'has coral' flag and trigger the retraction
+   */
+  public void testReleaseCoral(){
+    mEndeffectorRollers.setControl(new VoltageOut(4));
+    releaseTimer++;
+    if(releaseTimer > 30) {
+      releaseTimer = 0;
+      hasCoral = false;
+    }
+  }
+
+  /**
+   * pulls coral back in
+   */
+  public void testUnreleaseCoral(){
+    releasingCoral = false;
+    releaseTimer = 0;
+    mEndeffectorRollers.setControl(new VoltageOut(-2));
+  }
+
+  /**
+   * Starts the lifting sequence. Sets subsystem flags to safely handle the motion for lifting
+   */
+  public void startLifting(){
+    clearMotionStates();
+    lifting = true;
+    sequenceState = 0;
   }
 
   /**
    * Lifts the elevator safely and sequentially so that the endeffector doesn't make contact with the crossbar or the reef during the scoring cycle
    */
-  public void lift(){
+  private void lift(){
     lifting = true;
+    
     if(safeToLift()){
       if(scoringCoral){
         if(sequenceState == 0){
           setPreScoreCoralState(scoreLevel);
-          if (atScoringPosition()) {
+          if (atPosition()) {
             sequenceState = 1; //if at the pre-score position, move to the score position
           }
         }
         else if(sequenceState == 1){
           setScoreCoralState(scoreLevel);
+          //if (atPosition() && autoReleaseCoral) {
+          //releaseCoral();
+          //sequenceState = 2;
+          //}
+          if(!hasCoral)sequenceState = 2;
           //sequenceState = 2;
         }
         else if(sequenceState == 2){
-          setScoreCoralState(scoreLevel);
-          sequenceState = 2;
+          setPostScoreCoralState(scoreLevel);
+          if(atPosition()){
+          goHome();
+          sequenceState = 0;
+        }
         }
       }
     }
     else TARGETSTATE = STATE.StowEEClear; //stow pre-lift
   }
 
+  private void updatePositions(){
+    if(RobotBase.isSimulation()){
+      elevatorPos = m_ElevatorLeft.getLength();
+      pivotPos = -180 - m_EndeffectorPivot.getAngle();
+      intakePos = 60 -m_IntakeLeftPivot.getAngle();
+      return;
+    }
+    elevatorPos = mElevatorLeft.getPosition().getValueAsDouble();
+    pivotPos = mEndeffectorPivot.getPosition().getValueAsDouble();
+    intakePos = mIntakePivot.getPosition().getValueAsDouble();
+  }
+
   public void updateSD(){
     //PID position device targets and positions
     SmartDashboard.putNumber("zIntake Pivot Target", TARGETSTATE.intake);
-    SmartDashboard.putNumber("zIntake Pivot Position", mIntakePivot.getPosition().getValueAsDouble());
+    SmartDashboard.putNumber("zIntake Pivot Position", intakePos);
     
     SmartDashboard.putNumber("zElevator Target", TARGETSTATE.elevator);
-    SmartDashboard.putNumber("zElevator Position", mElevatorLeft.getPosition().getValueAsDouble());
+    SmartDashboard.putNumber("zElevator Position", elevatorPos);
 
     SmartDashboard.putNumber("zEndeffector Pivot Target", TARGETSTATE.pivot);
-    SmartDashboard.putNumber("zEndeffector Pivot Position", mEndeffectorPivot.getPosition().getValueAsDouble());
+    SmartDashboard.putNumber("zEndeffector Pivot Position", pivotPos);
 
     //Wheelspeeds
     SmartDashboard.putNumber("zFunnel Wheelspeed", mFunnelWheels.getVelocity().getValueAsDouble());
@@ -414,21 +515,31 @@ public class SuperstructureSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("zIntake Wheelspeed", mIntakeWheels.getVelocity().getValueAsDouble());
 
     //Bools and sequences
-    SmartDashboard.putBoolean("zhoming", homing);
+    
+    SmartDashboard.putBoolean("zAtPos", atPosition());
+    SmartDashboard.putBoolean("zstowing", stowing);
     SmartDashboard.putBoolean("zintakeTraversing", intakeTraversing);
     SmartDashboard.putBoolean("zintaking", intaking);
     SmartDashboard.putBoolean("zlifting", lifting);
     SmartDashboard.putBoolean("zscoringCoral", scoringCoral);
+    SmartDashboard.putBoolean("zSafeToStow", safeToStow());
     SmartDashboard.putNumber("zsequenceState", sequenceState);
+  }
+
+  public void enableManualOverride(){
+    manualOverride = true;
+  }
+
+  public void disableManualOverride(){
+    manualOverride = false;
   }
 
   /**
    * Checks if the system is at the scoring position within a tolerance band set in constants
    * @return
    */
-  public boolean atScoringPosition(){
-    if( Math.abs(mElevatorLeft.getPosition().getValueAsDouble() - TARGETSTATE.elevator) < Constants.scoringPositionTolerance &&
-        Math.abs(mEndeffectorPivot.getPosition().getValueAsDouble() - TARGETSTATE.pivot) < Constants.scoringPositionTolerance){
+  public boolean atPosition(){
+    if( Math.abs(elevatorPos - TARGETSTATE.elevator) < Constants.scoringPositionTolerance && Math.abs(pivotPos - TARGETSTATE.pivot) < Constants.scoringPositionTolerance){
       return true;
     }
     else return false;
@@ -438,17 +549,19 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     
-    motionMagicSetElevatorAndEndeffector(TARGETSTATE.elevator, TARGETSTATE.pivot, TARGETSTATE.intake);
     //SD_MotionMagicEEPivotTEST();
     //SD_motionMagicElevatorTEST();
 
+    updatePositions();
+    motionMagicSetElevatorAndEndeffector(TARGETSTATE.elevator, TARGETSTATE.pivot, TARGETSTATE.intake);
+    
     if(intakeTraversing)intakeTraverse();
     if(intaking)intaking();
-    if(homing)stow();
+    if(stowing)stow();
     if(lifting)lift();
 
     updateSD();
-    MECH2d(); // Update the MECH2d ligaments in the periodic method
+    //MECH2d(); // Update the MECH2d ligaments in the periodic method
     //
     
   }
@@ -460,42 +573,43 @@ public class SuperstructureSubsystem extends SubsystemBase {
 
     if(intakeTraversing)intakeTraverse();
     if(intaking)intaking();
-    if(homing)stow();
+    if(stowing)stow();
     if(lifting)lift();
 
     updateSD();
     MECH2d();
-    simulateMotorMotionFeedback();
+    //simulateMotorMotionFeedback();
 }
 
 private void simulateMotorMotionFeedback() {
     // Simulate the encoder values for the motors
-    if(simulatedMotorMotionTimer > 50){
+    /*if(simulatedMotorMotionTimer > 50){
       mElevatorLeft.setPosition(TARGETSTATE.elevator);
       mEndeffectorPivot.setPosition(TARGETSTATE.pivot);
       mEndeffectorPivot.setPosition(TARGETSTATE.intake);
       simulatedMotorMotionTimer = 0;}
-    else simulatedMotorMotionTimer++;
+    else simulatedMotorMotionTimer++;*/
 }
 
   public void MECH2d(){
     SmartDashboard.putData("MyMechanism", mech);
-    SmartDashboard.putNumber("ElevatorLeft", mElevatorLeft.getPosition().getValueAsDouble());
-    SmartDashboard.putNumber("ElevatorRight", mElevatorRight.getPosition().getValueAsDouble());
-    SmartDashboard.putNumber("EndeffectorPivot", mEndeffectorPivot.getPosition().getValueAsDouble());
-    SmartDashboard.putNumber("IntakePivot", mIntakePivot.getPosition().getValueAsDouble());
+    SmartDashboard.putNumber("ElevatorLeft", elevatorPos);
+//    SmartDashboard.putNumber("ElevatorRight", mElevatorRight.getPosition().getValueAsDouble());
+    SmartDashboard.putNumber("EndeffectorPivot", pivotPos);
+    SmartDashboard.putNumber("IntakePivot", intakePos);
     SmartDashboard.putNumber("EndeffectorRollers", mEndeffectorRollers.getPosition().getValueAsDouble()); 
     SmartDashboard.putNumber("IntakeWheels", mIntakeWheels.getPosition().getValueAsDouble());
     SmartDashboard.putNumber("FunnelWheels", mFunnelWheels.getPosition().getValueAsDouble());
 
+
     // Update the lengths and angles of the ligaments based on the motor positions
-    m_ElevatorLeft.setLength(mElevatorLeft.getPosition().getValueAsDouble());
-    m_ElevatorRight.setLength(mElevatorRight.getPosition().getValueAsDouble());
-    m_EndeffectorPivot.setAngle(mEndeffectorPivot.getPosition().getValueAsDouble());
-    m_IntakeRightPivot.setAngle(mIntakePivot.getPosition().getValueAsDouble());
-    m_IntakeLeftPivot.setAngle(mIntakePivot.getPosition().getValueAsDouble());
-    m_EndeffectorRollers.setLength(mEndeffectorRollers.getPosition().getValueAsDouble());
-    m_IntakeWheels.setLength(mIntakeWheels.getPosition().getValueAsDouble());
-    m_FunnelWheels.setLength(mFunnelWheels.getPosition().getValueAsDouble());
+    m_ElevatorLeft.setLength(m_ElevatorLeft.getLength()*.9 + TARGETSTATE.elevator*.1);
+    //m_ElevatorRight.setLength(mElevatorRight.getPosition().getValueAsDouble());
+    m_EndeffectorPivot.setAngle(m_EndeffectorPivot.getAngle()*.9+ (-TARGETSTATE.pivot-180) *.1);
+    //m_IntakeRightPivot.setAngle(mIntakePivot.getPosition().getValueAsDouble());
+    m_IntakeLeftPivot.setAngle(m_IntakeLeftPivot.getAngle()*.9 + (-TARGETSTATE.intake+60)*.1);
+    m_EndeffectorRollers.setAngle(mEndeffectorRollers.getPosition().getValueAsDouble());
+    m_IntakeWheels.setAngle(mIntakeWheels.getPosition().getValueAsDouble());
+    m_FunnelWheels.setAngle(mFunnelWheels.getPosition().getValueAsDouble());
   }
 }
