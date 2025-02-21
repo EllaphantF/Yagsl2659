@@ -248,15 +248,18 @@ public class RobotContainer
       operatorXbox.a().onTrue(Commands.runOnce(superstructure::intake));
       operatorXbox.b().onTrue(Commands.runOnce(superstructure::stow));
 
+      //UNCOMMENT ALL OF THIS
+      /*driverXbox.leftBumper().whileTrue(visionIntake());
 
-      //driverXbox.leftBumper().whileTrue(visionIntake());
       // Bind the Xbox button to the getScoreSequenceCommand
       driverXbox.rightBumper().whileTrue(new StartEndCommand(
           () -> getScoreSequenceCommand().schedule(),
           () -> getScoreSequenceCommand().cancel()
           ));
       driverXbox.rightBumper().onFalse(Commands.runOnce(() -> CommandScheduler.getInstance().cancelAll())); //this seems to work, but might cancel other commands? Drive seems to work fine after this is called
-          //
+      */    //
+
+
       //driverXbox.rightBumper().whileFalse(new InstantCommand(() -> getScoreSequenceCommand().cancel()));
 
     }
