@@ -249,7 +249,10 @@ public class SuperstructureSubsystem extends SubsystemBase {
    * Start the intaking sequence. Sets subsystem flags to safely handle the motion to intaking
    */
   public void intake(){
-  intakeTraverse();}
+    intakeTraverse();
+    intaking(); // 2-20 MPF Added intaking() method since wheels won't move without this
+    stow(); // 2-20 MPF Also added stow to the logic 
+  }
 
   public void intakeTraverse(){
     intakeTraversing = true;
@@ -336,6 +339,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
     releasingCoral = false;
   }
 
+  // Question about this, what happens if the pivot doesn't reach the target state fast enough before the elevator passes the crossbar? MPF
   public void goHome(){
     clearMotionStates();
     stowing = true;
