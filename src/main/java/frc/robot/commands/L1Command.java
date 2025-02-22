@@ -14,6 +14,10 @@ public class L1Command extends Command {
         if(structure.hasCoral = true){
         structure.startLifting();
         structure.liftL1();
+
+        if(structure.atPosition() == true && structure.sequenceState == 1){
+            structure.releaseCoral();
+            }
         }
     }
     @Override
