@@ -15,6 +15,7 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.compound.Diff_MotionMagicVoltage_Position;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -207,24 +208,23 @@ public final class Constants
     
         public static TalonFXConfiguration getElevatorConfigLeft() {
           TalonFXConfiguration elevatorConfigLeft = new TalonFXConfiguration();
-          elevatorConfigLeft.Slot0.kG = 0.3; // Volts to overcome gravity
-          elevatorConfigLeft.Slot0.kS = 0.4; // Volts to overcome static friction
-          elevatorConfigLeft.Slot0.kV = 0.001; // Volts for a velocity target of 1 rps
+          elevatorConfigLeft.Slot0.kG = 0.0; // Volts to overcome gravity
+          elevatorConfigLeft.Slot0.kS = 0.0; // Volts to overcome static friction
+          elevatorConfigLeft.Slot0.kV = 0.12; // Volts for a velocity target of 1 rps
           elevatorConfigLeft.Slot0.kA = 0.001; // Volts for an acceleration of 1 rps/s
-          elevatorConfigLeft.Slot0.kP = 15;//
+          elevatorConfigLeft.Slot0.kP = 10;//30 was too high
           elevatorConfigLeft.Slot0.kI = 0.00001; //
-          elevatorConfigLeft.Slot0.kV = 0.12; //
-          elevatorConfigLeft.Slot0.kD = 0.003; //
+          elevatorConfigLeft.Slot0.kD = 0.01; //
           elevatorConfigLeft.CurrentLimits.SupplyCurrentLimit = 30 / 1;//was 20
           elevatorConfigLeft.OpenLoopRamps.VoltageOpenLoopRampPeriod = .04;
           elevatorConfigLeft.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .04;
           elevatorConfigLeft.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .04;
           elevatorConfigLeft.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .04;
-          elevatorConfigLeft.MotionMagic.MotionMagicCruiseVelocity = 350 / 4; //stolen from 3255, added '/10' to start slow
-          elevatorConfigLeft.MotionMagic.MotionMagicAcceleration = 2500 / 30*1.5;// 1.5; //also stolen from 3255, added '/10' to start slow
+          elevatorConfigLeft.MotionMagic.MotionMagicCruiseVelocity = 100; //stolen from 3255, added '/10' to start slow
+          elevatorConfigLeft.MotionMagic.MotionMagicAcceleration = 80;// 1.5; //also stolen from 3255, added '/10' to start slow
           elevatorConfigLeft.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
           elevatorConfigLeft.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-          elevatorConfigLeft.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 74;
+          elevatorConfigLeft.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 76;
           elevatorConfigLeft.SoftwareLimitSwitch.ReverseSoftLimitThreshold = -0.5;
           elevatorConfigLeft.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
           return elevatorConfigLeft;
@@ -254,20 +254,21 @@ public final class Constants
         public static TalonFXConfiguration getEndeffectorPivotConfig(){
           TalonFXConfiguration endeffectorPivotConfig = new TalonFXConfiguration();
           endeffectorPivotConfig.Slot0.kG = 0.0; // Volts to overcome gravity
-          endeffectorPivotConfig.Slot0.kS = 0.4; // Volts to overcome static friction
+          endeffectorPivotConfig.Slot0.kS = 0.0; // Volts to overcome static friction
           endeffectorPivotConfig.Slot0.kV = 0.001; // Volts for a velocity target of 1 rps
           endeffectorPivotConfig.Slot0.kA = 0.001; // Volts for an acceleration of 1 rps/s
           endeffectorPivotConfig.Slot0.kP = 40;//
           endeffectorPivotConfig.Slot0.kI = 0.00001; //
           endeffectorPivotConfig.Slot0.kV = 0.12; //
           endeffectorPivotConfig.Slot0.kD = 0.05; //
-          endeffectorPivotConfig.CurrentLimits.SupplyCurrentLimit = 30.0 / 10;//
-          endeffectorPivotConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = .05;        
-          endeffectorPivotConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .05;
-          endeffectorPivotConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .05;
-          endeffectorPivotConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .05;
-          endeffectorPivotConfig.MotionMagic.MotionMagicCruiseVelocity = 350 / 100 * 2; //stolen from 3255
-          endeffectorPivotConfig.MotionMagic.MotionMagicAcceleration = 2500 / 100 * 2; //also stolen from 3255
+          endeffectorPivotConfig.CurrentLimits.SupplyCurrentLimit = 30.0 / 5;//
+          endeffectorPivotConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = .02;        
+          endeffectorPivotConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .02;
+          endeffectorPivotConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .02;
+          endeffectorPivotConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .02;
+          endeffectorPivotConfig.MotionMagic.MotionMagicCruiseVelocity = 7; //stolen from 3255
+          endeffectorPivotConfig.MotionMagic.MotionMagicAcceleration = 20; //also stolen from 3255
+          endeffectorPivotConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
           /*endeffectorPivotConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
           endeffectorPivotConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
           endeffectorPivotConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 20;
@@ -278,16 +279,16 @@ public final class Constants
 
         public static TalonFXConfiguration getIntakeWheelsConfiguration(){
           TalonFXConfiguration intakeWheelsConfig = new TalonFXConfiguration();
-          intakeWheelsConfig.Slot0.kG = 0.3; // Volts to overcome gravity
-          intakeWheelsConfig.Slot0.kS = 0.4; // Volts to overcome static friction
+          intakeWheelsConfig.Slot0.kG = 0.0; // Volts to overcome gravity
+          intakeWheelsConfig.Slot0.kS = 0.0; // Volts to overcome static friction
           intakeWheelsConfig.Slot0.kV = 0.001; // Volts for a velocity target of 1 rps
           intakeWheelsConfig.Slot0.kA = 0.001; // Volts for an acceleration of 1 rps/s
           intakeWheelsConfig.Slot0.kP = 30;//
           intakeWheelsConfig.Slot0.kI = 0.01; //
-          intakeWheelsConfig.Slot0.kV = 0.12; //
+          intakeWheelsConfig.Slot0.kV = 0.001; //
           intakeWheelsConfig.Slot0.kD = 0.00001; //
-          intakeWheelsConfig.CurrentLimits.SupplyCurrentLimit = 30.0 / 2;//
-          intakeWheelsConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = .3;        
+          intakeWheelsConfig.CurrentLimits.SupplyCurrentLimit = 20;//
+          intakeWheelsConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = .2;        
           intakeWheelsConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .08;
           intakeWheelsConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .08;
           intakeWheelsConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .08;
@@ -307,7 +308,7 @@ public final class Constants
           endeffectorWheelsConfig.Slot0.kV = 0.12; //
           endeffectorWheelsConfig.Slot0.kD = 0.00001; //
           endeffectorWheelsConfig.CurrentLimits.SupplyCurrentLimit = 30.0 / 2;//
-          endeffectorWheelsConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = .08;        
+          endeffectorWheelsConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = .3;        
           endeffectorWheelsConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .08;
           endeffectorWheelsConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .08;
           endeffectorWheelsConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .08;

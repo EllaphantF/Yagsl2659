@@ -452,6 +452,11 @@ public class SwerveSubsystem extends SubsystemBase
    * @param selectPose
    * @return
    */
+
+   public Command driveTo1(){
+    return new SequentialCommandGroup(driveToPose(getPrescorePose(1)), driveToTargetPosePID(getScorePose(1)));
+   }
+
   public Pose2d getScorePose(double selectPose)
     {Pose2d scoreDrivePose = Constants.ReefScoringLocations.getScorePose(isRedAlliance(),selectPose); 
      /*Pose2d scoreDrivePose = getPose(); 

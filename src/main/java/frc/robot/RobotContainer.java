@@ -15,6 +15,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 //import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotBase;
 //import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -30,6 +31,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 //import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 //import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -54,6 +56,7 @@ public class RobotContainer
   // Replace with CommandPS4Controller or CommandJoystick if needed
   final         CommandXboxController driverXbox = new CommandXboxController(0);
   final         CommandXboxController operatorXbox = new CommandXboxController(1);
+  final         CommandXboxController       buttonBox = new CommandXboxController(2);
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem       drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                                 //"swerve/neo"));
@@ -92,7 +95,7 @@ public class RobotContainer
                                                                 () -> driverXbox.getLeftY() * -1,
                                                                 () -> driverXbox.getLeftX() * -1)//
                                                           //.withControllerRotationAxis(driverXbox::getRightX)
-                                                            .withControllerRotationAxis(() -> driverXbox.getRightX()*-1) //BVN 1-26-25 - added negative to reverse the rotation input, removed 2/3
+                                                            .withControllerRotationAxis(() -> driverXbox.getRightX()*1) //BVN 1-26-25 - added negative to reverse the rotation input, removed 2/3
                                                             .deadband(OperatorConstants.DEADBAND)
                                                             .scaleTranslation(0.8)
                                                             .allianceRelativeControl(true);
@@ -155,6 +158,7 @@ public class RobotContainer
    */
   public RobotContainer()
   {
+    // buttonBox = new ButtonBox();
     // Configure the trigger bindings
     configureBindings();
   }
@@ -243,10 +247,25 @@ public class RobotContainer
       driverXbox.a().onTrue(new InstantCommand(() -> superstructure.intake()));
       driverXbox.b().whileTrue(new InstantCommand(() -> superstructure.testReleaseCoral()).repeatedly());
       driverXbox.b().onFalse(new InstantCommand(() -> superstructure.testUnreleaseCoral()));
+      driverXbox.povDown().onTrue(new InstantCommand( () -> superstructure.updateElevatorConfigsFromSD()));
       
       
       operatorXbox.a().onTrue(Commands.runOnce(superstructure::intake));
       operatorXbox.b().onTrue(Commands.runOnce(superstructure::stow));
+
+      buttonBox.button(1).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 7)));
+      buttonBox.button(2).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 8)));
+      buttonBox.button(3).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 2)));
+      buttonBox.button(4).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 1)));
+      buttonBox.button(5).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 11)));
+      buttonBox.button(6).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 12)));
+      buttonBox.leftTrigger(.5).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 3)));
+      buttonBox.rightTrigger(.5).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 4)));
+      buttonBox.button(9).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 6)));
+      buttonBox.button(10).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 5)));
+      buttonBox.povRight().onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 9)));
+      buttonBox.povLeft().onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 10)));
+      // operatorXbox.x().onTrue(Commands.runOnce(superstructure::))
 
       //UNCOMMENT ALL OF THIS
       /*driverXbox.leftBumper().whileTrue(visionIntake());

@@ -167,6 +167,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
     double kD = elevatorConfig.Slot0.kD;
     double kI = elevatorConfig.Slot0.kI;
     double kG = elevatorConfig.Slot0.kG;
+    double kS = elevatorConfig.Slot0.kS;
     double motionMagicVelocity = elevatorConfig.MotionMagic.MotionMagicCruiseVelocity;
     double motionMagicAcceleration = elevatorConfig.MotionMagic.MotionMagicAcceleration;
 
@@ -178,7 +179,9 @@ public class SuperstructureSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("TEST kI",SmartDashboard.getNumber("TEST kI", kI));
     kI = SmartDashboard.getNumber("TEST kI", kI);    
     SmartDashboard.putNumber("TEST kG",SmartDashboard.getNumber("TEST kG", kG));
-    kP = SmartDashboard.getNumber("TEST kG", kG);
+    kG = SmartDashboard.getNumber("TEST kG", kG);
+    SmartDashboard.putNumber("TEST kS",SmartDashboard.getNumber("TEST kS", kS));
+    kS = SmartDashboard.getNumber("TEST kS", kS);
     SmartDashboard.putNumber("TEST Vel",SmartDashboard.getNumber("TEST Vel", motionMagicVelocity));
     motionMagicVelocity = SmartDashboard.getNumber("TEST Vel", motionMagicVelocity);
     SmartDashboard.putNumber("TEST Accel",SmartDashboard.getNumber("TEST Accel", motionMagicAcceleration));
@@ -274,10 +277,10 @@ public class SuperstructureSubsystem extends SubsystemBase {
 
   public void intaking(){
     hasCoral = true; //temporary for testing 2/19/2025
-    setEndeffectorWheelSpeed(4);
-    setIntakeWheelSpeed(6);
-    setFunnelWheelSpeed(10);
-    if (mEndeffectorRollers.getStatorCurrent().getValueAsDouble() > 14){
+    setEndeffectorWheelSpeed(5);
+    setIntakeWheelSpeed(24);
+    setFunnelWheelSpeed(-8);
+    if (mEndeffectorRollers.getSupplyCurrent().getValueAsDouble() > 15){
       setEndeffectorHold();
       setIntakeWheelSpeed(0);
       setFunnelWheelSpeed(0);
@@ -297,12 +300,16 @@ public class SuperstructureSubsystem extends SubsystemBase {
   }
 
   public void setIntakeWheelSpeed(double wheelSpeed){
-    mIntakeWheels.setControl(new VelocityVoltage(wheelSpeed));
+    
     if(RobotBase.isSimulation()) m_IntakeWheels.setAngle(m_IntakeWheels.getAngle()+10);
-  }
+  
+    if(wheelSpeed == 0) {mIntakeWheels.setControl(new VoltageOut(0));}
+    else{
+      mIntakeWheels.setControl(new VelocityVoltage(wheelSpeed));
+    }}
 
   public void setFunnelWheelSpeed(double wheelSpeed){
-    mFunnelWheels.setControl(new VelocityVoltage(wheelSpeed));
+    mFunnelWheels.setControl(new VoltageOut(wheelSpeed));
     if(RobotBase.isSimulation()) m_FunnelWheels.setAngle(m_FunnelWheels.getAngle()+10);
   }
 
@@ -435,7 +442,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public void testReleaseCoral(){
     mEndeffectorRollers.setControl(new VoltageOut(4));
     releaseTimer++;
-    if(releaseTimer > 30) {
+    if(releaseTimer > 40 && mEndeffectorRollers.getSupplyCurrent().getValueAsDouble() < 7){
       releaseTimer = 0;
       hasCoral = false;
     }
@@ -623,4 +630,5 @@ private void simulateMotorMotionFeedback() {
     m_IntakeWheels.setAngle(mIntakeWheels.getPosition().getValueAsDouble());
     m_FunnelWheels.setAngle(mFunnelWheels.getPosition().getValueAsDouble());
   }
+
 }
