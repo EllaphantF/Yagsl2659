@@ -95,7 +95,7 @@ public class RobotContainer
                                                                 () -> driverXbox.getLeftY() * -1,
                                                                 () -> driverXbox.getLeftX() * -1)//
                                                           //.withControllerRotationAxis(driverXbox::getRightX)
-                                                            .withControllerRotationAxis(() -> driverXbox.getRightX()*1) //BVN 1-26-25 - added negative to reverse the rotation input, removed 2/3
+                                                            .withControllerRotationAxis(() -> driverXbox.getRightX()*-1) //BVN 1-26-25 - added negative to reverse the rotation input, removed 2/3
                                                             .deadband(OperatorConstants.DEADBAND)
                                                             .scaleTranslation(0.8)
                                                             .allianceRelativeControl(true);
@@ -190,24 +190,25 @@ public class RobotContainer
       //driverXbox.b().whileTrue(drivebase.sysIdDriveMotorCommand());
       //driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
       //driverXbox.y().whileTrue(drivebase.driveToDistanceCommand(1.0, 0.2));
-      //driverXbox.start().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+      driverXbox.start().onTrue((Commands.runOnce(drivebase::zeroGyro)));
       //driverXbox.back().whileTrue(drivebase.centerModulesCommand());
       //driverXbox.x().whileTrue(Commands.runOnce(superstructure::manualMotionMagicElevatorTEST,superstructure));
-      driverXbox.x().onTrue(new InstantCommand( () -> superstructure.manualUpdateTargets(-1, 0, 0)));
-      driverXbox.y().onTrue(new InstantCommand( () -> superstructure.manualUpdateTargets(-50, 0, 0)));
+      //driverXbox.x().onTrue(new InstantCommand( () -> superstructure.manualUpdateTargets(-1, 0, 0)));
+      //driverXbox.y().onTrue(new InstantCommand( () -> superstructure.manualUpdateTargets(-50, 0, 0)));
       /*driverXbox.leftBumper().whileTrue(drivebase.driveToPose(
         new Pose2d(new Translation2d(3.5 ,3.5),Rotation2d.fromDegrees(30))));
       driverXbox.rightBumper().whileTrue(drivebase.driveToPose(
         new Pose2d(new Translation2d(3,3),Rotation2d.fromDegrees(0))));*/
     } else
     {
-      driverXbox.povLeft().onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", SmartDashboard.getNumber("Select Scoring Location",0)-.5)));
-      driverXbox.povRight().onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", SmartDashboard.getNumber("Select Scoring Location",0)+.5)));
+      // driverXbox.povLeft().onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", SmartDashboard.getNumber("Select Scoring Location",0)-.5)));
+      //driverXbox.povRight().onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", SmartDashboard.getNumber("Select Scoring Location",0)+.5)));
 
-      //driverXbox.start().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+      driverXbox.povLeft().onTrue((Commands.runOnce(drivebase::zeroGyro)));
       //driverXbox.back().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
       //driverXbox.b().whileTrue(drivebase.driveToPose(new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0))));
       
+
       // driverXbox.y().whileTrue(drivebase.aimAtSpeaker(2));
       //driverXbox.start().whileTrue(Commands.none());
       //driverXbox.start().whileTrue(Commands.runOnce(() -> drivebase.resetOdometry(new Pose2d(new Translation2d(5,5),new Rotation2d(0)))));
@@ -237,6 +238,7 @@ public class RobotContainer
 //      driverXbox.rightBumper().whileTrue(autoScoreSequenceCommand()); //running this one in robot periodic constantly updates the path to the pose 
 
       //driverXbox.rightBumper().whileTrue(new InstantCommand(() -> drivebase.autoDriveToReef()));
+      /*
       driverXbox.leftBumper().onTrue(new InstantCommand(() -> superstructure.setCoralLevel(1.)));
       driverXbox.back().onTrue(new InstantCommand(() -> superstructure.setCoralLevel(2.)));
       driverXbox.start().onTrue(new InstantCommand(() -> superstructure.setCoralLevel(3.)));
@@ -248,10 +250,24 @@ public class RobotContainer
       driverXbox.b().whileTrue(new InstantCommand(() -> superstructure.testReleaseCoral()).repeatedly());
       driverXbox.b().onFalse(new InstantCommand(() -> superstructure.testUnreleaseCoral()));
       driverXbox.povDown().onTrue(new InstantCommand( () -> superstructure.updateElevatorConfigsFromSD()));
+      driverXbox.povRight().whileTrue(new InstantCommand( () -> superstructure.spit()).repeatedly());*/
+
+      operatorXbox.leftBumper().onTrue(new InstantCommand(() -> superstructure.setCoralLevel(1.)));
+      operatorXbox.back().onTrue(new InstantCommand(() -> superstructure.setCoralLevel(2.)));
+      operatorXbox.start().onTrue(new InstantCommand(() -> superstructure.setCoralLevel(3.)));
+      operatorXbox.rightBumper().onTrue(new InstantCommand(() -> superstructure.setCoralLevel(4.)));
+      //operatorXbox.b().onTrue(new InstantCommand(() -> superstructure.);
+      operatorXbox.y().onTrue(new InstantCommand(() -> superstructure.startLifting()));
+      operatorXbox.x().onTrue(new InstantCommand(() -> superstructure.goHome()));
+      operatorXbox.a().onTrue(new InstantCommand(() -> superstructure.intake()));
+      operatorXbox.b().whileTrue(new InstantCommand(() -> superstructure.releaseCoral()).repeatedly());
+      operatorXbox.b().onFalse(new InstantCommand(() -> superstructure.ureleaseCoral()));
+      operatorXbox.povDown().onTrue(new InstantCommand( () -> superstructure.updateElevatorConfigsFromSD()));
+      operatorXbox.povRight().whileTrue(new InstantCommand( () -> superstructure.spit()).repeatedly());
       
       
-      operatorXbox.a().onTrue(Commands.runOnce(superstructure::intake));
-      operatorXbox.b().onTrue(Commands.runOnce(superstructure::stow));
+      //operatorXbox.a().onTrue(Commands.runOnce(superstructure::intake));
+      //operatorXbox.b().onTrue(Commands.runOnce(superstructure::stow));
 
       buttonBox.button(1).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 7)));
       buttonBox.button(2).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 8)));
@@ -268,15 +284,15 @@ public class RobotContainer
       // operatorXbox.x().onTrue(Commands.runOnce(superstructure::))
 
       //UNCOMMENT ALL OF THIS
-      /*driverXbox.leftBumper().whileTrue(visionIntake());
+      //driverXbox.leftBumper().whileTrue(visionIntake());
 
       // Bind the Xbox button to the getScoreSequenceCommand
-      driverXbox.rightBumper().whileTrue(new StartEndCommand(
+      driverXbox.rightTrigger(.5).whileTrue(new StartEndCommand(
           () -> getScoreSequenceCommand().schedule(),
           () -> getScoreSequenceCommand().cancel()
           ));
-      driverXbox.rightBumper().onFalse(Commands.runOnce(() -> CommandScheduler.getInstance().cancelAll())); //this seems to work, but might cancel other commands? Drive seems to work fine after this is called
-      */    //
+      driverXbox.rightTrigger(.5).onFalse(Commands.runOnce(() -> CommandScheduler.getInstance().cancelAll())); //this seems to work, but might cancel other commands? Drive seems to work fine after this is called
+         //
 
 
       //driverXbox.rightBumper().whileFalse(new InstantCommand(() -> getScoreSequenceCommand().cancel()));

@@ -297,9 +297,9 @@ public class Vision
     /**
      * Right Camera
      */
-    RIGHT_CAM("Arducam_Camera_Right",//"right",
-              new Rotation3d(0, 20*Math.PI / 180, Math.PI - Math.PI),
-              new Translation3d(0.311, 0.111, .4064), //from Encore //krobottocamera
+    RIGHT_CAM("REEF",//"right",
+              new Rotation3d(0, -18*Math.PI / 180, 0),
+              new Translation3d(0.0634-.3, 0.0, .926), //from Encore //krobottocamera
               VecBuilder.fill(5, 5, 80), VecBuilder.fill(1, 1, 10))//,
               
     /**
