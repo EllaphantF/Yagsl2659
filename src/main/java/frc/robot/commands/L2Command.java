@@ -12,8 +12,9 @@ public class L2Command extends Command {
     @Override
     public void initialize() {
         if(structure.hasCoral = true){
+         
+        structure.setCoralLevel(2.0);
         structure.startLifting();
-        structure.liftL2();
         }
     }
     @Override

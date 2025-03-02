@@ -11,9 +11,9 @@ public class L4Command extends Command {
 
     @Override
     public void initialize() {
-        if(structure.hasCoral = true){
-        structure.startLifting();
-        structure.liftL4();
+        if(structure.hasCoral = true){ 
+            structure.setCoralLevel(4.0);
+            structure.startLifting();
         }
     }
     @Override

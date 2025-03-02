@@ -56,6 +56,9 @@ public class RobotContainer
   // Replace with CommandPS4Controller or CommandJoystick if needed
   final         CommandXboxController driverXbox = new CommandXboxController(0);
   final         CommandXboxController operatorXbox = new CommandXboxController(1);
+  final         CommandJoystick buttonBox1 = new CommandJoystick(2);
+  final         CommandJoystick buttonBox2 = new CommandJoystick(3);
+  
   final         CommandXboxController       buttonBox = new CommandXboxController(2);
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem       drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
@@ -201,10 +204,13 @@ public class RobotContainer
         new Pose2d(new Translation2d(3,3),Rotation2d.fromDegrees(0))));*/
     } else
     {
-      // driverXbox.povLeft().onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", SmartDashboard.getNumber("Select Scoring Location",0)-.5)));
-      //driverXbox.povRight().onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", SmartDashboard.getNumber("Select Scoring Location",0)+.5)));
+      driverXbox.povLeft().onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", SmartDashboard.getNumber("Select Scoring Location",0)-.5)));
+      driverXbox.povRight().onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", SmartDashboard.getNumber("Select Scoring Location",0)+.5)));
 
       driverXbox.povLeft().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+      driverXbox.b().whileTrue(new InstantCommand(() -> superstructure.releaseCoral()).repeatedly());
+      driverXbox.b().onFalse(new InstantCommand(() -> superstructure.ureleaseCoral()));
+
       //driverXbox.back().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
       //driverXbox.b().whileTrue(drivebase.driveToPose(new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0))));
       
@@ -269,6 +275,35 @@ public class RobotContainer
       //operatorXbox.a().onTrue(Commands.runOnce(superstructure::intake));
       //operatorXbox.b().onTrue(Commands.runOnce(superstructure::stow));
 
+      buttonBox1.button(1).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 12)));
+      buttonBox1.button(2).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 1)));
+      buttonBox1.button(3).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 2)));
+      buttonBox1.button(4).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Loction", 3)));
+      buttonBox1.button(5).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 4)));
+      buttonBox1.button(6).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 5)));
+      buttonBox1.button(7).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 6)));
+      buttonBox1.button(8).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 7)));
+      buttonBox1.button(9).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 8)));
+      buttonBox1.button(10).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 9)));
+      buttonBox1.button(11).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 10)));
+      buttonBox1.button(12).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 11)));
+
+
+      
+      buttonBox2.button(1).onTrue(new InstantCommand( () -> superstructure.setCoralLevel(1.0)));
+      buttonBox2.button(2).onTrue(new InstantCommand( () -> superstructure.setCoralLevel(2.0)));
+      buttonBox2.button(3).onTrue(new InstantCommand( () -> superstructure.setCoralLevel(3.0)));
+      buttonBox2.button(4).onTrue(new InstantCommand( () -> superstructure.setCoralLevel(4.0)));
+
+      buttonBox2.button(5).onTrue(new InstantCommand( () -> superstructure.clearAlgae(2.)));
+      buttonBox2.button(6).onTrue(new InstantCommand( () -> superstructure.clearAlgae(3.)));
+      buttonBox2.button(7).onTrue(new InstantCommand( () -> superstructure.intake()));
+      buttonBox2.button(8).onTrue(new InstantCommand( () -> superstructure.goHome()));
+      buttonBox2.button(9).whileTrue(new InstantCommand( () -> superstructure.spit()).repeatedly());
+      buttonBox2.button(10).onTrue(new InstantCommand(() -> superstructure.startLifting()));
+
+/*
+
       buttonBox.button(1).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 7)));
       buttonBox.button(2).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 8)));
       buttonBox.button(3).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 2)));
@@ -280,7 +315,7 @@ public class RobotContainer
       buttonBox.button(9).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 6)));
       buttonBox.button(10).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 5)));
       buttonBox.povRight().onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 9)));
-      buttonBox.povLeft().onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 10)));
+      buttonBox.povLeft().onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 10)));*/
       // operatorXbox.x().onTrue(Commands.runOnce(superstructure::))
 
       //UNCOMMENT ALL OF THIS

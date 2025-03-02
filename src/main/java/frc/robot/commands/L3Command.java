@@ -11,10 +11,9 @@ public class L3Command extends Command {
 
     @Override
     public void initialize() {
-        if(structure.hasCoral = true){
-        structure.startLifting();
-        structure.liftL3();
-        }
+        if(structure.hasCoral = true){ 
+            structure.setCoralLevel(3.0);
+            structure.startLifting();}
     }
     @Override
     public void execute() {

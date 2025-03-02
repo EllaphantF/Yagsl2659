@@ -28,6 +28,7 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.controls.compound.Diff_MotionMagicVoltage_Position;
 import com.ctre.phoenix6.controls.compound.Diff_PositionVoltage_Position;
+import com.ctre.phoenix6.hardware.CANdi;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.hardware.TalonFXS;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -46,6 +47,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public final double intake = -20;
   public double sequenceState = 0;
   public double scoreLevel = 0;
+  public double algaeLevel = 0;
   public boolean hasCoral = false;
   public boolean hasAlgae = false;
   public boolean seatingCoral = false;
@@ -72,6 +74,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
   private static final TalonFX mIntakePivotRight = new TalonFX(Constants.intakePivotRightID);
   private static final TalonFX mIntakeWheels = new TalonFX(Constants.intakeWheelsID);//
   private static final TalonFX mFunnelWheels = new TalonFX(Constants.funnelWheelsID);//
+  private static final CANdi CANdi = new CANdi(25);
 
   //private final TalonFXSimState mElevatorLeftSim = new TalonFXSimState(mElevatorLeft);
   //private final TalonFXSimState mEndeffectorPivotSim = new TalonFXSimState(mEndeffectorPivot);
@@ -282,7 +285,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
     }
     else { //if the elevator is below the crossbar (i.e. wont crash the endeffector into the crossbar)    
         if(intakePos < Constants.intakeEndeffectorClearancePos){ //If intake is retracted (i.e. endeffector would hit it) 
-          TARGETSTATE = STATE.StowClearIntakeDeployed;//put the intake down and bring the elevator down with the endeffector towards the scoring side of the robot 
+          TARGETSTATE = STATE.Intake;//put the intake down and bring the elevator down with the endeffector towards the scoring side of the robot 
         }else {
           TARGETSTATE = STATE.Intake; //If the elevator is below the crossbar and the endeffector will clear the intake, go to full intake
           intakeTraversing = false;
@@ -291,16 +294,19 @@ public class SuperstructureSubsystem extends SubsystemBase {
     }
   }
 
+  
+
   public void intaking(){
     releasingCoral = false;
     hasCoral = true; //temporary for testing 2/19/2025
     if(atPosition()){
-      setEndeffectorWheelSpeed(5.5);
-      setIntakeWheelSpeed(15);
-      setFunnelWheelSpeed(-10);}
+      setEndeffectorWheelSpeed(2.);
+      setIntakeWheelSpeed(13); // was 15
+      setFunnelWheelSpeed(-10);}//was -13
 
-    if (mEndeffectorRollers.getSupplyCurrent().getValueAsDouble() > 19){
-      //setEndeffectorHold();
+    //if (mEndeffectorRollers.getSupplyCurrent().getValueAsDouble() > 2 && CANdi.getS1State(true).getValueAsDouble() == 1 ){ //was 19 amps
+    if ( CANdi.getS1State(true).getValueAsDouble() == 1 ){ //was 19 amps
+        //setEndeffectorHold();
       justGotCoral();
       setIntakeWheelSpeed(0);
       setFunnelWheelSpeed(0);
@@ -405,6 +411,12 @@ public class SuperstructureSubsystem extends SubsystemBase {
     }
   }
 
+  public void clearAlgae(Double level){
+    if (level == 2) TARGETSTATE = STATE.grabAlgaeL2;
+    if (level == 3) TARGETSTATE = STATE.grabAlgaeL3;
+    setEndeffectorWheelSpeed(-5);
+  }
+
   /**
    * Sets the elevator and endeffector pivot to the pre-score position for the coral
    * @param level
@@ -444,8 +456,8 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public void justGotCoral(){
     hasCoral = true;
     seatingCoral = true;
-    mEndeffectorRollers.setPosition(3.0);
     mEndeffectorRollers.setControl(new PositionVoltage(0.0));
+    mEndeffectorRollers.setPosition(2.0);
   }
 
   public void releaseCoral(){

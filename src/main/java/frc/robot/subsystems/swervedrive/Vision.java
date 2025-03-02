@@ -288,19 +288,21 @@ public class Vision
     /**
      * Left Camera
      */
-    /*
-    LEFT_CAM("Arducam_Camera_Left",
-             new Rotation3d(0,  20*Math.PI / 180, Math.PI - Math.PI),
-             new Translation3d(0.311, -0.111, .4064),
-             VecBuilder.fill(4, 4, 8), VecBuilder.fill(0.5, 0.5, 1)), //BVN - temporarily removed left camera
-    */
+    
+    LEFT_CAM("REEF_BACK_RIGHT",
+    new Rotation3d(0, 0, 0),//new Rotation3d(0, -18*Math.PI / 180, 0),
+              
+    new Translation3d(9.5/39.4, 25.5/2/39.4, 9.5/39.4), //from Encore //krobottocamera
+    VecBuilder.fill(5, 5, 20), VecBuilder.fill(1, 1, 10)),//,
+    
     /**
      * Right Camera
      */
-    RIGHT_CAM("REEF",//"right",
-              new Rotation3d(0, -18*Math.PI / 180, 0),
-              new Translation3d(0.0634-.3, 0.0, .926), //from Encore //krobottocamera
-              VecBuilder.fill(5, 5, 80), VecBuilder.fill(1, 1, 10))//,
+    RIGHT_CAM("REEF_BACK_LEFT",//"right",
+              new Rotation3d(0, 0, 0),//new Rotation3d(0, -18*Math.PI / 180, 0),
+              
+              new Translation3d(9.5/39.4, -25.5/2/39.4, 9.5/39.4), //from Encore //krobottocamera
+              VecBuilder.fill(5, 5, 20), VecBuilder.fill(1, 1, 10))//,
               
     /**
      * Center Camera
