@@ -460,6 +460,14 @@ public class SuperstructureSubsystem extends SubsystemBase {
     mEndeffectorRollers.setPosition(2.0);
   }
 
+	public void moveCoralIn(){
+		mEndEffectorRollers.setPosition(mEndeffectorRollers.getPosition().getValueAsDouble() + 0.5);
+	}
+
+	public void moveCoralOut(){
+		mEndeffectorRollers.setPosition(mEndeffectorRollers.getPosition().getValueAsDouble() - 0.5);
+	}
+
   public void releaseCoral(){
     releasingCoral = true;
     mEndeffectorRollers.setControl(new PositionVoltage(10));
