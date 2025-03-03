@@ -270,8 +270,8 @@ public class RobotContainer
       operatorXbox.b().onFalse(new InstantCommand(() -> superstructure.ureleaseCoral()));
       operatorXbox.povDown().onTrue(new InstantCommand( () -> superstructure.updateElevatorConfigsFromSD()));
       operatorXbox.povRight().whileTrue(new InstantCommand( () -> superstructure.spit()).repeatedly());
-			operatorXbox.povLeft().whileTrue(new InstantCommand( () -> superstructure.moveCoralIn()));
-			operatorXbox.povUp().whileTrue(new InstantCommand( () -> superstructure.moveCoralOut()));
+		operatorXbox.povLeft().whileTrue(new InstantCommand( () -> superstructure.moveCoralIn()));
+		operatorXbox.povUp().whileTrue(new InstantCommand( () -> superstructure.moveCoralOut()));
       
       
       //operatorXbox.a().onTrue(Commands.runOnce(superstructure::intake));
@@ -303,8 +303,8 @@ public class RobotContainer
       buttonBox2.button(8).onTrue(new InstantCommand( () -> superstructure.goHome()));
       buttonBox2.button(9).whileTrue(new InstantCommand( () -> superstructure.spit()).repeatedly());
       buttonBox2.button(10).onTrue(new InstantCommand(() -> superstructure.startLifting()));
-			buttonBox2.button(11).onTrue(new InstantCommand( () -> superstructure.moveCoralIn()));
-			buttonBox2.button(12).onTrue(new InstantCommand( () -> superstructure.moveCoralOut()));
+		buttonBox2.button(11).onTrue(new InstantCommand( () -> superstructure.moveCoralIn()));
+		buttonBox2.button(12).onTrue(new InstantCommand( () -> superstructure.moveCoralOut()));
 
 /*
 
