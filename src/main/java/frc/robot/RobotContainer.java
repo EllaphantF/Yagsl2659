@@ -211,6 +211,17 @@ public class RobotContainer
       driverXbox.b().whileTrue(new InstantCommand(() -> superstructure.releaseCoral()).repeatedly());
       driverXbox.b().onFalse(new InstantCommand(() -> superstructure.ureleaseCoral()));
 
+      //UNCOMMENT ALL OF THIS
+      driverXbox.leftBumper().onTrue(new InstantCommand(() -> superstructure.intake()));
+      driverXbox.leftBumper().whileTrue(visionIntake());
+
+      // Bind the Xbox button to the getScoreSequenceCommand
+      driverXbox.rightTrigger(.5).whileTrue(new StartEndCommand(
+          () -> getScoreSequenceCommand(true).schedule(),
+          () -> CommandScheduler.getInstance().cancelAll()
+          ));
+      driverXbox.rightTrigger(.5).onFalse(Commands.runOnce(() -> CommandScheduler.getInstance().cancelAll())); //this seems to work, but might cancel other commands? Drive seems to work fine after this is called
+         //
       //driverXbox.back().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
       //driverXbox.b().whileTrue(drivebase.driveToPose(new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0))));
       
@@ -270,7 +281,8 @@ public class RobotContainer
       operatorXbox.b().onFalse(new InstantCommand(() -> superstructure.ureleaseCoral()));
       operatorXbox.povDown().onTrue(new InstantCommand( () -> superstructure.updateElevatorConfigsFromSD()));
       operatorXbox.povRight().whileTrue(new InstantCommand( () -> superstructure.spit()).repeatedly());
-      
+      operatorXbox.povLeft().onTrue(new InstantCommand( () -> superstructure.moveCoralIn()));
+      operatorXbox.povUp().onTrue(new InstantCommand( () -> superstructure.moveCoralOut()));
       
       //operatorXbox.a().onTrue(Commands.runOnce(superstructure::intake));
       //operatorXbox.b().onTrue(Commands.runOnce(superstructure::stow));
@@ -298,6 +310,7 @@ public class RobotContainer
       buttonBox2.button(5).onTrue(new InstantCommand( () -> superstructure.clearAlgae(2.)));
       buttonBox2.button(6).onTrue(new InstantCommand( () -> superstructure.clearAlgae(3.)));
       buttonBox2.button(7).onTrue(new InstantCommand( () -> superstructure.intake()));
+      // buttonBox2.button(7).onTrue(new InstantCommand( () -> superstructure.stayIntaking()));
       buttonBox2.button(8).onTrue(new InstantCommand( () -> superstructure.goHome()));
       buttonBox2.button(9).whileTrue(new InstantCommand( () -> superstructure.spit()).repeatedly());
       buttonBox2.button(10).onTrue(new InstantCommand(() -> superstructure.startLifting()));
@@ -318,16 +331,6 @@ public class RobotContainer
       buttonBox.povLeft().onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 10)));*/
       // operatorXbox.x().onTrue(Commands.runOnce(superstructure::))
 
-      //UNCOMMENT ALL OF THIS
-      //driverXbox.leftBumper().whileTrue(visionIntake());
-
-      // Bind the Xbox button to the getScoreSequenceCommand
-      driverXbox.rightTrigger(.5).whileTrue(new StartEndCommand(
-          () -> getScoreSequenceCommand().schedule(),
-          () -> getScoreSequenceCommand().cancel()
-          ));
-      driverXbox.rightTrigger(.5).onFalse(Commands.runOnce(() -> CommandScheduler.getInstance().cancelAll())); //this seems to work, but might cancel other commands? Drive seems to work fine after this is called
-         //
 
 
       //driverXbox.rightBumper().whileFalse(new InstantCommand(() -> getScoreSequenceCommand().cancel()));
@@ -378,7 +381,12 @@ public class RobotContainer
     else return drivebase.visionIntake();
   }
 
-  public Command getScoreSequenceCommand(){
+  /**
+   * 
+   * @param withAutoRelease whether or not the robot should autorelease once it's at position
+   * @return
+   */
+  public Command getScoreSequenceCommand(boolean withAutoRelease){
     double selectPose = SmartDashboard.getNumber("Select Scoring Location",0);
     Pose2d prescoreDrivePose = drivebase.getPrescorePose(selectPose);
     Pose2d scoreDrivePose = drivebase.getScorePose(selectPose);
@@ -389,10 +397,15 @@ public class RobotContainer
     //Command driveToPrescore = drivebase.driveToTargetPosePID(prescoreDrivePose);
     Command driveToScore = drivebase.driveToTargetPosePID(scoreDrivePose);
     Command superStructureScore = new InstantCommand(() -> superstructure.startLifting());
+    Command release = new InstantCommand(() -> superstructure.releaseCoral());
     //return  (new SequentialCommandGroup(selectReefPoses,driveToPrescore,driveToScore));*/
     //Command driveToPrescore = drivebase.driveToTargetPosePID(drivebase.getPrescorePose(SmartDashboard.getNumber("Select Scoring Location",0)));
     //Command driveToScore = drivebase.driveToTargetPosePID(drivebase.getScorePose(SmartDashboard.getNumber("Select Scoring Location",0)));
-    Command autoScoreSequence = new SequentialCommandGroup(driveToPrescore, superStructureScore, driveToScore);
+    Command autoScoreSequence = Commands.none();
+    if(!withAutoRelease){
+      autoScoreSequence = new SequentialCommandGroup(driveToPrescore, superStructureScore, driveToScore);}
+    else{
+      autoScoreSequence = new SequentialCommandGroup(driveToPrescore, superStructureScore, driveToScore, release);}
     
     return autoScoreSequence;
   }

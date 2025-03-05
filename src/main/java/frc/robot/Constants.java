@@ -42,7 +42,7 @@ public final class Constants
   // Maximum speed of the robot in meters per second, used to limit acceleration.
 
   public static final double scoringPositionTolerance = 0.1; // Scoring position tolerance for superstructure
-  public static final double positionTolerance = 0.2; // general position tolerance for superstructure
+  public static final double positionTolerance = 0.3; // general position tolerance for superstructure
 //  public static final class AutonConstants
 //  {
 //
@@ -119,12 +119,12 @@ public final class Constants
       public static   final Pose2d  BLUE_11      = new Pose2d( 6.119, 4.187,   Rotation2d.fromDegrees( 	180 	)); 
       public static   final Pose2d  BLUE_10      = new Pose2d( 5.452, 5.343,   Rotation2d.fromDegrees(  -120          ));  
       public static   final Pose2d  BLUE_9	       = new Pose2d( 5.166, 5.527,   Rotation2d.fromDegrees(  -120          ));  
-      public static   final Pose2d  BLUE_8	       = new Pose2d( 3.826, 5.508,   Rotation2d.fromDegrees(  	-60	         ));  
-      public static   final Pose2d  BLUE_7	       = new Pose2d( 3.534, 5.368,   Rotation2d.fromDegrees(  	-60	         ));  
-      public static   final Pose2d  BLUE_6	       = new Pose2d( 2.860, 4.187,   Rotation2d.fromDegrees( 	0	   )); 
-      public static   final Pose2d  BLUE_5	       = new Pose2d( 2.860, 3.857,   Rotation2d.fromDegrees( 	0 	  )); 
-      public static   final Pose2d  BLUE_4	       = new Pose2d( 3.527, 2.694,   Rotation2d.fromDegrees( 	60 	)); 
-      public static   final Pose2d  BLUE_3	       = new Pose2d( 3.813, 2.535,   Rotation2d.fromDegrees( 	60 	)); 
+      public static   final Pose2d  BLUE_8	       = new Pose2d( 3.870, 5.462,   Rotation2d.fromDegrees(  	-60	         )); //adjusted 3-4-25 
+      public static   final Pose2d  BLUE_7	       = new Pose2d( 3.617, 5.192,   Rotation2d.fromDegrees(  	-60	         ));  //adjusted 3-4-25
+      public static   final Pose2d  BLUE_6	       = new Pose2d( 3.080, 4.23,    Rotation2d.fromDegrees( 	0	   )); //adjusted 3-4-25
+      public static   final Pose2d  BLUE_5	       = new Pose2d( 3.080, 3.90,    Rotation2d.fromDegrees( 	0 	  )); //adjusted 3-4-25
+      public static   final Pose2d  BLUE_4	       = new Pose2d( 3.626, 2.880,   Rotation2d.fromDegrees( 	60 	)); //adjusted 3-4-25
+      public static   final Pose2d  BLUE_3	       = new Pose2d( 3.970, 2.733,   Rotation2d.fromDegrees( 	60 	)); //adjusted 3-4-25
       public static   final Pose2d  BLUE_2	       = new Pose2d( 5.160, 2.529,   Rotation2d.fromDegrees( 	120 	)); 
       public static   final Pose2d  BLUE_1	       = new Pose2d( 5.445, 2.694,   Rotation2d.fromDegrees( 	120 	)); 
 
@@ -219,14 +219,14 @@ public final class Constants
           elevatorConfigLeft.Slot0.kI = 0.00001; //
           elevatorConfigLeft.Slot0.kD = 0.01; //
           
-          elevatorConfigLeft.CurrentLimits.SupplyCurrentLimit = 25;//was 20
+          elevatorConfigLeft.CurrentLimits.SupplyCurrentLimit = 15;//was 20
           elevatorConfigLeft.OpenLoopRamps.VoltageOpenLoopRampPeriod = .02;
           elevatorConfigLeft.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .02;
           elevatorConfigLeft.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .02;
           elevatorConfigLeft.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .02;
 
-          elevatorConfigLeft.MotionMagic.MotionMagicCruiseVelocity = 80/2; //100 was smooth, 200 is faster than kraken max 100
-          elevatorConfigLeft.MotionMagic.MotionMagicAcceleration = 250/2;// 80 was good, 200 zippy
+          elevatorConfigLeft.MotionMagic.MotionMagicCruiseVelocity = 80; //100 was smooth, 200 is faster than kraken max 100
+          elevatorConfigLeft.MotionMagic.MotionMagicAcceleration = 250;// 80 was good, 200 zippy
 
           elevatorConfigLeft.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
           elevatorConfigLeft.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
@@ -266,15 +266,15 @@ public final class Constants
 
           endeffectorPivotConfig.Slot0.kP = 20;//
           endeffectorPivotConfig.Slot0.kI = 0.00001; //
-          endeffectorPivotConfig.Slot0.kD = 0.05; //
+          endeffectorPivotConfig.Slot0.kD = 0.2; //
 
-          endeffectorPivotConfig.CurrentLimits.SupplyCurrentLimit = 8;//
+          endeffectorPivotConfig.CurrentLimits.SupplyCurrentLimit = 10;//
           endeffectorPivotConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = .02;        
           endeffectorPivotConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .02;
           endeffectorPivotConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .02;
           endeffectorPivotConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .02;
-          endeffectorPivotConfig.MotionMagic.MotionMagicCruiseVelocity = 80/3; //20 was smooth
-          endeffectorPivotConfig.MotionMagic.MotionMagicAcceleration = 150/3; //50 was smooth
+          endeffectorPivotConfig.MotionMagic.MotionMagicCruiseVelocity = 80; //20 was smooth
+          endeffectorPivotConfig.MotionMagic.MotionMagicAcceleration = 150; //50 was smooth
           endeffectorPivotConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
           /*endeffectorPivotConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
           endeffectorPivotConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
@@ -310,36 +310,35 @@ public final class Constants
           endeffectorWheelsConfig.Slot0.kS = 0.0; // Volts to overcome static friction
           endeffectorWheelsConfig.Slot0.kA = 0.001; // Volts for an acceleration of 1 rps/s
           endeffectorWheelsConfig.Slot0.kP = 5;//
-          endeffectorWheelsConfig.Slot0.kI = 0.01; //
+//          endeffectorWheelsConfig.Slot0.kI = 0.01; //
           endeffectorWheelsConfig.Slot0.kV = 0.12; //
           endeffectorWheelsConfig.Slot0.kD = 0.01; //
           endeffectorWheelsConfig.CurrentLimits.SupplyCurrentLimit = 20;//
-          endeffectorWheelsConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = .2;        
-          endeffectorWheelsConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .2;
-          endeffectorWheelsConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .2;
-          endeffectorWheelsConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .2;
-          endeffectorWheelsConfig.MotionMagic.MotionMagicCruiseVelocity = 50; //stolen from 3255
-          endeffectorWheelsConfig.MotionMagic.MotionMagicAcceleration = 50; //also stolen from 3255
+          endeffectorWheelsConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = .04;        
+          endeffectorWheelsConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .04;
+          endeffectorWheelsConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .04;
+          endeffectorWheelsConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .04;
+          endeffectorWheelsConfig.MotionMagic.MotionMagicCruiseVelocity = 25; //
+          endeffectorWheelsConfig.MotionMagic.MotionMagicAcceleration = 100; //
           return endeffectorWheelsConfig;
         }
 
         public static TalonFXConfiguration getFunnelWheelsConfiguration(){
           TalonFXConfiguration funnelConfig = new TalonFXConfiguration();
-          funnelConfig.Slot0.kG = 0.3; // Volts to overcome gravity
-          funnelConfig.Slot0.kS = 0.4; // Volts to overcome static friction
-          funnelConfig.Slot0.kV = 0.001; // Volts for a velocity target of 1 rps
+          funnelConfig.Slot0.kG = 0.0; // Volts to overcome gravity
+          funnelConfig.Slot0.kS = 0.0; // Volts to overcome static friction
           funnelConfig.Slot0.kA = 0.001; // Volts for an acceleration of 1 rps/s
-          funnelConfig.Slot0.kP = 20;//
-          funnelConfig.Slot0.kI = 0.01; //
           funnelConfig.Slot0.kV = 0.12; //
+          funnelConfig.Slot0.kP = 20;//
+          funnelConfig.Slot0.kI = 0.00; //
           funnelConfig.Slot0.kD = 0.00001; //
-          funnelConfig.CurrentLimits.SupplyCurrentLimit = 15;//was 20
-          funnelConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = .08;        
-          funnelConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .08;
-          funnelConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .08;
-          funnelConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .08;
-          funnelConfig.MotionMagic.MotionMagicCruiseVelocity = 350 / 10; //stolen from 3255, added '/10' to start slow
-          funnelConfig.MotionMagic.MotionMagicAcceleration = 2500 / 10; //also stolen from 3255, added '/10' to start slow
+          funnelConfig.CurrentLimits.SupplyCurrentLimit = 25;//was 20
+          funnelConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = .02;        
+          funnelConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .02;
+          funnelConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .02;
+          funnelConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .02;
+          funnelConfig.MotionMagic.MotionMagicCruiseVelocity = 100; //stolen from 3255, added '/10' to start slow
+          funnelConfig.MotionMagic.MotionMagicAcceleration = 100; //also stolen from 3255, added '/10' to start slow
           return funnelConfig;
         }
 

@@ -284,35 +284,43 @@ public class SuperstructureSubsystem extends SubsystemBase {
         //}
     }
     else { //if the elevator is below the crossbar (i.e. wont crash the endeffector into the crossbar)    
-        if(intakePos < Constants.intakeEndeffectorClearancePos){ //If intake is retracted (i.e. endeffector would hit it) 
+        if(true)//intakePos < Constants.intakeEndeffectorClearancePos){ //If intake is retracted (i.e. endeffector would hit it) 
           TARGETSTATE = STATE.Intake;//put the intake down and bring the elevator down with the endeffector towards the scoring side of the robot 
-        }else {
-          TARGETSTATE = STATE.Intake; //If the elevator is below the crossbar and the endeffector will clear the intake, go to full intake
+        }//else {
+          //TARGETSTATE = STATE.Intake; //If the elevator is below the crossbar and the endeffector will clear the intake, go to full intake
           intakeTraversing = false;
           intaking = true;
-        }
-    }
+        
+    
   }
 
   
 
   public void intaking(){
     releasingCoral = false;
-    hasCoral = true; //temporary for testing 2/19/2025
+    //hasCoral = true; //temporary for testing 2/19/2025
     if(atPosition()){
       setEndeffectorWheelSpeed(2.);
-      setIntakeWheelSpeed(13); // was 15
-      setFunnelWheelSpeed(-10);}//was -13
+      setIntakeWheelSpeed(18); // was 13
+      setFunnelWheelSpeed(-15);}//was -10
 
     //if (mEndeffectorRollers.getSupplyCurrent().getValueAsDouble() > 2 && CANdi.getS1State(true).getValueAsDouble() == 1 ){ //was 19 amps
     if ( CANdi.getS1State(true).getValueAsDouble() == 1 ){ //was 19 amps
         //setEndeffectorHold();
+      hasCoral = true;
       justGotCoral();
       setIntakeWheelSpeed(0);
       setFunnelWheelSpeed(0);
       intaking = false;
       stowing = true;
     }
+  }
+
+  public void stayIntaking(){
+    intaking = true;
+    setEndeffectorWheelSpeed(2);
+    setIntakeWheelSpeed(13);
+    setFunnelWheelSpeed(-10);
   }
 
   public void setEndeffectorWheelSpeed(double wheelSpeed){
@@ -460,6 +468,14 @@ public class SuperstructureSubsystem extends SubsystemBase {
     mEndeffectorRollers.setPosition(2.0);
   }
 
+  public void moveCoralIn(){
+    mEndeffectorRollers.setPosition(mEndeffectorRollers.getPosition().getValueAsDouble() + 0.1); //was 0.5, shot coral out immediately
+  }
+
+  public void moveCoralOut(){
+    mEndeffectorRollers.setPosition(mEndeffectorRollers.getPosition().getValueAsDouble() - 0.1); //was 0.5, hit the bumper and shot coral out afterwards
+  }
+
   public void releaseCoral(){
     releasingCoral = true;
     mEndeffectorRollers.setControl(new PositionVoltage(10));
@@ -600,10 +616,21 @@ public class SuperstructureSubsystem extends SubsystemBase {
   }
 
   /**
-   * Checks if the system is at the scoring position within a tolerance band set in constants
+   * Checks if the system is at the position within a tolerance band set in constants
    * @return
    */
   public boolean atPosition(){
+    if( Math.abs(elevatorPos - TARGETSTATE.elevator) < Constants.positionTolerance && Math.abs(pivotPos - TARGETSTATE.pivot) < Constants.positionTolerance){
+      return true;
+    }
+    else return false;
+  }
+
+  /**
+   * Checks if the system is at the scoring position within a tolerance band set in constants
+   * @return
+   */
+  public boolean atPositionScoring(){
     if( Math.abs(elevatorPos - TARGETSTATE.elevator) < Constants.scoringPositionTolerance && Math.abs(pivotPos - TARGETSTATE.pivot) < Constants.scoringPositionTolerance){
       return true;
     }
@@ -624,6 +651,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
     if(intaking)intaking();
     if(stowing)stow();
     if(lifting)lift();
+    if(releasingCoral)releaseCoral();
 
     updateSD();
     //MECH2d(); // Update the MECH2d ligaments in the periodic method

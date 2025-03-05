@@ -13,7 +13,12 @@ public class L3Command extends Command {
     public void initialize() {
         if(structure.hasCoral = true){ 
             structure.setCoralLevel(3.0);
-            structure.startLifting();}
+            structure.startLifting();
+            
+            if(structure.atPosition() == true && structure.sequenceState == 1){
+                structure.releaseCoral();
+                }
+        }
     }
     @Override
     public void execute() {

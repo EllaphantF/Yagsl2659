@@ -81,7 +81,7 @@ public class SwerveSubsystem extends SubsystemBase
   private double count = 0;
   public Pose2d autoDrivePose = new Pose2d(0,0,new Rotation2d(0.0));
 
-  final PhotonCamera objectCamera = new PhotonCamera("Front_Color_Camera");
+  final PhotonCamera objectCamera = new PhotonCamera("OBJECT_FRONT");
   /**
    * Swerve drive object.
    */
@@ -303,11 +303,11 @@ public class SwerveSubsystem extends SubsystemBase
                     TrapezoidProfile.Constraints xyConstraints = new Constraints(1,1);
                     //PIDController xController = new PIDController(.2, 0.0 , 0.02);
                     //PIDController yController = new PIDController(.2, 0.0 , 0.02);
-                    ProfiledPIDController xController = new ProfiledPIDController(.2, 0.0 , 0.02, xyConstraints);
-                    PIDController yController = new PIDController(.2, 0.0 , 0.02);
+                    ProfiledPIDController xController = new ProfiledPIDController(1, 0.0 , 0.05, xyConstraints);
+                    PIDController yController = new PIDController(2, 0.0 , 0.05);
 
-                    xController.setGoal(20);
-                    yController.setSetpoint(0);
+                    xController.setGoal(10);
+                    yController.setSetpoint(4);
 
                     double cameraAngleDown = 20;
                     double camerainchesOffGround = 30;
@@ -319,12 +319,15 @@ public class SwerveSubsystem extends SubsystemBase
                     
                     if (xSet > 1) xSet = 1;
                     if (xSet < -1) xSet = -1;
+
+                    xSet = xSet * 0.40;
                     //double ySet = yController.calculate(y);
-                    double ySet = y / 10;
+                    y= y - 8; //offset for camera angle
+                    double ySet = y * .4;
                     SmartDashboard.putNumber("ySetVisionIntake", ySet);
                     if (ySet > 1) ySet = 1;
                     if (ySet < -1) ySet = -1;
-                    drive(new Translation2d(-xSet, 0.0), -ySet, false);
+                    drive(new Translation2d(xSet, 0.0), -ySet, false);
                 }
             }
         });
@@ -336,9 +339,9 @@ public class SwerveSubsystem extends SubsystemBase
    */
   public Command visionIntakeSimTest(){
   
-    TrapezoidProfile.Constraints xyConstraints = new Constraints(SmartDashboard.getNumber("Max Vel PID", 2), SmartDashboard.getNumber("max Accel PID", 2));
-    ProfiledPIDController xController = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 2), SmartDashboard.getNumber("kI PID", .2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
-    ProfiledPIDController yController = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 2), SmartDashboard.getNumber("kI PID", .2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
+    TrapezoidProfile.Constraints xyConstraints = new Constraints(SmartDashboard.getNumber("Max Vel PID", 2), SmartDashboard.getNumber("max Accel PID", 1));
+    ProfiledPIDController xController = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 8), SmartDashboard.getNumber("kI PID", 3), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
+    ProfiledPIDController yController = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 8), SmartDashboard.getNumber("kI PID", 3), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
 
     return run(() -> { 
       //PhotonTrackedTarget resultO = vision.getTargetFromId(2, Cameras.RIGHT_CAM);
@@ -373,25 +376,25 @@ public class SwerveSubsystem extends SubsystemBase
   public Command driveToTargetPosePID(Pose2d targetPose)
   {
     SmartDashboard.putNumber("Max Vel PID",   SmartDashboard.getNumber("Max Vel PID", 2));
-    SmartDashboard.putNumber("max Accel PID", SmartDashboard.getNumber("max Accel PID",2));
-    SmartDashboard.putNumber("kP PID",        SmartDashboard.getNumber("kP PID", 2));
-    SmartDashboard.putNumber("kI PID",        SmartDashboard.getNumber("kI PID", .2));
+    SmartDashboard.putNumber("max Accel PID", SmartDashboard.getNumber("max Accel PID",1));
+    SmartDashboard.putNumber("kP PID",        SmartDashboard.getNumber("kP PID", 8));
+    SmartDashboard.putNumber("kI PID",        SmartDashboard.getNumber("kI PID", 5));
     SmartDashboard.putNumber("kD PID",        SmartDashboard.getNumber("kD PID", .2));
 
-    TrapezoidProfile.Constraints xyConstraints = new Constraints(SmartDashboard.getNumber("Max Vel PID", 2), SmartDashboard.getNumber("max Accel PID",2));
+    TrapezoidProfile.Constraints xyConstraints = new Constraints(SmartDashboard.getNumber("Max Vel PID", 2), SmartDashboard.getNumber("max Accel PID",1));
     //TrapezoidProfile.Constraints thetaConstraints = new Constraints(540,720);
     
-    ProfiledPIDController xcontroller = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 2), SmartDashboard.getNumber("kI PID", .2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
-    ProfiledPIDController ycontroller = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 2), SmartDashboard.getNumber("kI PID", .2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
+    ProfiledPIDController xcontroller = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 8), SmartDashboard.getNumber("kI PID", 5), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
+    ProfiledPIDController ycontroller = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 8), SmartDashboard.getNumber("kI PID", 5), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
 
     //ProfiledPIDController thetacontroller = new ProfiledPIDController(30, 0, 0, thetaConstraints);
     //thetacontroller.enableContinuousInput(-180, 180);
 
-    xcontroller.setIZone(1);
-    xcontroller.setTolerance(.05);
+    xcontroller.setIZone(.5);
+    xcontroller.setTolerance(.01);
     
-    ycontroller.setIZone(1);
-    ycontroller.setTolerance(.05);
+    ycontroller.setIZone(.5);
+    ycontroller.setTolerance(.01);
 
     BooleanSupplier atTarget = () -> (xcontroller.atGoal() && ycontroller.atSetpoint());
 
@@ -1027,6 +1030,7 @@ public class SwerveSubsystem extends SubsystemBase
     SmartDashboard.putData("Field",swerveDrive.field);
     SmartDashboard.putNumber("XPos",swerveDrive.getPose().getX());
     SmartDashboard.putNumber("YPos",swerveDrive.getPose().getY());
+    SmartDashboard.putNumber("yaw angle", swerveDrive.getPose().getRotation().getDegrees());
     
     //    SmartDashboard.putData("visionCheck", );
     //SmartDashboard.putNumber("visionDistToID2",vision.getDistanceFromAprilTag(2));
