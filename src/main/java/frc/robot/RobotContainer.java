@@ -161,6 +161,13 @@ public class RobotContainer
    */
   public RobotContainer()
   {
+	  /* Added Named Commands for Pathplanner */
+	  NamedCommands.registerCommand("Intake", new IntakeCommand(superstructure).withTimeout(3));
+    NamedCommands.registerCommand("L1", new L1Command(superstructure));
+    NamedCommands.registerCommand("L2", new L2Command(superstructure));
+    NamedCommands.registerCommand("L3", new L3Command(superstructure));
+    NamedCommands.registerCommand("L4", new L4Command(superstructure));
+    NamedCommands.registerCommand("GoHome", new GoHomeCommand(superstructure));
     // buttonBox = new ButtonBox();
     // Configure the trigger bindings
     configureBindings();
