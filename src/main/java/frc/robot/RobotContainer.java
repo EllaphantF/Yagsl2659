@@ -204,12 +204,13 @@ public class RobotContainer
         new Pose2d(new Translation2d(3,3),Rotation2d.fromDegrees(0))));*/
     } else
     {
-      driverXbox.povLeft().onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", SmartDashboard.getNumber("Select Scoring Location",0)-.5)));
-      driverXbox.povRight().onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", SmartDashboard.getNumber("Select Scoring Location",0)+.5)));
+      // driverXbox.povLeft().onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", SmartDashboard.getNumber("Select Scoring Location",0)-.5)));
+      // driverXbox.povRight().onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", SmartDashboard.getNumber("Select Scoring Location",0)+.5)));
 
       driverXbox.povLeft().onTrue((Commands.runOnce(drivebase::zeroGyro)));
       driverXbox.b().whileTrue(new InstantCommand(() -> superstructure.releaseCoral()).repeatedly());
       driverXbox.b().onFalse(new InstantCommand(() -> superstructure.ureleaseCoral()));
+      driverXbox.a().onTrue(new InstantCommand(() -> superstructure.disableManualOverride())); //3-4-25 MPF added disable manual override to intake
 
       //driverXbox.back().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
       //driverXbox.b().whileTrue(drivebase.driveToPose(new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0))));
@@ -270,8 +271,8 @@ public class RobotContainer
       operatorXbox.b().onFalse(new InstantCommand(() -> superstructure.ureleaseCoral()));
       operatorXbox.povDown().onTrue(new InstantCommand( () -> superstructure.updateElevatorConfigsFromSD()));
       operatorXbox.povRight().whileTrue(new InstantCommand( () -> superstructure.spit()).repeatedly());
-		operatorXbox.povLeft().whileTrue(new InstantCommand( () -> superstructure.moveCoralIn()));
-		operatorXbox.povUp().whileTrue(new InstantCommand( () -> superstructure.moveCoralOut()));
+		  operatorXbox.povLeft().whileTrue(new InstantCommand( () -> superstructure.moveCoralIn()));
+		  operatorXbox.povUp().whileTrue(new InstantCommand( () -> superstructure.moveCoralOut()));
       
       
       //operatorXbox.a().onTrue(Commands.runOnce(superstructure::intake));
@@ -300,11 +301,14 @@ public class RobotContainer
       buttonBox2.button(5).onTrue(new InstantCommand( () -> superstructure.clearAlgae(2.)));
       buttonBox2.button(6).onTrue(new InstantCommand( () -> superstructure.clearAlgae(3.)));
       buttonBox2.button(7).onTrue(new InstantCommand( () -> superstructure.intake()));
+
+      //3-4-25 MPF Added to intake button; Theoretically, should override intake from coming up until disabled
+      buttonBox2.button(7).debounce(2.0).onTrue(new InstantCommand( () -> superstructure.enableManualOverride())); 
       buttonBox2.button(8).onTrue(new InstantCommand( () -> superstructure.goHome()));
       buttonBox2.button(9).whileTrue(new InstantCommand( () -> superstructure.spit()).repeatedly());
       buttonBox2.button(10).onTrue(new InstantCommand(() -> superstructure.startLifting()));
-		buttonBox2.button(11).onTrue(new InstantCommand( () -> superstructure.moveCoralIn()));
-		buttonBox2.button(12).onTrue(new InstantCommand( () -> superstructure.moveCoralOut()));
+		  buttonBox2.button(11).onTrue(new InstantCommand( () -> superstructure.moveCoralIn()));
+		  buttonBox2.button(12).onTrue(new InstantCommand( () -> superstructure.moveCoralOut()));
 
 /*
 
