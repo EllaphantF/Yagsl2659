@@ -305,7 +305,8 @@ public class SuperstructureSubsystem extends SubsystemBase {
       setFunnelWheelSpeed(-15);}//was -10
 
     //if (mEndeffectorRollers.getSupplyCurrent().getValueAsDouble() > 2 && CANdi.getS1State(true).getValueAsDouble() == 1 ){ //was 19 amps
-    if ( CANdi.getS1State(true).getValueAsDouble() == 1 ){ //was 19 amps
+    if ( CANdi.getS1State(true).getValueAsDouble() == 1 && manualOverride == false){ //was 19 amps 
+      //added manualOverride boolean to allow for manual control of the intake
         //setEndeffectorHold();
       hasCoral = true;
       justGotCoral();
@@ -468,6 +469,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
     mEndeffectorRollers.setPosition(2.0);
   }
 
+<<<<<<< HEAD
   public void moveCoralIn(){
     mEndeffectorRollers.setPosition(mEndeffectorRollers.getPosition().getValueAsDouble() + 0.1); //was 0.5, shot coral out immediately
   }
@@ -475,6 +477,15 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public void moveCoralOut(){
     mEndeffectorRollers.setPosition(mEndeffectorRollers.getPosition().getValueAsDouble() - 0.1); //was 0.5, hit the bumper and shot coral out afterwards
   }
+=======
+	public void moveCoralIn(){
+		mEndeffectorRollers.setPosition(mEndeffectorRollers.getPosition().getValueAsDouble() + 0.1); //was 0.5
+	}
+
+	public void moveCoralOut(){
+		mEndeffectorRollers.setPosition(mEndeffectorRollers.getPosition().getValueAsDouble() - 0.1); //was 0.5
+	}
+>>>>>>> 57e3d9c0d80e455cc9904ca42513af889e61eba2
 
   public void releaseCoral(){
     releasingCoral = true;
