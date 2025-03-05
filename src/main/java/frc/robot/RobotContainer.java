@@ -36,11 +36,20 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.AutonScoreCommand;
+import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.L1Command;
+import frc.robot.commands.L2Command;
+import frc.robot.commands.L3Command;
+import frc.robot.commands.L4Command;
+import frc.robot.commands.VisionIntakeCommand;
 //import frc.robot.commands.*;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import frc.robot.subsystems.superstructure.SuperstructureSubsystem;
 import java.io.File;
+
+import com.pathplanner.lib.auto.NamedCommands;
 
 //import drivebase.driveToPose;
 import swervelib.SwerveInputStream;
@@ -130,7 +139,7 @@ public class RobotContainer
   // right stick controls the angular velocity of the robot
   Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
 
-  Command driveSetpointGen = drivebase.driveWithSetpointGeneratorFieldRelative(driveDirectAngle);
+  //Command driveSetpointGen = drivebase.driveWithSetpointGeneratorFieldRelative(driveDirectAngle); //BVN - commented out 254 setpoint drive 3-4-25 to try preserving memory
 
   SwerveInputStream driveAngularVelocitySim = SwerveInputStream.of(drivebase.getSwerveDrive(),
                                                                    () -> driverXbox.getLeftY(),
@@ -152,7 +161,7 @@ public class RobotContainer
 
   Command driveFieldOrientedDirectAngleSim = drivebase.driveFieldOriented(driveDirectAngleSim);
 
-  Command driveSetpointGenSim = drivebase.driveWithSetpointGeneratorFieldRelative(driveDirectAngleSim);
+  //Command driveSetpointGenSim = drivebase.driveWithSetpointGeneratorFieldRelative(driveDirectAngleSim);//BVN - commented out 254 setpoint drive 3-4-25 to try preserving memory
 
  // AutoScoreCommand AutoScoreCommand = new AutoScoreCommand(superstructure, drivebase);
 
@@ -167,7 +176,21 @@ public class RobotContainer
     NamedCommands.registerCommand("L2", new L2Command(superstructure));
     NamedCommands.registerCommand("L3", new L3Command(superstructure));
     NamedCommands.registerCommand("L4", new L4Command(superstructure));
-    NamedCommands.registerCommand("GoHome", new GoHomeCommand(superstructure));
+    //NamedCommands.registerCommand("GoHome", new GoHomeCommand(superstructure));
+	  NamedCommands.registerCommand("VisionIntake", new VisionIntakeCommand(superstructure));
+     
+    NamedCommands.registerCommand("AutonScoreCommandP1L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  1 , 4));
+    NamedCommands.registerCommand("AutonScoreCommandP2L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  2 , 4));
+    NamedCommands.registerCommand("AutonScoreCommandP3L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  3 , 4));
+    NamedCommands.registerCommand("AutonScoreCommandP4L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  4 , 4));
+    NamedCommands.registerCommand("AutonScoreCommandP5L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  5 , 4));
+    NamedCommands.registerCommand("AutonScoreCommandP6L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  6 , 4));
+    NamedCommands.registerCommand("AutonScoreCommandP7L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  7 , 4));
+    NamedCommands.registerCommand("AutonScoreCommandP8L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  8 , 4));
+    NamedCommands.registerCommand("AutonScoreCommandP9L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  9 , 4));
+    NamedCommands.registerCommand("AutonScoreCommandP10L4", new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(), 10 , 4));
+    NamedCommands.registerCommand("AutonScoreCommandP11L4", new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(), 11 , 4));
+    NamedCommands.registerCommand("AutonScoreCommandP12L4", new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(), 12 , 4));
     // buttonBox = new ButtonBox();
     // Configure the trigger bindings
     configureBindings();
@@ -289,14 +312,9 @@ public class RobotContainer
       operatorXbox.b().onFalse(new InstantCommand(() -> superstructure.ureleaseCoral()));
       operatorXbox.povDown().onTrue(new InstantCommand( () -> superstructure.updateElevatorConfigsFromSD()));
       operatorXbox.povRight().whileTrue(new InstantCommand( () -> superstructure.spit()).repeatedly());
-<<<<<<< HEAD
-      operatorXbox.povLeft().onTrue(new InstantCommand( () -> superstructure.moveCoralIn()));
-      operatorXbox.povUp().onTrue(new InstantCommand( () -> superstructure.moveCoralOut()));
-=======
 		  operatorXbox.povLeft().whileTrue(new InstantCommand( () -> superstructure.moveCoralIn()));
 		  operatorXbox.povUp().whileTrue(new InstantCommand( () -> superstructure.moveCoralOut()));
       
->>>>>>> 57e3d9c0d80e455cc9904ca42513af889e61eba2
       
       //operatorXbox.a().onTrue(Commands.runOnce(superstructure::intake));
       //operatorXbox.b().onTrue(Commands.runOnce(superstructure::stow));
@@ -324,13 +342,9 @@ public class RobotContainer
       buttonBox2.button(5).onTrue(new InstantCommand( () -> superstructure.clearAlgae(2.)));
       buttonBox2.button(6).onTrue(new InstantCommand( () -> superstructure.clearAlgae(3.)));
       buttonBox2.button(7).onTrue(new InstantCommand( () -> superstructure.intake()));
-<<<<<<< HEAD
-      // buttonBox2.button(7).onTrue(new InstantCommand( () -> superstructure.stayIntaking()));
-=======
 
       //3-4-25 MPF Added to intake button; Theoretically, should override intake from coming up until disabled
       buttonBox2.button(7).debounce(2.0).onTrue(new InstantCommand( () -> superstructure.enableManualOverride())); 
->>>>>>> 57e3d9c0d80e455cc9904ca42513af889e61eba2
       buttonBox2.button(8).onTrue(new InstantCommand( () -> superstructure.goHome()));
       buttonBox2.button(9).whileTrue(new InstantCommand( () -> superstructure.spit()).repeatedly());
       buttonBox2.button(10).onTrue(new InstantCommand(() -> superstructure.startLifting()));
@@ -398,6 +412,16 @@ public class RobotContainer
     return new AutoScoreCommand(superstructure, drivebase);
   }*/
 
+  public SuperstructureSubsystem getSuperstructure()
+  {
+    return superstructure;
+  }
+
+  public SwerveSubsystem getSwerveSubsystem()
+  {
+    return drivebase;
+  }
+
   public Command visionIntake(){
     if (!Robot.isSimulation()) return drivebase.visionIntake();
     else return drivebase.visionIntake();
@@ -412,17 +436,10 @@ public class RobotContainer
     double selectPose = SmartDashboard.getNumber("Select Scoring Location",0);
     Pose2d prescoreDrivePose = drivebase.getPrescorePose(selectPose);
     Pose2d scoreDrivePose = drivebase.getScorePose(selectPose);
-    /*Command selectReefPoses = new InstantCommand(() -> {selectPose = SmartDashboard.getNumber("Select Scoring Location",0);
-                                                        prescoreDrivePose = drivebase.getPrescorePose(selectPose);
-                                                        scoreDrivePose = drivebase.getScorePose(selectPose);});*/
     Command driveToPrescore = drivebase.driveToPose(prescoreDrivePose);
-    //Command driveToPrescore = drivebase.driveToTargetPosePID(prescoreDrivePose);
     Command driveToScore = drivebase.driveToTargetPosePID(scoreDrivePose);
     Command superStructureScore = new InstantCommand(() -> superstructure.startLifting());
     Command release = new InstantCommand(() -> superstructure.releaseCoral());
-    //return  (new SequentialCommandGroup(selectReefPoses,driveToPrescore,driveToScore));*/
-    //Command driveToPrescore = drivebase.driveToTargetPosePID(drivebase.getPrescorePose(SmartDashboard.getNumber("Select Scoring Location",0)));
-    //Command driveToScore = drivebase.driveToTargetPosePID(drivebase.getScorePose(SmartDashboard.getNumber("Select Scoring Location",0)));
     Command autoScoreSequence = Commands.none();
     if(!withAutoRelease){
       autoScoreSequence = new SequentialCommandGroup(driveToPrescore, superStructureScore, driveToScore);}
@@ -430,6 +447,25 @@ public class RobotContainer
       autoScoreSequence = new SequentialCommandGroup(driveToPrescore, superStructureScore, driveToScore, release);}
     
     return autoScoreSequence;
+  }
+  
+  /**
+   * 
+   * @param scoringLocation This one is for autonomous, and assumes that we will be autoscoring
+   * @return
+   */
+  public Command getScoreSequenceCommand(double scoringLocation){
+    double selectPose = scoringLocation;
+
+    Pose2d prescoreDrivePose = drivebase.getPrescorePose(selectPose);
+    Pose2d scoreDrivePose = drivebase.getScorePose(selectPose);
+
+    Command driveToPrescore = drivebase.driveToPose(prescoreDrivePose);
+    Command driveToScore = drivebase.driveToTargetPosePID(scoreDrivePose);
+    Command superStructureScore = new InstantCommand(() -> superstructure.startLifting());
+    Command release = new InstantCommand(() -> superstructure.releaseCoral());
+
+    return new SequentialCommandGroup(driveToPrescore, superStructureScore, driveToScore, release);
   }
 
   /**

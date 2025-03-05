@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.AutonScoreCommand;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to each mode, as
@@ -25,7 +26,7 @@ public class Robot extends TimedRobot
 
   private RobotContainer m_robotContainer;
   private double remapLimiterCount = 0;
-
+  
   private Timer disabledTimer;
   final         CommandXboxController driverXbox = new CommandXboxController(0);
 
@@ -50,7 +51,8 @@ public class Robot extends TimedRobot
     m_robotContainer = new RobotContainer();
     
     m_robotContainer.setDriveMode();//added 2-28-25
-
+    
+    // Create a timer to disable motor brake a few seconds after disable.  This will let the robot stop
     // Create a timer to disable motor brake a few seconds after disable.  This will let the robot stop
     // immediately when disabled, but then also let it be pushed more 
     disabledTimer = new Timer();
@@ -108,12 +110,14 @@ public class Robot extends TimedRobot
   {
     m_robotContainer.setMotorBrake(true);
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
+    
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null)
     {
       m_autonomousCommand.schedule();
     }
+
+    //new AutonScoreCommand(m_robotContainer, m_robotContainer.getSuperstructure(), m_robotContainer.getSwerveSubsystem(),4.0, 1.0).schedule(); //test this in sim... Works!
   }
 
   /**

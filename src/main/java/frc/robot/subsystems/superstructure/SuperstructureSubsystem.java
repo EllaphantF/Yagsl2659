@@ -22,6 +22,7 @@ import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot1Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -469,15 +470,6 @@ public class SuperstructureSubsystem extends SubsystemBase {
     mEndeffectorRollers.setPosition(2.0);
   }
 
-<<<<<<< HEAD
-  public void moveCoralIn(){
-    mEndeffectorRollers.setPosition(mEndeffectorRollers.getPosition().getValueAsDouble() + 0.1); //was 0.5, shot coral out immediately
-  }
-
-  public void moveCoralOut(){
-    mEndeffectorRollers.setPosition(mEndeffectorRollers.getPosition().getValueAsDouble() - 0.1); //was 0.5, hit the bumper and shot coral out afterwards
-  }
-=======
 	public void moveCoralIn(){
 		mEndeffectorRollers.setPosition(mEndeffectorRollers.getPosition().getValueAsDouble() + 0.1); //was 0.5
 	}
@@ -485,17 +477,24 @@ public class SuperstructureSubsystem extends SubsystemBase {
 	public void moveCoralOut(){
 		mEndeffectorRollers.setPosition(mEndeffectorRollers.getPosition().getValueAsDouble() - 0.1); //was 0.5
 	}
->>>>>>> 57e3d9c0d80e455cc9904ca42513af889e61eba2
 
   public void releaseCoral(){
     releasingCoral = true;
-    mEndeffectorRollers.setControl(new PositionVoltage(10));
-    if(mEndeffectorRollers.getPosition().getValueAsDouble() > 7) {
-      hasCoral = false;
-      releasingCoral = false;
-      setEndeffectorWheelSpeed(0);
+    if(scoreLevel == 1) {
+      mEndeffectorRollers.setControl(new MotionMagicVelocityVoltage(-3)); //set wheelspeed here for EE rollers to release coral with the right velocity for L1
+      if(mEndeffectorRollers.getPosition().getValueAsDouble() < -7) {
+        hasCoral = false;
+        releasingCoral = false;
+        setEndeffectorWheelSpeed(0);
+    }}
+    else{
+      mEndeffectorRollers.setControl(new PositionVoltage(10));
+      if(mEndeffectorRollers.getPosition().getValueAsDouble() > 7) {
+        hasCoral = false;
+        releasingCoral = false;
+        setEndeffectorWheelSpeed(0);
     }
-  }
+  }}
 
 
   public void ureleaseCoral(){

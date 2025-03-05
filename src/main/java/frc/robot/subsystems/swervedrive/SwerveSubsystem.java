@@ -332,41 +332,6 @@ public class SwerveSubsystem extends SubsystemBase
             }
         });
   }
-  /**
-   * This is going to take the pose of an apriltag and treat it like a gamepiece
-   * Not currently working
-   * @return
-   */
-  public Command visionIntakeSimTest(){
-  
-    TrapezoidProfile.Constraints xyConstraints = new Constraints(SmartDashboard.getNumber("Max Vel PID", 2), SmartDashboard.getNumber("max Accel PID", 1));
-    ProfiledPIDController xController = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 8), SmartDashboard.getNumber("kI PID", 3), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
-    ProfiledPIDController yController = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 8), SmartDashboard.getNumber("kI PID", 3), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
-
-    return run(() -> { 
-      //PhotonTrackedTarget resultO = vision.getTargetFromId(2, Cameras.RIGHT_CAM);
-
-      var result = vision.getTargetFromId(18, Cameras.RIGHT_CAM); //ID 2 is top right / red right side loading station, 8 is reef top right, 18 is blue facing alliance station
-      if (result != null) 
-      {
-          double x = result.getPitch();
-          double y = result.getYaw();
-          //double x = bestTarget.getBestCameraToTarget().getX();
-          //double y = bestTarget.getBestCameraToTarget().getY();
-          SmartDashboard.putNumber("visionIntakePitch", x);
-          SmartDashboard.putNumber("visionIntakeYaw", y);
-          
-
-          
-          xController.setGoal(0);
-          yController.setGoal(0);
-
-          //drive(new Translation2d(0.0, -xController.calculate(x)), yController.calculate(y), false);
-          drive(new Translation2d(-xController.calculate(x), 0.0), yController.calculate(y), false);
-      
-        }
-    });
-}
 
 /**
  * 2659 custom - drive into the reef with a profiled PID controller to perform the final approach. We'll put our superstructure into scoring position right before this command is called 
@@ -439,14 +404,14 @@ public class SwerveSubsystem extends SubsystemBase
   {
 // Create the constraints to use while pathfinding
     PathConstraints constraints = new PathConstraints(
-        swerveDrive.getMaximumChassisVelocity(), 1, //.08m/s - testing w/ slow translation
-        swerveDrive.getMaximumChassisAngularVelocity(), Units.degreesToRadians(60));
+        swerveDrive.getMaximumChassisVelocity(), 2, //.08m/s - testing w/ slow translation
+        swerveDrive.getMaximumChassisAngularVelocity(), Units.degreesToRadians(120));
     
 // Since AutoBuilder is configured, we can use it to build pathfinding commands
     return AutoBuilder.pathfindToPose(
         pose,
         constraints,
-        edu.wpi.first.units.Units.MetersPerSecond.of(0) // Goal end velocity in meters/sec
+        edu.wpi.first.units.Units.MetersPerSecond.of(0.0) // Goal end velocity in meters/sec
                                      );
   }
 
@@ -462,34 +427,6 @@ public class SwerveSubsystem extends SubsystemBase
 
   public Pose2d getScorePose(double selectPose)
     {Pose2d scoreDrivePose = Constants.ReefScoringLocations.getScorePose(isRedAlliance(),selectPose); 
-     /*Pose2d scoreDrivePose = getPose(); 
-        if(isRedAlliance()){
-          if(selectPose ==  1 ) scoreDrivePose = Constants.ReefScoringLocations.RED_1;
-          if(selectPose ==  2 ) scoreDrivePose = Constants.ReefScoringLocations.RED_2;
-          if(selectPose ==  3 ) scoreDrivePose = Constants.ReefScoringLocations.RED_3;
-          if(selectPose ==  4 ) scoreDrivePose = Constants.ReefScoringLocations.RED_4;
-          if(selectPose ==  5 ) scoreDrivePose = Constants.ReefScoringLocations.RED_5;
-          if(selectPose ==  6 ) scoreDrivePose = Constants.ReefScoringLocations.RED_6;
-          if(selectPose ==  7 ) scoreDrivePose = Constants.ReefScoringLocations.RED_7;
-          if(selectPose ==  8 ) scoreDrivePose = Constants.ReefScoringLocations.RED_8;
-          if(selectPose ==  9 ) scoreDrivePose = Constants.ReefScoringLocations.RED_9;
-          if(selectPose ==  10 ) scoreDrivePose = Constants.ReefScoringLocations.RED_10;
-          if(selectPose ==  11 ) scoreDrivePose = Constants.ReefScoringLocations.RED_11;
-          if(selectPose ==  12 ) scoreDrivePose = Constants.ReefScoringLocations.RED_12;
-      }else{
-          if(selectPose ==  1 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_1;
-          if(selectPose ==  2 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_2;
-          if(selectPose ==  3 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_3;
-          if(selectPose ==  4 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_4;
-          if(selectPose ==  5 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_5;
-          if(selectPose ==  6 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_6;
-          if(selectPose ==  7 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_7;
-          if(selectPose ==  8 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_8;
-          if(selectPose ==  9 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_9;
-          if(selectPose ==  10 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_10;
-          if(selectPose ==  11 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_11;
-          if(selectPose ==  12 ) scoreDrivePose = Constants.ReefScoringLocations.BLUE_12;
-      }*/
       return scoreDrivePose;
     }  
     
@@ -502,43 +439,10 @@ public class SwerveSubsystem extends SubsystemBase
   public Pose2d getPrescorePose(double selectPose)
   {
    Pose2d prescoreDrivePose = Constants.ReefScoringLocations.getPrescorePose(isRedAlliance(),selectPose); 
-      /*if(isRedAlliance()){
-        if(selectPose ==  1 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_1;
-        if(selectPose ==  2 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_2;
-        if(selectPose ==  3 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_3;
-        if(selectPose ==  4 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_4;
-        if(selectPose ==  5 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_5;
-        if(selectPose ==  6 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_6;
-        if(selectPose ==  7 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_7;
-        if(selectPose ==  8 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_8;
-        if(selectPose ==  9 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_9;
-        if(selectPose ==  10 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_10;
-        if(selectPose ==  11 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_11;
-        if(selectPose ==  12 ) prescoreDrivePose = Constants.ReefScoringLocations.REDPRESCORE_12;
-    }else{
-        if(selectPose ==  1 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_1;
-        if(selectPose ==  2 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_2;
-        if(selectPose ==  3 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_3;
-        if(selectPose ==  4 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_4;
-        if(selectPose ==  5 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_5;
-        if(selectPose ==  6 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_6;
-        if(selectPose ==  7 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_7;
-        if(selectPose ==  8 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_8;
-        if(selectPose ==  9 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_9;
-        if(selectPose ==  10 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_10;
-        if(selectPose ==  11 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_11;
-        if(selectPose ==  12 ) prescoreDrivePose = Constants.ReefScoringLocations.BLUEPRESCORE_12;
-    }*/
     return prescoreDrivePose;
   }  
   
-  /**
-   * Use PathPlanner Path finding to go to a point on the field.
-   *
-   * @param pose Target {@link Pose2d} to go to.
-   * @return PathFinding command
-   */
-
+  //BVN 3-4-25, I commented out the 254 setpoint generator code, I've heard it uses a lot of memory. We can come back to it in the offseason
   /**
    * Drive with {@link SwerveSetpointGenerator} from 254, implemented by PathPlanner.
    *
@@ -547,7 +451,7 @@ public class SwerveSubsystem extends SubsystemBase
    * @throws IOException    If the PathPlanner GUI settings is invalid
    * @throws ParseException If PathPlanner GUI settings is nonexistent.
    */
-  private Command driveWithSetpointGenerator(Supplier<ChassisSpeeds> robotRelativeChassisSpeed)
+/*  private Command driveWithSetpointGenerator(Supplier<ChassisSpeeds> robotRelativeChassisSpeed)
   throws IOException, ParseException
   {
     SwerveSetpointGenerator setpointGenerator = new SwerveSetpointGenerator(RobotConfig.fromGUISettings(),
@@ -571,7 +475,7 @@ public class SwerveSubsystem extends SubsystemBase
                       previousTime.set(newTime);
 
                     });
-  }
+  }*/
 
   /**
    * Drive with 254's Setpoint generator; port written by PathPlanner.
@@ -579,7 +483,7 @@ public class SwerveSubsystem extends SubsystemBase
    * @param fieldRelativeSpeeds Field-Relative {@link ChassisSpeeds}
    * @return Command to drive the robot using the setpoint generator.
    */
-  public Command driveWithSetpointGeneratorFieldRelative(Supplier<ChassisSpeeds> fieldRelativeSpeeds)
+  /*public Command driveWithSetpointGeneratorFieldRelative(Supplier<ChassisSpeeds> fieldRelativeSpeeds)
   {
     try
     {
@@ -593,7 +497,7 @@ public class SwerveSubsystem extends SubsystemBase
     }
     return Commands.none();
 
-  }
+  }*/
 
 
   /**
