@@ -290,9 +290,8 @@ public class Vision
      */
     
     LEFT_CAM("REEF_BACK_RIGHT",
-        new Rotation3d(0, 0, 0),//new Rotation3d(0, -18*Math.PI / 180, 0),
-                  
-        new Translation3d(9.5/39.4, 25.5/2/39.4, 9.5/39.4), //from Encore //krobottocamera
+        new Rotation3d(0, 0, -30*Math.PI / 180),//new Rotation3d(0, -18*Math.PI / 180, 0),
+        new Translation3d(9.5/39.4, 25.5/2/39.4, (9.5+3.5)/39.4), //from Encore //krobottocamera
         //VecBuilder.fill(5, 5, 20), VecBuilder.fill(1, 1, 10))//,
         VecBuilder.fill(1, 1, 10), VecBuilder.fill(.5, .5, 10)),//,
     
@@ -300,7 +299,7 @@ public class Vision
      * Right Camera
      */
     RIGHT_CAM("REEF_BACK_LEFT",//"right",
-        new Rotation3d(0, 0, 25.5*Math.PI / 180),//new Rotation3d(0, -18*Math.PI / 180, 0),
+        new Rotation3d(0, 0, 30*Math.PI / 180),//new Rotation3d(0, -18*Math.PI / 180, 0), wooden mount was 25.5 deg, measure in photonvision gui
         
         new Translation3d(9.5/39.4, -25.5/2/39.4, (9.5+3.5)/39.4), //3-4-25 added 3.5 in z height for 2x4 mount //krobottocamera 
         //VecBuilder.fill(5, 5, 20), VecBuilder.fill(1, 1, 10))//,
