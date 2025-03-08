@@ -88,18 +88,18 @@ public final class Constants
 
   public static class ReefScoringLocations{
       // REEF PRE-SCORING POSES
-      public static   final Pose2d  BLUEPRESCORE_12 = new Pose2d( 6.417, 3.826,   Rotation2d.fromDegrees(   	180  	)); 
-      public static   final Pose2d  BLUEPRESCORE_11 = new Pose2d( 6.418, 4.217,   Rotation2d.fromDegrees(   	180 	)); 
-      public static   final Pose2d  BLUEPRESCORE_10 = new Pose2d( 5.629, 5.585,   Rotation2d.fromDegrees(    -120          ));   
-      public static   final Pose2d  BLUEPRESCORE_9	  = new Pose2d( 5.289, 5.801,   Rotation2d.fromDegrees(    -120          ));   
-      public static   final Pose2d  BLUEPRESCORE_8	  = new Pose2d( 3.703, 5.782,   Rotation2d.fromDegrees(    	-60	         ));  
-      public static   final Pose2d  BLUEPRESCORE_7	  = new Pose2d( 3.360, 5.612,   Rotation2d.fromDegrees(    	-60	         ));  
-      public static   final Pose2d  BLUEPRESCORE_6	  = new Pose2d( 2.561, 4.217,   Rotation2d.fromDegrees(   	0	   )); 
-      public static   final Pose2d  BLUEPRESCORE_5	  = new Pose2d( 2.562, 3.826,   Rotation2d.fromDegrees(   	0	   )); 
-      public static   final Pose2d  BLUEPRESCORE_4	  = new Pose2d( 3.351, 2.451,   Rotation2d.fromDegrees(   	60 	)); 
-      public static   final Pose2d  BLUEPRESCORE_3	  = new Pose2d( 3.689, 2.262,   Rotation2d.fromDegrees(   	60 	)); 
-      public static   final Pose2d  BLUEPRESCORE_2	  = new Pose2d( 5.283, 2.255,   Rotation2d.fromDegrees(   	120 	)); 
-      public static   final Pose2d  BLUEPRESCORE_1	  = new Pose2d( 5.620, 2.450,   Rotation2d.fromDegrees(   	120 	)); 
+      public static   final Pose2d  BLUEPRESCORE_12 = new Pose2d( 5.9, 3.826,   Rotation2d.fromDegrees(   	180  	)); 
+      public static   final Pose2d  BLUEPRESCORE_11 = new Pose2d( 5.9, 4.217,   Rotation2d.fromDegrees(   	180 	)); 
+      public static   final Pose2d  BLUEPRESCORE_10 = new Pose2d( 5.3, 5.3,   Rotation2d.fromDegrees(    -120          ));   
+      public static   final Pose2d  BLUEPRESCORE_9	  = new Pose2d( 5.289, 5.7,   Rotation2d.fromDegrees(    -120          ));   
+      public static   final Pose2d  BLUEPRESCORE_8	  = new Pose2d( 3.8, 5.5,   Rotation2d.fromDegrees(    	-60	         ));  
+      public static   final Pose2d  BLUEPRESCORE_7	  = new Pose2d( 3.50, 5.3,   Rotation2d.fromDegrees(    	-60	         ));  
+      public static   final Pose2d  BLUEPRESCORE_6	  = new Pose2d( 2.9, 4.21,   Rotation2d.fromDegrees(   	0	   )); 
+      public static   final Pose2d  BLUEPRESCORE_5	  = new Pose2d( 2.9, 3.826,   Rotation2d.fromDegrees(   	0	   )); 
+      public static   final Pose2d  BLUEPRESCORE_4	  = new Pose2d( 3.5, 2.7,   Rotation2d.fromDegrees(   	60 	)); 
+      public static   final Pose2d  BLUEPRESCORE_3	  = new Pose2d( 3.9, 2.6,   Rotation2d.fromDegrees(   	60 	)); 
+      public static   final Pose2d  BLUEPRESCORE_2	  = new Pose2d( 5.05, 2.6,   Rotation2d.fromDegrees(   	120 	)); 
+      public static   final Pose2d  BLUEPRESCORE_1	  = new Pose2d( 5.30, 2.7,   Rotation2d.fromDegrees(   	120 	)); 
 
       public	static	final	Pose2d	REDPRESCORE_12  =	new	Pose2d(	11.118,	4.220,  Rotation2d.fromDegrees( 0    )); 
       public	static	final	Pose2d	REDPRESCORE_11  =	new	Pose2d(	11.117,	3.829,  Rotation2d.fromDegrees( 0    )); 
@@ -264,9 +264,9 @@ public final class Constants
           endeffectorPivotConfig.Slot0.kV = 0.12; //
           endeffectorPivotConfig.Slot0.kA = 0.001; // Volts for an acceleration of 1 rps/s
 
-          endeffectorPivotConfig.Slot0.kP = 20;//
+          endeffectorPivotConfig.Slot0.kP = 10;//
           endeffectorPivotConfig.Slot0.kI = 0.00001; //
-          endeffectorPivotConfig.Slot0.kD = 0.4; //
+          endeffectorPivotConfig.Slot0.kD = 0.2; //
 
           endeffectorPivotConfig.CurrentLimits.SupplyCurrentLimit = 10;//
           endeffectorPivotConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = .02;        
@@ -274,7 +274,7 @@ public final class Constants
           endeffectorPivotConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .02;
           endeffectorPivotConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .02;
           endeffectorPivotConfig.MotionMagic.MotionMagicCruiseVelocity = 80; //20 was smooth
-          endeffectorPivotConfig.MotionMagic.MotionMagicAcceleration = 180; //50 was smooth
+          endeffectorPivotConfig.MotionMagic.MotionMagicAcceleration = 120; //50 was smooth
           endeffectorPivotConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
           /*endeffectorPivotConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
           endeffectorPivotConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
@@ -319,7 +319,7 @@ public final class Constants
           endeffectorWheelsConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .04;
           endeffectorWheelsConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .04;
           endeffectorWheelsConfig.MotionMagic.MotionMagicCruiseVelocity = 25; //
-          endeffectorWheelsConfig.MotionMagic.MotionMagicAcceleration = 100; //
+          endeffectorWheelsConfig.MotionMagic.MotionMagicAcceleration =  400; //
           return endeffectorWheelsConfig;
         }
 

@@ -18,8 +18,8 @@ public class L1Command extends Command {
         //structure.liftL1();
 
         if(structure.atPosition() == true && structure.sequenceState == 1){
-            structure.releaseCoral();
-            }
+            structure.startReleasingCoral(true);
+        }
         }
     }
     @Override

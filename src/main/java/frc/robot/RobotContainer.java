@@ -262,7 +262,7 @@ public class RobotContainer
       // driverXbox.povRight().onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", SmartDashboard.getNumber("Select Scoring Location",0)+.5)));
 
       driverXbox.povLeft().onTrue((Commands.runOnce(drivebase::zeroGyro)));
-      driverXbox.b().whileTrue(new InstantCommand(() -> superstructure.releaseCoral()).repeatedly());
+      driverXbox.b().whileTrue(new InstantCommand(() -> superstructure.startReleasingCoral(false)).repeatedly());
       driverXbox.b().onFalse(new InstantCommand(() -> superstructure.ureleaseCoral()));
       driverXbox.a().onTrue(new InstantCommand(() -> superstructure.disableManualOverride())); //3-4-25 MPF added disable manual override to intake
 
@@ -336,7 +336,7 @@ public class RobotContainer
       operatorXbox.y().onTrue(new InstantCommand(() -> superstructure.startLifting()));
       operatorXbox.x().onTrue(new InstantCommand(() -> superstructure.goHome()));
       operatorXbox.a().onTrue(new InstantCommand(() -> superstructure.intake()));
-      operatorXbox.b().whileTrue(new InstantCommand(() -> superstructure.releaseCoral()).repeatedly());
+      operatorXbox.b().whileTrue(new InstantCommand(() -> superstructure.startReleasingCoral(false)).repeatedly());
       operatorXbox.b().onFalse(new InstantCommand(() -> superstructure.ureleaseCoral()));
       operatorXbox.povDown().onTrue(new InstantCommand( () -> superstructure.updateElevatorConfigsFromSD()));
       operatorXbox.povRight().whileTrue(new InstantCommand( () -> superstructure.spit()).repeatedly());
@@ -470,7 +470,7 @@ public class RobotContainer
     //Command driveToPrescore = drivebase.driveToTargetPosePID(prescoreDrivePose);
     Command driveToScore = drivebase.driveToTargetPosePID(scoreDrivePose);
     Command superStructureScore = new InstantCommand(() -> superstructure.startLifting());
-    Command release = new InstantCommand(() -> superstructure.releaseCoral());
+    Command release = new InstantCommand(() -> superstructure.startReleasingCoral(true));
     //return  (new SequentialCommandGroup(selectReefPoses,driveToPrescore,driveToScore));*/
     //Command driveToPrescore = drivebase.driveToTargetPosePID(drivebase.getPrescorePose(SmartDashboard.getNumber("Select Scoring Location",0)));
     //Command driveToScore = drivebase.driveToTargetPosePID(drivebase.getScorePose(SmartDashboard.getNumber("Select Scoring Location",0)));

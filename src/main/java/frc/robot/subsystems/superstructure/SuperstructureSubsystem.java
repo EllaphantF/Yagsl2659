@@ -63,6 +63,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public boolean lifting = false;
   public boolean scoringCoral = false;
   public boolean releasingCoral = false;
+  public boolean releaseAtPos = false;
   public boolean manualOverride = false;
 
   public SuperstructureStates STATE = new SuperstructureStates();
@@ -165,7 +166,8 @@ public class SuperstructureSubsystem extends SubsystemBase {
     mElevatorLeft.setControl(new MotionMagicVoltage(ElevatorPosTarget));
     mElevatorRight.setControl(new Follower(mElevatorLeft.getDeviceID(), true));
     mEndeffectorPivot.setControl(new MotionMagicVoltage(PivotPosTarget ));
-    mIntakePivotLeft.setControl(new MotionMagicVoltage(IntakePosTarget ));
+    //mIntakePivotLeft.setControl(new MotionMagicVoltage(IntakePosTarget ));
+
     //mIntakePivotRight.setControl(new MotionMagicVoltage(IntakePosTarget * Constants.intakePivotGearRatio / 360));
   }
 
@@ -294,12 +296,13 @@ public class SuperstructureSubsystem extends SubsystemBase {
         //}
     }
     else { //if the elevator is below the crossbar (i.e. wont crash the endeffector into the crossbar)    
-        if(true)//intakePos < Constants.intakeEndeffectorClearancePos){ //If intake is retracted (i.e. endeffector would hit it) 
+        //if intakePos < Constants.intakeEndeffectorClearancePos){ //If intake is retracted (i.e. endeffector would hit it) 
           TARGETSTATE = STATE.Intake;//put the intake down and bring the elevator down with the endeffector towards the scoring side of the robot 
-        }//else {
+        //else {
           //TARGETSTATE = STATE.Intake; //If the elevator is below the crossbar and the endeffector will clear the intake, go to full intake
           intakeTraversing = false;
           intaking = true;
+        }
         
     
   }
@@ -310,15 +313,15 @@ public class SuperstructureSubsystem extends SubsystemBase {
     releasingCoral = false;
     //hasCoral = true; //temporary for testing 2/19/2025
     if(atPosition()){
-      setEndeffectorWheelSpeed(3.);
-      setIntakeWheelSpeed(18); // was 13
+      setEndeffectorWheelSpeed(4.);
+      setIntakeWheelSpeed(18+5); // was 13
       setFunnelWheelSpeed(-10);}//was -10
 
     //if (mEndeffectorRollers.getSupplyCurrent().getValueAsDouble() > 2 && CANdi.getS1State(true).getValueAsDouble() == 1 ){ //was 19 amps
     if ( CANdi.getS1State(true).getValueAsDouble() == 1 && manualOverride == false){ //was 19 amps 
       //added manualOverride boolean to allow for manual control of the intake
         //setEndeffectorHold();
-      hasCoral = true;
+      
       justGotCoral();
       setIntakeWheelSpeed(0);
       setFunnelWheelSpeed(0);
@@ -342,7 +345,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
 
 
   public void setEndeffectorHold(){
-    mEndeffectorRollers.setControl(new VoltageOut(-.5)); //stall, but we can decide to change this to PID position hold
+    //mEndeffectorRollers.setControl(new VoltageOut(-.5)); //stall, but we can decide to change this to PID position hold
   }
 
   public void setIntakeWheelSpeed(double wheelSpeed){
@@ -351,7 +354,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
   
     if(wheelSpeed == 0) {mIntakeWheels.setControl(new VoltageOut(0));}
     else{
-      mIntakeWheels.setControl(new VelocityVoltage(wheelSpeed));
+      //mIntakeWheels.setControl(new VelocityVoltage(wheelSpeed));
     }}
 
   public void setFunnelWheelSpeed(double wheelSpeed){
@@ -473,10 +476,17 @@ public class SuperstructureSubsystem extends SubsystemBase {
   }
 
   public void justGotCoral(){
+    if(hasCoral){      
+      mEndeffectorRollers.setControl(new PositionVoltage(0.0));
+      mEndeffectorRollers.setPosition(0.5);
+      intaking = false;}
+    else{
+      mEndeffectorRollers.setControl(new PositionVoltage(0.0));
+      mEndeffectorRollers.setPosition(5.0);
+      intaking = false;
+    }
     hasCoral = true;
     seatingCoral = true;
-    mEndeffectorRollers.setControl(new PositionVoltage(0.0));
-    mEndeffectorRollers.setPosition(3.0);
   }
 
 	public void moveCoralIn(){
@@ -487,23 +497,35 @@ public class SuperstructureSubsystem extends SubsystemBase {
 		mEndeffectorRollers.setPosition(mEndeffectorRollers.getPosition().getValueAsDouble() - 0.1); //was 0.5
 	}
 
-  public void releaseCoral(){
+  public void startReleasingCoral(boolean whenAtPos){
+    if (whenAtPos) {
+      releaseAtPos = true;
+    }
+    else releaseAtPos = false;
+
+    releaseCoral();
+  }
+
+  private void releaseCoral(){
     releasingCoral = true;
+    if(!releaseAtPos || atPosition()){
     if(scoreLevel == 1) {
-      mEndeffectorRollers.setControl(new MotionMagicVelocityVoltage(-3)); //set wheelspeed here for EE rollers to release coral with the right velocity for L1
+      mEndeffectorRollers.setControl(new MotionMagicVelocityVoltage(-25)); //set wheelspeed here for EE rollers to release coral with the right velocity for L1
       if(mEndeffectorRollers.getPosition().getValueAsDouble() < -8) {
         hasCoral = false;
         releasingCoral = false;
+        releaseAtPos = false;
         setEndeffectorWheelSpeed(0);
     }}
     else{
-      mEndeffectorRollers.setControl(new PositionVoltage(10));
+      mEndeffectorRollers.setControl(new MotionMagicVelocityVoltage(25));
       if(mEndeffectorRollers.getPosition().getValueAsDouble() > 8) {
         hasCoral = false;
         releasingCoral = false;
+        releaseAtPos = false;
         setEndeffectorWheelSpeed(0);
     }
-  }}
+  }}}
 
 
   public void ureleaseCoral(){

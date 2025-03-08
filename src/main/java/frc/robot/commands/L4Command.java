@@ -16,7 +16,7 @@ public class L4Command extends Command {
             structure.startLifting();
 
         if(structure.atPosition() == true && structure.sequenceState == 1){
-            structure.releaseCoral();
+            structure.startReleasingCoral(true);
             }
         }
     }

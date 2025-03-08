@@ -42,11 +42,11 @@ public class SuperstructureStates {
     public SuperstructureStates(){
         StartingConfig = new SuperstructureState(0, 0.2, 0);
         Home = new SuperstructureState(25*Constants.endEffectorPivotGearRatio / 360, 0.2, 15);
-        Intake = new SuperstructureState(-18*Constants.endEffectorPivotGearRatio / 360, 0.2, 86); //was 94
+        Intake = new SuperstructureState(-18*Constants.endEffectorPivotGearRatio / 360, 0.2, 90); //intake 86
 
-        grabAlgaeL2 = new SuperstructureState(60*Constants.endEffectorPivotGearRatio / 360, 20, 15);
+        grabAlgaeL2 = new SuperstructureState(80*Constants.endEffectorPivotGearRatio / 360, 16, 15);
 
-        grabAlgaeL3 = new SuperstructureState(60*Constants.endEffectorPivotGearRatio / 360, 37, 15);
+        grabAlgaeL3 = new SuperstructureState(80*Constants.endEffectorPivotGearRatio / 360, 33, 15);
 
         /**
          * use these for manual scoring (i.e. )
