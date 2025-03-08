@@ -34,11 +34,15 @@ public class SuperstructureStates {
     public SuperstructureState StowWithCoral;
     public SuperstructureState StowWithAlgae;
     public SuperstructureState PreScoreCoral;
+    public SuperstructureState climb1;
+    public SuperstructureState climb2;
+    public SuperstructureState climb3;
+    
 
     public SuperstructureStates(){
         StartingConfig = new SuperstructureState(0, 0.2, 0);
         Home = new SuperstructureState(25*Constants.endEffectorPivotGearRatio / 360, 0.2, 15);
-        Intake = new SuperstructureState(-18*Constants.endEffectorPivotGearRatio / 360, 0.2, 0); //was 94
+        Intake = new SuperstructureState(-18*Constants.endEffectorPivotGearRatio / 360, 0.2, 86); //was 94
 
         grabAlgaeL2 = new SuperstructureState(60*Constants.endEffectorPivotGearRatio / 360, 20, 15);
 
@@ -52,10 +56,10 @@ public class SuperstructureStates {
         CoralL3Manual = new SuperstructureState(85*Constants.endEffectorPivotGearRatio / 360, 38, 15);
         CoralL4Manual = new SuperstructureState(63*Constants.endEffectorPivotGearRatio / 360, 76, 15);
 
-        CoralL1 = new SuperstructureState(60*Constants.endEffectorPivotGearRatio / 360, 3, 15);
-        CoralL2 = new SuperstructureState(110*Constants.endEffectorPivotGearRatio / 360, 14, 15);
-        CoralL3 = new SuperstructureState(110*Constants.endEffectorPivotGearRatio / 360, 35, 15);
-        CoralL4 = new SuperstructureState(110*Constants.endEffectorPivotGearRatio / 360, 74, 15);
+        CoralL1 = new SuperstructureState(30*Constants.endEffectorPivotGearRatio / 360, 3, 15);
+        CoralL2 = new SuperstructureState(110*Constants.endEffectorPivotGearRatio / 360, 11, 15);
+        CoralL3 = new SuperstructureState(110*Constants.endEffectorPivotGearRatio / 360, 31, 15);
+        CoralL4 = new SuperstructureState(110*Constants.endEffectorPivotGearRatio / 360, 71, 15);
 
         /* need to send the elevator up with endeffector in so we dont crash into the reef */
         CoralPreL1 = new SuperstructureState(25*Constants.endEffectorPivotGearRatio / 360, 8,  15);
@@ -70,10 +74,16 @@ public class SuperstructureStates {
 
         AlgaePassOff = new SuperstructureState(-3*Constants.endEffectorPivotGearRatio / 360, 4, 4); //
         StowEEClear  = new SuperstructureState(25*Constants.endEffectorPivotGearRatio / 360, 0.2, 15); //intended as a safe position with endeffector clear from crashing with elevator stages or the intake
-        StowClearIntakeDeployed = new SuperstructureState(25*Constants.endEffectorPivotGearRatio / 360, 1, 94);
+        StowClearIntakeDeployed = new SuperstructureState(25*Constants.endEffectorPivotGearRatio / 360, 1, 86);
         StowWithCoral = new SuperstructureState(25*Constants.endEffectorPivotGearRatio / 360, 0.2, 15);
         StowWithAlgae = new SuperstructureState(25*Constants.endEffectorPivotGearRatio / 360, 0.2, 15);
         PreScoreCoral = new SuperstructureState(25*Constants.endEffectorPivotGearRatio / 360, 10, 15);
+
+        climb1 = new SuperstructureState(25*Constants.endEffectorPivotGearRatio / 360, 1, 92);
+       
+        climb2 = new SuperstructureState(25*Constants.endEffectorPivotGearRatio / 360, 1, 60);
+        climb3 = new SuperstructureState(90*Constants.endEffectorPivotGearRatio / 360, 0, 20);
+       
     }
 
 }

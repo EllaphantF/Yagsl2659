@@ -17,11 +17,13 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 //import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -38,10 +40,10 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AutonScoreCommand;
 import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.L1Command;
+/*import frc.robot.commands.L1Command;
 import frc.robot.commands.L2Command;
 import frc.robot.commands.L3Command;
-import frc.robot.commands.L4Command;
+import frc.robot.commands.L4Command;*/
 import frc.robot.commands.VisionIntakeCommand;
 //import frc.robot.commands.*;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
@@ -49,7 +51,9 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import frc.robot.subsystems.superstructure.SuperstructureSubsystem;
 import java.io.File;
 
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 
 //import drivebase.driveToPose;
 import swervelib.SwerveInputStream;
@@ -59,6 +63,11 @@ import swervelib.SwerveInputStream;
  * little robot logic should actually be handled in the {@link Robot} periodic methods (other than the scheduler calls).
  * Instead, the structure of the robot (including subsystems, commands, and trigger mappings) should be declared here.
  */
+
+
+ /* I ADDED PATH PLANNER STUFF MPF */
+
+ 
 public class RobotContainer
 {
 
@@ -78,6 +87,11 @@ public class RobotContainer
   Mechanism2d mech = new Mechanism2d(3, 3);
     // the mechanism root node
   MechanismRoot2d root = mech.getRoot("intake", 2, 0);
+
+  //PathPlannerAuto pathPlannerAuto = new PathPlannerAuto(getAutonomousCommand());
+
+  private final SendableChooser<Command> autoChooser;
+  public static SendableChooser<Alliance> allianceChooser;
   
   public double count = 0;
 
@@ -139,7 +153,7 @@ public class RobotContainer
   // right stick controls the angular velocity of the robot
   Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
 
-  //Command driveSetpointGen = drivebase.driveWithSetpointGeneratorFieldRelative(driveDirectAngle); //BVN - commented out 254 setpoint drive 3-4-25 to try preserving memory
+  //Command driveSetpointGen = drivebase.driveWithSetpointGeneratorFieldRelative(driveDirectAngle);
 
   SwerveInputStream driveAngularVelocitySim = SwerveInputStream.of(drivebase.getSwerveDrive(),
                                                                    () -> driverXbox.getLeftY(),
@@ -161,7 +175,7 @@ public class RobotContainer
 
   Command driveFieldOrientedDirectAngleSim = drivebase.driveFieldOriented(driveDirectAngleSim);
 
-  //Command driveSetpointGenSim = drivebase.driveWithSetpointGeneratorFieldRelative(driveDirectAngleSim);//BVN - commented out 254 setpoint drive 3-4-25 to try preserving memory
+  //Command driveSetpointGenSim = drivebase.driveWithSetpointGeneratorFieldRelative(driveDirectAngleSim);
 
  // AutoScoreCommand AutoScoreCommand = new AutoScoreCommand(superstructure, drivebase);
 
@@ -170,12 +184,12 @@ public class RobotContainer
    */
   public RobotContainer()
   {
-	  /* Added Named Commands for Pathplanner */
+    /* Added Named Commands for Pathplanner */
 	  NamedCommands.registerCommand("Intake", new IntakeCommand(superstructure).withTimeout(3));
-    NamedCommands.registerCommand("L1", new L1Command(superstructure));
+    /*NamedCommands.registerCommand("L1", new L1Command(superstructure));
     NamedCommands.registerCommand("L2", new L2Command(superstructure));
     NamedCommands.registerCommand("L3", new L3Command(superstructure));
-    NamedCommands.registerCommand("L4", new L4Command(superstructure));
+    NamedCommands.registerCommand("L4", new L4Command(superstructure));*/
     //NamedCommands.registerCommand("GoHome", new GoHomeCommand(superstructure));
 	  NamedCommands.registerCommand("VisionIntake", new VisionIntakeCommand(superstructure));
      
@@ -192,8 +206,18 @@ public class RobotContainer
     NamedCommands.registerCommand("AutonScoreCommandP11L4", new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(), 11 , 4));
     NamedCommands.registerCommand("AutonScoreCommandP12L4", new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(), 12 , 4));
     // buttonBox = new ButtonBox();
+    // buttonBox = new ButtonBox();
     // Configure the trigger bindings
     configureBindings();
+
+    allianceChooser = new SendableChooser<>();
+    allianceChooser.setDefaultOption("Blue", Alliance.Blue);
+    allianceChooser.addOption("Red", Alliance.Red);
+    SmartDashboard.putData("Alliance Color", allianceChooser);
+
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Choose Auto", autoChooser);
+
   }
 
   /**
@@ -245,6 +269,10 @@ public class RobotContainer
       //UNCOMMENT ALL OF THIS
       driverXbox.leftBumper().onTrue(new InstantCommand(() -> superstructure.intake()));
       driverXbox.leftBumper().whileTrue(visionIntake());
+
+      driverXbox.start().onTrue(new InstantCommand(() -> superstructure.climb(1)));
+      driverXbox.back().onTrue(new InstantCommand(() -> superstructure.climb(2)));
+      driverXbox.povDown().onTrue(new InstantCommand(() -> superstructure.climb(3)));
 
       // Bind the Xbox button to the getScoreSequenceCommand
       driverXbox.rightTrigger(.5).whileTrue(new StartEndCommand(
@@ -312,9 +340,8 @@ public class RobotContainer
       operatorXbox.b().onFalse(new InstantCommand(() -> superstructure.ureleaseCoral()));
       operatorXbox.povDown().onTrue(new InstantCommand( () -> superstructure.updateElevatorConfigsFromSD()));
       operatorXbox.povRight().whileTrue(new InstantCommand( () -> superstructure.spit()).repeatedly());
-		  operatorXbox.povLeft().whileTrue(new InstantCommand( () -> superstructure.moveCoralIn()));
-		  operatorXbox.povUp().whileTrue(new InstantCommand( () -> superstructure.moveCoralOut()));
-      
+      operatorXbox.povLeft().onTrue(new InstantCommand( () -> superstructure.moveCoralIn()));
+      operatorXbox.povUp().onTrue(new InstantCommand( () -> superstructure.moveCoralOut()));
       
       //operatorXbox.a().onTrue(Commands.runOnce(superstructure::intake));
       //operatorXbox.b().onTrue(Commands.runOnce(superstructure::stow));
@@ -342,9 +369,7 @@ public class RobotContainer
       buttonBox2.button(5).onTrue(new InstantCommand( () -> superstructure.clearAlgae(2.)));
       buttonBox2.button(6).onTrue(new InstantCommand( () -> superstructure.clearAlgae(3.)));
       buttonBox2.button(7).onTrue(new InstantCommand( () -> superstructure.intake()));
-
-      //3-4-25 MPF Added to intake button; Theoretically, should override intake from coming up until disabled
-      buttonBox2.button(7).debounce(2.0).onTrue(new InstantCommand( () -> superstructure.enableManualOverride())); 
+      // buttonBox2.button(7).onTrue(new InstantCommand( () -> superstructure.stayIntaking()));
       buttonBox2.button(8).onTrue(new InstantCommand( () -> superstructure.goHome()));
       buttonBox2.button(9).whileTrue(new InstantCommand( () -> superstructure.spit()).repeatedly());
       buttonBox2.button(10).onTrue(new InstantCommand(() -> superstructure.startLifting()));
@@ -383,7 +408,8 @@ public class RobotContainer
   public Command getAutonomousCommand()
   {
     // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand("New Auto");
+    //drivebase.resetOdometry(pathPlannerAuto.getStartingPose());
+    return autoChooser.getSelected();
   }
   /*
   private Command selectCommand() {
@@ -422,6 +448,7 @@ public class RobotContainer
     return drivebase;
   }
 
+
   public Command visionIntake(){
     if (!Robot.isSimulation()) return drivebase.visionIntake();
     else return drivebase.visionIntake();
@@ -436,10 +463,17 @@ public class RobotContainer
     double selectPose = SmartDashboard.getNumber("Select Scoring Location",0);
     Pose2d prescoreDrivePose = drivebase.getPrescorePose(selectPose);
     Pose2d scoreDrivePose = drivebase.getScorePose(selectPose);
+    /*Command selectReefPoses = new InstantCommand(() -> {selectPose = SmartDashboard.getNumber("Select Scoring Location",0);
+                                                        prescoreDrivePose = drivebase.getPrescorePose(selectPose);
+                                                        scoreDrivePose = drivebase.getScorePose(selectPose);});*/
     Command driveToPrescore = drivebase.driveToPose(prescoreDrivePose);
+    //Command driveToPrescore = drivebase.driveToTargetPosePID(prescoreDrivePose);
     Command driveToScore = drivebase.driveToTargetPosePID(scoreDrivePose);
     Command superStructureScore = new InstantCommand(() -> superstructure.startLifting());
     Command release = new InstantCommand(() -> superstructure.releaseCoral());
+    //return  (new SequentialCommandGroup(selectReefPoses,driveToPrescore,driveToScore));*/
+    //Command driveToPrescore = drivebase.driveToTargetPosePID(drivebase.getPrescorePose(SmartDashboard.getNumber("Select Scoring Location",0)));
+    //Command driveToScore = drivebase.driveToTargetPosePID(drivebase.getScorePose(SmartDashboard.getNumber("Select Scoring Location",0)));
     Command autoScoreSequence = Commands.none();
     if(!withAutoRelease){
       autoScoreSequence = new SequentialCommandGroup(driveToPrescore, superStructureScore, driveToScore);}
@@ -447,25 +481,6 @@ public class RobotContainer
       autoScoreSequence = new SequentialCommandGroup(driveToPrescore, superStructureScore, driveToScore, release);}
     
     return autoScoreSequence;
-  }
-  
-  /**
-   * 
-   * @param scoringLocation This one is for autonomous, and assumes that we will be autoscoring
-   * @return
-   */
-  public Command getScoreSequenceCommand(double scoringLocation){
-    double selectPose = scoringLocation;
-
-    Pose2d prescoreDrivePose = drivebase.getPrescorePose(selectPose);
-    Pose2d scoreDrivePose = drivebase.getScorePose(selectPose);
-
-    Command driveToPrescore = drivebase.driveToPose(prescoreDrivePose);
-    Command driveToScore = drivebase.driveToTargetPosePID(scoreDrivePose);
-    Command superStructureScore = new InstantCommand(() -> superstructure.startLifting());
-    Command release = new InstantCommand(() -> superstructure.releaseCoral());
-
-    return new SequentialCommandGroup(driveToPrescore, superStructureScore, driveToScore, release);
   }
 
   /**

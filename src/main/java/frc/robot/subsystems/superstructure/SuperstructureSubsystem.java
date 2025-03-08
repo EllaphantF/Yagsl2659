@@ -33,6 +33,7 @@ import com.ctre.phoenix6.hardware.CANdi;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.hardware.TalonFXS;
 import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.sim.TalonFXSimState;
 
 public class SuperstructureSubsystem extends SubsystemBase {
@@ -126,6 +127,14 @@ public class SuperstructureSubsystem extends SubsystemBase {
         m_IntakeWheels = m_IntakeLeftPivot.append(new MechanismLigament2d("IntakeWheels", 3, 90));
         m_FunnelWheels = root.append(new MechanismLigament2d("FunnelWheels", 3, 90));
 
+  }
+
+  public  void climb(double state){
+    
+    if (state == 1) TARGETSTATE = STATE.climb1;
+    if (state == 2) {TARGETSTATE = STATE.climb2; setIntakeWheelSpeed(3);
+    }
+    if (state == 3) TARGETSTATE = STATE.climb3;
   }
 
   /**
@@ -301,9 +310,9 @@ public class SuperstructureSubsystem extends SubsystemBase {
     releasingCoral = false;
     //hasCoral = true; //temporary for testing 2/19/2025
     if(atPosition()){
-      setEndeffectorWheelSpeed(2.);
+      setEndeffectorWheelSpeed(3.);
       setIntakeWheelSpeed(18); // was 13
-      setFunnelWheelSpeed(-15);}//was -10
+      setFunnelWheelSpeed(-10);}//was -10
 
     //if (mEndeffectorRollers.getSupplyCurrent().getValueAsDouble() > 2 && CANdi.getS1State(true).getValueAsDouble() == 1 ){ //was 19 amps
     if ( CANdi.getS1State(true).getValueAsDouble() == 1 && manualOverride == false){ //was 19 amps 
@@ -467,7 +476,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
     hasCoral = true;
     seatingCoral = true;
     mEndeffectorRollers.setControl(new PositionVoltage(0.0));
-    mEndeffectorRollers.setPosition(2.0);
+    mEndeffectorRollers.setPosition(3.0);
   }
 
 	public void moveCoralIn(){
@@ -482,14 +491,14 @@ public class SuperstructureSubsystem extends SubsystemBase {
     releasingCoral = true;
     if(scoreLevel == 1) {
       mEndeffectorRollers.setControl(new MotionMagicVelocityVoltage(-3)); //set wheelspeed here for EE rollers to release coral with the right velocity for L1
-      if(mEndeffectorRollers.getPosition().getValueAsDouble() < -7) {
+      if(mEndeffectorRollers.getPosition().getValueAsDouble() < -8) {
         hasCoral = false;
         releasingCoral = false;
         setEndeffectorWheelSpeed(0);
     }}
     else{
       mEndeffectorRollers.setControl(new PositionVoltage(10));
-      if(mEndeffectorRollers.getPosition().getValueAsDouble() > 7) {
+      if(mEndeffectorRollers.getPosition().getValueAsDouble() > 8) {
         hasCoral = false;
         releasingCoral = false;
         setEndeffectorWheelSpeed(0);

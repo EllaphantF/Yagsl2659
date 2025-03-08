@@ -132,14 +132,14 @@ public final class Constants
       public	static	final	Pose2d	RED_11	      =	new	Pose2d(	11.773,	3.900,	Rotation2d.fromDegrees(	 0    )); 
       public	static	final	Pose2d	RED_10	      =	new	Pose2d(	12.310,	2.880,	Rotation2d.fromDegrees(	 60   )); 
       public	static	final	Pose2d	RED_9	        =	new	Pose2d(	12.563,	2.733,	Rotation2d.fromDegrees(	 60   )); 
-      public	static	final	Pose2d	RED_8	        =	new	Pose2d(	13.665,	2.733,	Rotation2d.fromDegrees(	 120  )); 
+      public	static	final	Pose2d	RED_8	        =	new	Pose2d(	13.602,	2.632,	Rotation2d.fromDegrees(	 120  )); 
       public	static	final	Pose2d	RED_7	        =	new	Pose2d(	13.918,	2.880,	Rotation2d.fromDegrees(	 120  )); 
-      public	static	final	Pose2d	RED_6	        =	new	Pose2d(	14.455,	3.900,	Rotation2d.fromDegrees(	 180  )); 
-      public	static	final	Pose2d	RED_5	        =	new	Pose2d(	14.455,	4.230,	Rotation2d.fromDegrees(	 180  )); 
+      public	static	final	Pose2d	RED_6	        =	new	Pose2d(	14.455,	3.840,	Rotation2d.fromDegrees(	 180  )); 
+      public	static	final	Pose2d	RED_5	        =	new	Pose2d(	14.455,	4.210,	Rotation2d.fromDegrees(	 180  )); 
       public	static	final	Pose2d	RED_4	        =	new	Pose2d(	13.909,	5.192,	Rotation2d.fromDegrees(  -120 ));	        
-      public	static	final	Pose2d	RED_3	        =	new	Pose2d(	13.565,	5.462,	Rotation2d.fromDegrees(  -120 ));	        
-      public	static	final	Pose2d	RED_2	        =	new	Pose2d(	12.563,	5.462,	Rotation2d.fromDegrees(	 -60  ));	        
-      public	static	final	Pose2d	RED_1	        =	new	Pose2d(	12.310,	5.192,	Rotation2d.fromDegrees(	 -60  ));	        
+      public	static	final	Pose2d	RED_3	        =	new	Pose2d(	13.541,	5.318,	Rotation2d.fromDegrees(  -120 ));	        
+      public	static	final	Pose2d	RED_2	        =	new	Pose2d(	12.489,	5.458,	Rotation2d.fromDegrees(	 -60  ));	        
+      public	static	final	Pose2d	RED_1	        =	new	Pose2d(	12.255,	5.071,	Rotation2d.fromDegrees(	 -60  ));	        
       
       public static Pose2d getScorePose(Boolean isRedAlliance, Double selectPose){
         Pose2d scoreDrivePose = new Pose2d(); 
@@ -219,13 +219,13 @@ public final class Constants
           elevatorConfigLeft.Slot0.kI = 0.00001; //
           elevatorConfigLeft.Slot0.kD = 0.01; //
           
-          elevatorConfigLeft.CurrentLimits.SupplyCurrentLimit = 15;//was 20
+          elevatorConfigLeft.CurrentLimits.SupplyCurrentLimit = 20;//was 20
           elevatorConfigLeft.OpenLoopRamps.VoltageOpenLoopRampPeriod = .02;
           elevatorConfigLeft.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .02;
           elevatorConfigLeft.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .02;
           elevatorConfigLeft.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .02;
 
-          elevatorConfigLeft.MotionMagic.MotionMagicCruiseVelocity = 80; //100 was smooth, 200 is faster than kraken max 100
+          elevatorConfigLeft.MotionMagic.MotionMagicCruiseVelocity = 90; //100 was smooth, 200 is faster than kraken max 100
           elevatorConfigLeft.MotionMagic.MotionMagicAcceleration = 250;// 80 was good, 200 zippy
 
           elevatorConfigLeft.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
@@ -266,7 +266,7 @@ public final class Constants
 
           endeffectorPivotConfig.Slot0.kP = 20;//
           endeffectorPivotConfig.Slot0.kI = 0.00001; //
-          endeffectorPivotConfig.Slot0.kD = 0.2; //
+          endeffectorPivotConfig.Slot0.kD = 0.4; //
 
           endeffectorPivotConfig.CurrentLimits.SupplyCurrentLimit = 10;//
           endeffectorPivotConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = .02;        
@@ -274,7 +274,7 @@ public final class Constants
           endeffectorPivotConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .02;
           endeffectorPivotConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .02;
           endeffectorPivotConfig.MotionMagic.MotionMagicCruiseVelocity = 80; //20 was smooth
-          endeffectorPivotConfig.MotionMagic.MotionMagicAcceleration = 150; //50 was smooth
+          endeffectorPivotConfig.MotionMagic.MotionMagicAcceleration = 180; //50 was smooth
           endeffectorPivotConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
           /*endeffectorPivotConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
           endeffectorPivotConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
@@ -363,6 +363,7 @@ public final class Constants
           intakePivotLeftConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 94.5;
           intakePivotLeftConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 0.0;
           intakePivotLeftConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+          intakePivotLeftConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
           return intakePivotLeftConfig;
         }
 

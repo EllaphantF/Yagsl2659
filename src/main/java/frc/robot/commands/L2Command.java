@@ -16,13 +16,8 @@ public class L2Command extends Command {
         structure.setCoralLevel(2.0);
         structure.startLifting();
 
-<<<<<<< HEAD
-        if(structure.atPosition() == true && structure.sequenceState == 1){
-            structure.releaseCoral();
-=======
             if(structure.atPosition() == true && structure.sequenceState == 1){
                  structure.releaseCoral();
->>>>>>> 57e3d9c0d80e455cc9904ca42513af889e61eba2
             }
         }
     }

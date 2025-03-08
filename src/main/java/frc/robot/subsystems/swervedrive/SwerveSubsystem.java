@@ -361,7 +361,7 @@ public class SwerveSubsystem extends SubsystemBase
     ycontroller.setIZone(.5);
     ycontroller.setTolerance(.01);
 
-    BooleanSupplier atTarget = () -> (xcontroller.atGoal() && ycontroller.atSetpoint());
+    BooleanSupplier atTarget = () -> (xcontroller.atGoal() && ycontroller.atSetpoint()&& (Math.abs(getPose().getRotation().getDegrees() - targetPose.getRotation().getDegrees())<1));
 
     Command resetTheThing = new InstantCommand(
       () ->     { xcontroller.reset(getPose().getX());
