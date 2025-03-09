@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.RobotBase;
+import frc.robot.subsystems.LEDs;
 
 import com.ctre.phoenix6.*;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
@@ -68,6 +69,8 @@ public class SuperstructureSubsystem extends SubsystemBase {
 
   public SuperstructureStates STATE = new SuperstructureStates();
   public SuperstructureState TARGETSTATE = STATE.Home;
+  
+  private final LEDs mLED = new LEDs();
 
   private static final TalonFX mElevatorRight = new TalonFX(Constants.elevatorRightID);//MPF Hi I have IDs
   private static final TalonFX mElevatorLeft = new TalonFX(Constants.elevatorLeftID);//
@@ -96,6 +99,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
 
   /** Creates a new ExampleSubsystem. */
   public SuperstructureSubsystem() {
+    mLED.setLightMode(0);
     /* Configurations */
         mElevatorRight.getConfigurator().apply(Constants.SuperstructureConfigs.getElevatorConfigRight());
         mElevatorLeft.getConfigurator().apply(Constants.SuperstructureConfigs.getElevatorConfigLeft());
@@ -108,7 +112,6 @@ public class SuperstructureSubsystem extends SubsystemBase {
         mElevatorRight.setControl(new Follower(mElevatorLeft.getDeviceID(), true)); //
         mIntakePivotRight.setControl(new Follower(mIntakePivotLeft.getDeviceID(), true));
 
-        
 
          /* Mechanism2d */
         
