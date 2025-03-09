@@ -264,17 +264,17 @@ public final class Constants
           endeffectorPivotConfig.Slot0.kV = 0.12; //
           endeffectorPivotConfig.Slot0.kA = 0.001; // Volts for an acceleration of 1 rps/s
 
-          endeffectorPivotConfig.Slot0.kP = 10;//
+          endeffectorPivotConfig.Slot0.kP = 15;//
           endeffectorPivotConfig.Slot0.kI = 0.00001; //
-          endeffectorPivotConfig.Slot0.kD = 0.2; //
+          endeffectorPivotConfig.Slot0.kD = 0.25; //
 
           endeffectorPivotConfig.CurrentLimits.SupplyCurrentLimit = 10;//
           endeffectorPivotConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = .02;        
           endeffectorPivotConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .02;
-          endeffectorPivotConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .02;
+          endeffectorPivotConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .04;
           endeffectorPivotConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .02;
           endeffectorPivotConfig.MotionMagic.MotionMagicCruiseVelocity = 80; //20 was smooth
-          endeffectorPivotConfig.MotionMagic.MotionMagicAcceleration = 120; //50 was smooth
+          endeffectorPivotConfig.MotionMagic.MotionMagicAcceleration = 180; //50 was smooth
           endeffectorPivotConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
           /*endeffectorPivotConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
           endeffectorPivotConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
@@ -309,17 +309,17 @@ public final class Constants
           endeffectorWheelsConfig.Slot0.kG = 0.0; // Volts to overcome gravity
           endeffectorWheelsConfig.Slot0.kS = 0.0; // Volts to overcome static friction
           endeffectorWheelsConfig.Slot0.kA = 0.001; // Volts for an acceleration of 1 rps/s
-          endeffectorWheelsConfig.Slot0.kP = 5;//
+          endeffectorWheelsConfig.Slot0.kP = 10;//
 //          endeffectorWheelsConfig.Slot0.kI = 0.01; //
           endeffectorWheelsConfig.Slot0.kV = 0.12; //
-          endeffectorWheelsConfig.Slot0.kD = 0.01; //
+          endeffectorWheelsConfig.Slot0.kD = 0.2; //
           endeffectorWheelsConfig.CurrentLimits.SupplyCurrentLimit = 20;//
-          endeffectorWheelsConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = .04;        
-          endeffectorWheelsConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .04;
-          endeffectorWheelsConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .04;
-          endeffectorWheelsConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .04;
-          endeffectorWheelsConfig.MotionMagic.MotionMagicCruiseVelocity = 25; //
-          endeffectorWheelsConfig.MotionMagic.MotionMagicAcceleration =  400; //
+          endeffectorWheelsConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = .02;        
+          endeffectorWheelsConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .02;
+          endeffectorWheelsConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .02;
+          endeffectorWheelsConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .02;
+          endeffectorWheelsConfig.MotionMagic.MotionMagicCruiseVelocity = 50; //
+          endeffectorWheelsConfig.MotionMagic.MotionMagicAcceleration =  200; //
           return endeffectorWheelsConfig;
         }
 
@@ -351,16 +351,16 @@ public final class Constants
           intakePivotLeftConfig.Slot0.kI = 0.0001; //
           intakePivotLeftConfig.Slot0.kV = 0.12; //
           intakePivotLeftConfig.Slot0.kD = 0.02; //
-          intakePivotLeftConfig.CurrentLimits.SupplyCurrentLimit = 5;//
+          intakePivotLeftConfig.CurrentLimits.SupplyCurrentLimit = 3;//climbed on 5
           intakePivotLeftConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = .02;        
           intakePivotLeftConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .02;
           intakePivotLeftConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .02;
           intakePivotLeftConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .02;
-          intakePivotLeftConfig.MotionMagic.MotionMagicCruiseVelocity = 200; //
-          intakePivotLeftConfig.MotionMagic.MotionMagicAcceleration = 250; //
+          intakePivotLeftConfig.MotionMagic.MotionMagicCruiseVelocity = 80; //
+          intakePivotLeftConfig.MotionMagic.MotionMagicAcceleration = 250/2; //
           intakePivotLeftConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
           intakePivotLeftConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-          intakePivotLeftConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 94.5;
+          intakePivotLeftConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 97.5;
           intakePivotLeftConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 0.0;
           intakePivotLeftConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
           intakePivotLeftConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
@@ -370,7 +370,7 @@ public final class Constants
         public static TalonFXConfiguration getIntakePivotRightConfiguration(){
           TalonFXConfiguration intakePivotRightConfig = new TalonFXConfiguration();
           intakePivotRightConfig = getIntakePivotLeftConfiguration();
-          //intakePivotRightConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+          intakePivotRightConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
           return intakePivotRightConfig;
         }
 

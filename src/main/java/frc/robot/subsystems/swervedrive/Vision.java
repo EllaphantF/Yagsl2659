@@ -290,7 +290,7 @@ public class Vision
      */
     
     LEFT_CAM("REEF_BACK_RIGHT",
-        new Rotation3d(0, 0, -31*Math.PI / 180),//new Rotation3d(0, -18*Math.PI / 180, 0),
+        new Rotation3d(0, 0, -29.5*Math.PI / 180),//new Rotation3d(0, -18*Math.PI / 180, 0),
         new Translation3d(9.5/39.4, (25.5-8/2.54)/2/39.4, (9.5+3.5)/39.4), //from Encore //krobottocamera
         //VecBuilder.fill(5, 5, 20), VecBuilder.fill(1, 1, 10))//,
         VecBuilder.fill(1, 1, 10), VecBuilder.fill(.5, .5, 10)),//,

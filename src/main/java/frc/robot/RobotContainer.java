@@ -373,8 +373,10 @@ public class RobotContainer
       buttonBox2.button(8).onTrue(new InstantCommand( () -> superstructure.goHome()));
       buttonBox2.button(9).whileTrue(new InstantCommand( () -> superstructure.spit()).repeatedly());
       buttonBox2.button(10).onTrue(new InstantCommand(() -> superstructure.startLifting()));
-		  buttonBox2.button(11).onTrue(new InstantCommand( () -> superstructure.moveCoralIn()));
-		  buttonBox2.button(12).onTrue(new InstantCommand( () -> superstructure.moveCoralOut()));
+      buttonBox2.button(11).onTrue(new InstantCommand( () -> superstructure.enableManualOverride()));
+      buttonBox2.button(11).onFalse(new InstantCommand( () -> superstructure.disableManualOverride()));
+		  //buttonBox2.button(11).onTrue(new InstantCommand( () -> superstructure.moveCoralIn()));
+		  //buttonBox2.button(12).onTrue(new InstantCommand( () -> superstructure.moveCoralOut()));
 
 /*
 
