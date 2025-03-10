@@ -94,8 +94,8 @@ public final class Constants
       public static   final Pose2d  BLUEPRESCORE_9	  = new Pose2d( 5.289, 5.7,   Rotation2d.fromDegrees(    -120          ));   
       public static   final Pose2d  BLUEPRESCORE_8	  = new Pose2d( 3.8, 5.5,   Rotation2d.fromDegrees(    	-60	         ));  
       public static   final Pose2d  BLUEPRESCORE_7	  = new Pose2d( 3.50, 5.3,   Rotation2d.fromDegrees(    	-60	         ));  
-      public static   final Pose2d  BLUEPRESCORE_6	  = new Pose2d( 2.9, 4.21,   Rotation2d.fromDegrees(   	0	   )); 
-      public static   final Pose2d  BLUEPRESCORE_5	  = new Pose2d( 2.9, 3.826,   Rotation2d.fromDegrees(   	0	   )); 
+      public static   final Pose2d  BLUEPRESCORE_6	  = new Pose2d( 2.9, 4.21,   Rotation2d.fromDegrees(   	180	   )); 
+      public static   final Pose2d  BLUEPRESCORE_5	  = new Pose2d( 2.9, 3.826,   Rotation2d.fromDegrees(   	180	   )); 
       public static   final Pose2d  BLUEPRESCORE_4	  = new Pose2d( 3.5, 2.7,   Rotation2d.fromDegrees(   	60 	)); 
       public static   final Pose2d  BLUEPRESCORE_3	  = new Pose2d( 3.9, 2.6,   Rotation2d.fromDegrees(   	60 	)); 
       public static   final Pose2d  BLUEPRESCORE_2	  = new Pose2d( 5.05, 2.6,   Rotation2d.fromDegrees(   	120 	)); 
@@ -121,8 +121,8 @@ public final class Constants
       public static   final Pose2d  BLUE_9	       = new Pose2d( 4.972,	5.462,   Rotation2d.fromDegrees(  -120          ));  
       public static   final Pose2d  BLUE_8	       = new Pose2d( 3.870, 5.462,   Rotation2d.fromDegrees(  	-60	         )); //adjusted 3-4-25 
       public static   final Pose2d  BLUE_7	       = new Pose2d( 3.617, 5.192,   Rotation2d.fromDegrees(  	-60	         ));  //adjusted 3-4-25
-      public static   final Pose2d  BLUE_6	       = new Pose2d( 3.080, 4.230,    Rotation2d.fromDegrees( 	0	   )); //adjusted 3-4-25
-      public static   final Pose2d  BLUE_5	       = new Pose2d( 3.080, 3.900,    Rotation2d.fromDegrees( 	0 	  )); //adjusted 3-4-25
+      public static   final Pose2d  BLUE_6	       = new Pose2d( 3.080, 4.230,    Rotation2d.fromDegrees( 	180	   )); //adjusted 3-4-25
+      public static   final Pose2d  BLUE_5	       = new Pose2d( 3.080, 3.900,    Rotation2d.fromDegrees( 	180 	  )); //adjusted 3-4-25
       public static   final Pose2d  BLUE_4	       = new Pose2d( 3.626, 2.880,   Rotation2d.fromDegrees( 	60 	)); //adjusted 3-4-25
       public static   final Pose2d  BLUE_3	       = new Pose2d( 3.970, 2.733,   Rotation2d.fromDegrees( 	60 	)); //adjusted 3-4-25
       public static   final Pose2d  BLUE_2	       = new Pose2d( 4.972, 2.733,   Rotation2d.fromDegrees( 	120 	)); 

@@ -366,13 +366,13 @@ public class RobotContainer
       buttonBox2.button(3).onTrue(new InstantCommand( () -> superstructure.setCoralLevel(3.0)));
       buttonBox2.button(4).onTrue(new InstantCommand( () -> superstructure.setCoralLevel(4.0)));
 
-      buttonBox2.button(5).onTrue(new InstantCommand( () -> superstructure.clearAlgae(2.)));
-      buttonBox2.button(6).onTrue(new InstantCommand( () -> superstructure.clearAlgae(3.)));
+      buttonBox2.button(9).onTrue(new InstantCommand( () -> superstructure.clearAlgae(2.)));
+      buttonBox2.button(10).onTrue(new InstantCommand( () -> superstructure.clearAlgae(3.)));
       buttonBox2.button(7).onTrue(new InstantCommand( () -> superstructure.intake()));
       // buttonBox2.button(7).onTrue(new InstantCommand( () -> superstructure.stayIntaking()));
       buttonBox2.button(8).onTrue(new InstantCommand( () -> superstructure.goHome()));
-      buttonBox2.button(9).whileTrue(new InstantCommand( () -> superstructure.spit()).repeatedly());
-      buttonBox2.button(10).onTrue(new InstantCommand(() -> superstructure.startLifting()));
+      buttonBox2.button(6).whileTrue(new InstantCommand( () -> superstructure.spit()).repeatedly());
+      buttonBox2.button(5).onTrue(new InstantCommand(() -> superstructure.startLifting()));
       buttonBox2.button(11).onTrue(new InstantCommand( () -> superstructure.enableManualOverride()));
       buttonBox2.button(11).onFalse(new InstantCommand( () -> superstructure.disableManualOverride()));
 		  //buttonBox2.button(11).onTrue(new InstantCommand( () -> superstructure.moveCoralIn()));

@@ -86,10 +86,12 @@ public class SwerveSubsystem extends SubsystemBase
    * Swerve drive object.
    */
   private final SwerveDrive         swerveDrive;
+
+  
   /**
    * Enable vision odometry updates while driving.
    */
-  private final boolean             visionDriveTest     = true;
+  private final boolean             visionDriveTest     =  true;//SmartDashboard.getBoolean("VisionEnabled", true);
   /**
    * PhotonVision class to keep an accurate odometry.
    */
@@ -133,9 +135,11 @@ public class SwerveSubsystem extends SubsystemBase
 
     if (visionDriveTest)
     {
-      setupPhotonVision();
+      try{setupPhotonVision();
       // Stop the odometry thread if we are using vision that way we can synchronize updates better.
       swerveDrive.stopOdometryThread();
+      }
+      catch(Exception e){}
     }
     setupPathPlanner();
   }
@@ -166,6 +170,7 @@ public class SwerveSubsystem extends SubsystemBase
   @Override
   public void periodic()
   {
+    //SmartDashboard.putBoolean("VisionEnabled", false);
     updateSD();
     // When vision is enabled we must manually update odometry in SwerveDrive
     if (visionDriveTest)

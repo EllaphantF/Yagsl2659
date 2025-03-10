@@ -25,6 +25,19 @@ public LEDs(){
         
 }
 
+/**
+ * Sets the light mode
+ * 0 = red
+ * 1 = white
+ * 2 = pink
+ * 3 = orange
+ * 4 = purple
+ * 5 = red
+ * 6 = green
+ * 7 = green - bright
+ * 8 = dark red
+ * @param mode
+ */
 public void setLightMode(int mode){
     lightMode = mode;
 }
@@ -48,6 +61,10 @@ public void periodic() {
             m_ledBuffer.setRGB(i, 255,30,0);
         } else if (lightMode == 6) {
             m_ledBuffer.setRGB(i, 100,255,12);
+        } else if (lightMode == 7) {
+            m_ledBuffer.setRGB(i, 10,255,10);
+        } else if (lightMode == 8) {
+            m_ledBuffer.setRGB(i, 120,0,0);
         }
      }
      //System.out.println("LEDs BEING SET");
