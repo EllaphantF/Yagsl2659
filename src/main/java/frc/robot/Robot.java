@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.AutonScoreCommand;
+import frc.robot.subsystems.LEDs;
+import frc.robot.subsystems.superstructure.SuperstructureSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to each mode, as
@@ -26,9 +28,12 @@ public class Robot extends TimedRobot
 
   private RobotContainer m_robotContainer;
   private double remapLimiterCount = 0;
+  public SuperstructureSubsystem m_SuperstructureSubsystem = new SuperstructureSubsystem();
   
   private Timer disabledTimer;
   final         CommandXboxController driverXbox = new CommandXboxController(0);
+
+  // final LEDs m_LEDs = new LEDs();
 
   public Robot()
   {
@@ -90,11 +95,15 @@ public class Robot extends TimedRobot
     m_robotContainer.setDriveMode();
     disabledTimer.reset();
     disabledTimer.start();
+    // m_LEDs.setLightMode(0);
   }
 
   @Override
   public void disabledPeriodic()
   {
+    m_SuperstructureSubsystem.lightMode = 0;
+
+    //m_LEDs.setLightMode(0);
     if (disabledTimer.hasElapsed(Constants.DrivebaseConstants.WHEEL_LOCK_TIME))
     {
       m_robotContainer.setMotorBrake(false);
@@ -117,7 +126,7 @@ public class Robot extends TimedRobot
       m_autonomousCommand.schedule();
     }
 
-    //new AutonScoreCommand(m_robotContainer, m_robotContainer.getSuperstructure(), m_robotContainer.getSwerveSubsystem(),4.0, 1.0).schedule(); //test this in sim... Works!
+    new AutonScoreCommand(m_robotContainer, m_robotContainer.getSuperstructure(), m_robotContainer.getSwerveSubsystem(),8.0, 3.0).schedule(); //test this in sim... Works!
   }
 
   /**

@@ -88,58 +88,58 @@ public final class Constants
 
   public static class ReefScoringLocations{
       // REEF PRE-SCORING POSES
-      public static   final Pose2d  BLUEPRESCORE_12 = new Pose2d( 5.9, 3.826,   Rotation2d.fromDegrees(   	180  	)); 
-      public static   final Pose2d  BLUEPRESCORE_11 = new Pose2d( 5.9, 4.217,   Rotation2d.fromDegrees(   	180 	)); 
-      public static   final Pose2d  BLUEPRESCORE_10 = new Pose2d( 5.3, 5.3,   Rotation2d.fromDegrees(    -120          ));   
-      public static   final Pose2d  BLUEPRESCORE_9	  = new Pose2d( 5.289, 5.7,   Rotation2d.fromDegrees(    -120          ));   
-      public static   final Pose2d  BLUEPRESCORE_8	  = new Pose2d( 3.8, 5.5,   Rotation2d.fromDegrees(    	-60	         ));  
-      public static   final Pose2d  BLUEPRESCORE_7	  = new Pose2d( 3.50, 5.3,   Rotation2d.fromDegrees(    	-60	         ));  
+      public static   final Pose2d  BLUEPRESCORE_12 = new Pose2d( 5.9, 3.826,   Rotation2d.fromDegrees(   	0  	)); 
+      public static   final Pose2d  BLUEPRESCORE_11 = new Pose2d( 5.9, 4.217,   Rotation2d.fromDegrees(   	0 	)); 
+      public static   final Pose2d  BLUEPRESCORE_10 = new Pose2d( 5.3, 5.3,   Rotation2d.fromDegrees(    60          ));   
+      public static   final Pose2d  BLUEPRESCORE_9	  = new Pose2d( 5.289, 5.7,   Rotation2d.fromDegrees(    60          ));   
+      public static   final Pose2d  BLUEPRESCORE_8	  = new Pose2d( 3.8, 5.5,   Rotation2d.fromDegrees(    	120	         ));  
+      public static   final Pose2d  BLUEPRESCORE_7	  = new Pose2d( 3.50, 5.3,   Rotation2d.fromDegrees(    	120	         ));  
       public static   final Pose2d  BLUEPRESCORE_6	  = new Pose2d( 2.9, 4.21,   Rotation2d.fromDegrees(   	180	   )); 
       public static   final Pose2d  BLUEPRESCORE_5	  = new Pose2d( 2.9, 3.826,   Rotation2d.fromDegrees(   	180	   )); 
-      public static   final Pose2d  BLUEPRESCORE_4	  = new Pose2d( 3.5, 2.7,   Rotation2d.fromDegrees(   	60 	)); 
-      public static   final Pose2d  BLUEPRESCORE_3	  = new Pose2d( 3.9, 2.6,   Rotation2d.fromDegrees(   	60 	)); 
-      public static   final Pose2d  BLUEPRESCORE_2	  = new Pose2d( 5.05, 2.6,   Rotation2d.fromDegrees(   	120 	)); 
-      public static   final Pose2d  BLUEPRESCORE_1	  = new Pose2d( 5.30, 2.7,   Rotation2d.fromDegrees(   	120 	)); 
+      public static   final Pose2d  BLUEPRESCORE_4	  = new Pose2d( 3.5, 2.7,   Rotation2d.fromDegrees(   	-120 	)); 
+      public static   final Pose2d  BLUEPRESCORE_3	  = new Pose2d( 3.9, 2.6,   Rotation2d.fromDegrees(   	-120 	)); 
+      public static   final Pose2d  BLUEPRESCORE_2	  = new Pose2d( 5.05, 2.6,   Rotation2d.fromDegrees(   	-60 	)); 
+      public static   final Pose2d  BLUEPRESCORE_1	  = new Pose2d( 5.30, 2.7,   Rotation2d.fromDegrees(   	-60 	)); 
 
-      public	static	final	Pose2d	REDPRESCORE_12  =	new	Pose2d(	11.118,	4.220,  Rotation2d.fromDegrees( 0    )); 
-      public	static	final	Pose2d	REDPRESCORE_11  =	new	Pose2d(	11.117,	3.829,  Rotation2d.fromDegrees( 0    )); 
-      public	static	final	Pose2d	REDPRESCORE_10  =	new	Pose2d(	11.906,	2.461,  Rotation2d.fromDegrees( 60   )); 
-      public	static	final	Pose2d	REDPRESCORE_9	   =	new	Pose2d(	12.246,	2.245,  Rotation2d.fromDegrees( 60   )); 
-      public	static	final	Pose2d	REDPRESCORE_8	   =	new	Pose2d(	13.832,	2.264,  Rotation2d.fromDegrees( 120  )); 
-      public	static	final	Pose2d	REDPRESCORE_7	   =	new	Pose2d(	14.175,	2.434,  Rotation2d.fromDegrees( 120  )); 
-      public	static	final	Pose2d	REDPRESCORE_6	   =	new	Pose2d(	14.974,	3.829,  Rotation2d.fromDegrees( 180  ));     
-      public	static	final	Pose2d	REDPRESCORE_5	   =	new	Pose2d(	14.973,	4.220,  Rotation2d.fromDegrees( 180  ));     
-      public	static	final	Pose2d	REDPRESCORE_4	   =	new	Pose2d(	14.184,	5.595,  Rotation2d.fromDegrees( -120 ));	            
-      public	static	final	Pose2d	REDPRESCORE_3	 	=	new	Pose2d(	13.846,	5.784,  Rotation2d.fromDegrees( -120 ));	            
-      public	static	final	Pose2d	REDPRESCORE_2	 	=	new	Pose2d(	12.252,	5.791,  Rotation2d.fromDegrees( -60  ));	             
-      public	static	final	Pose2d	REDPRESCORE_1	 	=	new	Pose2d(	11.915,	5.596,  Rotation2d.fromDegrees( -60  ));	             
+      public	static	final	Pose2d	REDPRESCORE_12  =	new	Pose2d(	11.118,	4.220,  Rotation2d.fromDegrees( 180    )); 
+      public	static	final	Pose2d	REDPRESCORE_11  =	new	Pose2d(	11.117,	3.829,  Rotation2d.fromDegrees( 180    )); 
+      public	static	final	Pose2d	REDPRESCORE_10  =	new	Pose2d(	11.906,	2.461,  Rotation2d.fromDegrees( -120   )); 
+      public	static	final	Pose2d	REDPRESCORE_9	   =	new	Pose2d(	12.246,	2.245,  Rotation2d.fromDegrees( -120   )); 
+      public	static	final	Pose2d	REDPRESCORE_8	   =	new	Pose2d(	13.832,	2.264,  Rotation2d.fromDegrees( -60  )); 
+      public	static	final	Pose2d	REDPRESCORE_7	   =	new	Pose2d(	14.175,	2.434,  Rotation2d.fromDegrees( -60  )); 
+      public	static	final	Pose2d	REDPRESCORE_6	   =	new	Pose2d(	14.974,	3.829,  Rotation2d.fromDegrees( 0  ));     
+      public	static	final	Pose2d	REDPRESCORE_5	   =	new	Pose2d(	14.973,	4.220,  Rotation2d.fromDegrees( 0  ));     
+      public	static	final	Pose2d	REDPRESCORE_4	   =	new	Pose2d(	14.184,	5.595,  Rotation2d.fromDegrees( 60 ));	            
+      public	static	final	Pose2d	REDPRESCORE_3	 	=	new	Pose2d(	13.846,	5.784,  Rotation2d.fromDegrees( 60 ));	            
+      public	static	final	Pose2d	REDPRESCORE_2	 	=	new	Pose2d(	12.252,	5.791,  Rotation2d.fromDegrees( 120  ));	             
+      public	static	final	Pose2d	REDPRESCORE_1	 	=	new	Pose2d(	11.915,	5.596,  Rotation2d.fromDegrees( 120  ));	             
 
   // REEF SCORING POSES
-      public static   final Pose2d  BLUE_12        = new Pose2d( 5.762,	3.900,   Rotation2d.fromDegrees( 	180 	)); 
-      public static   final Pose2d  BLUE_11        = new Pose2d( 5.762,	4.230,   Rotation2d.fromDegrees( 	180 	)); 
-      public static   final Pose2d  BLUE_10        = new Pose2d( 5.225,	5.192,   Rotation2d.fromDegrees(  -120          ));  
-      public static   final Pose2d  BLUE_9	       = new Pose2d( 4.972,	5.462,   Rotation2d.fromDegrees(  -120          ));  
-      public static   final Pose2d  BLUE_8	       = new Pose2d( 3.870, 5.462,   Rotation2d.fromDegrees(  	-60	         )); //adjusted 3-4-25 
-      public static   final Pose2d  BLUE_7	       = new Pose2d( 3.617, 5.192,   Rotation2d.fromDegrees(  	-60	         ));  //adjusted 3-4-25
-      public static   final Pose2d  BLUE_6	       = new Pose2d( 3.080, 4.230,    Rotation2d.fromDegrees( 	180	   )); //adjusted 3-4-25
+      public static   final Pose2d  BLUE_12        = new Pose2d( 5.904,	3.866,   Rotation2d.fromDegrees( 	0 	)); //updated at 696 field
+      public static   final Pose2d  BLUE_11        = new Pose2d( 5.894,	4.192,   Rotation2d.fromDegrees( 	0 	)); //updated at 696 field
+      public static   final Pose2d  BLUE_10        = new Pose2d( 5.358,	5.163,   Rotation2d.fromDegrees(  60          ));  //updated at 696 field
+      public static   final Pose2d  BLUE_9	       = new Pose2d( 5.055,	5.408,   Rotation2d.fromDegrees(  60          ));  //updated at 696 field
+      public static   final Pose2d  BLUE_8	       = new Pose2d( 3.870, 5.462,   Rotation2d.fromDegrees(  	120	         )); //adjusted 3-4-25 
+      public static   final Pose2d  BLUE_7	       = new Pose2d( 3.622, 5.164,   Rotation2d.fromDegrees(  	120	         ));  //adjusted 3-4-25
+      public static   final Pose2d  BLUE_6	       = new Pose2d( 2.992, 4.228,    Rotation2d.fromDegrees( 	180	   )); //adjusted 3-4-25
       public static   final Pose2d  BLUE_5	       = new Pose2d( 3.080, 3.900,    Rotation2d.fromDegrees( 	180 	  )); //adjusted 3-4-25
-      public static   final Pose2d  BLUE_4	       = new Pose2d( 3.626, 2.880,   Rotation2d.fromDegrees( 	60 	)); //adjusted 3-4-25
-      public static   final Pose2d  BLUE_3	       = new Pose2d( 3.970, 2.733,   Rotation2d.fromDegrees( 	60 	)); //adjusted 3-4-25
-      public static   final Pose2d  BLUE_2	       = new Pose2d( 4.972, 2.733,   Rotation2d.fromDegrees( 	120 	)); 
-      public static   final Pose2d  BLUE_1	       = new Pose2d( 5.225, 2.880,   Rotation2d.fromDegrees( 	120 	)); 
+      public static   final Pose2d  BLUE_4	       = new Pose2d( 3.626, 2.880,   Rotation2d.fromDegrees( 	-120 	)); //adjusted 3-4-25
+      public static   final Pose2d  BLUE_3	       = new Pose2d( 3.970, 2.733,   Rotation2d.fromDegrees( 	-120 	)); //adjusted 3-4-25
+      public static   final Pose2d  BLUE_2	       = new Pose2d( 4.972, 2.733,   Rotation2d.fromDegrees( 	-60 	)); 
+      public static   final Pose2d  BLUE_1	       = new Pose2d( 5.225, 2.880,   Rotation2d.fromDegrees( 	-60 	)); 
 
-      public	static	final	Pose2d	RED_12	      =	new	Pose2d(	11.773,	4.230,	Rotation2d.fromDegrees(	 0    )); 
-      public	static	final	Pose2d	RED_11	      =	new	Pose2d(	11.773,	3.900,	Rotation2d.fromDegrees(	 0    )); 
-      public	static	final	Pose2d	RED_10	      =	new	Pose2d(	12.310,	2.880,	Rotation2d.fromDegrees(	 60   )); 
-      public	static	final	Pose2d	RED_9	        =	new	Pose2d(	12.563,	2.733,	Rotation2d.fromDegrees(	 60   )); 
-      public	static	final	Pose2d	RED_8	        =	new	Pose2d(	13.602,	2.632,	Rotation2d.fromDegrees(	 120  )); 
-      public	static	final	Pose2d	RED_7	        =	new	Pose2d(	13.918,	2.880,	Rotation2d.fromDegrees(	 120  )); 
-      public	static	final	Pose2d	RED_6	        =	new	Pose2d(	14.455,	3.840,	Rotation2d.fromDegrees(	 180  )); 
-      public	static	final	Pose2d	RED_5	        =	new	Pose2d(	14.455,	4.210,	Rotation2d.fromDegrees(	 180  )); 
-      public	static	final	Pose2d	RED_4	        =	new	Pose2d(	13.909,	5.192,	Rotation2d.fromDegrees(  -120 ));	        
-      public	static	final	Pose2d	RED_3	        =	new	Pose2d(	13.541,	5.318,	Rotation2d.fromDegrees(  -120 ));	        
-      public	static	final	Pose2d	RED_2	        =	new	Pose2d(	12.489,	5.458,	Rotation2d.fromDegrees(	 -60  ));	        
-      public	static	final	Pose2d	RED_1	        =	new	Pose2d(	12.255,	5.071,	Rotation2d.fromDegrees(	 -60  ));	        
+      public	static	final	Pose2d	RED_12	      =	new	Pose2d(	11.773,	4.230,	Rotation2d.fromDegrees(	 180    )); 
+      public	static	final	Pose2d	RED_11	      =	new	Pose2d(	11.773,	3.900,	Rotation2d.fromDegrees(	 180    )); 
+      public	static	final	Pose2d	RED_10	      =	new	Pose2d(	12.310,	2.880,	Rotation2d.fromDegrees(	 -120   )); 
+      public	static	final	Pose2d	RED_9	        =	new	Pose2d(	12.563,	2.733,	Rotation2d.fromDegrees(	 -120   )); 
+      public	static	final	Pose2d	RED_8	        =	new	Pose2d(	13.602,	2.632,	Rotation2d.fromDegrees(	 -60  )); 
+      public	static	final	Pose2d	RED_7	        =	new	Pose2d(	13.918,	2.880,	Rotation2d.fromDegrees(	 -60  )); 
+      public	static	final	Pose2d	RED_6	        =	new	Pose2d(	14.455,	3.840,	Rotation2d.fromDegrees(	 0  )); 
+      public	static	final	Pose2d	RED_5	        =	new	Pose2d(	14.455,	4.210,	Rotation2d.fromDegrees(	 0  )); 
+      public	static	final	Pose2d	RED_4	        =	new	Pose2d(	13.909,	5.192,	Rotation2d.fromDegrees(  60 ));	        
+      public	static	final	Pose2d	RED_3	        =	new	Pose2d(	13.541,	5.318,	Rotation2d.fromDegrees(  60 ));	        
+      public	static	final	Pose2d	RED_2	        =	new	Pose2d(	12.489,	5.458,	Rotation2d.fromDegrees(	 120  ));	        
+      public	static	final	Pose2d	RED_1	        =	new	Pose2d(	12.255,	5.071,	Rotation2d.fromDegrees(	 120  ));	        
       
       public static Pose2d getScorePose(Boolean isRedAlliance, Double selectPose){
         Pose2d scoreDrivePose = new Pose2d(); 
@@ -332,7 +332,7 @@ public final class Constants
           funnelConfig.Slot0.kP = 20;//
           funnelConfig.Slot0.kI = 0.00; //
           funnelConfig.Slot0.kD = 0.00001; //
-          funnelConfig.CurrentLimits.SupplyCurrentLimit = 25;//was 20
+          funnelConfig.CurrentLimits.SupplyCurrentLimit = 30;//was 20
           funnelConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = .02;        
           funnelConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .02;
           funnelConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .02;
@@ -347,24 +347,32 @@ public final class Constants
           intakePivotLeftConfig.Slot0.kG = 0.0; // Volts to overcome gravity
           intakePivotLeftConfig.Slot0.kS = 0.0; // Volts to overcome static friction
           intakePivotLeftConfig.Slot0.kA = 0.001; // Volts for an acceleration of 1 rps/s
-          intakePivotLeftConfig.Slot0.kP = 8;//
+          intakePivotLeftConfig.Slot0.kP = 4;// was 8
           intakePivotLeftConfig.Slot0.kI = 0.0001; //
           intakePivotLeftConfig.Slot0.kV = 0.12; //
           intakePivotLeftConfig.Slot0.kD = 0.02; //
-          intakePivotLeftConfig.CurrentLimits.SupplyCurrentLimit = 3;//climbed on 5
+          intakePivotLeftConfig.CurrentLimits.SupplyCurrentLimit = 5;//climbed on 5
           intakePivotLeftConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = .02;        
           intakePivotLeftConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .02;
           intakePivotLeftConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .02;
           intakePivotLeftConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .02;
-          intakePivotLeftConfig.MotionMagic.MotionMagicCruiseVelocity = 80; //
-          intakePivotLeftConfig.MotionMagic.MotionMagicAcceleration = 250/2; //
+          intakePivotLeftConfig.MotionMagic.MotionMagicCruiseVelocity = 80 / 2; //
+          intakePivotLeftConfig.MotionMagic.MotionMagicAcceleration = 150; //
           intakePivotLeftConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
           intakePivotLeftConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-          intakePivotLeftConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 97.5;
+          intakePivotLeftConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 98.5;
           intakePivotLeftConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 0.0;
           intakePivotLeftConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
-          intakePivotLeftConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+          intakePivotLeftConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
           return intakePivotLeftConfig;
+        }
+        
+        public static TalonFXConfiguration getIntakePivotLeftConfigurationCLIMB(){
+          TalonFXConfiguration intakePivotLeftConfigCLIMB = new TalonFXConfiguration();
+          intakePivotLeftConfigCLIMB = getIntakePivotLeftConfiguration();
+          intakePivotLeftConfigCLIMB.CurrentLimits.SupplyCurrentLimit = 8;//climbed on 5
+          intakePivotLeftConfigCLIMB.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+          return intakePivotLeftConfigCLIMB;
         }
 
         public static TalonFXConfiguration getIntakePivotRightConfiguration(){
@@ -373,6 +381,15 @@ public final class Constants
           intakePivotRightConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
           return intakePivotRightConfig;
         }
+        
+        public static TalonFXConfiguration getIntakePivotRightConfigurationCLIMB(){
+          TalonFXConfiguration intakePivotRightConfigCLIMB = new TalonFXConfiguration();
+          intakePivotRightConfigCLIMB = getIntakePivotRightConfiguration();
+          intakePivotRightConfigCLIMB.CurrentLimits.SupplyCurrentLimit = 8;//climbed on 5
+          intakePivotRightConfigCLIMB.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+          return intakePivotRightConfigCLIMB;
+        }
+
 
 
   }

@@ -130,7 +130,7 @@ public class SwerveSubsystem extends SubsystemBase
                                                0.1); //Correct for skew that gets worse as angular velocity increases. Start with a coefficient of 0.1.
     swerveDrive.setModuleEncoderAutoSynchronize(false,
                                                 1); // Enable if you want to resynchronize your absolute encoders and motor encoders periodically when they are not moving.
-//    swerveDrive.pushOffsetsToEncoders(); // Set the absolute encoder to be used over the internal encoder and push the offsets onto it. Throws warning if not possible
+    //swerveDrive.pushOffsetsToEncoders(); // Set the absolute encoder to be used over the internal encoder and push the offsets onto it. Throws warning if not possible
 
 
     if (visionDriveTest)
@@ -257,6 +257,10 @@ public class SwerveSubsystem extends SubsystemBase
     PathfindingCommand.warmupCommand().schedule();
   }
 
+  public void resetDriveEncoders(){
+    swerveDrive.resetDriveEncoders();
+  }
+
 //  /**
 //   * Aim the robot at the target returned by PhotonVision.
 //   *
@@ -283,6 +287,7 @@ public class SwerveSubsystem extends SubsystemBase
 
   public Command visionIntake(){
         return run(() -> {
+
             var result = objectCamera.getLatestResult();
             if (result.hasTargets()) {
                 var targets = result.getTargets();
@@ -325,14 +330,14 @@ public class SwerveSubsystem extends SubsystemBase
                     if (xSet > 1) xSet = 1;
                     if (xSet < -1) xSet = -1;
 
-                    xSet = xSet * 0.40;
+                    xSet = xSet * 0.60;
                     //double ySet = yController.calculate(y);
-                    y= y - 8; //offset for camera angle
+                    y= y - 5; //offset for camera angle
                     double ySet = y * .4;
                     SmartDashboard.putNumber("ySetVisionIntake", ySet);
                     if (ySet > 1) ySet = 1;
                     if (ySet < -1) ySet = -1;
-                    drive(new Translation2d(xSet, 0.0), -ySet, false);
+                    drive(new Translation2d(-xSet, 0.0), -ySet, false);
                 }
             }
         });
@@ -347,15 +352,15 @@ public class SwerveSubsystem extends SubsystemBase
   {
     SmartDashboard.putNumber("Max Vel PID",   SmartDashboard.getNumber("Max Vel PID", 2));
     SmartDashboard.putNumber("max Accel PID", SmartDashboard.getNumber("max Accel PID",1));
-    SmartDashboard.putNumber("kP PID",        SmartDashboard.getNumber("kP PID", 8));
+    SmartDashboard.putNumber("kP PID",        SmartDashboard.getNumber("kP PID", 10));
     SmartDashboard.putNumber("kI PID",        SmartDashboard.getNumber("kI PID", 5));
-    SmartDashboard.putNumber("kD PID",        SmartDashboard.getNumber("kD PID", .2));
+    SmartDashboard.putNumber("kD PID",        SmartDashboard.getNumber("kD PID", .25));
 
     TrapezoidProfile.Constraints xyConstraints = new Constraints(SmartDashboard.getNumber("Max Vel PID", 2), SmartDashboard.getNumber("max Accel PID",1));
     //TrapezoidProfile.Constraints thetaConstraints = new Constraints(540,720);
     
-    ProfiledPIDController xcontroller = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 8), SmartDashboard.getNumber("kI PID", 5), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
-    ProfiledPIDController ycontroller = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 8), SmartDashboard.getNumber("kI PID", 5), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
+    ProfiledPIDController xcontroller = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 10), SmartDashboard.getNumber("kI PID", 5), SmartDashboard.getNumber("kD PID", .25), xyConstraints);
+    ProfiledPIDController ycontroller = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 10), SmartDashboard.getNumber("kI PID", 5), SmartDashboard.getNumber("kD PID", .25), xyConstraints);
 
     //ProfiledPIDController thetacontroller = new ProfiledPIDController(30, 0, 0, thetaConstraints);
     //thetacontroller.enableContinuousInput(-180, 180);
@@ -366,7 +371,10 @@ public class SwerveSubsystem extends SubsystemBase
     ycontroller.setIZone(.5);
     ycontroller.setTolerance(.01);
 
-    BooleanSupplier atTarget = () -> (xcontroller.atGoal() && ycontroller.atSetpoint()&& (Math.abs(getPose().getRotation().getDegrees() - targetPose.getRotation().getDegrees())<1));
+    BooleanSupplier atTarget = () -> (xcontroller.atGoal() && ycontroller.atSetpoint()&& (Math.abs(getPose().getRotation().getDegrees() - targetPose.getRotation().getDegrees())<1
+    
+    
+    ));
 
     Command resetTheThing = new InstantCommand(
       () ->     { xcontroller.reset(getPose().getX());

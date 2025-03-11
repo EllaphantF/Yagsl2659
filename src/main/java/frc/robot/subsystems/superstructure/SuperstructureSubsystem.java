@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.RobotBase;
-import frc.robot.subsystems.LEDs;
+//import frc.robot.subsystems.LEDs;
 
 import com.ctre.phoenix6.*;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
@@ -70,7 +70,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public SuperstructureStates STATE = new SuperstructureStates();
   public SuperstructureState TARGETSTATE = STATE.Home;
   
-  private final LEDs mLED = new LEDs();
+  //private final LEDs mLED = new LEDs();
 
   private static final TalonFX mElevatorRight = new TalonFX(Constants.elevatorRightID);//MPF Hi I have IDs
   private static final TalonFX mElevatorLeft = new TalonFX(Constants.elevatorLeftID);//
@@ -97,9 +97,26 @@ public class SuperstructureSubsystem extends SubsystemBase {
   private final MechanismLigament2d m_IntakeWheels;
   private final MechanismLigament2d m_FunnelWheels;
 
+  public int lightMode = 0; 
+  /* disabled = 0, 
+   * autonomous = 1
+   * no coral = 2
+   * holding coral = 3
+   * scoring L1 = 4
+   * scoring L2 = 5
+   * scoring L3 = 6
+   * scoring L4 = 7
+   * intaking = 8
+   * climbing = 9
+   * algae = 10
+   * homing = 11
+   * releasing = 12
+   * at position = 13
+   */
+
   /** Creates a new ExampleSubsystem. */
   public SuperstructureSubsystem() {
-        mLED.setLightMode(0);
+        //mLED.setLightMode(0);
     /* Configurations */
         mElevatorRight.getConfigurator().apply(Constants.SuperstructureConfigs.getElevatorConfigRight());
         mElevatorLeft.getConfigurator().apply(Constants.SuperstructureConfigs.getElevatorConfigLeft());
@@ -137,16 +154,21 @@ public class SuperstructureSubsystem extends SubsystemBase {
     
     if (state == 1) {
       TARGETSTATE = STATE.climb1;
-      mLED.setLightMode(1);
+      // mLED.setLightMode(1);
+      lightMode = 9;
     }
     if (state == 2) {
       TARGETSTATE = STATE.climb2; 
       setIntakeWheelSpeed(3);
-      mLED.setLightMode(1);
+      // mLED.setLightMode(1);
+      lightMode = 9;
     }
     if (state == 3) {
       TARGETSTATE = STATE.climb3;
-      mLED.setLightMode(2);
+      mIntakePivotLeft.getConfigurator().apply(Constants.SuperstructureConfigs.getIntakePivotLeftConfigurationCLIMB()); //
+      mIntakePivotRight.getConfigurator().apply(Constants.SuperstructureConfigs.getIntakePivotRightConfigurationCLIMB()); //
+      // mLED.setLightMode(2);
+      lightMode = 9;
     }
   }
 
@@ -182,9 +204,13 @@ public class SuperstructureSubsystem extends SubsystemBase {
     if(!manualOverride){
     mIntakePivotLeft.setControl(new MotionMagicVoltage(IntakePosTarget ));
     mIntakePivotRight.setControl(new MotionMagicVoltage(IntakePosTarget ));}
-    else{ //intake always down == manual override
+    else if (intaking){ //intake always down == manual override
     mIntakePivotLeft.setControl(new MotionMagicVoltage(STATE.Intake.intake ));
     mIntakePivotRight.setControl(new MotionMagicVoltage(STATE.Intake.intake ));
+    }
+    else {
+    mIntakePivotLeft.setControl(new MotionMagicVoltage(STATE.Intake.intake - 5));
+    mIntakePivotRight.setControl(new MotionMagicVoltage(STATE.Intake.intake - 5));
     }
 
     //mIntakePivotRight.setControl(new MotionMagicVoltage(IntakePosTarget * Constants.intakePivotGearRatio / 360));
@@ -311,7 +337,8 @@ public class SuperstructureSubsystem extends SubsystemBase {
         //if(mIntakePivot.getPosition().getValueAsDouble() < Constants.intakeEndeffectorClearancePos){ //If intake is retracted (i.e. endeffector would hit it) 
         //  TARGETSTATE = STATE.StowClear;//put the intake down and bring the elevator down with the endeffector towards the scoring side of the robot 
         //}else{
-          mLED.setLightMode(1);
+          // mLED.setLightMode(1);
+          lightMode = 8;
           TARGETSTATE = STATE.StowClearIntakeDeployed; //put the intake down and bring the elevator down with the endeffector towards the scoring side of the robot
         //}
     }
@@ -320,7 +347,8 @@ public class SuperstructureSubsystem extends SubsystemBase {
           TARGETSTATE = STATE.Intake;//put the intake down and bring the elevator down with the endeffector towards the scoring side of the robot 
         //else {
           //TARGETSTATE = STATE.Intake; //If the elevator is below the crossbar and the endeffector will clear the intake, go to full intake
-          mLED.setLightMode(1);
+          // mLED.setLightMode(1);
+          lightMode = 8;
           intakeTraversing = false;
           intaking = true;
         }
@@ -333,10 +361,10 @@ public class SuperstructureSubsystem extends SubsystemBase {
     releasingCoral = false;
     //hasCoral = true; //temporary for testing 2/19/2025
     if(atPosition()){
-      mLED.setLightMode(1);
-      setEndeffectorWheelSpeed(3);
-      setIntakeWheelSpeed(40); // was 23 -- 40 works great 3-8-2025
-      setFunnelWheelSpeed(-8);}//was -10 -- -8 works great 3-8-2025
+      // mLED.setLightMode(1);
+      setEndeffectorWheelSpeed(2.5);
+      setIntakeWheelSpeed(45); // was 23 -- 40 works great 3-8-2025
+      setFunnelWheelSpeed(-10);}//was -10 -- -8 works great 3-8-2025
     //if ( CANdi.getS1State(true).getValueAsDouble() == 1 && manualOverride == false){ //was 19 amps 
     if ( CANdi.getS1State(true).getValueAsDouble() == 1){ //was 19 amps 
       //added manualOverride boolean to allo  w for manual control of the intake
@@ -346,6 +374,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
       setIntakeWheelSpeed(0);
       setFunnelWheelSpeed(0);
       intaking = false;
+      lightMode = 3; 
       //stowing = true; //removed 3-8-25 so that coral will fully stow before EE pivot stows
     }
   }
@@ -421,16 +450,31 @@ public class SuperstructureSubsystem extends SubsystemBase {
   }
 
   public void goHome(){
-    mLED.setLightMode(1);
+    // mLED.setLightMode(1);
+    lightMode = 11; 
     clearMotionStates();
     stopAllWheels();
     stowing = true;
+
+
     if(safeToStow()){
-      mLED.setLightMode(8);
+      //mLED.setLightMode(8);
       TARGETSTATE = STATE.Home;
       stowing = false;
+
+      if(hasCoral == true){
+        lightMode = 3;
+      } else {
+        lightMode = 2;
+      }
     }
     else TARGETSTATE = STATE.StowEEClear;
+
+    if(hasCoral == true){
+      lightMode = 3;
+    } else {
+      lightMode = 2;
+    }
   }
 
   private void stow(){ //pulls the intake in and elevator down
@@ -460,6 +504,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
     if (level == 2) TARGETSTATE = STATE.grabAlgaeL2;
     if (level == 3) TARGETSTATE = STATE.grabAlgaeL3;
     setEndeffectorWheelSpeed(-5);
+    lightMode = 10;
   }
 
   /**
@@ -499,7 +544,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
   }
 
   public void justGotCoral(){
-    if(hasCoral && mElevatorRight.getPosition().getValueAsDouble() > 5 * Constants.endEffectorPivotGearRatio / 360 ){      
+    if(hasCoral && mEndeffectorPivot.getPosition().getValueAsDouble() > -5 * Constants.endEffectorPivotGearRatio / 360 ){      
       SmartDashboard.putNumber("zEEDebug", 0.5);
       mEndeffectorRollers.setControl(new MotionMagicVoltage(0.0));
       mEndeffectorRollers.setPosition(0.5);
@@ -544,7 +589,8 @@ public class SuperstructureSubsystem extends SubsystemBase {
   private void releaseCoral(){
     releasingCoral = true;
     if(!releaseAtPos || atPositionScoring()){
-    mLED.setLightMode(7);
+    // mLED.setLightMode(7);
+    lightMode = 12;
     if(scoreLevel == 1) {
       mEndeffectorRollers.setControl(new MotionMagicVelocityVoltage(-35)); //set wheelspeed here for EE rollers to release coral with the right velocity for L1
       if(mEndeffectorRollers.getPosition().getValueAsDouble() < -8) {
@@ -552,6 +598,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
         releasingCoral = false;
         releaseAtPos = false;
         setEndeffectorWheelSpeed(0);
+        lightMode = 2;
     }}
     else{
       mEndeffectorRollers.setControl(new MotionMagicVelocityVoltage(25));
@@ -617,6 +664,17 @@ public class SuperstructureSubsystem extends SubsystemBase {
       if(scoringCoral){
         if(sequenceState == 0){
           setPreScoreCoralState(scoreLevel);
+
+          if(scoreLevel == 1){
+            lightMode = 4;
+          } else if(scoreLevel == 2){
+            lightMode = 5;
+          } else if(scoreLevel == 3){
+            lightMode = 6;
+          } else if(scoreLevel == 4){
+            lightMode = 7;
+          }
+
           if (atPosition()) {
             sequenceState = 1; //if at the pre-score position, move to the score position
           }
@@ -713,20 +771,23 @@ public class SuperstructureSubsystem extends SubsystemBase {
 
     if (scoreLevel == 2){
         if( Math.abs(elevatorPos - STATE.CoralL2.elevator) < Constants.scoringPositionTolerance && Math.abs(pivotPos - STATE.CoralL2.pivot) < Constants.scoringPositionTolerance){
-          mLED.setLightMode(7);
+          // mLED.setLightMode(7);
+          lightMode = 13;
           return true; } }
     else if(scoreLevel == 3){
         if( Math.abs(elevatorPos - STATE.CoralL3.elevator) < Constants.scoringPositionTolerance && Math.abs(pivotPos - STATE.CoralL3.pivot) < Constants.scoringPositionTolerance){
-          mLED.setLightMode(7);
+          // mLED.setLightMode(7);
+          lightMode = 13;
           return true; } }
     else if(scoreLevel == 4){
         if( Math.abs(elevatorPos - STATE.CoralL4.elevator) < Constants.scoringPositionTolerance && Math.abs(pivotPos - STATE.CoralL4.pivot) < Constants.scoringPositionTolerance){
-          mLED.setLightMode(7);
+          // mLED.setLightMode(7);
+          lightMode = 13;
           return true; } }
     else {
-      mLED.setLightMode(0);
+      // mLED.setLightMode(0);
       return false;}
-    mLED.setLightMode(7);
+    // mLED.setLightMode(7);
     return false;
   }
 

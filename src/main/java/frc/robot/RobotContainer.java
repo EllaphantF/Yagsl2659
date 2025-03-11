@@ -262,6 +262,7 @@ public class RobotContainer
       // driverXbox.povRight().onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", SmartDashboard.getNumber("Select Scoring Location",0)+.5)));
 
       driverXbox.povLeft().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+      driverXbox.povRight().onTrue((Commands.runOnce(drivebase::resetDriveEncoders)));
       driverXbox.b().whileTrue(new InstantCommand(() -> superstructure.startReleasingCoral(false)).repeatedly());
       driverXbox.b().onFalse(new InstantCommand(() -> superstructure.ureleaseCoral()));
       driverXbox.a().onTrue(new InstantCommand(() -> superstructure.disableManualOverride())); //3-4-25 MPF added disable manual override to intake
