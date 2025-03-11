@@ -90,46 +90,80 @@ public void periodic() {
      m_LED.setData(m_ledBuffer);
 }
 // Was too lazy to type this out to try pathplanner
-/* package frc.robot.util.io;
+/* package frc.robot.auto;
 
-import edu.wpi.first.networktables.BooleanTopic;
-import edu.wpi.first.networktables.DoubleArrayTopic;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.util.sendable.Sendable;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import java.util.function.Supplier;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.auto.PathPlannerAutos.Auto;
+import frc.robot.util.io.Dashboard;*/
 
-public class Dashboard {
-    private final SendableChooser<Auto> autoChooser;
+/**
+ * Responsible for selecting, compiling, and recompiling autos before the start of a match.
+ */
+/* public class PathPlannerAutos {
+    private final Supplier<Auto> autoSupplier;
+    private Auto currentAuto;
+    private Command compiledAuto;
 
-    public static Dashboard getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new Dashboard();
+
+    public PathPlannerAutos(
+        Supplier<Auto> autoSupplier
+    ) {
+        this.autoSupplier = autoSupplier;
+    }
+
+
+    public Command getCompiledAuto() {
+        return compiledAuto;
+    }
+
+    public boolean recompileNeeded() {
+        return autoSupplier.get() != currentAuto;
+    }
+
+    public void recompile() {
+        Dashboard.getInstance().putData(Constants.Dashboard.AUTO_COMPILED_KEY, false);
+
+        currentAuto = autoSupplier.get();
+        if (currentAuto == null) {
+            currentAuto = Auto.NO_AUTO;
+        }
+        
+        if (currentAuto.getAuto() != null) {
+            compiledAuto = AutoBuilder.buildAuto(currentAuto.getAuto().getName());
+            System.out.println("Current Auto: " + currentAuto.getAuto().getName());
+
+            // don't need to initialize the command according to bryan
+            // if (compiledAuto != null) {
+            //     compiledAuto.initialize();
+            // }
         }
 
-        return INSTANCE;
-    }
-    
-    private Dashboard() {
+        Dashboard.getInstance().putData(Constants.Dashboard.AUTO_COMPILED_KEY, true);
+    } */
 
-        autoChooser = new SendableChooser<Auto>();
-        for (Auto auto : Auto.values()) {
-            autoChooser.addOption(auto.name(), auto);
+
+    /*
+     * This is where all our autos are. Need to use this as our list because when deploying to robot old autos don't get 
+     * cleared from the RoboRIO and may show up with built in PathPlannerLib Auto Selector
+     */
+    /* public static enum Auto {
+        NO_AUTO(null),
+        test(new PathPlannerAuto("WoohooAuto"));
+        
+        private final PathPlannerAuto auto;
+
+        private Auto(PathPlannerAuto auto) {
+            this.auto = auto;
         }
-        autoChooser.setDefaultOption(Auto.NO_AUTO.name(), Auto.NO_AUTO);
-        SmartDashboard.putData("Auto", autoChooser);
 
+        public PathPlannerAuto getAuto(){
+            return auto;
+        }
     }
-
-    public Auto getAuto() {
-        return autoChooser.getSelected();
-    }
-
-} */
-
-
+}*/
 }
