@@ -126,7 +126,7 @@ public class Robot extends TimedRobot
       m_autonomousCommand.schedule();
     }
 
-    new AutonScoreCommand(m_robotContainer, m_robotContainer.getSuperstructure(), m_robotContainer.getSwerveSubsystem(),8.0, 3.0).schedule(); //test this in sim... Works!
+    ///new AutonScoreCommand(m_robotContainer, m_robotContainer.getSuperstructure(), m_robotContainer.getSwerveSubsystem(),8.0, 3.0).schedule(); //test this in sim... Works!
   }
 
   /**

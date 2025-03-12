@@ -43,6 +43,7 @@ public final class Constants
 
   public static final double scoringPositionTolerance = 0.1; // Scoring position tolerance for superstructure
   public static final double positionTolerance = 0.3; // general position tolerance for superstructure
+
 //  public static final class AutonConstants
 //  {
 //
@@ -390,7 +391,10 @@ public final class Constants
           return intakePivotRightConfigCLIMB;
         }
 
+        
+
 
 
   }
+
 }

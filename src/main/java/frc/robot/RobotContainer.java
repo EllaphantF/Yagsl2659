@@ -39,7 +39,12 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AutonScoreCommand;
+import frc.robot.commands.GoHomeCommand;
 import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.L1Command;
+import frc.robot.commands.L2Command;
+import frc.robot.commands.L3Command;
+import frc.robot.commands.L4Command;
 /*import frc.robot.commands.L1Command;
 import frc.robot.commands.L2Command;
 import frc.robot.commands.L3Command;
@@ -186,11 +191,11 @@ public class RobotContainer
   {
     /* Added Named Commands for Pathplanner */
 	  NamedCommands.registerCommand("Intake", new IntakeCommand(superstructure).withTimeout(3));
-    /*NamedCommands.registerCommand("L1", new L1Command(superstructure));
+    NamedCommands.registerCommand("L1", new L1Command(superstructure));
     NamedCommands.registerCommand("L2", new L2Command(superstructure));
     NamedCommands.registerCommand("L3", new L3Command(superstructure));
-    NamedCommands.registerCommand("L4", new L4Command(superstructure));*/
-    //NamedCommands.registerCommand("GoHome", new GoHomeCommand(superstructure));
+    NamedCommands.registerCommand("L4", new L4Command(superstructure));
+    NamedCommands.registerCommand("GoHome", new GoHomeCommand(superstructure));
 	  NamedCommands.registerCommand("VisionIntake", new VisionIntakeCommand(superstructure));
      
     NamedCommands.registerCommand("AutonScoreCommandP1L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  1 , 4));
@@ -215,8 +220,8 @@ public class RobotContainer
     allianceChooser.addOption("Red", Alliance.Red);
     SmartDashboard.putData("Alliance Color", allianceChooser);
 
-    autoChooser = AutoBuilder.buildAutoChooser();
-    SmartDashboard.putData("Choose Auto", autoChooser);
+    autoChooser = AutoBuilder.buildAutoChooser(); // Default auto will be `Commands.none()`
+    SmartDashboard.putData("Auto Mode", autoChooser);
 
   }
 
@@ -414,6 +419,7 @@ public class RobotContainer
     //drivebase.resetOdometry(pathPlannerAuto.getStartingPose());
     return autoChooser.getSelected();
   }
+
   /*
   private Command selectCommand() {
     double select = SmartDashboard.getNumber("Select Scoring Location", 0);
