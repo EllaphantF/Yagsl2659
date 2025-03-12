@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class AutoModeSelector {
 
     enum AutonMode {
-        JUST_SCORE, BLUE_4_PIECE, RED_4_PIECE, RED_AMP, BLUE_AMP , BLUE_SOURCE , RED_SOURCE, RED_MID_5, BLUE_MID_5
+        TEST_AUTO, SCORE_BL4
     }
 
     private AutonMode mCachedAutoMode = null;
@@ -18,15 +18,8 @@ public class AutoModeSelector {
 
     public AutoModeSelector() {
         mAutoMode = new SendableChooser<>();
-        mAutoMode.setDefaultOption("JUST SCORE", AutonMode.JUST_SCORE); //ID: 1
-        mAutoMode.addOption("CENTER BLUE", AutonMode.BLUE_4_PIECE); //ID: 2
-        mAutoMode.addOption("CENTER RED", AutonMode.RED_4_PIECE); //ID: 3
-        mAutoMode.addOption("AMP SIDE BLUE", AutonMode.BLUE_AMP); //ID: 4
-        mAutoMode.addOption("AMP SIDE RED", AutonMode.RED_AMP); //ID: 5
-        mAutoMode.addOption("SOURCE SIDE BLUE", AutonMode.BLUE_SOURCE); //ID: 6
-        mAutoMode.addOption("SOURCE SIDE RED", AutonMode.RED_SOURCE); //ID: 7
-        mAutoMode.addOption("BLUE 5", AutonMode.BLUE_MID_5); //ID: 8
-        mAutoMode.addOption("RED 5", AutonMode.RED_MID_5); //ID: 9
+        mAutoMode.setDefaultOption("TEST AUTO", AutonMode.TEST_AUTO); //ID: 1
+        mAutoMode.addOption("SCORE B L4", AutonMode.SCORE_BL4); //ID: 2
         SmartDashboard.putData("Auto Mode", mAutoMode);
     }
 
@@ -43,13 +36,13 @@ public class AutoModeSelector {
        autoChoiceReturn = mAutoMode.getSelected().toString();
         SmartDashboard.putString(autoChoiceReturn, "autoChoiceReturn");
        switch (autoChoiceReturn) {
-            case "JUST_SCORE": 
+            case "TEST_AUTO": 
             return 1;
 
-            case "BLUE_4_PIECE":
+            case "SCORE_BL4":
             return 2;
 
-            case "RED_4_PIECE":
+            /* case "RED_4_PIECE":
             return 3;
 
             case "BLUE_AMP":
@@ -68,7 +61,7 @@ public class AutoModeSelector {
             return 9;
 
             case "BLUE_MID_5":
-            return 8;
+            return 8; */
        }
 
        return 0;
