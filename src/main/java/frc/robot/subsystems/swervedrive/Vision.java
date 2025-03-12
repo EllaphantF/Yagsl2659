@@ -557,6 +557,10 @@ public class Vision
                   .getTranslation()
                   .getDistance(estimatedPose.get().estimatedPose.toPose2d().getTranslation());
         }
+        SmartDashboard.putNumber("zz numTags", numTags);
+        SmartDashboard.putNumber("zz avgDist", avgDist);
+        SmartDashboard.putNumber("zz rotation speed", SwerveDriveTelemetry.measuredChassisSpeeds[2]);
+        SmartDashboard.putNumber("zz linear speed", Math.pow(Math.pow(SwerveDriveTelemetry.measuredChassisSpeeds[0],2) + Math.pow(SwerveDriveTelemetry.measuredChassisSpeeds[1],2),.5));
 
         if (numTags == 0)
         {
@@ -569,15 +573,24 @@ public class Vision
           // Decrease std devs if multiple targets are visible
           if (numTags > 1)
           {
-            estStdDevs = multiTagStdDevs;
+            if(SwerveDriveTelemetry.measuredChassisSpeeds[2] < 90 && Math.pow(Math.pow(SwerveDriveTelemetry.measuredChassisSpeeds[0],2) + Math.pow(SwerveDriveTelemetry.measuredChassisSpeeds[1],2),.5) < 2)
+            {
+              estStdDevs = multiTagStdDevs.times(1 + (avgDist * avgDist * avgDist / 100));
+            }
+            else
+            {
+              estStdDevs = VecBuilder.fill(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE);
+            }
           }
           // Increase std devs based on (average) distance
-          if (numTags == 1 && avgDist > 4)
+          //if (numTags == 1 && avgDist > 4)
+          if ((numTags == 1 && avgDist > 4) || SwerveDriveTelemetry.measuredChassisSpeeds[2] > 90)
           {
             estStdDevs = VecBuilder.fill(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE);
           } else
           {
-            estStdDevs = estStdDevs.times(1 + (avgDist * avgDist / 30));
+            //estStdDevs = estStdDevs.times(1 + (avgDist * avgDist / 30));
+            estStdDevs = estStdDevs.times(1/(4.5 - avgDist)); //this will help localize quickly on single-tag when we're close to the tags
           }
           curStdDevs = estStdDevs;
         }

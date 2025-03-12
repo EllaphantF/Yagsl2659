@@ -10,8 +10,11 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.AutonScoreCommand;
+import frc.robot.commands.VisionIntakeCommand;
 import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.superstructure.SuperstructureSubsystem;
 
@@ -125,8 +128,12 @@ public class Robot extends TimedRobot
     {
       m_autonomousCommand.schedule();
     }
-
-    new AutonScoreCommand(m_robotContainer, m_robotContainer.getSuperstructure(), m_robotContainer.getSwerveSubsystem(),8.0, 3.0).schedule(); //test this in sim... Works!
+    new SequentialCommandGroup(
+      new AutonScoreCommand(m_robotContainer, m_robotContainer.getSuperstructure(), m_robotContainer.getSwerveSubsystem(),8.0, 4.0).withTimeout(.02),
+      new AutonScoreCommand(m_robotContainer, m_robotContainer.getSuperstructure(), m_robotContainer.getSwerveSubsystem(),8.0, 4.0),
+      new VisionIntakeCommand(m_robotContainer, m_robotContainer.getSuperstructure(), m_robotContainer.getSwerveSubsystem(),5.0),
+      new AutonScoreCommand(m_robotContainer, m_robotContainer.getSuperstructure(), m_robotContainer.getSwerveSubsystem(),6.0, 4.0)
+      ).schedule(); 
   }
 
   /**

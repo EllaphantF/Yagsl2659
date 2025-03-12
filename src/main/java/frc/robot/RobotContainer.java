@@ -191,7 +191,7 @@ public class RobotContainer
     NamedCommands.registerCommand("L3", new L3Command(superstructure));
     NamedCommands.registerCommand("L4", new L4Command(superstructure));*/
     //NamedCommands.registerCommand("GoHome", new GoHomeCommand(superstructure));
-	  NamedCommands.registerCommand("VisionIntake", new VisionIntakeCommand(superstructure));
+	  NamedCommands.registerCommand("VisionIntake", new VisionIntakeCommand(this, getSuperstructure(), getSwerveSubsystem(),  5.0));
      
     NamedCommands.registerCommand("AutonScoreCommandP1L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  1 , 4));
     NamedCommands.registerCommand("AutonScoreCommandP2L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  2 , 4));

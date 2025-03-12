@@ -49,7 +49,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public double releaseTimer = 0;
   public final double intake = -20;
   public double sequenceState = 0;
-  public double scoreLevel = 0;
+  public double scoreLevel = 4;
   public double algaeLevel = 0;
   public boolean hasCoral = true;
   public boolean hasAlgae = false;
