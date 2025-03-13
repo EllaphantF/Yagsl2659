@@ -127,18 +127,13 @@ public class Robot extends TimedRobot
     if (m_autonomousCommand != null)
     {
       m_autonomousCommand.schedule();
-    }
-<<<<<<< HEAD
-
-    ///new AutonScoreCommand(m_robotContainer, m_robotContainer.getSuperstructure(), m_robotContainer.getSwerveSubsystem(),8.0, 3.0).schedule(); //test this in sim... Works!
-=======
+    }/*
     new SequentialCommandGroup(
       new AutonScoreCommand(m_robotContainer, m_robotContainer.getSuperstructure(), m_robotContainer.getSwerveSubsystem(),8.0, 4.0).withTimeout(.02),
       new AutonScoreCommand(m_robotContainer, m_robotContainer.getSuperstructure(), m_robotContainer.getSwerveSubsystem(),8.0, 4.0),
       new VisionIntakeCommand(m_robotContainer, m_robotContainer.getSuperstructure(), m_robotContainer.getSwerveSubsystem(),5.0),
       new AutonScoreCommand(m_robotContainer, m_robotContainer.getSuperstructure(), m_robotContainer.getSwerveSubsystem(),6.0, 4.0)
-      ).schedule(); 
->>>>>>> 1d4c6da58f1897e35a2b3c4796820a4e22721088
+      ).schedule(); */ // backup
   }
 
   /**

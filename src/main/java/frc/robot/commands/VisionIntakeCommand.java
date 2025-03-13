@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.*;
 //import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.superstructure.SuperstructureSubsystem;
+import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 public class VisionIntakeCommand extends Command {
     RobotContainer robotContainer;
@@ -11,7 +12,7 @@ public class VisionIntakeCommand extends Command {
     double timerStart = 0;
     double timeLimit = 3;
 
-    public VisionIntakeCommand(SuperstructureSubsystem structure) {
+    public VisionIntakeCommand(RobotContainer m_RobotContainer, SuperstructureSubsystem m_SuperstructureSub, SwerveSubsystem m_DrivetrainSub) {
         this.structure = structure;
     }
 

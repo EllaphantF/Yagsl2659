@@ -220,7 +220,7 @@ public final class Constants
           elevatorConfigLeft.Slot0.kI = 0.00001; //
           elevatorConfigLeft.Slot0.kD = 0.01; //
           
-          elevatorConfigLeft.CurrentLimits.SupplyCurrentLimit = 20;//was 20
+          elevatorConfigLeft.CurrentLimits.SupplyCurrentLimit = 12;//was 20
           elevatorConfigLeft.OpenLoopRamps.VoltageOpenLoopRampPeriod = .02;
           elevatorConfigLeft.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .02;
           elevatorConfigLeft.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .02;
@@ -357,7 +357,7 @@ public final class Constants
           intakePivotLeftConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .02;
           intakePivotLeftConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .02;
           intakePivotLeftConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .02;
-          intakePivotLeftConfig.MotionMagic.MotionMagicCruiseVelocity = 80 / 2; //
+          intakePivotLeftConfig.MotionMagic.MotionMagicCruiseVelocity = 80 ; //
           intakePivotLeftConfig.MotionMagic.MotionMagicAcceleration = 150; //
           intakePivotLeftConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
           intakePivotLeftConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;

@@ -194,16 +194,10 @@ public class RobotContainer
     NamedCommands.registerCommand("L1", new L1Command(superstructure));
     NamedCommands.registerCommand("L2", new L2Command(superstructure));
     NamedCommands.registerCommand("L3", new L3Command(superstructure));
-<<<<<<< HEAD
     NamedCommands.registerCommand("L4", new L4Command(superstructure));
     NamedCommands.registerCommand("GoHome", new GoHomeCommand(superstructure));
-	  NamedCommands.registerCommand("VisionIntake", new VisionIntakeCommand(superstructure));
-=======
-    NamedCommands.registerCommand("L4", new L4Command(superstructure));*/
-    //NamedCommands.registerCommand("GoHome", new GoHomeCommand(superstructure));
-	  NamedCommands.registerCommand("VisionIntake", new VisionIntakeCommand(this, getSuperstructure(), getSwerveSubsystem(),  5.0));
->>>>>>> 1d4c6da58f1897e35a2b3c4796820a4e22721088
-     
+	  //NamedCommands.registerCommand("VisionIntake", new VisionIntakeCommand(this, getSuperstructure(), getSwerveSubsystem(),  5.0));
+    
     NamedCommands.registerCommand("AutonScoreCommandP1L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  1 , 4));
     NamedCommands.registerCommand("AutonScoreCommandP2L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  2 , 4));
     NamedCommands.registerCommand("AutonScoreCommandP3L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  3 , 4));
