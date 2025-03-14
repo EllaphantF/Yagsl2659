@@ -108,7 +108,7 @@ public class SwerveSubsystem extends SubsystemBase
     SmartDashboard.putNumber("Select Scoring Location", reefPoseSelect);
 
     // Configure the Telemetry before creating the SwerveDrive to avoid unnecessary objects being created.
-    SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
+    SwerveDriveTelemetry.verbosity = TelemetryVerbosity.LOW;
     //SwerveDriveTelemetry.verbosity = TelemetryVerbosity.INFO;
     //SwerveDriveTelemetry.verbosity = TelemetryVerbosity.LOW;
     try
@@ -352,24 +352,24 @@ public class SwerveSubsystem extends SubsystemBase
   {
     SmartDashboard.putNumber("Max Vel PID",   SmartDashboard.getNumber("Max Vel PID", 2));
     SmartDashboard.putNumber("max Accel PID", SmartDashboard.getNumber("max Accel PID",1));
-    SmartDashboard.putNumber("kP PID",        SmartDashboard.getNumber("kP PID", 10));
-    SmartDashboard.putNumber("kI PID",        SmartDashboard.getNumber("kI PID", 5));
-    SmartDashboard.putNumber("kD PID",        SmartDashboard.getNumber("kD PID", .25));
+    SmartDashboard.putNumber("kP PID",        SmartDashboard.getNumber("kP PID", 5));
+    SmartDashboard.putNumber("kI PID",        SmartDashboard.getNumber("kI PID", 2));
+    SmartDashboard.putNumber("kD PID",        SmartDashboard.getNumber("kD PID", .2));
 
     TrapezoidProfile.Constraints xyConstraints = new Constraints(SmartDashboard.getNumber("Max Vel PID", 2), SmartDashboard.getNumber("max Accel PID",1));
     //TrapezoidProfile.Constraints thetaConstraints = new Constraints(540,720);
     
-    ProfiledPIDController xcontroller = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 10), SmartDashboard.getNumber("kI PID", 5), SmartDashboard.getNumber("kD PID", .25), xyConstraints);
-    ProfiledPIDController ycontroller = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 10), SmartDashboard.getNumber("kI PID", 5), SmartDashboard.getNumber("kD PID", .25), xyConstraints);
+    ProfiledPIDController xcontroller = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 5), SmartDashboard.getNumber("kI PID", 2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
+    ProfiledPIDController ycontroller = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 5), SmartDashboard.getNumber("kI PID", 2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
 
     //ProfiledPIDController thetacontroller = new ProfiledPIDController(30, 0, 0, thetaConstraints);
     //thetacontroller.enableContinuousInput(-180, 180);
 
-    xcontroller.setIZone(.5);
-    xcontroller.setTolerance(.01);
+    xcontroller.setIZone(.2);
+    xcontroller.setTolerance(.015);
     
-    ycontroller.setIZone(.5);
-    ycontroller.setTolerance(.01);
+    ycontroller.setIZone(.2);
+    ycontroller.setTolerance(.015);
 
     BooleanSupplier atTarget = () -> (xcontroller.atGoal() && ycontroller.atSetpoint()&& (Math.abs(getPose().getRotation().getDegrees() - targetPose.getRotation().getDegrees())<1
     

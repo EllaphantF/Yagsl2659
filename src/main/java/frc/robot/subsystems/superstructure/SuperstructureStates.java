@@ -42,11 +42,12 @@ public class SuperstructureStates {
     public SuperstructureStates(){
         StartingConfig = new SuperstructureState(0, 0.2, 0);
         Home = new SuperstructureState(25*Constants.endEffectorPivotGearRatio / 360, 0.2, 15);
-        Intake = new SuperstructureState(-26*Constants.endEffectorPivotGearRatio / 360, 0.2, 96.5); //intake 97, eepiv -23
+        Intake = new SuperstructureState(-26*Constants.endEffectorPivotGearRatio / 360, 0.2, 97.8); //intake 97, eepiv -23
 
         grabAlgaeL2 = new SuperstructureState(80*Constants.endEffectorPivotGearRatio / 360, 14, 15);
 
         grabAlgaeL3 = new SuperstructureState(80*Constants.endEffectorPivotGearRatio / 360, 33, 15);
+
 
         /**
          * use these for manual scoring (i.e. )
@@ -59,7 +60,7 @@ public class SuperstructureStates {
         CoralL1 = new SuperstructureState(30*Constants.endEffectorPivotGearRatio / 360, 3, 15);
         CoralL2 = new SuperstructureState(110*Constants.endEffectorPivotGearRatio / 360, 11, 15);
         CoralL3 = new SuperstructureState(110*Constants.endEffectorPivotGearRatio / 360, 30, 15);
-        CoralL4 = new SuperstructureState(80*Constants.endEffectorPivotGearRatio / 360, 71, 15);
+        CoralL4 = new SuperstructureState(80*Constants.endEffectorPivotGearRatio / 360, 73, 15); // elevator at 71
 
         /* need to send the elevator up with endeffector in so we dont crash into the reef */
         CoralPreL1 = new SuperstructureState(25*Constants.endEffectorPivotGearRatio / 360, 8,  15);

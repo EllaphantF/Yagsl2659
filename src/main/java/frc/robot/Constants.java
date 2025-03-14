@@ -135,8 +135,8 @@ public final class Constants
       public	static	final	Pose2d	RED_9	        =	new	Pose2d(	12.563,	2.733,	Rotation2d.fromDegrees(	 -120   )); 
       public	static	final	Pose2d	RED_8	        =	new	Pose2d(	13.602,	2.632,	Rotation2d.fromDegrees(	 -60  )); 
       public	static	final	Pose2d	RED_7	        =	new	Pose2d(	13.918,	2.880,	Rotation2d.fromDegrees(	 -60  )); 
-      public	static	final	Pose2d	RED_6	        =	new	Pose2d(	14.455,	3.840,	Rotation2d.fromDegrees(	 0  )); 
-      public	static	final	Pose2d	RED_5	        =	new	Pose2d(	14.455,	4.210,	Rotation2d.fromDegrees(	 0  )); 
+      public	static	final	Pose2d	RED_6	        =	new	Pose2d(	14.87,	3.873,	Rotation2d.fromDegrees(	 0  )); 
+      public	static	final	Pose2d	RED_5	        =	new	Pose2d(	14.87,	4.285,	Rotation2d.fromDegrees(	 0  )); 
       public	static	final	Pose2d	RED_4	        =	new	Pose2d(	13.909,	5.192,	Rotation2d.fromDegrees(  60 ));	        
       public	static	final	Pose2d	RED_3	        =	new	Pose2d(	13.541,	5.318,	Rotation2d.fromDegrees(  60 ));	        
       public	static	final	Pose2d	RED_2	        =	new	Pose2d(	12.489,	5.458,	Rotation2d.fromDegrees(	 120  ));	        
@@ -209,18 +209,18 @@ public final class Constants
 
   public static class SuperstructureConfigs{
     
-        public static TalonFXConfiguration getElevatorConfigLeft() {
+        public static TalonFXConfiguration getElevatorConfigLeft() { // ELEVATOR
           TalonFXConfiguration elevatorConfigLeft = new TalonFXConfiguration();
           elevatorConfigLeft.Slot0.kG = 0.35; // Volts to overcome gravity
           elevatorConfigLeft.Slot0.kS = 0.0; // Volts to overcome static friction
           elevatorConfigLeft.Slot0.kV = 0.12; // Volts for a velocity target of 1 rps
           elevatorConfigLeft.Slot0.kA = 0.001; // Volts for an acceleration of 1 rps/s
 
-          elevatorConfigLeft.Slot0.kP = 10;//30 was too high
+          elevatorConfigLeft.Slot0.kP = 15;//30 was too high
           elevatorConfigLeft.Slot0.kI = 0.00001; //
           elevatorConfigLeft.Slot0.kD = 0.01; //
           
-          elevatorConfigLeft.CurrentLimits.SupplyCurrentLimit = 12;//was 20
+          elevatorConfigLeft.CurrentLimits.SupplyCurrentLimit = 20;//was 20
           elevatorConfigLeft.OpenLoopRamps.VoltageOpenLoopRampPeriod = .02;
           elevatorConfigLeft.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .02;
           elevatorConfigLeft.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .02;
@@ -229,10 +229,11 @@ public final class Constants
           elevatorConfigLeft.MotionMagic.MotionMagicCruiseVelocity = 90; //100 was smooth, 200 is faster than kraken max 100
           elevatorConfigLeft.MotionMagic.MotionMagicAcceleration = 250;// 80 was good, 200 zippy
 
-          elevatorConfigLeft.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
-          elevatorConfigLeft.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+          elevatorConfigLeft.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
+          elevatorConfigLeft.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
           elevatorConfigLeft.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 77;
           elevatorConfigLeft.SoftwareLimitSwitch.ReverseSoftLimitThreshold = -0.5;
+          elevatorConfigLeft.MotorOutput.NeutralMode = NeutralModeValue.Brake;
           elevatorConfigLeft.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
           return elevatorConfigLeft;
         }
@@ -269,7 +270,7 @@ public final class Constants
           endeffectorPivotConfig.Slot0.kI = 0.00001; //
           endeffectorPivotConfig.Slot0.kD = 0.25; //
 
-          endeffectorPivotConfig.CurrentLimits.SupplyCurrentLimit = 10;//
+          endeffectorPivotConfig.CurrentLimits.SupplyCurrentLimit = 15;//
           endeffectorPivotConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = .02;        
           endeffectorPivotConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .02;
           endeffectorPivotConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .04;

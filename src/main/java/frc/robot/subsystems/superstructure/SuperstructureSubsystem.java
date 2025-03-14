@@ -198,7 +198,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
 
   public void motionMagicSetElevatorAndEndeffector(double ElevatorPosTarget, double PivotPosTarget, double IntakePosTarget){
     mElevatorLeft.setControl(new MotionMagicVoltage(ElevatorPosTarget));
-    mElevatorRight.setControl(new Follower(mElevatorLeft.getDeviceID(), true));
+    //mElevatorRight.setControl(new Follower(mElevatorLeft.getDeviceID(), true));
     mEndeffectorPivot.setControl(new MotionMagicVoltage(PivotPosTarget ));
 
     if(!manualOverride){
@@ -364,7 +364,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
       // mLED.setLightMode(1);
       setEndeffectorWheelSpeed(2.5);
       setIntakeWheelSpeed(45); // was 23 -- 40 works great 3-8-2025
-      setFunnelWheelSpeed(-10);}//was -10 -- -8 works great 3-8-2025
+      setFunnelWheelSpeed(-8);}//was -10 -- -8 works great 3-8-2025
     //if ( CANdi.getS1State(true).getValueAsDouble() == 1 && manualOverride == false){ //was 19 amps 
     if ( CANdi.getS1State(true).getValueAsDouble() == 1){ //was 19 amps 
       //added manualOverride boolean to allo  w for manual control of the intake
@@ -552,7 +552,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
     else{
       SmartDashboard.putNumber("zEEDebug", 3);
       mEndeffectorRollers.setControl(new MotionMagicVoltage(0.0));
-      mEndeffectorRollers.setPosition(2.75); //3 for wheelspeed 4 (inconsistent), 4 for wheelspeed 2
+      mEndeffectorRollers.setPosition(2.5); //3 for wheelspeed 4 (inconsistent), 4 for wheelspeed 2
       intaking = false;
     }
     hasCoral = true;
