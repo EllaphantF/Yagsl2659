@@ -16,15 +16,15 @@ public class L1Command extends Command {
         structure.setCoralLevel(1.0);
         structure.startLifting();
         //structure.liftL1();
-
-        if(structure.atPosition() == true && structure.sequenceState == 1){
-            structure.startReleasingCoral(true);
-        }
         }
     }
     @Override
     public void execute() {
+        if(structure.atPosition() == true && structure.sequenceState == 1){
+            structure.startReleasingCoral(true);
+        }
     }
+    
 
     @Override
     public void end(boolean interrupted){

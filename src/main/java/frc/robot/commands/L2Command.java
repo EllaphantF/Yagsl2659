@@ -16,13 +16,13 @@ public class L2Command extends Command {
         structure.setCoralLevel(2.0);
         structure.startLifting();
 
-            if(structure.atPosition() == true && structure.sequenceState == 1){
-                structure.startReleasingCoral(true);
-            }
         }
     }
     @Override
     public void execute() {
+        if(structure.atPosition() == true && structure.sequenceState == 1){
+            structure.startReleasingCoral(true);
+        }
     }
 
     @Override

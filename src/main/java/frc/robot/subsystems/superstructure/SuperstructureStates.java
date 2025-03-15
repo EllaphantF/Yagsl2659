@@ -52,12 +52,12 @@ public class SuperstructureStates {
         /**
          * use these for manual scoring (i.e. )
          */
-        CoralL1Manual = new SuperstructureState(80*Constants.endEffectorPivotGearRatio / 360, 3, 15 );
+        CoralL1Manual = new SuperstructureState(80*Constants.endEffectorPivotGearRatio / 360, 5, 15 );
         CoralL2Manual = new SuperstructureState(85*Constants.endEffectorPivotGearRatio / 360, 16, 15);
         CoralL3Manual = new SuperstructureState(85*Constants.endEffectorPivotGearRatio / 360, 38, 15);
         CoralL4Manual = new SuperstructureState(63*Constants.endEffectorPivotGearRatio / 360, 76, 15);
 
-        CoralL1 = new SuperstructureState(30*Constants.endEffectorPivotGearRatio / 360, 3, 15);
+        CoralL1 = new SuperstructureState(30*Constants.endEffectorPivotGearRatio / 360, 12, 15);
         CoralL2 = new SuperstructureState(110*Constants.endEffectorPivotGearRatio / 360, 11, 15);
         CoralL3 = new SuperstructureState(110*Constants.endEffectorPivotGearRatio / 360, 30, 15);
         CoralL4 = new SuperstructureState(80*Constants.endEffectorPivotGearRatio / 360, 73, 15); // elevator at 71
