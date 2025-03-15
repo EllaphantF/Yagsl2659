@@ -30,6 +30,6 @@ public class L3Command extends Command {
     }
     
     public boolean isFinished() {
-        return structure.scoringCoral = false;
+        return structure.scoringCoral == false;
     }
 }

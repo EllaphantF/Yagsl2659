@@ -174,7 +174,7 @@ public class Robot extends TimedRobot
       CommandScheduler.getInstance().cancelAll();
     }
      m_robotContainer.setDriveMode();
-
+     m_robotContainer.elevatorHoldPos();
      //driverXbox.rightBumper().whileTrue(m_robotContainer.getScoreSequenceCommand());
     // m_robotContainer.setMotorBrake(true);
   }

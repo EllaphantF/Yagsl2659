@@ -3,7 +3,9 @@
   "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [
-    "4 & 3 L4 Left"
+    "10 & 9 L4 Left",
+    "2 & 3 L4 Right",
+    "11 & Descore 2 Alge Mid"
   ],
   "autoFolders": [],
   "defaultMaxVel": 1.0,

@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.4191352739726026,
+        "y": 6.0
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.4626453909466726,
+        "y": 5.836127985005344
+      },
+      "isLocked": false,
+      "linkedName": "Intake to 9 Shade"
+    },
+    {
+      "anchor": {
+        "x": 5.048630136986302,
+        "y": 5.339747431506848
+      },
+      "prevControl": {
+        "x": 4.128427372429015,
+        "y": 5.845862514610659
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "9 to Intake Shade"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 1.0,
+    "maxAcceleration": 2.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -122.47119229084859
+  },
+  "reversed": false,
+  "folder": "10 & 9 L4 Left",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 174.9578466787407
+  },
+  "useDefaultConstraints": true
+}

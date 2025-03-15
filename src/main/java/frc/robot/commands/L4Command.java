@@ -16,7 +16,8 @@ public class L4Command extends Command {
             structure.startLifting();
 
         if(structure.atPosition() == true && structure.sequenceState == 1){
-            structure.startReleasingCoral(true);
+            structure.autoCoral().repeatedly();
+
             }
         }
     }
@@ -26,10 +27,10 @@ public class L4Command extends Command {
 
     @Override
     public void end(boolean interrupted){
-        structure.goHome();
+        //structure.goHome();
     }
     
     public boolean isFinished() {
-        return structure.scoringCoral = false;
+        return structure.scoringCoral == true;
     }
 }

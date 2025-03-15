@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Score 4 L4 Path"
+            "pathName": "Score 10 L4 Shade Path"
           }
         },
         {
@@ -19,7 +19,7 @@
         {
           "type": "named",
           "data": {
-            "name": "L4"
+            "name": "L2"
           }
         },
         {
@@ -29,15 +29,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "GoHome"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "4 to Intake Path"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "10 to Intake Shade Path"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "GoHome"
+                }
+              }
+            ]
           }
         },
         {
@@ -47,15 +54,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "GoHome"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Intake to 3 Path"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "GoHome"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Intake to 9 Shade Path"
+                }
+              }
+            ]
           }
         },
         {
@@ -89,7 +103,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "3 to Intake Path"
+                  "pathName": "9 to Intake Shade Path"
                 }
               },
               {

@@ -2,25 +2,17 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.subsystems.superstructure.SuperstructureSubsystem;
 
-public class L1Command extends Command {
+public class AlgaeL2Command extends Command {
     SuperstructureSubsystem structure;
 
-    public L1Command(SuperstructureSubsystem structure) {
+    public AlgaeL2Command(SuperstructureSubsystem structure) {
         this.structure = structure;
     }
 
     @Override
     public void initialize() {
-        if(structure.hasCoral = true){
-        
-        structure.setCoralLevel(1.0);
-        structure.startLifting();
-        //structure.liftL1();
-
-        if(structure.atPosition() == true && structure.sequenceState == 1){
-            structure.startReleasingCoral(true);
-        }
-        }
+        structure.goHome();
+        structure.clearAlgae(2.0);
     }
     @Override
     public void execute() {
@@ -32,6 +24,6 @@ public class L1Command extends Command {
     }
     
     public boolean isFinished() {
-        return structure.scoringCoral == false;
+        return structure.intaking = false;
     }
 }

@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.048630136986302,
-        "y": 5.339747431506848
+        "x": 5.95,
+        "y": 4.168
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.8259836689391973,
-        "y": 6.046275541453362
+        "x": 5.94953748801206,
+        "y": 3.9180004278350444
       },
       "isLocked": false,
-      "linkedName": "3 to Intake"
+      "linkedName": "11 to Algae (11-12) Sigh"
     },
     {
       "anchor": {
-        "x": 1.998416095890411,
-        "y": 6.301391267123288
+        "x": 5.95,
+        "y": 4.0
       },
       "prevControl": {
-        "x": 2.5358369230257862,
-        "y": 6.533458198497493
+        "x": 5.950462213215099,
+        "y": 4.249999572717522
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 120.41108126712538
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "4 & 3 L4 Left",
+  "folder": "11 & Descore 2 Alge Mid",
   "idealStartingState": {
-    "velocity": 2.0,
-    "rotation": -122.47119229084859
+    "velocity": 0,
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

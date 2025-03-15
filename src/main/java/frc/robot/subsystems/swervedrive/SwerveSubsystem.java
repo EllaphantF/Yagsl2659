@@ -330,7 +330,9 @@ public class SwerveSubsystem extends SubsystemBase
                     if (xSet > 1) xSet = 1;
                     if (xSet < -1) xSet = -1;
 
-                    xSet = xSet * 0.60;
+                    //xSet = xSet * 0.6;
+                    xSet = xSet * 1.5;
+
                     //double ySet = yController.calculate(y);
                     y= y - 5; //offset for camera angle
                     double ySet = y * .4;
@@ -359,11 +361,15 @@ public class SwerveSubsystem extends SubsystemBase
     TrapezoidProfile.Constraints xyConstraints = new Constraints(SmartDashboard.getNumber("Max Vel PID", 2), SmartDashboard.getNumber("max Accel PID",1));
     //TrapezoidProfile.Constraints thetaConstraints = new Constraints(540,720);
     
-    ProfiledPIDController xcontroller = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 5), SmartDashboard.getNumber("kI PID", 2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
-    ProfiledPIDController ycontroller = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 5), SmartDashboard.getNumber("kI PID", 2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
+//    ProfiledPIDController xcontroller = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 5), SmartDashboard.getNumber("kI PID", 2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
+//    ProfiledPIDController ycontroller = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 5), SmartDashboard.getNumber("kI PID", 2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
+
+    ProfiledPIDController xcontroller = new ProfiledPIDController(8.,4.,.2, xyConstraints);
+    ProfiledPIDController ycontroller = new ProfiledPIDController(8.,4.,.2, xyConstraints);
 
     //ProfiledPIDController thetacontroller = new ProfiledPIDController(30, 0, 0, thetaConstraints);
     //thetacontroller.enableContinuousInput(-180, 180);
+    
 
     xcontroller.setIZone(.2);
     xcontroller.setTolerance(.015);

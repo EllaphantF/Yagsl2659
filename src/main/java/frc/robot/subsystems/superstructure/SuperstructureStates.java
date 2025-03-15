@@ -41,8 +41,8 @@ public class SuperstructureStates {
 
     public SuperstructureStates(){
         StartingConfig = new SuperstructureState(0, 0.2, 0);
-        Home = new SuperstructureState(25*Constants.endEffectorPivotGearRatio / 360, 0.2, 15);
-        Intake = new SuperstructureState(-26*Constants.endEffectorPivotGearRatio / 360, 0.2, 97.8); //intake 97, eepiv -23
+        Home = new SuperstructureState(25*Constants.endEffectorPivotGearRatio / 360, 0.2, 15 );
+        Intake = new SuperstructureState(-26*Constants.endEffectorPivotGearRatio / 360, 0.2, 97.2); //intake 97, eepiv -23
 
         grabAlgaeL2 = new SuperstructureState(80*Constants.endEffectorPivotGearRatio / 360, 14, 15);
 
@@ -52,7 +52,7 @@ public class SuperstructureStates {
         /**
          * use these for manual scoring (i.e. )
          */
-        CoralL1Manual = new SuperstructureState(80*Constants.endEffectorPivotGearRatio / 360, 3, 15);
+        CoralL1Manual = new SuperstructureState(80*Constants.endEffectorPivotGearRatio / 360, 3, 15 );
         CoralL2Manual = new SuperstructureState(85*Constants.endEffectorPivotGearRatio / 360, 16, 15);
         CoralL3Manual = new SuperstructureState(85*Constants.endEffectorPivotGearRatio / 360, 38, 15);
         CoralL4Manual = new SuperstructureState(63*Constants.endEffectorPivotGearRatio / 360, 76, 15);
@@ -75,7 +75,7 @@ public class SuperstructureStates {
 
         AlgaePassOff = new SuperstructureState(-3*Constants.endEffectorPivotGearRatio / 360, 4, 4); //
         StowEEClear  = new SuperstructureState(25*Constants.endEffectorPivotGearRatio / 360, 0.2, 15); //intended as a safe position with endeffector clear from crashing with elevator stages or the intake
-        StowClearIntakeDeployed = new SuperstructureState(25*Constants.endEffectorPivotGearRatio / 360, 1, 95.4);
+        StowClearIntakeDeployed = new SuperstructureState(25*Constants.endEffectorPivotGearRatio / 360, 1, 95.4-2);
         StowWithCoral = new SuperstructureState(25*Constants.endEffectorPivotGearRatio / 360, 0.2, 15);
         StowWithAlgae = new SuperstructureState(25*Constants.endEffectorPivotGearRatio / 360, 0.2, 15);
         PreScoreCoral = new SuperstructureState(25*Constants.endEffectorPivotGearRatio / 360, 10, 15);

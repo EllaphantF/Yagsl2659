@@ -1,0 +1,86 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 5.514,
+        "y": 2.602
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 4.2372431506849315,
+        "y": 1.6284032534246582
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.998416095890411,
+        "y": 1.5232234589041094
+      },
+      "prevControl": {
+        "x": 2.9600599315068497,
+        "y": 1.7035316780821916
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Intake to 3 POG"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.28056112224448904,
+      "rotationDegrees": -170.0
+    }
+  ],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 0.5,
+      "constraints": {
+        "maxVelocity": 0.5,
+        "maxAcceleration": 0.5,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "GoHome",
+      "waypointRelativePos": 0.05238095238095237,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "Intake",
+      "waypointRelativePos": 0.161904761904762,
+      "endWaypointRelativePos": 1.0,
+      "command": null
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 1.0,
+    "maxAcceleration": 2.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 174.9578466787407
+  },
+  "reversed": false,
+  "folder": "2 & 3 L4 Right",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -59.99999999999999
+  },
+  "useDefaultConstraints": true
+}

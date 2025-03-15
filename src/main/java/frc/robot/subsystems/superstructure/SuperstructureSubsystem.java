@@ -12,10 +12,14 @@ import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.RobotBase;
+
+
 //import frc.robot.subsystems.LEDs;
+import edu.wpi.first.wpilibj.Timer;
 
 import com.ctre.phoenix6.*;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
@@ -72,15 +76,15 @@ public class SuperstructureSubsystem extends SubsystemBase {
   
   //private final LEDs mLED = new LEDs();
 
-  private static final TalonFX mElevatorRight = new TalonFX(Constants.elevatorRightID);//MPF Hi I have IDs
-  private static final TalonFX mElevatorLeft = new TalonFX(Constants.elevatorLeftID);//
-  private static final TalonFX mEndeffectorPivot = new TalonFX(Constants.endEffectorPivotID);//
-  private static final TalonFX mEndeffectorRollers = new TalonFX(Constants.endEffectorWheelID);//
-  private static final TalonFX mIntakePivotLeft = new TalonFX(Constants.intakePivotLeftID);//
-  private static final TalonFX mIntakePivotRight = new TalonFX(Constants.intakePivotRightID);
-  private static final TalonFX mIntakeWheels = new TalonFX(Constants.intakeWheelsID);//
-  private static final TalonFX mFunnelWheels = new TalonFX(Constants.funnelWheelsID);//
-  private static final CANdi CANdi = new CANdi(25);
+  private static final TalonFX mElevatorRight = new TalonFX(Constants.elevatorRightID, "drive");//MPF Hi I have IDs
+  private static final TalonFX mElevatorLeft = new TalonFX(Constants.elevatorLeftID,"drive");//
+  private static final TalonFX mEndeffectorPivot = new TalonFX(Constants.endEffectorPivotID,"drive");//
+  private static final TalonFX mEndeffectorRollers = new TalonFX(Constants.endEffectorWheelID,"drive");//
+  private static final TalonFX mIntakePivotLeft = new TalonFX(Constants.intakePivotLeftID,"drive");//
+  private static final TalonFX mIntakePivotRight = new TalonFX(Constants.intakePivotRightID,"drive");
+  private static final TalonFX mIntakeWheels = new TalonFX(Constants.intakeWheelsID,"drive");//
+  private static final TalonFX mFunnelWheels = new TalonFX(Constants.funnelWheelsID,"drive");//
+  private static final CANdi CANdi = new CANdi(25,"drive");
 
   //private final TalonFXSimState mElevatorLeftSim = new TalonFXSimState(mElevatorLeft);
   //private final TalonFXSimState mEndeffectorPivotSim = new TalonFXSimState(mEndeffectorPivot);
@@ -202,10 +206,10 @@ public class SuperstructureSubsystem extends SubsystemBase {
     mEndeffectorPivot.setControl(new MotionMagicVoltage(PivotPosTarget ));
 
     if(!manualOverride){
-    mIntakePivotLeft.setControl(new MotionMagicVoltage(IntakePosTarget ));
+    mIntakePivotLeft.setControl(new MotionMagicVoltage(IntakePosTarget  ));
     mIntakePivotRight.setControl(new MotionMagicVoltage(IntakePosTarget ));}
     else if (intaking){ //intake always down == manual override
-    mIntakePivotLeft.setControl(new MotionMagicVoltage(STATE.Intake.intake ));
+    mIntakePivotLeft.setControl(new MotionMagicVoltage(STATE.Intake.intake));
     mIntakePivotRight.setControl(new MotionMagicVoltage(STATE.Intake.intake ));
     }
     else {
@@ -221,6 +225,30 @@ public class SuperstructureSubsystem extends SubsystemBase {
     double ElevatorTestTarget = SmartDashboard.getNumber("ElevatorTestTarget", mElevatorLeft.getPosition().getValueAsDouble());
     mElevatorLeft.setControl(new MotionMagicVoltage(ElevatorTestTarget));
     mElevatorRight.setControl(new Follower(mElevatorLeft.getDeviceID(), true));
+  }
+
+  /*
+   * Whats up chat we're here at LAR and its time for some nom nom weeble wobble
+   * 
+   * Also Bobby is losing his mind
+   * 
+   * If you're reading this, check something for loctite
+   * 
+   * NOM NOM NOM
+   */
+  public void nomNomWeebleWobble (){
+/*
+    if (Timer.getFPGATimestamp() %.5 > .4){
+      TARGETSTATE.intake = STATE.Intake.intake - 1
+      ;
+    } 
+    else TARGETSTATE.intake = STATE.Intake.intake;
+
+    if (Timer.getFPGATimestamp() %.3 > .2){
+      TARGETSTATE.pivot = STATE.Intake.pivot + .2;
+    }
+    else TARGETSTATE.pivot = STATE.Intake.pivot;*/
+
   }
 
   public void updateElevatorConfigsFromSD(){
@@ -365,6 +393,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
       setEndeffectorWheelSpeed(2.5);
       setIntakeWheelSpeed(45); // was 23 -- 40 works great 3-8-2025
       setFunnelWheelSpeed(-8);}//was -10 -- -8 works great 3-8-2025
+      nomNomWeebleWobble();
     //if ( CANdi.getS1State(true).getValueAsDouble() == 1 && manualOverride == false){ //was 19 amps 
     if ( CANdi.getS1State(true).getValueAsDouble() == 1){ //was 19 amps 
       //added manualOverride boolean to allo  w for manual control of the intake
@@ -534,14 +563,15 @@ public class SuperstructureSubsystem extends SubsystemBase {
     if (level == 1) TARGETSTATE = STATE.CoralPreL1;
     if (level == 2) TARGETSTATE = STATE.CoralPreL2;
     if (level == 3) TARGETSTATE = STATE.CoralPreL3;
-    if (level == 4) TARGETSTATE = STATE.CoralPreL4;}
-
+    if (level == 4) TARGETSTATE = STATE.CoralPreL4;
+  }
 
   public void setCoralLevel(Double level){
     scoreLevel = level;
     scoringCoral = true;
     sequenceState = 0;
   }
+  
 
   public void justGotCoral(){
     if(hasCoral && mEndeffectorPivot.getPosition().getValueAsDouble() > -5 * Constants.endEffectorPivotGearRatio / 360 ){      
@@ -636,6 +666,11 @@ public class SuperstructureSubsystem extends SubsystemBase {
     }
   }
 
+  public void elevatorHoldPos(){
+    //TARGETSTATE.elevator = mElevatorLeft.getPosition().getValueAsDouble();
+    //SmartDashboard.putNumber("zzz elevator hold debug", Timer.getFPGATimestamp());
+  }
+
   /**
    * pulls coral back in
    */
@@ -643,6 +678,11 @@ public class SuperstructureSubsystem extends SubsystemBase {
     releasingCoral = false;
     releaseTimer = 0;
     mEndeffectorRollers.setControl(new VoltageOut(-2));
+  }
+
+  public Command autoCoral(){
+    InstantCommand score = new InstantCommand(() -> releaseCoral());
+    return score;
   }
 
   /**

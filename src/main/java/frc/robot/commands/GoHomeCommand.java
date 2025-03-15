@@ -20,7 +20,7 @@ public class GoHomeCommand extends Command {
 
     @Override
     public void end(boolean interrupted){
-        structure.goHome();
+        //structure.goHome();
     }
     
     public boolean isFinished() {

@@ -38,6 +38,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.AlgaeL2Command;
 import frc.robot.commands.AutonScoreCommand;
 import frc.robot.commands.GoHomeCommand;
 import frc.robot.commands.IntakeCommand;
@@ -191,11 +192,12 @@ public class RobotContainer
   {
     /* Added Named Commands for Pathplanner */
 	  NamedCommands.registerCommand("Intake", new IntakeCommand(superstructure).withTimeout(3));
-    NamedCommands.registerCommand("L1", new L1Command(superstructure));
-    NamedCommands.registerCommand("L2", new L2Command(superstructure));
-    NamedCommands.registerCommand("L3", new L3Command(superstructure));
-    NamedCommands.registerCommand("L4", new L4Command(superstructure));
+    NamedCommands.registerCommand("L1", new L1Command(superstructure).withTimeout(3));
+    NamedCommands.registerCommand("L2", new L2Command(superstructure).withTimeout(3));
+    NamedCommands.registerCommand("L3", new L3Command(superstructure).withTimeout(3));
+    NamedCommands.registerCommand("L4", new L4Command(superstructure).withTimeout(3));
     NamedCommands.registerCommand("GoHome", new GoHomeCommand(superstructure));
+    NamedCommands.registerCommand("AlgaeL2", new AlgaeL2Command(superstructure).withTimeout(3));
 	  //NamedCommands.registerCommand("VisionIntake", new VisionIntakeCommand(this, getSuperstructure(), getSwerveSubsystem(),  5.0));
     
     NamedCommands.registerCommand("AutonScoreCommandP1L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  1 , 4));
@@ -215,10 +217,10 @@ public class RobotContainer
     // Configure the trigger bindings
     configureBindings();
 
-    allianceChooser = new SendableChooser<>();
+    /* allianceChooser = new SendableChooser<>();
     allianceChooser.setDefaultOption("Blue", Alliance.Blue);
     allianceChooser.addOption("Red", Alliance.Red);
-    SmartDashboard.putData("Alliance Color", allianceChooser);
+    SmartDashboard.putData("Alliance Color", allianceChooser); */
 
     autoChooser = AutoBuilder.buildAutoChooser(); // Default auto will be `Commands.none()`
     SmartDashboard.putData("Auto Mode", autoChooser);
@@ -508,6 +510,11 @@ public class RobotContainer
   public void setDriveMode()
   {
     configureBindings();
+  }
+
+  public void elevatorHoldPos(){
+   superstructure.elevatorHoldPos();
+    
   }
 
   public void setMotorBrake(boolean brake)
