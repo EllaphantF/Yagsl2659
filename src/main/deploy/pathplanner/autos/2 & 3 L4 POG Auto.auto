@@ -19,7 +19,7 @@
         {
           "type": "named",
           "data": {
-            "name": "L4"
+            "name": "L2"
           }
         },
         {
@@ -29,9 +29,35 @@
           }
         },
         {
-          "type": "path",
+          "type": "race",
           "data": {
-            "pathName": "2 to Intake POG Path"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "2 to Intake POG Path"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.7
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         },
         {
@@ -55,7 +81,7 @@
         {
           "type": "named",
           "data": {
-            "name": "L4"
+            "name": "L3"
           }
         },
         {
@@ -65,9 +91,35 @@
           }
         },
         {
-          "type": "path",
+          "type": "race",
           "data": {
-            "pathName": "3 to Intake POG Path"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "3 to Intake POG Path"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.7
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         }
       ]

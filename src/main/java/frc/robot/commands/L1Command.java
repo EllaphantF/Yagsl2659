@@ -20,8 +20,8 @@ public class L1Command extends Command {
     }
     @Override
     public void execute() {
-        if(structure.atPosition() == true && structure.sequenceState == 1){
-            structure.startReleasingCoral(true);
+        if(structure.atPositionScoring() == true && structure.sequenceState == 1){
+            structure.startReleasingCoral(false);
         }
     }
     

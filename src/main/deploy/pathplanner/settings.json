@@ -4,11 +4,14 @@
   "holonomicMode": true,
   "pathFolders": [
     "10 & 9 L4 Left",
+    "11 & Descore 2 Algea Mid",
     "2 & 3 L4 Right",
-    "11 & Descore 2 Alge Mid"
+    "4 & 3 L4 Right",
+    "8 & 7 L4 Left Folder",
+    "5 & 6 L 2 Left Folder"
   ],
   "autoFolders": [],
-  "defaultMaxVel": 1.0,
+  "defaultMaxVel": 2.0,
   "defaultMaxAccel": 2.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,

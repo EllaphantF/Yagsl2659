@@ -3,42 +3,37 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.439297945205479,
-        "y": 5.565132705479453
+        "x": 2.8548801369863015,
+        "y": 4.188
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.71806506849315,
-        "y": 6.662007705479453
+        "x": 1.6077482876712332,
+        "y": 5.399850171232877
       },
       "isLocked": false,
-      "linkedName": "10 to Intake Shade"
+      "linkedName": "6 to Intake Madge"
     },
     {
       "anchor": {
-        "x": 2.4191352739726026,
-        "y": 6.0
+        "x": 0.7963613013698629,
+        "y": 6.376519691780823
       },
       "prevControl": {
-        "x": 3.606164383561644,
-        "y": 6.015903253424658
+        "x": 1.3973886986301371,
+        "y": 5.535081335616439
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Intake to 9 Shade"
+      "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.03807615230460908,
-      "rotationDegrees": 150.0
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 0.4,
+      "minWaypointRelativePos": 0.5285714285714287,
+      "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 0.5,
         "maxAcceleration": 0.5,
@@ -53,8 +48,14 @@
   "eventMarkers": [
     {
       "name": "GoHome",
-      "waypointRelativePos": 0.06190476190476183,
+      "waypointRelativePos": 0.06428571428571427,
       "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "Intake",
+      "waypointRelativePos": 0.12619047619047621,
+      "endWaypointRelativePos": 1.0,
       "command": null
     }
   ],
@@ -68,13 +69,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 174.9578466787407
+    "rotation": 121.60750224624884
   },
   "reversed": false,
-  "folder": "10 & 9 L4 Left",
+  "folder": "5 & 6 L 2 Left Folder",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 60.25511870305775
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

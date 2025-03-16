@@ -3,45 +3,40 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.439297945205479,
-        "y": 5.565132705479453
+        "x": 7.0470462328767125,
+        "y": 6.977547089041095
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.71806506849315,
-        "y": 6.662007705479453
+        "x": 5.694734589041096,
+        "y": 6.601904965753424
       },
       "isLocked": false,
-      "linkedName": "10 to Intake Shade"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.4191352739726026,
-        "y": 6.0
+        "x": 3.762,
+        "y": 5.615
       },
       "prevControl": {
-        "x": 3.606164383561644,
-        "y": 6.015903253424658
+        "x": 4.853296232876712,
+        "y": 6.151134417808219
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Intake to 9 Shade"
+      "linkedName": "8 to Intake YIPPIE"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.03807615230460908,
-      "rotationDegrees": 150.0
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [
     {
       "name": "Constraints Zone",
       "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 0.4,
+      "maxWaypointRelativePos": 0,
       "constraints": {
-        "maxVelocity": 0.5,
-        "maxAcceleration": 0.5,
+        "maxVelocity": 2.0,
+        "maxAcceleration": 2.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -50,14 +45,7 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "GoHome",
-      "waypointRelativePos": 0.06190476190476183,
-      "endWaypointRelativePos": null,
-      "command": null
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 2.0,
     "maxAcceleration": 2.0,
@@ -68,13 +56,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 174.9578466787407
+    "rotation": 119.99999999999999
   },
   "reversed": false,
-  "folder": "10 & 9 L4 Left",
+  "folder": "8 & 7 L4 Left Folder",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 60.25511870305775
+    "rotation": 35.83765295427829
   },
   "useDefaultConstraints": true
 }

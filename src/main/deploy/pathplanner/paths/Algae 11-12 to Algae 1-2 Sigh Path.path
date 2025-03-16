@@ -3,42 +3,37 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.439297945205479,
-        "y": 5.565132705479453
+        "x": 5.95,
+        "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.71806506849315,
-        "y": 6.662007705479453
+        "x": 5.950171232876712,
+        "y": 2.755329623287671
       },
       "isLocked": false,
-      "linkedName": "10 to Intake Shade"
+      "linkedName": "Algae 11-12 to Algae 1-2 Sigh"
     },
     {
       "anchor": {
-        "x": 2.4191352739726026,
-        "y": 6.0
+        "x": 5.213912671232877,
+        "y": 2.755329623287671
       },
       "prevControl": {
-        "x": 3.606164383561644,
-        "y": 6.015903253424658
+        "x": 6.280736301369863,
+        "y": 2.4848672945205474
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Intake to 9 Shade"
+      "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.03807615230460908,
-      "rotationDegrees": 150.0
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [
     {
       "name": "Constraints Zone",
       "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 0.4,
+      "maxWaypointRelativePos": 0.41666666666666635,
       "constraints": {
         "maxVelocity": 0.5,
         "maxAcceleration": 0.5,
@@ -53,7 +48,7 @@
   "eventMarkers": [
     {
       "name": "GoHome",
-      "waypointRelativePos": 0.06190476190476183,
+      "waypointRelativePos": 0.14761904761904757,
       "endWaypointRelativePos": null,
       "command": null
     }
@@ -68,13 +63,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 174.9578466787407
+    "rotation": -59.99999999999999
   },
   "reversed": false,
-  "folder": "10 & 9 L4 Left",
+  "folder": "11 & Descore 2 Algea Mid",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 60.25511870305775
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

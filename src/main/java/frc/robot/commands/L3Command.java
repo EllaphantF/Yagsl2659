@@ -15,8 +15,8 @@ public class L3Command extends Command {
             structure.setCoralLevel(3.0);
             structure.startLifting();
 
-            if(structure.atPosition() == true && structure.sequenceState == 1){
-                structure.startReleasingCoral(true);
+            if(structure.atPositionScoring() == true && structure.sequenceState == 1){
+                structure.startReleasingCoral(false);
             }
          }
     }

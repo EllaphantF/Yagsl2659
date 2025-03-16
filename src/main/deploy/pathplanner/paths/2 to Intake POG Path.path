@@ -56,16 +56,10 @@
       "waypointRelativePos": 0.05238095238095237,
       "endWaypointRelativePos": null,
       "command": null
-    },
-    {
-      "name": "Intake",
-      "waypointRelativePos": 0.161904761904762,
-      "endWaypointRelativePos": 1.0,
-      "command": null
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 1.0,
+    "maxVelocity": 2.0,
     "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,

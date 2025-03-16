@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.4626453909466726,
-        "y": 5.836127985005344
+        "x": 3.479878471786754,
+        "y": 5.885863605054304
       },
       "isLocked": false,
       "linkedName": "Intake to 9 Shade"
     },
     {
       "anchor": {
-        "x": 5.048630136986302,
-        "y": 5.339747431506848
+        "x": 5.183861301369863,
+        "y": 5.595184075342465
       },
       "prevControl": {
-        "x": 4.128427372429015,
-        "y": 5.845862514610659
+        "x": 4.45793939744785,
+        "y": 5.719947562418411
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 1.0,
+    "maxVelocity": 2.0,
     "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
