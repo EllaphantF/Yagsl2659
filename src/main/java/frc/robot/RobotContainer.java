@@ -194,8 +194,8 @@ public class RobotContainer
 	  NamedCommands.registerCommand("Intake", new IntakeCommand(superstructure).withTimeout(3));
     NamedCommands.registerCommand("L1", new L1Command(superstructure).withTimeout(3));
     NamedCommands.registerCommand("L2", new L2Command(superstructure).withTimeout(3));
-    NamedCommands.registerCommand("L3", new L3Command(superstructure).withTimeout(3));
-    NamedCommands.registerCommand("L4", new L4Command(superstructure).withTimeout(3));
+    NamedCommands.registerCommand("L3", new L3Command(superstructure).withTimeout(6));
+    NamedCommands.registerCommand("L4", new L4Command(superstructure).withTimeout(6));
     NamedCommands.registerCommand("GoHome", new GoHomeCommand(superstructure));
     NamedCommands.registerCommand("AlgaeL2", new AlgaeL2Command(superstructure).withTimeout(3));
 	  //NamedCommands.registerCommand("VisionIntake", new VisionIntakeCommand(this, getSuperstructure(), getSwerveSubsystem(),  5.0));
@@ -275,8 +275,9 @@ public class RobotContainer
       driverXbox.a().onTrue(new InstantCommand(() -> superstructure.disableManualOverride())); //3-4-25 MPF added disable manual override to intake
 
       //UNCOMMENT ALL OF THIS
-      driverXbox.leftBumper().onTrue(new InstantCommand(() -> superstructure.intake()));
-      driverXbox.leftBumper().whileTrue(visionIntake());
+      driverXbox.leftBumper().onTrue((Commands.runOnce(drivebase::resetDriveEncoders)));
+      //driverXbox.leftBumper().onTrue(new InstantCommand(() -> superstructure.intake()));
+      //driverXbox.leftBumper().whileTrue(visionIntake());
 
       driverXbox.start().onTrue(new InstantCommand(() -> superstructure.climb(1)));
       driverXbox.back().onTrue(new InstantCommand(() -> superstructure.climb(2)));

@@ -20,7 +20,8 @@ public class L2Command extends Command {
     }
     @Override
     public void execute() {
-        if(structure.atPositionScoring() == true && structure.sequenceState == 1){
+        if(structure.atPositionScoring() == true /*&& structure.sequenceState == 1*/){
+            // if(getFPGATimestamp)
             structure.startReleasingCoral(false);
         }
     }

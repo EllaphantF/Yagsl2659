@@ -139,7 +139,7 @@ public class Vision
       if (poseEst.isPresent())
       {
         var pose = poseEst.get();
-        //SmartDashboard.putString("direct vision pose",pose.estimatedPose.toPose2d().toString());
+        SmartDashboard.putString("direct vision pose",pose.estimatedPose.toPose2d().toString());
         swerveDrive.addVisionMeasurement(pose.estimatedPose.toPose2d(),
                                          pose.timestampSeconds,
                                          camera.curStdDevs);

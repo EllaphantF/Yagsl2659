@@ -81,7 +81,7 @@ public class SwerveSubsystem extends SubsystemBase
   private double count = 0;
   public Pose2d autoDrivePose = new Pose2d(0,0,new Rotation2d(0.0));
 
-  final PhotonCamera objectCamera = new PhotonCamera("OBJECT_FRONT");
+ // final PhotonCamera objectCamera = new PhotonCamera("OBJECT_FRONT");
   /**
    * Swerve drive object.
    */
@@ -91,7 +91,7 @@ public class SwerveSubsystem extends SubsystemBase
   /**
    * Enable vision odometry updates while driving.
    */
-  private final boolean             visionDriveTest     =  false;//SmartDashboard.getBoolean("VisionEnabled", true);
+  private final boolean             visionDriveTest     =  true;//SmartDashboard.getBoolean("VisionEnabled", true);
   /**
    * PhotonVision class to keep an accurate odometry.
    */
@@ -114,9 +114,9 @@ public class SwerveSubsystem extends SubsystemBase
     try
     {
       swerveDrive = new SwerveParser(directory).createSwerveDrive(Constants.MAX_SPEED,
-                                                                  new Pose2d(new Translation2d(Meter.of(1),
-                                                                                               Meter.of(4)),
-                                                                             Rotation2d.fromDegrees(0)));
+                                                                  new Pose2d(new Translation2d(Meter.of(16.54 - 7.182),// PLAYOFFS CHECK HERE BVN 
+                                                                                               Meter.of(4.168)),//
+                                                                             Rotation2d.fromDegrees(176.7+180)));
       // Alternative method if you don't want to supply the conversion factor via JSON files.
       // swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed, angleConversionFactor, driveConversionFactor);
     } catch (Exception e)
@@ -287,7 +287,7 @@ public class SwerveSubsystem extends SubsystemBase
 
   public Command visionIntake(){
         return run(() -> {
-
+/*/
             var result = objectCamera.getLatestResult();
             if (result.hasTargets()) {
                 var targets = result.getTargets();
@@ -341,7 +341,7 @@ public class SwerveSubsystem extends SubsystemBase
                     if (ySet < -1) ySet = -1;
                     drive(new Translation2d(-xSet, 0.0), -ySet, false);
                 }
-            }
+            }*/
         });
   }
 
@@ -787,10 +787,14 @@ public class SwerveSubsystem extends SubsystemBase
     {
       zeroGyro();
       //Set the pose 180 degrees
-      resetOdometry(new Pose2d(getPose().getTranslation(), Rotation2d.fromDegrees(180)));
+      //resetOdometry(new Pose2d(getPose().getTranslation(), Rotation2d.fromDegrees(180)));
+
+      /* Switched red & blue alliance in terms of zerogyro, so maybe paths will go correct direction now */
     } else
     {
       zeroGyro();
+
+      resetOdometry(new Pose2d(getPose().getTranslation(), Rotation2d.fromDegrees(180)));
     }
   }
 

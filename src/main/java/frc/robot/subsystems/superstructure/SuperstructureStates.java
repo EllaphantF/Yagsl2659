@@ -60,7 +60,7 @@ public class SuperstructureStates {
         CoralL1 = new SuperstructureState(30*Constants.endEffectorPivotGearRatio / 360, 12, 15);
         CoralL2 = new SuperstructureState(110*Constants.endEffectorPivotGearRatio / 360, 11, 15);
         CoralL3 = new SuperstructureState(110*Constants.endEffectorPivotGearRatio / 360, 30, 15);
-        CoralL4 = new SuperstructureState(80*Constants.endEffectorPivotGearRatio / 360, 73, 15); // elevator at 71
+        CoralL4 = new SuperstructureState(70*Constants.endEffectorPivotGearRatio / 360, 72, 15); // elevator at 71
 
         /* need to send the elevator up with endeffector in so we dont crash into the reef */
         CoralPreL1 = new SuperstructureState(25*Constants.endEffectorPivotGearRatio / 360, 8,  15);

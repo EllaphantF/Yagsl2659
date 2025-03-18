@@ -19,7 +19,7 @@ public class L4Command extends Command {
     
     @Override
     public void execute() {
-        if(structure.atPositionScoring() == true && structure.sequenceState == 1){
+        if(structure.atPositionScoring() == true ){//&& structure.sequenceState == 1){
             structure.startReleasingCoral(false);
         }
         
@@ -31,6 +31,6 @@ public class L4Command extends Command {
     }
     
     public boolean isFinished() {
-        return structure.scoringCoral == true;
+        return structure.scoringCoral == false;
     }
 }

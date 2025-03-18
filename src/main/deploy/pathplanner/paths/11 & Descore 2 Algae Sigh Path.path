@@ -16,11 +16,11 @@
     },
     {
       "anchor": {
-        "x": 5.950171232876712,
+        "x": 6.15,
         "y": 4.167744006849315
       },
       "prevControl": {
-        "x": 6.611301369863013,
+        "x": 6.811130136986302,
         "y": 4.137692636986301
       },
       "nextControl": null,
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 1.0,
-    "maxAcceleration": 2.0,
+    "maxVelocity": 0.5,
+    "maxAcceleration": 0.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -45,7 +45,7 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": "11 & Descore 2 Alge Mid",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0
