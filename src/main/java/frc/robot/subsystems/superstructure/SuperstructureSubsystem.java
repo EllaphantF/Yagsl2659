@@ -4,9 +4,6 @@
 
 package frc.robot.subsystems.superstructure;
 
-import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.util.sendable.Sendable;
-import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
@@ -18,28 +15,14 @@ import frc.robot.Constants;
 import edu.wpi.first.wpilibj.RobotBase;
 
 
-//import frc.robot.subsystems.LEDs;
-import edu.wpi.first.wpilibj.Timer;
-
-import com.ctre.phoenix6.*;
-import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.ctre.phoenix6.configs.MotorOutputConfigs;
-import com.ctre.phoenix6.configs.Slot1Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
-import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
-import com.ctre.phoenix6.controls.compound.Diff_MotionMagicVoltage_Position;
-import com.ctre.phoenix6.controls.compound.Diff_PositionVoltage_Position;
 import com.ctre.phoenix6.hardware.CANdi;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.hardware.TalonFXS;
-import com.ctre.phoenix6.signals.InvertedValue;
-import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.ctre.phoenix6.sim.TalonFXSimState;
 
 public class SuperstructureSubsystem extends SubsystemBase {
 
@@ -85,10 +68,6 @@ public class SuperstructureSubsystem extends SubsystemBase {
   private static final TalonFX mIntakeWheels = new TalonFX(Constants.intakeWheelsID,"drive");//
   private static final TalonFX mFunnelWheels = new TalonFX(Constants.funnelWheelsID,"drive");//
   private static final CANdi CANdi = new CANdi(25,"drive");
-
-  //private final TalonFXSimState mElevatorLeftSim = new TalonFXSimState(mElevatorLeft);
-  //private final TalonFXSimState mEndeffectorPivotSim = new TalonFXSimState(mEndeffectorPivot);
-  //private final TalonFXSimState mIntakePivotSim = new TalonFXSimState(mIntakePivot);
 
   private final Mechanism2d mech;
   private final MechanismRoot2d root;
@@ -139,16 +118,11 @@ public class SuperstructureSubsystem extends SubsystemBase {
         mech = new Mechanism2d(50, 120);
         root = mech.getRoot("Center", 13.5, 13.5);
         MechanismRoot2d elevatorLeftRoot = mech.getRoot("ElevatorLeftRoot", 10, 25);
-        //MechanismRoot2d elevatorRightRoot = mech.getRoot("ElevatorRightRoot", 26, 9.375);
-        //MechanismRoot2d endEffectorPivot = mech.getRoot("EndEffectorPivotRoot", 10, 40);
         MechanismRoot2d intakePivotLeftRoot = mech.getRoot("IntakePivotLeftRoot", 20, 5);
-        //MechanismRoot2d intakePivotRightRoot = mech.getRoot("IntakePivotRightRoot", 1.0, 9.375);
         m_ElevatorLeft = elevatorLeftRoot.append(new MechanismLigament2d("ElevatorLeft", 65, 90));
-        //m_ElevatorRight = elevatorRightRoot.append(new MechanismLigament2d("ElevatorRight", 96.75, 90));
         m_EndeffectorPivot = m_ElevatorLeft.append(new MechanismLigament2d("EndeffectorPivot", 12, 270));
         m_EndeffectorRollers = m_ElevatorLeft.append(new MechanismLigament2d("EndeffectorRollers", 3, 90));
         m_IntakeLeftPivot = intakePivotLeftRoot.append(new MechanismLigament2d("IntakePivot", 15, 90));
-        //m_IntakeRightPivot = intakePivotRightRoot.append(new MechanismLigament2d("IntakePivot", 96.75, 45));
         m_IntakeWheels = m_IntakeLeftPivot.append(new MechanismLigament2d("IntakeWheels", 3, 90));
         m_FunnelWheels = root.append(new MechanismLigament2d("FunnelWheels", 3, 90));
 
@@ -174,30 +148,6 @@ public class SuperstructureSubsystem extends SubsystemBase {
       // mLED.setLightMode(2);
       lightMode = 9;
     }
-  }
-
-  /**
-   * Example command factory method.
-   *
-   * @return a command
-   */
-  public Command exampleMethodCommand() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
-          /* one-time action goes here */
-        });
-  }
-
-  /**
-   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
-   *
-   * @return value of some boolean subsystem state, such as a digital sensor.
-   */
-  public boolean exampleCondition() {
-    // Query some boolean state, such as a digital sensor.
-    return false;
   }
 
   public void motionMagicSetElevatorAndEndeffector(double ElevatorPosTarget, double PivotPosTarget, double IntakePosTarget){
@@ -299,9 +249,6 @@ public class SuperstructureSubsystem extends SubsystemBase {
 
     mElevatorLeft.getConfigurator().apply(elevatorConfig);
     mElevatorRight.setControl(new Follower(mElevatorLeft.getDeviceID(), true));
-    //TalonFXConfiguration elevatorConfigRight = elevatorConfig;
-    //elevatorConfigRight.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
-    //mElevatorRight.getConfigurator().apply(elevatorConfig);
   }
   
   public void SD_MotionMagicEEPivotTEST(){
@@ -362,19 +309,13 @@ public class SuperstructureSubsystem extends SubsystemBase {
     intakeTraversing = true;
     /* This block checks that the system is in a safe spot before it commands motion, and if there's potential interference(i.e. endeffector would crash) then it goes to a safe stow position first until its below a safety threshold */
     if(elevatorPos > Constants.crossbarClearancePos){ //If elevator is above the crossbar
-        //if(mIntakePivot.getPosition().getValueAsDouble() < Constants.intakeEndeffectorClearancePos){ //If intake is retracted (i.e. endeffector would hit it) 
-        //  TARGETSTATE = STATE.StowClear;//put the intake down and bring the elevator down with the endeffector towards the scoring side of the robot 
-        //}else{
           // mLED.setLightMode(1);
           lightMode = 8;
           TARGETSTATE = STATE.StowClearIntakeDeployed; //put the intake down and bring the elevator down with the endeffector towards the scoring side of the robot
         //}
     }
     else { //if the elevator is below the crossbar (i.e. wont crash the endeffector into the crossbar)    
-        //if intakePos < Constants.intakeEndeffectorClearancePos){ //If intake is retracted (i.e. endeffector would hit it) 
           TARGETSTATE = STATE.Intake;//put the intake down and bring the elevator down with the endeffector towards the scoring side of the robot 
-        //else {
-          //TARGETSTATE = STATE.Intake; //If the elevator is below the crossbar and the endeffector will clear the intake, go to full intake
           // mLED.setLightMode(1);
           lightMode = 8;
           intakeTraversing = false;
@@ -394,10 +335,8 @@ public class SuperstructureSubsystem extends SubsystemBase {
       setIntakeWheelSpeed(45); // was 23 -- 40 works great 3-8-2025
       setFunnelWheelSpeed(-8);}//was -10 -- -8 works great 3-8-2025
       nomNomWeebleWobble();
-    //if ( CANdi.getS1State(true).getValueAsDouble() == 1 && manualOverride == false){ //was 19 amps 
     if ( CANdi.getS1State(true).getValueAsDouble() == 1){ //was 19 amps 
       //added manualOverride boolean to allo  w for manual control of the intake
-        //setEndeffectorHold();
       
       justGotCoral();
       setIntakeWheelSpeed(0);
@@ -508,21 +447,15 @@ public class SuperstructureSubsystem extends SubsystemBase {
 
   private void stow(){ //pulls the intake in and elevator down
     if(hasCoral && safeToStow()){
-      // elevatorTarget = 0; //reference constants or arm pos file or replace these with states
-      // pivotTarget = 0;
       TARGETSTATE = STATE.StowWithCoral;
       stowing = false;
       // STATE.StowCoral; //option for putting positions in a state
     }
     else if (hasAlgae && safeToStow()){
-      // elevatorTarget = 0; //reference constants or arm pos file 
-      // pivotTarget = 0;
       TARGETSTATE = STATE.StowWithAlgae;
       stowing = false;
     }
     else{
-      // elevatorTarget = 0; //reference constants or arm pos file 
-      // pivotTarget = 0;
       TARGETSTATE = STATE.StowEEClear;
       stowing = false;
 
@@ -541,25 +474,19 @@ public class SuperstructureSubsystem extends SubsystemBase {
    * @param level
    */
   public void setPreScoreCoralState(Double level){ //sets up elevator and EE pivot for pre-score position for drive-up 
-    // elevatorTarget = 0; //reference constants or arm pos file 
-    // pivotTarget = 0;    
     if (level == 1) TARGETSTATE = STATE.CoralPreL1;
     if (level == 2) TARGETSTATE = STATE.CoralPreL2;
     if (level == 3) TARGETSTATE = STATE.CoralPreL3;
     if (level == 4) TARGETSTATE = STATE.CoralPreL4;}
 
   public void setScoreCoralState(Double level){ //sets up elevator and EE pivot for score position for drive-up 
-    // elevatorTarget = 0; //reference constants or arm pos file 
-    // pivotTarget = 0;
     if (level == 1) TARGETSTATE = STATE.CoralL1;
     if (level == 2) TARGETSTATE = STATE.CoralL2;
     if (level == 3) TARGETSTATE = STATE.CoralL3;
     if (level == 4) TARGETSTATE = STATE.CoralL4;
   }
 
-  public void setPostScoreCoralState(Double level){ //sets up elevator and EE pivot for pre-score position for drive-up 
-    // elevatorTarget = 0; //reference constants or arm pos file 
-    // pivotTarget = 0;    
+  public void setPostScoreCoralState(Double level){ //sets up elevator and EE pivot for pre-score position for drive-up    
     if (level == 1) TARGETSTATE = STATE.CoralPreL1;
     if (level == 2) TARGETSTATE = STATE.CoralPreL2;
     if (level == 3) TARGETSTATE = STATE.CoralPreL3;
@@ -649,7 +576,6 @@ public class SuperstructureSubsystem extends SubsystemBase {
   
 
   public void spit(){
-    //intaking = false;
     setIntakeWheelSpeed(-10);
     setFunnelWheelSpeed(10);
   }
@@ -721,12 +647,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
         }
         else if(sequenceState == 1){
           setScoreCoralState(scoreLevel);
-          //if (atPosition() && autoReleaseCoral) {
-          //releaseCoral();
-          //sequenceState = 2;
-          //}
           if(!hasCoral)sequenceState = 2;
-          //sequenceState = 2;
         }
         else if(sequenceState == 2){
           setPostScoreCoralState(scoreLevel);
@@ -749,7 +670,6 @@ public class SuperstructureSubsystem extends SubsystemBase {
     }
     elevatorPos = mElevatorLeft.getPosition().getValueAsDouble();
     pivotPos = mEndeffectorPivot.getPosition().getValueAsDouble() ;
-    //intakePos = 100;//Temporary override 
     intakePos = mIntakePivotLeft.getPosition().getValueAsDouble() ;
   }
 

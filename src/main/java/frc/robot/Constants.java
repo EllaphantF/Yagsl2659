@@ -4,17 +4,7 @@
 
 package frc.robot;
 
-//import com.ctre.phoenix6.*;
-//import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-//import com.ctre.phoenix6.configs.MotorOutputConfigs;
-//import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-/*import com.ctre.phoenix6.controls.Follower;
-import com.ctre.phoenix6.controls.MotionMagicVoltage;
-import com.ctre.phoenix6.controls.VelocityVoltage;
-import com.ctre.phoenix6.controls.compound.Diff_MotionMagicVoltage_Position;
-import com.ctre.phoenix6.hardware.TalonFX;
-*/
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -240,21 +230,7 @@ public final class Constants
         public static TalonFXConfiguration getElevatorConfigRight() {
           TalonFXConfiguration elevatorConfigRight = new TalonFXConfiguration();
           elevatorConfigRight = getElevatorConfigLeft();
-          //elevatorConfigRight.Slot0.kG = 0.3; // Volts to overcome gravity
-          //elevatorConfigRight.Slot0.kS = 0.4; // Volts to overcome static friction
-          //elevatorConfigRight.Slot0.kV = 0.001; // Volts for a velocity target of 1 rps
-          //elevatorConfigRight.Slot0.kA = 0.001; // Volts for an acceleration of 1 rps/s
-          //elevatorConfigRight.Slot0.kP = 10;//
-          //elevatorConfigRight.Slot0.kI = 0.01; //
-          //elevatorConfigRight.Slot0.kV = 0.12; //
-          //elevatorConfigRight.Slot0.kD = 0.005; //
-          //elevatorConfigRight.CurrentLimits.SupplyCurrentLimit = 30 / 3;//was 20
-          //elevatorConfigRight.OpenLoopRamps.VoltageOpenLoopRampPeriod = .08;        
-          //elevatorConfigRight.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .08;
-          //elevatorConfigRight.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .08;
-          //elevatorConfigRight.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .08;
-          //elevatorConfigRight.MotionMagic.MotionMagicCruiseVelocity = 350 / 1; //stolen from 3255, added '/10' to start slow
-          //elevatorConfigRight.MotionMagic.MotionMagicAcceleration = 2500 / 1.5; //also stolen from 3255, added '/10' to start slow
+
           elevatorConfigRight.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
           return elevatorConfigRight;
         }

@@ -6,7 +6,6 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
 import frc.robot.util.io.Dashboard;
 
 /**
@@ -61,7 +60,7 @@ public class PathPlannerAutos {
      */
     public static enum Auto {
         NO_AUTO(null),
-        test(new PathPlannerAuto("WoohooAuto"));
+        test(new PathPlannerAuto("2 & 3 L4 POG Auto"));
         
         private final PathPlannerAuto auto;
 
