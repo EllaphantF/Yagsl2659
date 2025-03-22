@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.430281690140845,
-        "y": 2.7919894366197173
+        "x": 5.061795774647887,
+        "y": 2.6360915492957737
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.877552816901408,
-        "y": 2.026672535211267
+        "x": 4.509066901408451,
+        "y": 1.8707746478873233
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "2 to Intake POG"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 0.9779049295774632
       },
       "prevControl": {
-        "x": 3.446126760563379,
-        "y": 1.459771126760562
+        "x": 3.403609154929576,
+        "y": 1.7857394366197172
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,7 +30,7 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.15,
+      "waypointRelativePos": 0.25272727272727197,
       "rotationDegrees": -170.0
     }
   ],
@@ -66,7 +66,7 @@
   "eventMarkers": [
     {
       "name": "GoHome",
-      "waypointRelativePos": 0.05,
+      "waypointRelativePos": 0.12738853503184713,
       "endWaypointRelativePos": null,
       "command": null
     }

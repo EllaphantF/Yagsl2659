@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.RobotBase;
-
+import edu.wpi.first.wpilibj.Timer;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
@@ -55,19 +55,21 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public boolean manualOverride = false;
 
   public SuperstructureStates STATE = new SuperstructureStates();
+  public SuperstructureState CURRENTSTATE = STATE.Home;
+  public SuperstructureState PREVIOUSSTATE;
   public SuperstructureState TARGETSTATE = STATE.Home;
   
   //private final LEDs mLED = new LEDs();
 
-  private static final TalonFX mElevatorRight = new TalonFX(Constants.elevatorRightID, "drive");//MPF Hi I have IDs
-  private static final TalonFX mElevatorLeft = new TalonFX(Constants.elevatorLeftID,"drive");//
-  private static final TalonFX mEndeffectorPivot = new TalonFX(Constants.endEffectorPivotID,"drive");//
-  private static final TalonFX mEndeffectorRollers = new TalonFX(Constants.endEffectorWheelID,"drive");//
-  private static final TalonFX mIntakePivotLeft = new TalonFX(Constants.intakePivotLeftID,"drive");//
-  private static final TalonFX mIntakePivotRight = new TalonFX(Constants.intakePivotRightID,"drive");
-  private static final TalonFX mIntakeWheels = new TalonFX(Constants.intakeWheelsID,"drive");//
-  private static final TalonFX mFunnelWheels = new TalonFX(Constants.funnelWheelsID,"drive");//
-  private static final CANdi CANdi = new CANdi(25,"drive");
+  private static final TalonFX mElevatorRight = new TalonFX(Constants.elevatorRightID, "Superstructure");//MPF Hi I have IDs
+  private static final TalonFX mElevatorLeft = new TalonFX(Constants.elevatorLeftID,"Superstructure");//
+  private static final TalonFX mEndeffectorPivot = new TalonFX(Constants.endEffectorPivotID,"Superstructure");//
+  private static final TalonFX mEndeffectorRollers = new TalonFX(Constants.endEffectorWheelID,"Superstructure");//
+  private static final TalonFX mIntakePivotLeft = new TalonFX(Constants.intakePivotLeftID,"Superstructure");//
+  private static final TalonFX mIntakePivotRight = new TalonFX(Constants.intakePivotRightID,"Superstructure");
+  private static final TalonFX mIntakeWheels = new TalonFX(Constants.intakeWheelsID,"Superstructure");//
+  private static final TalonFX mFunnelWheels = new TalonFX(Constants.funnelWheelsID);//on rio loop
+  private static final CANdi CANdi = new CANdi(25,"Superstructure");
 
   private final Mechanism2d mech;
   private final MechanismRoot2d root;
@@ -128,6 +130,15 @@ public class SuperstructureSubsystem extends SubsystemBase {
 
   }
 
+  public void setCurrentState(){
+    
+    CURRENTSTATE.elevator = elevatorPos;
+    CURRENTSTATE.intake = intakePos;
+    CURRENTSTATE.pivot = pivotPos;
+
+    TARGETSTATE = CURRENTSTATE;
+  }
+
   public  void climb(double state){
     
     if (state == 1) {
@@ -163,8 +174,8 @@ public class SuperstructureSubsystem extends SubsystemBase {
     mIntakePivotRight.setControl(new MotionMagicVoltage(STATE.Intake.intake ));
     }
     else {
-    mIntakePivotLeft.setControl(new MotionMagicVoltage(STATE.Intake.intake - 7));
-    mIntakePivotRight.setControl(new MotionMagicVoltage(STATE.Intake.intake - 7));
+    mIntakePivotLeft.setControl(new MotionMagicVoltage(STATE.Intake.intake - 1));
+    mIntakePivotRight.setControl(new MotionMagicVoltage(STATE.Intake.intake - 1));
     }
 
     //mIntakePivotRight.setControl(new MotionMagicVoltage(IntakePosTarget * Constants.intakePivotGearRatio / 360));
@@ -188,22 +199,17 @@ public class SuperstructureSubsystem extends SubsystemBase {
    */
   public void nomNomWeebleWobble (){
 /*
-    if (Timer.getFPGATimestamp() %.5 > .4){
-      TARGETSTATE.intake = STATE.Intake.intake - 1
-      ;
+    SmartDashboard.putBoolean("zzzdebugNOMNOM", Timer.getFPGATimestamp()%.6 > .5);
+    if (Timer.getFPGATimestamp() %.6 > .5){
+      TARGETSTATE = STATE.IntakeWobble;
     } 
-    else TARGETSTATE.intake = STATE.Intake.intake;
-
-    if (Timer.getFPGATimestamp() %.3 > .2){
-      TARGETSTATE.pivot = STATE.Intake.pivot + .2;
-    }
-    else TARGETSTATE.pivot = STATE.Intake.pivot;*/
-
+    else TARGETSTATE = STATE.Intake;
+*/
   }
 
   public void updateElevatorConfigsFromSD(){
     // Get the current PID values and motion magic parameters
-    TalonFXConfiguration elevatorConfig = Constants.SuperstructureConfigs.getElevatorConfigLeft();
+    /*TalonFXConfiguration elevatorConfig = Constants.SuperstructureConfigs.getElevatorConfigLeft();
     mElevatorLeft.getConfigurator().refresh(elevatorConfig);
 
     double kP = elevatorConfig.Slot0.kP;
@@ -248,18 +254,18 @@ public class SuperstructureSubsystem extends SubsystemBase {
     elevatorConfig.MotionMagic.MotionMagicAcceleration = motionMagicAcceleration;
 
     mElevatorLeft.getConfigurator().apply(elevatorConfig);
-    mElevatorRight.setControl(new Follower(mElevatorLeft.getDeviceID(), true));
+    mElevatorRight.setControl(new Follower(mElevatorLeft.getDeviceID(), true));*/
   }
   
   public void SD_MotionMagicEEPivotTEST(){
-    SmartDashboard.putNumber("EEPivotTestTarget", SmartDashboard.getNumber("EEPivotTestTarget", mEndeffectorPivot.getPosition().getValueAsDouble()));
+    /*SmartDashboard.putNumber("EEPivotTestTarget", SmartDashboard.getNumber("EEPivotTestTarget", mEndeffectorPivot.getPosition().getValueAsDouble()));
     double EEPivotTestTarget = SmartDashboard.getNumber("EEPivotTestTarget", mEndeffectorPivot.getPosition().getValueAsDouble());
-    mEndeffectorPivot.setControl(new MotionMagicVoltage(EEPivotTestTarget));
+    mEndeffectorPivot.setControl(new MotionMagicVoltage(EEPivotTestTarget));*/
   }
 
   public void updateEEPivotConfigsFromSD(){
     // Get the current PID values and motion magic parameters
-    TalonFXConfiguration EEPivotConfig = Constants.SuperstructureConfigs.getEndeffectorPivotConfig();
+    /*TalonFXConfiguration EEPivotConfig = Constants.SuperstructureConfigs.getEndeffectorPivotConfig();
     mEndeffectorPivot.getConfigurator().refresh(EEPivotConfig);
 
     double kP = EEPivotConfig.Slot0.kP;
@@ -290,7 +296,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
     EEPivotConfig.MotionMagic.MotionMagicCruiseVelocity = motionMagicVelocity;
     EEPivotConfig.MotionMagic.MotionMagicAcceleration = motionMagicAcceleration;
 
-    mEndeffectorPivot.getConfigurator().apply(EEPivotConfig);
+    mEndeffectorPivot.getConfigurator().apply(EEPivotConfig);*/
   }
 
   public void manualUpdateTargets(double ElevatorPosTarget, double PivotPosTarget, double IntakePosTarget){
@@ -329,12 +335,12 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public void intaking(){
     releasingCoral = false;
     //hasCoral = true; //temporary for testing 2/19/2025
+      nomNomWeebleWobble();
     if(atPosition()){
       // mLED.setLightMode(1);
       setEndeffectorWheelSpeed(2.5);
       setIntakeWheelSpeed(45); // was 23 -- 40 works great 3-8-2025
       setFunnelWheelSpeed(-8);}//was -10 -- -8 works great 3-8-2025
-      nomNomWeebleWobble();
     if ( CANdi.getS1State(true).getValueAsDouble() == 1){ //was 19 amps 
       //added manualOverride boolean to allo  w for manual control of the intake
       
@@ -617,7 +623,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public void startLifting(){
     clearMotionStates();
     lifting = true;
-    sequenceState = 0;
+    sequenceState = 0; 
   }
 
   /**
@@ -671,6 +677,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
     elevatorPos = mElevatorLeft.getPosition().getValueAsDouble();
     pivotPos = mEndeffectorPivot.getPosition().getValueAsDouble() ;
     intakePos = mIntakePivotLeft.getPosition().getValueAsDouble() ;
+
   }
 
   public void updateSD(){
@@ -759,8 +766,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
     //SD_motionMagicElevatorTEST();
 
     updatePositions();
-    motionMagicSetElevatorAndEndeffector(TARGETSTATE.elevator, TARGETSTATE.pivot , TARGETSTATE.intake);
-    
+
     if(intakeTraversing)intakeTraverse();
     if(intaking)intaking();
     if(stowing)stow();
@@ -769,6 +775,10 @@ public class SuperstructureSubsystem extends SubsystemBase {
     if(seatingCoral)seatCoral();
 
     updateSD();
+
+    if (TARGETSTATE != PREVIOUSSTATE) motionMagicSetElevatorAndEndeffector(TARGETSTATE.elevator, TARGETSTATE.pivot , TARGETSTATE.intake);
+    
+    PREVIOUSSTATE = TARGETSTATE;
     //MECH2d(); // Update the MECH2d ligaments in the periodic method
     //
     

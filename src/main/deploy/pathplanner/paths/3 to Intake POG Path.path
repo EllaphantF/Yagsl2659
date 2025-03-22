@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 1.8181078767123287,
-        "y": 1.8688142123287674
+        "x": 1.3769366197183086,
+        "y": 0.992077464788731
       },
       "prevControl": {
-        "x": 2.374058219178082,
-        "y": 1.9589683219178085
+        "x": 1.9580105633802805,
+        "y": 1.3180457746478862
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Intake to 3 POG"
     }
   ],
   "rotationTargets": [],
@@ -33,7 +33,7 @@
     {
       "name": "Constraints Zone",
       "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 0.4,
+      "maxWaypointRelativePos": 0.22717622080679412,
       "constraints": {
         "maxVelocity": 0.5,
         "maxAcceleration": 0.5,
@@ -63,13 +63,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -150.0
+    "rotation": -123.07067782276164
   },
   "reversed": false,
   "folder": "2 & 3 L4 Right",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -132.471
+    "rotation": -122.11807853334481
   },
   "useDefaultConstraints": true
 }

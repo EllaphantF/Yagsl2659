@@ -15,7 +15,6 @@ public class L1Command extends Command {
         
         structure.setCoralLevel(1.0);
         structure.startLifting();
-        //structure.liftL1();
         }
     }
     @Override

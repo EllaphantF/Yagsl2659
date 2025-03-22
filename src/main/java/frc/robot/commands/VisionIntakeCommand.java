@@ -7,32 +7,34 @@ import frc.robot.subsystems.superstructure.SuperstructureSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 public class VisionIntakeCommand extends Command {
-    RobotContainer robotContainer;
-    SuperstructureSubsystem structure;
+    RobotContainer m_robotContainer;
+    SuperstructureSubsystem m_structure;
     double timerStart = 0;
     double timeLimit = 3;
 
     public VisionIntakeCommand(RobotContainer m_RobotContainer, SuperstructureSubsystem m_SuperstructureSub, SwerveSubsystem m_DrivetrainSub) {
-        this.structure = structure;
+        this.m_structure = m_structure;
+        this.m_robotContainer = m_robotContainer;
+
     }
 
     @Override
     public void initialize() {
-        structure.goHome();
-        structure.intake();
+        m_structure.goHome();
+        m_structure.intake();
         timerStart = Timer.getFPGATimestamp();
     }
     @Override
     public void execute() {
-        robotContainer.visionIntake();
+        m_robotContainer.visionIntake();
     }
 
     @Override
     public void end(boolean interrupted){
-        structure.goHome();
+        m_structure.goHome();
     }
     
     public boolean isFinished() {
-        return (structure.hasCoral == true || Timer.getFPGATimestamp() - timerStart > timeLimit);
+        return (m_structure.hasCoral == true || Timer.getFPGATimestamp() - timerStart > timeLimit);
     }
 }
