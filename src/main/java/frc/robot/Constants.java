@@ -32,7 +32,7 @@ public final class Constants
   // Maximum speed of the robot in meters per second, used to limit acceleration.
 
   public static final double scoringPositionTolerance = 0.1; // Scoring position tolerance for superstructure
-  public static final double positionTolerance = 0.3; // general position tolerance for superstructure
+  public static final double positionTolerance = 0.5; // general position tolerance for superstructure
 
 //  public static final class AutonConstants
 //  {
@@ -217,7 +217,7 @@ public final class Constants
           elevatorConfigLeft.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .01;
 
           elevatorConfigLeft.MotionMagic.MotionMagicCruiseVelocity = 70; //100 was smooth, 200 is faster than kraken max 100
-          elevatorConfigLeft.MotionMagic.MotionMagicAcceleration = 140;// 80 was good, 200 zippy
+          elevatorConfigLeft.MotionMagic.MotionMagicAcceleration = 80;// 80 was good, 150 zippy
 
           elevatorConfigLeft.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
           elevatorConfigLeft.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;

@@ -124,12 +124,12 @@ public class RobotContainer
    * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular velocity.
    */
   SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
-                                                                () -> driverXbox.getLeftY() * 1,
-                                                                () -> driverXbox.getLeftX() * 1)//
+                                                                () -> driverXbox.getLeftY() * -1,
+                                                                () -> driverXbox.getLeftX() * -1)//
                                                           //.withControllerRotationAxis(driverXbox::getRightX)
                                                             .withControllerRotationAxis(() -> driverXbox.getRightX()*-1) //BVN 1-26-25 - added negative to reverse the rotation input, removed 2/3
                                                             .deadband(OperatorConstants.DEADBAND)
-                                                            .scaleTranslation(0.8)
+                                                            .scaleTranslation(1.0)
                                                             .allianceRelativeControl(true);
 
   /**
@@ -300,7 +300,7 @@ public class RobotContainer
       buttonBox1.button(1).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 12)));
       buttonBox1.button(2).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 1)));
       buttonBox1.button(3).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 2)));
-      buttonBox1.button(4).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Loction", 3)));
+      buttonBox1.button(4).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 3)));
       buttonBox1.button(5).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 4)));
       buttonBox1.button(6).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 5)));
       buttonBox1.button(7).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 6)));

@@ -3,42 +3,35 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.3769366197183086,
-        "y": 0.992077464788731
+        "x": 7.003433098591549,
+        "y": 7.086267605633802
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3690140845060936,
-        "y": 1.7432218309879284
+        "x": 6.053873239436619,
+        "y": 6.604401408450704
       },
       "isLocked": false,
-      "linkedName": "Intake to 3 POG"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.5736795774638406,
-        "y": 2.791989436621731
+        "x": 3.477,
+        "y": 5.456
       },
       "prevControl": {
-        "x": 2.4540492957736992,
-        "y": 1.558978873241449
+        "x": 4.126408450704221,
+        "y": 5.768221830980094
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "7 to Intake Bweh"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "Intake",
-      "waypointRelativePos": 0.12526539278131632,
-      "endWaypointRelativePos": null,
-      "command": null
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 4.0,
@@ -49,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -119.98163936884934
+    "rotation": 119.99999999999999
   },
   "reversed": false,
-  "folder": "2, 3 & 4 Right",
+  "folder": "7, 6, 5 Left",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -123.07067782276164
+    "rotation": 56.3099324736585
   },
   "useDefaultConstraints": true
 }

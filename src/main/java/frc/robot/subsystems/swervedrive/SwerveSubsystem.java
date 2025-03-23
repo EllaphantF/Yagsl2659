@@ -364,18 +364,18 @@ public class SwerveSubsystem extends SubsystemBase
 //    ProfiledPIDController xcontroller = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 5), SmartDashboard.getNumber("kI PID", 2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
 //    ProfiledPIDController ycontroller = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 5), SmartDashboard.getNumber("kI PID", 2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
 
-    ProfiledPIDController xcontroller = new ProfiledPIDController(8.,4.,.2, xyConstraints);
-    ProfiledPIDController ycontroller = new ProfiledPIDController(8.,4.,.2, xyConstraints);
+    ProfiledPIDController xcontroller = new ProfiledPIDController(10.,4.,.2, xyConstraints);
+    ProfiledPIDController ycontroller = new ProfiledPIDController(10.,4.,.2, xyConstraints);
 
     //ProfiledPIDController thetacontroller = new ProfiledPIDController(30, 0, 0, thetaConstraints);
     //thetacontroller.enableContinuousInput(-180, 180);
     
 
-    xcontroller.setIZone(.2);
-    xcontroller.setTolerance(.015);
+    xcontroller.setIZone(.5);
+    xcontroller.setTolerance(.01);
     
-    ycontroller.setIZone(.2);
-    ycontroller.setTolerance(.015);
+    ycontroller.setIZone(.5);
+    ycontroller.setTolerance(.01);
 
     BooleanSupplier atTarget = () -> (xcontroller.atGoal() && ycontroller.atSetpoint()&& (Math.abs(getPose().getRotation().getDegrees() - targetPose.getRotation().getDegrees())<1
     
@@ -423,8 +423,8 @@ public class SwerveSubsystem extends SubsystemBase
   {
 // Create the constraints to use while pathfinding
     PathConstraints constraints = new PathConstraints(
-        swerveDrive.getMaximumChassisVelocity(), 2, //.08m/s - testing w/ slow translation
-        swerveDrive.getMaximumChassisAngularVelocity(), Units.degreesToRadians(120));
+        swerveDrive.getMaximumChassisVelocity(), 4, //.08m/s - testing w/ slow translation
+        swerveDrive.getMaximumChassisAngularVelocity(), Units.degreesToRadians(240));
     
 // Since AutoBuilder is configured, we can use it to build pathfinding commands
     return AutoBuilder.pathfindToPose(

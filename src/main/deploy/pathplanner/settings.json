@@ -5,10 +5,12 @@
   "pathFolders": [
     "10 & 9 L4 Left",
     "11 & Descore 2 Algea Mid",
-    "2 & 3 L4 Right",
+    "2, 3 & 4 Right",
     "4 & 3 L4 Right",
+    "5 & 6 L 2 Left Folder",
+    "7, 6, 5 Left",
     "8 & 7 L4 Left Folder",
-    "5 & 6 L 2 Left Folder"
+    "New Folder"
   ],
   "autoFolders": [],
   "defaultMaxVel": 3.0,

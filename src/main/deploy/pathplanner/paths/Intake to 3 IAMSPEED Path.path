@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.292208904109589,
-        "y": 0.9221960616438355
+        "x": 0.7958626760563366,
+        "y": 2.125880281690139
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.539340753424657,
-        "y": 1.6284032534246582
+        "x": 2.2698063380281677,
+        "y": 2.267605633802816
       },
       "isLocked": false,
       "linkedName": "Intake to 3 IAMSPEED"
@@ -20,8 +20,8 @@
         "y": 2.436
       },
       "prevControl": {
-        "x": 3.1704195205479455,
-        "y": 1.9589683219178085
+        "x": 2.8225352112676045,
+        "y": 2.2959507042253504
       },
       "nextControl": null,
       "isLocked": false,
@@ -69,7 +69,7 @@
   "folder": "4 & 3 L4 Right",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -128.15722658736908
+    "rotation": 179.843
   },
   "useDefaultConstraints": true
 }

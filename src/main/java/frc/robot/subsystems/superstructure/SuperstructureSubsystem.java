@@ -198,13 +198,13 @@ public class SuperstructureSubsystem extends SubsystemBase {
    * NOM NOM NOM
    */
   public void nomNomWeebleWobble (){
-/*
+
     SmartDashboard.putBoolean("zzzdebugNOMNOM", Timer.getFPGATimestamp()%.6 > .5);
     if (Timer.getFPGATimestamp() %.6 > .5){
       TARGETSTATE = STATE.IntakeWobble;
     } 
     else TARGETSTATE = STATE.Intake;
-*/
+
   }
 
   public void updateElevatorConfigsFromSD(){
@@ -338,10 +338,12 @@ public class SuperstructureSubsystem extends SubsystemBase {
       nomNomWeebleWobble();
     if(atPosition()){
       // mLED.setLightMode(1);
-      setEndeffectorWheelSpeed(2.5);
+      setEndeffectorWheelSpeed(2);
       setIntakeWheelSpeed(45); // was 23 -- 40 works great 3-8-2025
       setFunnelWheelSpeed(-8);}//was -10 -- -8 works great 3-8-2025
-    if ( CANdi.getS1State(true).getValueAsDouble() == 1){ //was 19 amps 
+    if ( 
+        CANdi.getS1State(true).getValueAsDouble() == 1){ //was 19 amps 
+    //if ( CANdi.getS1State(true).getValueAsDouble() == 1){ //was 19 amps 
       //added manualOverride boolean to allo  w for manual control of the intake
       
       justGotCoral();
@@ -764,6 +766,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
     
     //SD_MotionMagicEEPivotTEST();
     //SD_motionMagicElevatorTEST();
+    SmartDashboard.putNumber("CANDi State", CANdi.getS1State().getValueAsDouble());
 
     updatePositions();
 
