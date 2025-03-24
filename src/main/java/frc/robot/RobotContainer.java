@@ -39,6 +39,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AlgaeL2Command;
+import frc.robot.commands.AlgaeL3Command;
 import frc.robot.commands.AutonScoreCommand;
 import frc.robot.commands.GoHomeCommand;
 import frc.robot.commands.IntakeCommand;
@@ -198,6 +199,7 @@ public class RobotContainer
     NamedCommands.registerCommand("L4", new L4Command(superstructure).withTimeout(6));
     NamedCommands.registerCommand("GoHome", new GoHomeCommand(superstructure));
     NamedCommands.registerCommand("AlgaeL2", new AlgaeL2Command(superstructure).withTimeout(3));
+    NamedCommands.registerCommand("AlgaeL3", new AlgaeL3Command(superstructure).withTimeout(3));
 	  //NamedCommands.registerCommand("VisionIntake", new VisionIntakeCommand(this, getSuperstructure(), getSwerveSubsystem(),  5.0));
     
     NamedCommands.registerCommand("AutonScoreCommandP1L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  1 , 4));
@@ -264,7 +266,7 @@ public class RobotContainer
       driverXbox.b().whileTrue(new InstantCommand(() -> superstructure.startReleasingCoral(false)).repeatedly());
       driverXbox.b().onFalse(new InstantCommand(() -> superstructure.ureleaseCoral()));
       driverXbox.a().onTrue(new InstantCommand(() -> superstructure.disableManualOverride())); //3-4-25 MPF added disable manual override to intake
-      driverXbox.leftBumper().onTrue((Commands.runOnce(drivebase::resetDriveEncoders)));
+      //driverXbox.leftBumper().onTrue(new InstantCommand(() -> superstructure.intake()));
       //driverXbox.leftBumper().onTrue(new InstantCommand(() -> superstructure.intake()));
       //driverXbox.leftBumper().whileTrue(visionIntake());
 

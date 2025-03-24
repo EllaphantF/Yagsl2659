@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.3769366197183086,
-        "y": 0.992077464788731
+        "x": 5.274383802816901,
+        "y": 2.3101232394366185
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3690140845060936,
-        "y": 1.7432218309879284
+        "x": 5.166972743565867,
+        "y": 2.5358728005670246
       },
       "isLocked": false,
-      "linkedName": "Intake to 3 POG"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.5736795774638406,
-        "y": 2.791989436621731
+        "x": 5.197,
+        "y": 2.43
       },
       "prevControl": {
-        "x": 2.4540492957736992,
-        "y": 1.558978873241449
+        "x": 5.286744769827217,
+        "y": 2.196663598449235
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,20 +31,7 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "Intake",
-      "waypointRelativePos": 0.12526539278131632,
-      "endWaypointRelativePos": 0.3057324840764331,
-      "command": null
-    },
-    {
-      "name": "AutonScoreCommandP4L4",
-      "waypointRelativePos": 0.7048832271762209,
-      "endWaypointRelativePos": null,
-      "command": null
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 4.0,
@@ -55,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -119.98163936884934
+    "rotation": -59.99999999999999
   },
   "reversed": false,
-  "folder": "2, 3 & 4 Right",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -123.07067782276164
+    "rotation": -59.71459692228295
   },
   "useDefaultConstraints": true
 }

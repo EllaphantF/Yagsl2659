@@ -566,8 +566,8 @@ public class SuperstructureSubsystem extends SubsystemBase {
         lightMode = 2;
     }}
     else{
-      mEndeffectorRollers.setControl(new MotionMagicVelocityVoltage(18));
-      if(mEndeffectorRollers.getPosition().getValueAsDouble() > 10 &&  CANdi.getS1State(true).getValueAsDouble() == 2) {
+      mEndeffectorRollers.setControl(new MotionMagicVelocityVoltage(20));
+      if(mEndeffectorRollers.getPosition().getValueAsDouble() > 8 &&  CANdi.getS1State(true).getValueAsDouble() == 2) {
         hasCoral = false;
         releasingCoral = false;
         releaseAtPos = false;

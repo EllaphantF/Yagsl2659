@@ -43,8 +43,8 @@ public class SuperstructureStates {
     public SuperstructureStates(){
         StartingConfig = new SuperstructureState(0, 0.0, 0);
         Home = new SuperstructureState(25*Constants.endEffectorPivotGearRatio / 360, 0.2, 1.5 );
-        Intake = new SuperstructureState(-23*Constants.endEffectorPivotGearRatio / 360, 0.2, 10.5); //intake 97, eepiv -23
-        IntakeWobble = new SuperstructureState((-18)*Constants.endEffectorPivotGearRatio / 360, 0.2, 10 ); //intake 97, eepiv -23
+        Intake = new SuperstructureState(-14*Constants.endEffectorPivotGearRatio / 360, 0.2, 10.5); //intake 97, eepiv -23 //was -23
+        IntakeWobble = new SuperstructureState((-12)*Constants.endEffectorPivotGearRatio / 360, 0.2, 10 ); //intake 97, eepiv -23 //was -18
 
         grabAlgaeL2 = new SuperstructureState(80*Constants.endEffectorPivotGearRatio / 360, 14 / 2.25, 15/9);
 

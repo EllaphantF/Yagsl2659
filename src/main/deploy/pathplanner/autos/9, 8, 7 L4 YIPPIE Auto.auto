@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Score 8 L4 YIPPIE Path"
+            "pathName": "Score 9 L4 YIPPIE Path"
           }
         },
         {
@@ -17,9 +17,21 @@
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "L3"
+            "pathName": "9 to Intake YIPPIE Path"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Intake to 8 YIPPIE Path"
           }
         },
         {
@@ -37,55 +49,13 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.2
+            "waitTime": 1.0
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "Intake to 7 YIPPIE Path"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.2
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "L3"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.2
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "7 to Intake YIPPIE Path"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.2
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Intake to Drive Out YIPPIE Path"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "GoHome"
           }
         }
       ]

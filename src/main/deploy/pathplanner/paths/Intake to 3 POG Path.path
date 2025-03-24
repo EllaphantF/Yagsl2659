@@ -31,7 +31,20 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Intake",
+      "waypointRelativePos": 0.06581740976645435,
+      "endWaypointRelativePos": 0.17834394904458598,
+      "command": null
+    },
+    {
+      "name": "AutonScoreCommandP3L4",
+      "waypointRelativePos": 0.7452229299363058,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 4.0,
