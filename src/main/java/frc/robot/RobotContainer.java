@@ -270,6 +270,10 @@ public class RobotContainer
       //driverXbox.leftBumper().onTrue(new InstantCommand(() -> superstructure.intake()));
       //driverXbox.leftBumper().whileTrue(visionIntake());
 
+      // driverXbox.leftBumper().onTrue(new InstantCommand(() -> superstructure.enableManualOverride()));
+
+      driverXbox.x().whileTrue(new InstantCommand(() -> superstructure.l1Score()).repeatedly());
+      driverXbox.x().whileFalse(new InstantCommand(() -> superstructure.goHome()));
       driverXbox.start().onTrue(new InstantCommand(() -> superstructure.climb(1)));
       driverXbox.back().onTrue(new InstantCommand(() -> superstructure.climb(2)));
       driverXbox.povDown().onTrue(new InstantCommand(() -> superstructure.climb(3)));

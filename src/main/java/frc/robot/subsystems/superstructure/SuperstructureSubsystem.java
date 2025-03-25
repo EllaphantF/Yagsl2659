@@ -15,6 +15,8 @@ import frc.robot.Constants;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
 
+import java.lang.annotation.Target;
+
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
@@ -566,8 +568,8 @@ public class SuperstructureSubsystem extends SubsystemBase {
         lightMode = 2;
     }}
     else{
-      mEndeffectorRollers.setControl(new MotionMagicVelocityVoltage(20));
-      if(mEndeffectorRollers.getPosition().getValueAsDouble() > 8 &&  CANdi.getS1State(true).getValueAsDouble() == 2) {
+      mEndeffectorRollers.setControl(new MotionMagicVelocityVoltage(28)); //Was 18 was 20
+      if(mEndeffectorRollers.getPosition().getValueAsDouble() > 8 &&  CANdi.getS1State(true).getValueAsDouble() == 2) {//Was 10
         hasCoral = false;
         releasingCoral = false;
         releaseAtPos = false;
@@ -586,6 +588,11 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public void spit(){
     setIntakeWheelSpeed(-10);
     setFunnelWheelSpeed(10);
+  }
+
+  public void l1Score(){
+    setIntakeWheelSpeed(-15);
+    TARGETSTATE = STATE.L1Intake;
   }
 
   /**

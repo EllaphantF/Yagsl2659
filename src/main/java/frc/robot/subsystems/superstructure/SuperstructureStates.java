@@ -38,13 +38,16 @@ public class SuperstructureStates {
     public SuperstructureState climb1;
     public SuperstructureState climb2;
     public SuperstructureState climb3;
+    public SuperstructureState L1Intake;
     
 
     public SuperstructureStates(){
         StartingConfig = new SuperstructureState(0, 0.0, 0);
-        Home = new SuperstructureState(25*Constants.endEffectorPivotGearRatio / 360, 0.2, 1.5 );
+        Home = new SuperstructureState(25*Constants.endEffectorPivotGearRatio / 360, 0.2, 1.5 ); //was 1.5
         Intake = new SuperstructureState(-14*Constants.endEffectorPivotGearRatio / 360, 0.2, 10.5); //intake 97, eepiv -23 //was -23
         IntakeWobble = new SuperstructureState((-12)*Constants.endEffectorPivotGearRatio / 360, 0.2, 10 ); //intake 97, eepiv -23 //was -18
+
+        L1Intake = new SuperstructureState(25*Constants.endEffectorPivotGearRatio / 360, 0.2, 5.8);
 
         grabAlgaeL2 = new SuperstructureState(80*Constants.endEffectorPivotGearRatio / 360, 14 / 2.25, 15/9);
 
