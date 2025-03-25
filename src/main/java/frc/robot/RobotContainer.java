@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 //import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -202,18 +203,36 @@ public class RobotContainer
     NamedCommands.registerCommand("AlgaeL3", new AlgaeL3Command(superstructure).withTimeout(3));
 	  //NamedCommands.registerCommand("VisionIntake", new VisionIntakeCommand(this, getSuperstructure(), getSwerveSubsystem(),  5.0));
     
-    NamedCommands.registerCommand("AutonScoreCommandP1L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  1 , 4));
-    NamedCommands.registerCommand("AutonScoreCommandP2L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  2 , 4));
-    NamedCommands.registerCommand("AutonScoreCommandP3L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  3 , 4));
-    NamedCommands.registerCommand("AutonScoreCommandP4L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  4 , 4));
-    NamedCommands.registerCommand("AutonScoreCommandP5L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  5 , 4));
-    NamedCommands.registerCommand("AutonScoreCommandP6L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  6 , 4));
-    NamedCommands.registerCommand("AutonScoreCommandP7L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  7 , 4));
-    NamedCommands.registerCommand("AutonScoreCommandP8L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  8 , 4));
-    NamedCommands.registerCommand("AutonScoreCommandP9L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  9 , 4));
-    NamedCommands.registerCommand("AutonScoreCommandP10L4", new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(), 10 , 4));
-    NamedCommands.registerCommand("AutonScoreCommandP11L4", new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(), 11 , 4));
-    NamedCommands.registerCommand("AutonScoreCommandP12L4", new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(), 12 , 4));
+    //NamedCommands.registerCommand("AutonScoreCommandP1L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  1 , 4).withTimeout(5));
+    NamedCommands.registerCommand("AutonScoreCommandP1L4" , Commands.sequence(
+      new InstantCommand(()-> SmartDashboard.putNumber("Select Scoring Location", 1)),
+      new InstantCommand(()-> superstructure.setCoralLevel(4.)),
+      new StartEndCommand(
+        () -> getScoreSequenceCommand(true).schedule(),
+        () -> CommandScheduler.getInstance().cancel(getScoreSequenceCommand(true)) ).withTimeout(3.0)
+        )
+      );
+    //NamedCommands.registerCommand("AutonScoreCommandP2L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  2 , 4).withTimeout(.2));
+
+    NamedCommands.registerCommand("AutonScoreCommandP2L4" , Commands.sequence(
+      new InstantCommand(()-> SmartDashboard.putNumber("Select Scoring Location", 2)),
+      new InstantCommand(()-> superstructure.setCoralLevel(4.)),
+      new StartEndCommand(
+        () -> getScoreSequenceCommand(true).schedule(),
+        () -> SmartDashboard.putNumber("Select Scoring Location", 3)) //this gets run, but it doesn't advance to the next
+        ).withTimeout(1.5)
+      );
+      
+    NamedCommands.registerCommand("AutonScoreCommandP3L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  3 , 4).withTimeout(5));
+    NamedCommands.registerCommand("AutonScoreCommandP4L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  4 , 4).withTimeout(5));
+    NamedCommands.registerCommand("AutonScoreCommandP5L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  5 , 4).withTimeout(5));
+    NamedCommands.registerCommand("AutonScoreCommandP6L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  6 , 4).withTimeout(5));
+    NamedCommands.registerCommand("AutonScoreCommandP7L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  7 , 4).withTimeout(5));
+    NamedCommands.registerCommand("AutonScoreCommandP8L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  8 , 4).withTimeout(5));
+    NamedCommands.registerCommand("AutonScoreCommandP9L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  9 , 4).withTimeout(5));
+    NamedCommands.registerCommand("AutonScoreCommandP10L4", new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(), 10 , 4).withTimeout(5));
+    NamedCommands.registerCommand("AutonScoreCommandP11L4", new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(), 11 , 4).withTimeout(5));
+    NamedCommands.registerCommand("AutonScoreCommandP12L4", new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(), 12 , 4).withTimeout(5));
     // buttonBox = new ButtonBox();
     // buttonBox = new ButtonBox();
     // Configure the trigger bindings
@@ -421,6 +440,7 @@ public class RobotContainer
     Command driveToScore = drivebase.driveToTargetPosePID(scoreDrivePose);
     Command superStructureScore = new InstantCommand(() -> superstructure.startLifting());
     Command release = new InstantCommand(() -> superstructure.startReleasingCoral(true));
+    Command waitForRelease = new InstantCommand(() -> Timer.delay(.02)).repeatedly().until(superstructure.notHasCoralCheck());
     //return  (new SequentialCommandGroup(selectReefPoses,driveToPrescore,driveToScore));*/
     //Command driveToPrescore = drivebase.driveToTargetPosePID(drivebase.getPrescorePose(SmartDashboard.getNumber("Select Scoring Location",0)));
     //Command driveToScore = drivebase.driveToTargetPosePID(drivebase.getScorePose(SmartDashboard.getNumber("Select Scoring Location",0)));
@@ -428,7 +448,7 @@ public class RobotContainer
     if(!withAutoRelease){
       autoScoreSequence = new SequentialCommandGroup(driveToPrescore, superStructureScore, driveToScore);}
     else{
-      autoScoreSequence = new SequentialCommandGroup(driveToPrescore, superStructureScore, driveToScore, release);}
+      autoScoreSequence = new SequentialCommandGroup(driveToPrescore, superStructureScore, driveToScore, release, waitForRelease);}
     
     return autoScoreSequence;
   }

@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.061795774647887,
-        "y": 2.6360915492957737
+        "x": 5.175176056338028,
+        "y": 2.48019366197183
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.509066901408451,
-        "y": 1.8707746478873233
+        "x": 4.622447183098592,
+        "y": 1.7148767605633797
       },
       "isLocked": false,
       "linkedName": "2 to Intake POG"
@@ -31,7 +31,7 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 0.25272727272727197,
-      "rotationDegrees": -170.0
+      "rotationDegrees": -115.8457674385128
     }
   ],
   "constraintZones": [
@@ -72,8 +72,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 4.0,
+    "maxVelocity": 1.0,
+    "maxAcceleration": 1.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

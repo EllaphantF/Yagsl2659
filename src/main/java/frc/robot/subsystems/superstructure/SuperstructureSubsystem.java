@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
 
 import java.lang.annotation.Target;
+import java.util.function.BooleanSupplier;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
@@ -41,6 +42,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public double scoreLevel = 0;
   public double algaeLevel = 0;
   public boolean hasCoral = true;
+  public BooleanSupplier notHasCoralCheck = () -> !hasCoral;
   public boolean hasAlgae = false;
   public boolean seatingCoral = false;
   
@@ -577,6 +579,10 @@ public class SuperstructureSubsystem extends SubsystemBase {
     }
   }}}
 
+  public BooleanSupplier notHasCoralCheck(){
+    SmartDashboard.putNumber("notHasCoralCheck", Timer.getFPGATimestamp());
+  return notHasCoralCheck;
+  }
 
   public void ureleaseCoral(){
     releasingCoral = false;

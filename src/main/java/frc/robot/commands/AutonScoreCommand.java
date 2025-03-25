@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 
 /**
  * Autoscore command 
@@ -38,6 +39,7 @@ public class AutonScoreCommand extends Command {
   Double ScoringLocation;
   Double ScoringLevel;
   Double timerStart;
+  boolean timerStarted = false;
 /**
  * creates autoscore command
  * @param m_SuperstructureSub
@@ -64,28 +66,51 @@ public AutonScoreCommand(RobotContainer m_RobotContainer, SuperstructureSubsyste
   public void initialize() {
 
     timerStart = Timer.getFPGATimestamp();
-
+    SmartDashboard.putNumber("Select Scoring Location", ScoringLocation);
+    m_SuperstructureSub.setCoralLevel(ScoringLevel);
+    SmartDashboard.putNumber("ZZ Debug", 11);
     Command autoScore = m_RobotContainer.getScoreSequenceCommand(true);
+    /*
+    Command autoScore = 
+    new StartEndCommand(
+          () -> m_RobotContainer.getScoreSequenceCommand(true).schedule(),
+          //() -> CommandScheduler.getInstance().cancelAll()
+          () -> m_SuperstructureSub.startReleasingCoral(true)
+          ); */
+          
+    SmartDashboard.putNumber("ZZ Debug", 22);
+
+    //autoScore.schedule.whileTrue(m_SuperstructureSub.hasCoral);
     CommandScheduler.getInstance().schedule(autoScore);
     
+    SmartDashboard.putNumber("ZZ Debug", 33);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+   /* if (!m_SuperstructureSub.hasCoral && !timerStarted){ //scoring timer
+      timerStarted = true;
+      timerStart = Timer.getFPGATimestamp();
+    }*/
     
+    SmartDashboard.putNumber("ZZ Debug", 44);
+    SmartDashboard.putBoolean("Is AutoScore Canceled?", !m_SuperstructureSub.hasCoral);
+    if(!m_SuperstructureSub.hasCoral) CommandScheduler.getInstance().cancel(this);
     }
 
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    CommandScheduler.getInstance().cancelAll();
+    SmartDashboard.putNumber("AutonScoreCommand cancel debugEND", Timer.getFPGATimestamp());
+    
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    SmartDashboard.putNumber("AutonScoreCommand cancel debug", Timer.getFPGATimestamp());
+    return (!m_SuperstructureSub.hasCoral);// && (Timer.getFPGATimestamp() - timerStart) > .5);
   }
 }

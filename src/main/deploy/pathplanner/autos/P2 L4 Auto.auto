@@ -13,7 +13,19 @@
         {
           "type": "named",
           "data": {
-            "name": "AutonScoreCommandP2L4"
+            "name": "L4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "2 to Intake POG Path"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutonScoreCommandP3L4"
           }
         }
       ]
