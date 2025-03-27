@@ -81,9 +81,9 @@ public AutonScoreCommand(RobotContainer m_RobotContainer, SuperstructureSubsyste
     SmartDashboard.putNumber("ZZ Debug", 22);
 
     //autoScore.schedule.whileTrue(m_SuperstructureSub.hasCoral);
-    CommandScheduler.getInstance().schedule(autoScore);
+    //CommandScheduler.getInstance().schedule(autoScore);
     
-    SmartDashboard.putNumber("ZZ Debug", 33);
+    //SmartDashboard.putNumber("ZZ Debug", 33);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -11,11 +11,18 @@ public class IntakeCommand extends Command {
 
     @Override
     public void initialize() {
-        structure.goHome();
+        //structure.goHome();
         structure.intake();
+        
     }
     @Override
     public void execute() {
+        //structure.intake();
+        if (structure.hasCoral == false){
+        structure.intaking();
+        }
+
+        
     }
 
     @Override

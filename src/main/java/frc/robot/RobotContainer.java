@@ -126,8 +126,8 @@ public class RobotContainer
    * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular velocity.
    */
   SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
-                                                                () -> driverXbox.getLeftY() * -1,
-                                                                () -> driverXbox.getLeftX() * -1)//
+                                                                () -> driverXbox.getLeftY() * 1,
+                                                                () -> driverXbox.getLeftX() * 1)//
                                                           //.withControllerRotationAxis(driverXbox::getRightX)
                                                             .withControllerRotationAxis(() -> driverXbox.getRightX()*-1) //BVN 1-26-25 - added negative to reverse the rotation input, removed 2/3
                                                             .deadband(OperatorConstants.DEADBAND)
@@ -193,15 +193,16 @@ public class RobotContainer
   public RobotContainer()
   {
     /* Added Named Commands for Pathplanner */
-	  NamedCommands.registerCommand("Intake", new IntakeCommand(superstructure).withTimeout(3));
+	  NamedCommands.registerCommand("Intake", new IntakeCommand(superstructure).withTimeout(1.5));
+    //NamedCommands.registerCommand("Intake", new InstantCommand(() -> superstructure.intake()).withTimeout(3));
     NamedCommands.registerCommand("L1", new L1Command(superstructure).withTimeout(3));
     NamedCommands.registerCommand("L2", new L2Command(superstructure).withTimeout(3));
     NamedCommands.registerCommand("L3", new L3Command(superstructure).withTimeout(6));
-    NamedCommands.registerCommand("L4", new L4Command(superstructure).withTimeout(6));
-    NamedCommands.registerCommand("GoHome", new GoHomeCommand(superstructure));
+    NamedCommands.registerCommand("L4", new L4Command(superstructure).withTimeout(2));
+    NamedCommands.registerCommand("GoHome", new GoHomeCommand(superstructure).withTimeout(.1));
     NamedCommands.registerCommand("AlgaeL2", new AlgaeL2Command(superstructure).withTimeout(3));
     NamedCommands.registerCommand("AlgaeL3", new AlgaeL3Command(superstructure).withTimeout(3));
-	  //NamedCommands.registerCommand("VisionIntake", new VisionIntakeCommand(this, getSuperstructure(), getSwerveSubsystem(),  5.0));
+	  NamedCommands.registerCommand("VisionIntake", new VisionIntakeCommand(this, getSuperstructure(), getSwerveSubsystem()).withTimeout(3));
     
     //NamedCommands.registerCommand("AutonScoreCommandP1L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  1 , 4).withTimeout(5));
     NamedCommands.registerCommand("AutonScoreCommandP1L4" , Commands.sequence(
@@ -217,10 +218,7 @@ public class RobotContainer
     NamedCommands.registerCommand("AutonScoreCommandP2L4" , Commands.sequence(
       new InstantCommand(()-> SmartDashboard.putNumber("Select Scoring Location", 2)),
       new InstantCommand(()-> superstructure.setCoralLevel(4.)),
-      new StartEndCommand(
-        () -> getScoreSequenceCommand(true).schedule(),
-        () -> SmartDashboard.putNumber("Select Scoring Location", 3)) //this gets run, but it doesn't advance to the next
-        ).withTimeout(1.5)
+      getScoreSequenceCommand(true).withTimeout(1.5))
       );
       
     NamedCommands.registerCommand("AutonScoreCommandP3L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  3 , 4).withTimeout(5));
@@ -286,16 +284,17 @@ public class RobotContainer
       driverXbox.b().onFalse(new InstantCommand(() -> superstructure.ureleaseCoral()));
       driverXbox.a().onTrue(new InstantCommand(() -> superstructure.disableManualOverride())); //3-4-25 MPF added disable manual override to intake
       //driverXbox.leftBumper().onTrue(new InstantCommand(() -> superstructure.intake()));
-      //driverXbox.leftBumper().onTrue(new InstantCommand(() -> superstructure.intake()));
-      //driverXbox.leftBumper().whileTrue(visionIntake());
+      driverXbox.leftBumper().onTrue(new InstantCommand(() -> superstructure.intake()));
+      driverXbox.leftBumper().whileTrue(visionIntake());
 
       // driverXbox.leftBumper().onTrue(new InstantCommand(() -> superstructure.enableManualOverride()));
 
       driverXbox.x().whileTrue(new InstantCommand(() -> superstructure.l1Score()).repeatedly());
-      driverXbox.x().whileFalse(new InstantCommand(() -> superstructure.goHome()));
-      driverXbox.start().onTrue(new InstantCommand(() -> superstructure.climb(1)));
-      driverXbox.back().onTrue(new InstantCommand(() -> superstructure.climb(2)));
-      driverXbox.povDown().onTrue(new InstantCommand(() -> superstructure.climb(3)));
+      driverXbox.x().onFalse(new InstantCommand(() -> superstructure.goHome()));
+      driverXbox.start().onTrue(new InstantCommand(() -> superstructure.panic()));
+      //driverXbox.start().onTrue(new InstantCommand(() -> superstructure.climb(1)));
+      //driverXbox.back().onTrue(new InstantCommand(() -> superstructure.climb(2)));
+      //driverXbox.povDown().onTrue(new InstantCommand(() -> superstructure.climb(3)));
 
       // Bind the Xbox button to the getScoreSequenceCommand
       driverXbox.rightTrigger(.5).whileTrue(new StartEndCommand(

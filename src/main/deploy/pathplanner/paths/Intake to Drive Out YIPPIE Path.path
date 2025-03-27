@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.4,
-        "y": 7.1
+        "x": 1.111900684931507,
+        "y": 7.5334974315068495
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.6086144853249336,
-        "y": 6.962232091862389
+        "x": 1.3205151702564406,
+        "y": 7.395729523369239
       },
       "isLocked": false,
       "linkedName": "Intake to 7 YIPPIE"
@@ -40,8 +40,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 1.0,
-    "maxAcceleration": 1.0,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -52,7 +52,7 @@
     "rotation": 126.0
   },
   "reversed": false,
-  "folder": "8 & 7 L4 Left Folder",
+  "folder": "9, 8, 7 L4 Left Folder",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 126.0

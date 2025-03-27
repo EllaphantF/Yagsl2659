@@ -5,15 +5,15 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "P2 L4 Path"
+            "name": "VisionIntake"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "L4"
+            "pathName": "P2 L4 Path"
           }
         },
         {
@@ -26,6 +26,12 @@
           "type": "named",
           "data": {
             "name": "AutonScoreCommandP3L4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutonScoreCommandP2L4"
           }
         }
       ]

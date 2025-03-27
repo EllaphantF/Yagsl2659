@@ -61,6 +61,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public SuperstructureStates STATE = new SuperstructureStates();
   public SuperstructureState CURRENTSTATE = STATE.Home;
   public SuperstructureState PREVIOUSSTATE;
+  public boolean previousOverrideStatus = false;
   public SuperstructureState TARGETSTATE = STATE.Home;
   
   //private final LEDs mLED = new LEDs();
@@ -441,6 +442,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
       //mLED.setLightMode(8);
       TARGETSTATE = STATE.Home;
       stowing = false;
+      setIntakeWheelSpeed(1);
 
       if(hasCoral == true){
         lightMode = 3;
@@ -477,8 +479,12 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public void clearAlgae(Double level){
     if (level == 2) TARGETSTATE = STATE.grabAlgaeL2;
     if (level == 3) TARGETSTATE = STATE.grabAlgaeL3;
-    setEndeffectorWheelSpeed(-5);
+    setEndeffectorWheelSpeed(-10);
     lightMode = 10;
+  }
+
+  public void panic(){
+    TARGETSTATE = STATE.CoralL4;
   }
 
   /**
@@ -780,7 +786,8 @@ public class SuperstructureSubsystem extends SubsystemBase {
     //SD_MotionMagicEEPivotTEST();
     //SD_motionMagicElevatorTEST();
     SmartDashboard.putNumber("CANDi State", CANdi.getS1State().getValueAsDouble());
-
+    SmartDashboard.putNumber("Superstructure Timer Debug", Timer.getFPGATimestamp());
+    
     updatePositions();
 
     if(intakeTraversing)intakeTraverse();
@@ -792,9 +799,10 @@ public class SuperstructureSubsystem extends SubsystemBase {
 
     updateSD();
 
-    if (TARGETSTATE != PREVIOUSSTATE) motionMagicSetElevatorAndEndeffector(TARGETSTATE.elevator, TARGETSTATE.pivot , TARGETSTATE.intake);
+    if (TARGETSTATE != PREVIOUSSTATE || previousOverrideStatus != manualOverride) motionMagicSetElevatorAndEndeffector(TARGETSTATE.elevator, TARGETSTATE.pivot , TARGETSTATE.intake);
     
     PREVIOUSSTATE = TARGETSTATE;
+    previousOverrideStatus = manualOverride;
     //MECH2d(); // Update the MECH2d ligaments in the periodic method
     //
     

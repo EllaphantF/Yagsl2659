@@ -81,7 +81,7 @@ public class SwerveSubsystem extends SubsystemBase
   private double count = 0;
   public Pose2d autoDrivePose = new Pose2d(0,0,new Rotation2d(0.0));
 
- // final PhotonCamera objectCamera = new PhotonCamera("OBJECT_FRONT");
+  final PhotonCamera objectCamera = new PhotonCamera("OBJECT_FRONT");
   /**
    * Swerve drive object.
    */
@@ -287,7 +287,7 @@ public class SwerveSubsystem extends SubsystemBase
 
   public Command visionIntake(){
         return run(() -> {
-/*/
+
             var result = objectCamera.getLatestResult();
             if (result.hasTargets()) {
                 var targets = result.getTargets();
@@ -317,7 +317,7 @@ public class SwerveSubsystem extends SubsystemBase
                     PIDController yController = new PIDController(2, 0.0 , 0.05);
 
                     xController.setGoal(10);
-                    yController.setSetpoint(4);
+                    yController.setSetpoint(10);
 
                     double cameraAngleDown = 20;
                     double camerainchesOffGround = 30;
@@ -341,7 +341,7 @@ public class SwerveSubsystem extends SubsystemBase
                     if (ySet < -1) ySet = -1;
                     drive(new Translation2d(-xSet, 0.0), -ySet, false);
                 }
-            }*/
+            }
         });
   }
 

@@ -5,15 +5,28 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Test Path"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Test Path"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
           }
         },
         {
-          "type": "named",
+          "type": "wait",
           "data": {
-            "name": "Intake"
+            "waitTime": 0.2
           }
         }
       ]

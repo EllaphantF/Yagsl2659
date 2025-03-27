@@ -31,7 +31,8 @@ public final class Constants
   public static final double MAX_SPEED  = Units.feetToMeters(14.5);
   // Maximum speed of the robot in meters per second, used to limit acceleration.
 
-  public static final double scoringPositionTolerance = 0.1; // Scoring position tolerance for superstructure
+  public static final double scoringPositionTolerance = 0.05; // Scoring position tolerance for superstructure
+  public static final double positionToleranceUp = 0.2; // general position tolerance for superstructure
   public static final double positionTolerance = 0.5; // general position tolerance for superstructure
 
 //  public static final class AutonConstants
@@ -85,8 +86,8 @@ public final class Constants
       public static   final Pose2d  BLUEPRESCORE_9	       = new Pose2d( 5.214,	5.625,   Rotation2d.fromDegrees(  60          ));  //LAR Practice Day direct measure
       public static   final Pose2d  BLUEPRESCORE_8	       = new Pose2d( 3.762, 5.615,   Rotation2d.fromDegrees(  	120	         )); //LAR Practice Day direct measure
       public static   final Pose2d  BLUEPRESCORE_7	       = new Pose2d( 3.477, 5.456,   Rotation2d.fromDegrees(  	120	         ));  //LAR Practice Day direct measure
-      public static   final Pose2d  BLUEPRESCORE_6	       = new Pose2d( 2.748, 4.188,    Rotation2d.fromDegrees( 	180	   )); //LAR Practice Day direct measure
-      public static   final Pose2d  BLUEPRESCORE_5	       = new Pose2d( 2.742, 3.861,    Rotation2d.fromDegrees( 	180 	  )); //LAR Practice Day direct measure
+      public static   final Pose2d  BLUEPRESCORE_6	       = new Pose2d( 2.748, 4.0,    Rotation2d.fromDegrees( 	180	   )); //LAR Practice Day direct measure
+      public static   final Pose2d  BLUEPRESCORE_5	       = new Pose2d( 2.742, 4.0,    Rotation2d.fromDegrees( 	180 	  )); //LAR Practice Day direct measure
       public static   final Pose2d  BLUEPRESCORE_4	       = new Pose2d( 3.473, 2.607,   Rotation2d.fromDegrees( 	-120 	)); //LAR Practice Day direct measure
       public static   final Pose2d  BLUEPRESCORE_3	       = new Pose2d( 3.751, 2.436,   Rotation2d.fromDegrees( 	-120 	)); //LAR Practice Day direct measure
       public static   final Pose2d  BLUEPRESCORE_2	       = new Pose2d( 5.197, 2.430,   Rotation2d.fromDegrees( 	-60 	)); //LAR Practice Day direct measure
@@ -216,8 +217,8 @@ public final class Constants
           elevatorConfigLeft.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .01;
           elevatorConfigLeft.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .01;
 
-          elevatorConfigLeft.MotionMagic.MotionMagicCruiseVelocity = 70; //100 was smooth, 200 is faster than kraken max 100
-          elevatorConfigLeft.MotionMagic.MotionMagicAcceleration = 80;// 80 was good, 150 zippy
+          elevatorConfigLeft.MotionMagic.MotionMagicCruiseVelocity = 75; //100 was smooth, 200 is faster than kraken max 100
+          elevatorConfigLeft.MotionMagic.MotionMagicAcceleration = 125;// 80 was good, 150 zippy
 
           elevatorConfigLeft.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
           elevatorConfigLeft.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
