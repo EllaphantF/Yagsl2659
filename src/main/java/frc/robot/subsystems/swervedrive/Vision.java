@@ -291,7 +291,7 @@ public class Vision
     LEFT_CAM("REEF_BACK_RIGHT",
         new Rotation3d(0*Math.PI/180, 0*Math.PI/180, (180 +2.5 )*Math.PI / 180),//new Rotation3d(0, -18*Math.PI / 180, 0),
         new Translation3d(
-          (-12.5-12.5 + 2)/39.4 , //x
+          (-12.5-12.5 )/39.4 , //x
           (-4.5)/39.4 ,  //y 
           (7.25)/39.4), //z
         //VecBuilder.fill(5, 5, 20), VecBuilder.fill(1, 1, 10))//,
@@ -304,7 +304,7 @@ public class Vision
     RIGHT_CAM("REEF_BACK_LEFT",//,
         new Rotation3d(0*Math.PI/180, 0*Math.PI/180, (180)*Math.PI / 180),//new Rotation3d(0, -18*Math.PI / 180, 0), wooden mount was 25.5 deg, measure in photonvision gui
         new Translation3d(
-         (-12.5 - 12.5 + 3)/39.4 , //x - forward
+         (-12.5 - 12.5 + 1)/39.4 , //x - forward
          (4.5)/39.4 -.22 , //y - left
          (7.25)/39.4),  //z 
         //VecBuilder.fill(5, 5, 20), VecBuilder.fill(1, 1, 10))//,

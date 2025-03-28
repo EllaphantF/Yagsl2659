@@ -352,20 +352,21 @@ public class SwerveSubsystem extends SubsystemBase
  */
   public Command driveToTargetPosePID(Pose2d targetPose)
   {
-    SmartDashboard.putNumber("Max Vel PID",   SmartDashboard.getNumber("Max Vel PID", 2));
-    SmartDashboard.putNumber("max Accel PID", SmartDashboard.getNumber("max Accel PID",1));
-    SmartDashboard.putNumber("kP PID",        SmartDashboard.getNumber("kP PID", 5));
-    SmartDashboard.putNumber("kI PID",        SmartDashboard.getNumber("kI PID", 2));
-    SmartDashboard.putNumber("kD PID",        SmartDashboard.getNumber("kD PID", .2));
+    //SmartDashboard.putNumber("Max Vel PID",   SmartDashboard.getNumber("Max Vel PID", 2));
+    //SmartDashboard.putNumber("max Accel PID", SmartDashboard.getNumber("max Accel PID",1));
+    //SmartDashboard.putNumber("kP PID",        SmartDashboard.getNumber("kP PID", 5));
+    //SmartDashboard.putNumber("kI PID",        SmartDashboard.getNumber("kI PID", 2));
+    //SmartDashboard.putNumber("kD PID",        SmartDashboard.getNumber("kD PID", .2));
 
-    TrapezoidProfile.Constraints xyConstraints = new Constraints(SmartDashboard.getNumber("Max Vel PID", 2), SmartDashboard.getNumber("max Accel PID",1));
+    //TrapezoidProfile.Constraints xyConstraints = new Constraints(SmartDashboard.getNumber("Max Vel PID", 2), SmartDashboard.getNumber("max Accel PID",1));
+    TrapezoidProfile.Constraints xyConstraints = new Constraints(2,.8);
     //TrapezoidProfile.Constraints thetaConstraints = new Constraints(540,720);
     
 //    ProfiledPIDController xcontroller = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 5), SmartDashboard.getNumber("kI PID", 2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
 //    ProfiledPIDController ycontroller = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 5), SmartDashboard.getNumber("kI PID", 2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
 
-    ProfiledPIDController xcontroller = new ProfiledPIDController(10.,4.,.2, xyConstraints);
-    ProfiledPIDController ycontroller = new ProfiledPIDController(10.,4.,.2, xyConstraints);
+    ProfiledPIDController xcontroller = new ProfiledPIDController(10.,5.,.2, xyConstraints);
+    ProfiledPIDController ycontroller = new ProfiledPIDController(10.,5.,.2, xyConstraints);
 
     //ProfiledPIDController thetacontroller = new ProfiledPIDController(30, 0, 0, thetaConstraints);
     //thetacontroller.enableContinuousInput(-180, 180);

@@ -3,36 +3,36 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.1569777397260272,
-        "y": 7.563548801369863
+        "x": 1.111900684931507,
+        "y": 7.5334974315068495
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.011819289021801,
-        "y": 6.912052322496624
+        "x": 2.359032534246575,
+        "y": 6.646982020547945
       },
       "isLocked": false,
-      "linkedName": "Intake to 8 YIPPIE"
+      "linkedName": "Intake to 7 YIPPIE"
     },
     {
       "anchor": {
-        "x": 3.762,
-        "y": 5.615
+        "x": 3.477,
+        "y": 5.456
       },
       "prevControl": {
-        "x": 1.7129280821917807,
-        "y": 5.62523544520548
+        "x": 3.275599315068493,
+        "y": 6.662007705479453
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "8 to Intake YIPPIE"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.9056603773584906,
+      "minWaypointRelativePos": 0.7665094339622638,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 0.5,
@@ -55,14 +55,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0.0,
+    "velocity": 0,
     "rotation": 119.99999999999999
   },
   "reversed": false,
   "folder": "9, 8, 7 L4 Left Folder",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 130.03025927188972
+    "rotation": 126.0
   },
   "useDefaultConstraints": true
 }

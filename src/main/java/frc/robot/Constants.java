@@ -80,31 +80,31 @@ public final class Constants
 
   public static class ReefScoringLocations{
       // REEF PRE-SCORING POSES
-      public static   final Pose2d  BLUEPRESCORE_12        = new Pose2d( 6.225,	3.835,   Rotation2d.fromDegrees( 	0 	)); //LAR Practice Day direct measure
-      public static   final Pose2d  BLUEPRESCORE_11        = new Pose2d( 6.232,	4.191,   Rotation2d.fromDegrees( 	0 	)); //LAR Practice Day direct measure
-      public static   final Pose2d  BLUEPRESCORE_10        = new Pose2d( 5.517,	5.438,   Rotation2d.fromDegrees(  60          ));  //LAR Practice Day direct measure
-      public static   final Pose2d  BLUEPRESCORE_9	       = new Pose2d( 5.214,	5.625,   Rotation2d.fromDegrees(  60          ));  //LAR Practice Day direct measure
-      public static   final Pose2d  BLUEPRESCORE_8	       = new Pose2d( 3.762, 5.615,   Rotation2d.fromDegrees(  	120	         )); //LAR Practice Day direct measure
-      public static   final Pose2d  BLUEPRESCORE_7	       = new Pose2d( 3.477, 5.456,   Rotation2d.fromDegrees(  	120	         ));  //LAR Practice Day direct measure
-      public static   final Pose2d  BLUEPRESCORE_6	       = new Pose2d( 2.748, 4.0,    Rotation2d.fromDegrees( 	180	   )); //LAR Practice Day direct measure
-      public static   final Pose2d  BLUEPRESCORE_5	       = new Pose2d( 2.742, 4.0,    Rotation2d.fromDegrees( 	180 	  )); //LAR Practice Day direct measure
-      public static   final Pose2d  BLUEPRESCORE_4	       = new Pose2d( 3.473, 2.607,   Rotation2d.fromDegrees( 	-120 	)); //LAR Practice Day direct measure
-      public static   final Pose2d  BLUEPRESCORE_3	       = new Pose2d( 3.751, 2.436,   Rotation2d.fromDegrees( 	-120 	)); //LAR Practice Day direct measure
-      public static   final Pose2d  BLUEPRESCORE_2	       = new Pose2d( 5.197, 2.430,   Rotation2d.fromDegrees( 	-60 	)); //LAR Practice Day direct measure
-      public static   final Pose2d  BLUEPRESCORE_1	       = new Pose2d( 5.514, 2.602,   Rotation2d.fromDegrees( 	-60 	)); //LAR Practice Day direct measure
+      public static   final Pose2d  BLUEPRESCORE_12        = new Pose2d( 6.225,	4.0,   Rotation2d.fromDegrees( 	0 	)); //
+      public static   final Pose2d  BLUEPRESCORE_11        = new Pose2d( 6.232,	4.0,   Rotation2d.fromDegrees( 	0 	)); //
+      public static   final Pose2d  BLUEPRESCORE_10        = new Pose2d( 5.36,	5.53,   Rotation2d.fromDegrees(  60          ));  //
+      public static   final Pose2d  BLUEPRESCORE_9	       = new Pose2d( 5.36,	5.53,   Rotation2d.fromDegrees(  60          ));  //
+      public static   final Pose2d  BLUEPRESCORE_8	       = new Pose2d( 3.62, 5.53,   Rotation2d.fromDegrees(  	120	         )); //
+      public static   final Pose2d  BLUEPRESCORE_7	       = new Pose2d( 3.62, 5.53,   Rotation2d.fromDegrees(  	120	         ));  //
+      public static   final Pose2d  BLUEPRESCORE_6	       = new Pose2d( 2.748, 4.0,    Rotation2d.fromDegrees( 	180	   )); //
+      public static   final Pose2d  BLUEPRESCORE_5	       = new Pose2d( 2.742, 4.0,    Rotation2d.fromDegrees( 	180 	  )); //
+      public static   final Pose2d  BLUEPRESCORE_4	       = new Pose2d( 3.62, 2.52,   Rotation2d.fromDegrees( 	-120 	)); //
+      public static   final Pose2d  BLUEPRESCORE_3	       = new Pose2d( 3.62, 2.52,   Rotation2d.fromDegrees( 	-120 	)); //
+      public static   final Pose2d  BLUEPRESCORE_2	       = new Pose2d( 5.36, 2.52,   Rotation2d.fromDegrees( 	-60 	)); //
+      public static   final Pose2d  BLUEPRESCORE_1	       = new Pose2d( 5.36, 2.52,   Rotation2d.fromDegrees( 	-60 	)); //
 
-      public	static	final	Pose2d	REDPRESCORE_12	      =	new	Pose2d(	11.317,	4.207,	Rotation2d.fromDegrees(	 180    )); //LAR Practice Day direct measure
-      public	static	final	Pose2d	REDPRESCORE_11	      =	new	Pose2d(	11.311,	3.838,	Rotation2d.fromDegrees(	 180    )); //LAR Practice Day direct measure
-      public	static	final	Pose2d	REDPRESCORE_10	      =	new	Pose2d(	12.017,	2.618,	Rotation2d.fromDegrees(	 -120   )); //LAR Practice Day direct measure
-      public	static	final	Pose2d	REDPRESCORE_9	        =	new	Pose2d(	12.317,	2.438,	Rotation2d.fromDegrees(	 -120   )); //LAR Practice Day direct measure
-      public	static	final	Pose2d	REDPRESCORE_8	        =	new	Pose2d(	13.773,	2.437,	Rotation2d.fromDegrees(	 -60  )); //LAR Practice Day direct measure
-      public	static	final	Pose2d	REDPRESCORE_7	        =	new	Pose2d(	14.081,	2.597,	Rotation2d.fromDegrees(	 -60  )); //LAR Practice Day direct measure
-      public	static	final	Pose2d	REDPRESCORE_6	        =	new	Pose2d(	14.792,	3.857,	Rotation2d.fromDegrees(	 0  )); //LAR Practice Day direct measure
-      public	static	final	Pose2d	REDPRESCORE_5	        =	new	Pose2d(	14.805,	4.196,	Rotation2d.fromDegrees(	 0  )); //LAR Practice Day direct measure
-      public	static	final	Pose2d	REDPRESCORE_4	        =	new	Pose2d(	14.088,	5.440,	Rotation2d.fromDegrees(  60 ));	//LAR Practice Day direct measure
-      public	static	final	Pose2d	REDPRESCORE_3	        =	new	Pose2d(	13.784,	5.624,	Rotation2d.fromDegrees(  60 ));	//LAR Practice Day direct measure
-      public	static	final	Pose2d	REDPRESCORE_2	        =	new	Pose2d(	12.341,	5.615,	Rotation2d.fromDegrees(	 120  ));	//LAR Practice Day direct measure
-      public	static	final	Pose2d	REDPRESCORE_1	        =	new	Pose2d(	12.037,	5.454,	Rotation2d.fromDegrees(	 120  )); //LAR Practice Day direct measure
+      public	static	final	Pose2d	REDPRESCORE_12	      =	new	Pose2d(	11.317,	4.0,	Rotation2d.fromDegrees(	 180    )); //
+      public	static	final	Pose2d	REDPRESCORE_11	      =	new	Pose2d(	11.311,	4.0,	Rotation2d.fromDegrees(	 180    )); //
+      public	static	final	Pose2d	REDPRESCORE_10	      =	new	Pose2d(	12.17,	2.52,	Rotation2d.fromDegrees(	 -120   )); //
+      public	static	final	Pose2d	REDPRESCORE_9	        =	new	Pose2d(	12.17,	2.52,	Rotation2d.fromDegrees(	 -120   )); //
+      public	static	final	Pose2d	REDPRESCORE_8	        =	new	Pose2d(	13.927,	2.52,	Rotation2d.fromDegrees(	 -60  )); //
+      public	static	final	Pose2d	REDPRESCORE_7	        =	new	Pose2d(	13.927,	2.52,	Rotation2d.fromDegrees(	 -60  )); //
+      public	static	final	Pose2d	REDPRESCORE_6	        =	new	Pose2d(	14.792,	4.0,	Rotation2d.fromDegrees(	 0  )); //
+      public	static	final	Pose2d	REDPRESCORE_5	        =	new	Pose2d(	14.805,	4.0,	Rotation2d.fromDegrees(	 0  )); //
+      public	static	final	Pose2d	REDPRESCORE_4	        =	new	Pose2d(	13.936,	5.53,	Rotation2d.fromDegrees(  60 ));	//
+      public	static	final	Pose2d	REDPRESCORE_3	        =	new	Pose2d(	13.936,	5.53,	Rotation2d.fromDegrees(  60 ));	//
+      public	static	final	Pose2d	REDPRESCORE_2	        =	new	Pose2d(	12.189,	5.53,	Rotation2d.fromDegrees(	 120  ));	//
+      public	static	final	Pose2d	REDPRESCORE_1	        =	new	Pose2d(	12.189,	5.53,	Rotation2d.fromDegrees(	 120  )); //
       
   // REEF SCORING POSES
       public static   final Pose2d  BLUE_12        = new Pose2d( 6.225,	3.835,   Rotation2d.fromDegrees( 	0 	)); //LAR Practice Day direct measure

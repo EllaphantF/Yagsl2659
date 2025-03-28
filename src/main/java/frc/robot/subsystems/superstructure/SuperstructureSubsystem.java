@@ -59,7 +59,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public boolean manualOverride = false;
 
   public SuperstructureStates STATE = new SuperstructureStates();
-  public SuperstructureState CURRENTSTATE = STATE.Home;
+  public SuperstructureState CURRENTSTATE = STATE.StartingConfig;
   public SuperstructureState PREVIOUSSTATE;
   public boolean previousOverrideStatus = false;
   public SuperstructureState TARGETSTATE = STATE.Home;
@@ -426,7 +426,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
 
   public void stopAllWheels(){
     setEndeffectorWheelSpeed(0);
-    setIntakeWheelSpeed(0);
+    setIntakeWheelSpeed(2);
     setFunnelWheelSpeed(0);
   }
 
@@ -442,7 +442,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
       //mLED.setLightMode(8);
       TARGETSTATE = STATE.Home;
       stowing = false;
-      setIntakeWheelSpeed(1);
+      setIntakeWheelSpeed(2);
 
       if(hasCoral == true){
         lightMode = 3;
@@ -811,7 +811,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
   @Override
   public void simulationPeriodic() {
     
-    motionMagicSetElevatorAndEndeffector(TARGETSTATE.elevator, TARGETSTATE.pivot * Constants.endEffectorPivotGearRatio , TARGETSTATE.intake);
+    //motionMagicSetElevatorAndEndeffector(TARGETSTATE.elevator, TARGETSTATE.pivot * Constants.endEffectorPivotGearRatio , TARGETSTATE.intake);
 
     if(intakeTraversing)intakeTraverse();
     if(intaking)intaking();

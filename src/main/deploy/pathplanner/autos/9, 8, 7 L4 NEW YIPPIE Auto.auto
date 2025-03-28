@@ -5,21 +5,59 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Score 9 L4 YIPPIE Path"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "L4"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Score 9 L4 NEW YIPPIE Path"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.0
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "PANIC"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         },
         {
           "type": "wait",
           "data": {
             "waitTime": 0.1
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FIRE"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.3
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "GoHome"
           }
         },
         {
@@ -67,7 +105,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Intake to 8 YIPPIE Path"
+                  "pathName": "Intake to 8 NEW YIPPIE Path"
                 }
               },
               {
@@ -77,13 +115,25 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.4
+                        "waitTime": 0.2
                       }
                     },
                     {
                       "type": "named",
                       "data": {
                         "name": "Intake"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.4
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "PANIC"
                       }
                     }
                   ]
@@ -93,15 +143,27 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.1
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "L4"
+            "name": "FIRE"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.1
+            "waitTime": 0.3
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "GoHome"
           }
         },
         {
@@ -149,7 +211,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Intake to 7 YIPPIE Path"
+                  "pathName": "Intake to 7 NEW YIPPIE Path"
                 }
               },
               {
@@ -159,13 +221,25 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.4
+                        "waitTime": 0.2
                       }
                     },
                     {
                       "type": "named",
                       "data": {
                         "name": "Intake"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.6
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "PANIC"
                       }
                     }
                   ]
@@ -183,7 +257,7 @@
         {
           "type": "named",
           "data": {
-            "name": "L4"
+            "name": "FIRE"
           }
         }
       ]

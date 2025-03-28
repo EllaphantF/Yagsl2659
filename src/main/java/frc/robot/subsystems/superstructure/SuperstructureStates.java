@@ -42,10 +42,10 @@ public class SuperstructureStates {
     
 
     public SuperstructureStates(){
-        StartingConfig = new SuperstructureState(0, 0.0, 0);
-        Home = new SuperstructureState(25*Constants.endEffectorPivotGearRatio / 360, 0.2, 1.5 ); //was 1.5
-        Intake = new SuperstructureState(-14*Constants.endEffectorPivotGearRatio / 360, 0.2, 10.5); //intake 97, eepiv -23 //was -23
-        IntakeWobble = new SuperstructureState((-12)*Constants.endEffectorPivotGearRatio / 360, 0.2, 10 ); //intake 97, eepiv -23 //was -18
+        StartingConfig = new SuperstructureState(0, 0.0, 0.0);
+        Home = new SuperstructureState(25*Constants.endEffectorPivotGearRatio / 360, 0.2, 1.5 +.2 ); //was 1.5
+        Intake = new SuperstructureState(-14*Constants.endEffectorPivotGearRatio / 360, 0.2, 10.8); //intake 97, eepiv -23 //was -23
+        IntakeWobble = new SuperstructureState((-12)*Constants.endEffectorPivotGearRatio / 360, 0.2, 10.2 ); //intake 97, eepiv -23 //was -18
 
         L1Intake = new SuperstructureState(25*Constants.endEffectorPivotGearRatio / 360, 0.2, 5.8);
 
@@ -53,7 +53,7 @@ public class SuperstructureStates {
         //grabAlgaeL3 = new SuperstructureState(80*Constants.endEffectorPivotGearRatio / 360, 33 / 2.25, 15/9);
 
         grabAlgaeL2 = new SuperstructureState(60*Constants.endEffectorPivotGearRatio / 360, 24 / 2.25, 15/9);
-        grabAlgaeL3 = new SuperstructureState(60*Constants.endEffectorPivotGearRatio / 360, 3 / 2.25, 15/9);
+        grabAlgaeL3 = new SuperstructureState(60*Constants.endEffectorPivotGearRatio / 360, 43 / 2.25, 15/9);
 
 
         /**
@@ -67,7 +67,7 @@ public class SuperstructureStates {
         CoralL1 = new SuperstructureState(30*Constants.endEffectorPivotGearRatio / 360, 12/ 2.25, 15/9);
         CoralL2 = new SuperstructureState(110*Constants.endEffectorPivotGearRatio / 360, 11/ 2.25, 15/9);
         CoralL3 = new SuperstructureState(110*Constants.endEffectorPivotGearRatio / 360, 30/ 2.25, 15/9);
-        CoralL4 = new SuperstructureState(85*Constants.endEffectorPivotGearRatio / 360, 72/ 2.25, 15/9); // elevator at 71
+        CoralL4 = new SuperstructureState(92*Constants.endEffectorPivotGearRatio / 360, 72/ 2.25, 15/9); // elevator at 71
 
         /* need to send the elevator up with endeffector in so we dont crash into the reef */
         CoralPreL1 = new SuperstructureState(25*Constants.endEffectorPivotGearRatio / 360, 8/ 2.25,  15/9);

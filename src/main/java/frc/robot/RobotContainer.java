@@ -126,10 +126,10 @@ public class RobotContainer
    * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular velocity.
    */
   SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
-                                                                () -> driverXbox.getLeftY() * 1,
-                                                                () -> driverXbox.getLeftX() * 1)//
+                                                                () -> driverXbox.getLeftY() * -1,
+                                                                () -> driverXbox.getLeftX() * -1)//
                                                           //.withControllerRotationAxis(driverXbox::getRightX)
-                                                            .withControllerRotationAxis(() -> driverXbox.getRightX()*-1) //BVN 1-26-25 - added negative to reverse the rotation input, removed 2/3
+                                                            .withControllerRotationAxis(() -> driverXbox.getRightX()*-0.6) //BVN 1-26-25 - added negative to reverse the rotation input, removed 2/3
                                                             .deadband(OperatorConstants.DEADBAND)
                                                             .scaleTranslation(1.0)
                                                             .allianceRelativeControl(true);
@@ -202,6 +202,8 @@ public class RobotContainer
     NamedCommands.registerCommand("GoHome", new GoHomeCommand(superstructure).withTimeout(.1));
     NamedCommands.registerCommand("AlgaeL2", new AlgaeL2Command(superstructure).withTimeout(3));
     NamedCommands.registerCommand("AlgaeL3", new AlgaeL3Command(superstructure).withTimeout(3));
+    NamedCommands.registerCommand("PANIC", new InstantCommand(() -> superstructure.panic()));
+    NamedCommands.registerCommand("FIRE", new InstantCommand(() -> superstructure.startReleasingCoral(false)));
 	  NamedCommands.registerCommand("VisionIntake", new VisionIntakeCommand(this, getSuperstructure(), getSwerveSubsystem()).withTimeout(3));
     
     //NamedCommands.registerCommand("AutonScoreCommandP1L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  1 , 4).withTimeout(5));

@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.0100520933822104,
-        "y": 6.924518558267413
+        "x": 2.359032534246575,
+        "y": 6.646982020547945
       },
       "isLocked": false,
       "linkedName": "Intake to 7 YIPPIE"
@@ -20,8 +20,8 @@
         "y": 5.456
       },
       "prevControl": {
-        "x": 2.808362676056337,
-        "y": 6.09419014084507
+        "x": 3.275599315068493,
+        "y": 6.662007705479453
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,11 +32,11 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.9339622641509433,
+      "minWaypointRelativePos": 0.8537735849056602,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
-        "maxVelocity": 0.25,
-        "maxAcceleration": 3.0,
+        "maxVelocity": 0.5,
+        "maxAcceleration": 1.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -45,14 +45,7 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "L4",
-      "waypointRelativePos": 0.9198113207547189,
-      "endWaypointRelativePos": null,
-      "command": null
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.0,
     "maxAcceleration": 4.0,
