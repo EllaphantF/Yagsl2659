@@ -106,32 +106,32 @@ public final class Constants
       public	static	final	Pose2d	REDPRESCORE_2	        =	new	Pose2d(	12.189,	5.53,	Rotation2d.fromDegrees(	 120  ));	//
       public	static	final	Pose2d	REDPRESCORE_1	        =	new	Pose2d(	12.189,	5.53,	Rotation2d.fromDegrees(	 120  )); //
       
-  // REEF SCORING POSES
-      public static   final Pose2d  BLUE_12        = new Pose2d( 6.225,	3.835,   Rotation2d.fromDegrees( 	0 	)); //LAR Practice Day direct measure
-      public static   final Pose2d  BLUE_11        = new Pose2d( 6.232,	4.191,   Rotation2d.fromDegrees( 	0 	)); //LAR Practice Day direct measure
-      public static   final Pose2d  BLUE_10        = new Pose2d( 5.517,	5.438,   Rotation2d.fromDegrees(  60          ));  //LAR Practice Day direct measure
-      public static   final Pose2d  BLUE_9	       = new Pose2d( 5.214,	5.625,   Rotation2d.fromDegrees(  60          ));  //LAR Practice Day direct measure
-      public static   final Pose2d  BLUE_8	       = new Pose2d( 3.762, 5.615,   Rotation2d.fromDegrees(  	120	         )); //LAR Practice Day direct measure
-      public static   final Pose2d  BLUE_7	       = new Pose2d( 3.477, 5.456,   Rotation2d.fromDegrees(  	120	         ));  //LAR Practice Day direct measure
-      public static   final Pose2d  BLUE_6	       = new Pose2d( 2.748, 4.188,    Rotation2d.fromDegrees( 	180	   )); //LAR Practice Day direct measure
-      public static   final Pose2d  BLUE_5	       = new Pose2d( 2.742, 3.861,    Rotation2d.fromDegrees( 	180 	  )); //LAR Practice Day direct measure
-      public static   final Pose2d  BLUE_4	       = new Pose2d( 3.473, 2.607,   Rotation2d.fromDegrees( 	-120 	)); //LAR Practice Day direct measure
-      public static   final Pose2d  BLUE_3	       = new Pose2d( 3.751, 2.436,   Rotation2d.fromDegrees( 	-120 	)); //LAR Practice Day direct measure
-      public static   final Pose2d  BLUE_2	       = new Pose2d( 5.197, 2.430,   Rotation2d.fromDegrees( 	-60 	)); //LAR Practice Day direct measure
-      public static   final Pose2d  BLUE_1	       = new Pose2d( 5.514, 2.602,   Rotation2d.fromDegrees( 	-60 	)); //LAR Practice Day direct measure
+  // REEF SCORING POSES - Contra Measure
+      public static   final Pose2d  BLUE_12        = new Pose2d( 6.193,	3.855,   Rotation2d.fromDegrees( 	-0.3	)); // /* */
+      public static   final Pose2d  BLUE_11        = new Pose2d( 6.195,	4.232,   Rotation2d.fromDegrees( 	2.5 	)); // /* */
+      public static   final Pose2d  BLUE_10        = new Pose2d( 5.468,	5.430,   Rotation2d.fromDegrees(  60.5         ));  //
+      public static   final Pose2d  BLUE_9	       = new Pose2d( 5.144,	5.617,   Rotation2d.fromDegrees(  62.7          ));  // /* */
+      public static   final Pose2d  BLUE_8	       = new Pose2d( 3.769, 5.580,   Rotation2d.fromDegrees(  	120.8	         )); // /* */
+      public static   final Pose2d  BLUE_7	       = new Pose2d( 3.452, 5.397,   Rotation2d.fromDegrees(  	121.7	         ));  // /* */
+      public static   final Pose2d  BLUE_6	       = new Pose2d( 2.784, 4.156,    Rotation2d.fromDegrees( 	-179.2	   )); // /* */
+      public static   final Pose2d  BLUE_5	       = new Pose2d( 2.785, 3.813,    Rotation2d.fromDegrees( 	-178 	  )); // /* */
+      public static   final Pose2d  BLUE_4	       = new Pose2d( 3.536, 2.604,   Rotation2d.fromDegrees( 	-118.8 	)); // /* */
+      public static   final Pose2d  BLUE_3	       = new Pose2d( 3.847, 2.432,   Rotation2d.fromDegrees( 	-118.8 	)); // /* */
+      public static   final Pose2d  BLUE_2	       = new Pose2d( 5.205, 2.471,   Rotation2d.fromDegrees( 	-60 	)); // /* */
+      public static   final Pose2d  BLUE_1	       = new Pose2d( 5.52, 2.65,   Rotation2d.fromDegrees( 	-60 	)); // /* */
 
-      public	static	final	Pose2d	RED_12	      =	new	Pose2d(	11.317,	4.207,	Rotation2d.fromDegrees(	 180    )); //LAR Practice Day direct measure
-      public	static	final	Pose2d	RED_11	      =	new	Pose2d(	11.311,	3.838,	Rotation2d.fromDegrees(	 180    )); //LAR Practice Day direct measure
-      public	static	final	Pose2d	RED_10	      =	new	Pose2d(	12.017,	2.618,	Rotation2d.fromDegrees(	 -120   )); //LAR Practice Day direct measure
-      public	static	final	Pose2d	RED_9	        =	new	Pose2d(	12.317,	2.438,	Rotation2d.fromDegrees(	 -120   )); //LAR Practice Day direct measure
-      public	static	final	Pose2d	RED_8	        =	new	Pose2d(	13.773,	2.437,	Rotation2d.fromDegrees(	 -60  )); //LAR Practice Day direct measure
-      public	static	final	Pose2d	RED_7	        =	new	Pose2d(	14.081,	2.597,	Rotation2d.fromDegrees(	 -60  )); //LAR Practice Day direct measure
-      public	static	final	Pose2d	RED_6	        =	new	Pose2d(	14.792,	3.857,	Rotation2d.fromDegrees(	 0  )); //LAR Practice Day direct measure
-      public	static	final	Pose2d	RED_5	        =	new	Pose2d(	14.805,	4.196,	Rotation2d.fromDegrees(	 0  )); //LAR Practice Day direct measure
-      public	static	final	Pose2d	RED_4	        =	new	Pose2d(	14.088,	5.440,	Rotation2d.fromDegrees(  60 ));	//LAR Practice Day direct measure
-      public	static	final	Pose2d	RED_3	        =	new	Pose2d(	13.784,	5.624,	Rotation2d.fromDegrees(  60 ));	//LAR Practice Day direct measure
-      public	static	final	Pose2d	RED_2	        =	new	Pose2d(	12.341,	5.615,	Rotation2d.fromDegrees(	 120  ));	//LAR Practice Day direct measure
-      public	static	final	Pose2d	RED_1	        =	new	Pose2d(	12.037,	5.454,	Rotation2d.fromDegrees(	 120  )); //LAR Practice Day direct measure
+      public	static	final	Pose2d	RED_12	      =	new	Pose2d(	11.351,	4.185,	Rotation2d.fromDegrees(	 -179.3    )); // /* */
+      public	static	final	Pose2d	RED_11	      =	new	Pose2d(	11.352,	3.838,	Rotation2d.fromDegrees(	 -178    )); // /* */
+      public	static	final	Pose2d	RED_10	      =	new	Pose2d(	12.082,	2.622,	Rotation2d.fromDegrees(	 -120.05   )); //
+      public	static	final	Pose2d	RED_9	        =	new	Pose2d(	12.396,	2.441,	Rotation2d.fromDegrees(	 -118.1   )); //
+      public	static	final	Pose2d	RED_8	        =	new	Pose2d(	13.775,	2.470,	Rotation2d.fromDegrees(	 -59.8  )); // /* */
+      public	static	final	Pose2d	RED_7	        =	new	Pose2d(	14.098,	2.655,	Rotation2d.fromDegrees(	 -57.4  )); // /* */
+      public	static	final	Pose2d	RED_6	        =	new	Pose2d(	14.765,	3.870,	Rotation2d.fromDegrees(	 -.05  )); // /* */
+      public	static	final	Pose2d	RED_5	        =	new	Pose2d(	14.764,	4.250,	Rotation2d.fromDegrees(	 2.71  )); //
+      public	static	final	Pose2d	RED_4	        =	new	Pose2d(	14.053,	5.421,	Rotation2d.fromDegrees(  59.7 ));	// /* */
+      public	static	final	Pose2d	RED_3	        =	new	Pose2d(	13.695,	5.627,	Rotation2d.fromDegrees(  62.9 ));	// /* */
+      public	static	final	Pose2d	RED_2	        =	new	Pose2d(	12.339,	5.581,	Rotation2d.fromDegrees(	 120.08  ));	// 
+      public	static	final	Pose2d	RED_1	        =	new	Pose2d(	12.011,	5.388,	Rotation2d.fromDegrees(	 122.8  )); // /* */
       
       public static Pose2d getScorePose(Boolean isRedAlliance, Double selectPose){
         Pose2d scoreDrivePose = new Pose2d(); 
@@ -279,7 +279,7 @@ public final class Constants
           intakeWheelsConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .08;
           intakeWheelsConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .08;
           intakeWheelsConfig.MotionMagic.MotionMagicCruiseVelocity = 35; //stolen from 3255
-          intakeWheelsConfig.MotionMagic.MotionMagicAcceleration = 250; //also stolen from 3255
+          intakeWheelsConfig.MotionMagic.MotionMagicAcceleration = 150; //also stolen from 3255
           return intakeWheelsConfig;
         }
 

@@ -3,36 +3,36 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.0470462328767125,
-        "y": 5.895697773972603
+        "x": 5.213912671232877,
+        "y": 2.755329623287671
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.25068493150685,
-        "y": 5.309696061643836
+        "x": 5.557834507042253,
+        "y": 2.210915492957745
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "1-2 Algae to Drive Out"
     },
     {
       "anchor": {
-        "x": 5.2143,
-        "y": 5.625
+        "x": 5.841285211267606,
+        "y": 1.6581866197183082
       },
       "prevControl": {
-        "x": 5.905094178082192,
-        "y": 5.174464897260274
+        "x": 5.600352112676056,
+        "y": 2.125880281690139
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "9 to Intake YIPPIE"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.7,
+      "minWaypointRelativePos": 0,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 0.5,
@@ -48,7 +48,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.0,
-    "maxAcceleration": 4.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -56,13 +56,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 59.99999999999999
+    "rotation": -59.99999999999999
   },
   "reversed": false,
-  "folder": "9, 8, 7 L4 Left Folder",
+  "folder": "11 & Descore 2 Algea Mid",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 59.99999999999999
+    "rotation": -59.99999999999999
   },
   "useDefaultConstraints": true
 }

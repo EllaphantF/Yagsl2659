@@ -16,11 +16,11 @@
     },
     {
       "anchor": {
-        "x": 5.2143,
+        "x": 5.144,
         "y": 5.625
       },
       "prevControl": {
-        "x": 6.2807363013698625,
+        "x": 6.210436301369863,
         "y": 5.42990154109589
       },
       "nextControl": null,
@@ -48,7 +48,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.0,
-    "maxAcceleration": 4.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -56,7 +56,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 59.99999999999999
+    "rotation": 62.7
   },
   "reversed": false,
   "folder": "9, 8, 7 L4 Left Folder",

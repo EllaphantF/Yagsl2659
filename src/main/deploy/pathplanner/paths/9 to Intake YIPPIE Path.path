@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.2143,
+        "x": 5.144,
         "y": 5.625
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.8429577464788722,
+        "x": 3.7726577464788726,
         "y": 6.250088028169014
       },
       "isLocked": false,
@@ -28,7 +28,12 @@
       "linkedName": "Intake to 8 YIPPIE"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.38966202783300263,
+      "rotationDegrees": 130.0
+    }
+  ],
   "constraintZones": [
     {
       "name": "Constraints Zone",
@@ -42,13 +47,26 @@
         "nominalVoltage": 12.0,
         "unlimited": false
       }
+    },
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 0.6673684210526316,
+      "constraints": {
+        "maxVelocity": 4.0,
+        "maxAcceleration": 4.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
     }
   ],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.0,
-    "maxAcceleration": 4.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -62,7 +80,7 @@
   "folder": "9, 8, 7 L4 Left Folder",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 59.99999999999999
+    "rotation": 62.7
   },
   "useDefaultConstraints": true
 }

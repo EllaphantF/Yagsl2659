@@ -68,7 +68,7 @@ public AutonScoreCommand(RobotContainer m_RobotContainer, SuperstructureSubsyste
     timerStart = Timer.getFPGATimestamp();
     SmartDashboard.putNumber("Select Scoring Location", ScoringLocation);
     m_SuperstructureSub.setCoralLevel(ScoringLevel);
-    SmartDashboard.putNumber("ZZ Debug", 11);
+    //SmartDashboard.putNumber("ZZ Debug", 11);
     Command autoScore = m_RobotContainer.getScoreSequenceCommand(true);
     /*
     Command autoScore = 
@@ -78,7 +78,7 @@ public AutonScoreCommand(RobotContainer m_RobotContainer, SuperstructureSubsyste
           () -> m_SuperstructureSub.startReleasingCoral(true)
           ); */
           
-    SmartDashboard.putNumber("ZZ Debug", 22);
+    //SmartDashboard.putNumber("ZZ Debug", 22);
 
     //autoScore.schedule.whileTrue(m_SuperstructureSub.hasCoral);
     //CommandScheduler.getInstance().schedule(autoScore);
@@ -94,8 +94,8 @@ public AutonScoreCommand(RobotContainer m_RobotContainer, SuperstructureSubsyste
       timerStart = Timer.getFPGATimestamp();
     }*/
     
-    SmartDashboard.putNumber("ZZ Debug", 44);
-    SmartDashboard.putBoolean("Is AutoScore Canceled?", !m_SuperstructureSub.hasCoral);
+    //SmartDashboard.putNumber("ZZ Debug", 44);
+    //SmartDashboard.putBoolean("Is AutoScore Canceled?", !m_SuperstructureSub.hasCoral);
     if(!m_SuperstructureSub.hasCoral) CommandScheduler.getInstance().cancel(this);
     }
 
@@ -103,14 +103,14 @@ public AutonScoreCommand(RobotContainer m_RobotContainer, SuperstructureSubsyste
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    SmartDashboard.putNumber("AutonScoreCommand cancel debugEND", Timer.getFPGATimestamp());
+    //SmartDashboard.putNumber("AutonScoreCommand cancel debugEND", Timer.getFPGATimestamp());
     
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    SmartDashboard.putNumber("AutonScoreCommand cancel debug", Timer.getFPGATimestamp());
+    //SmartDashboard.putNumber("AutonScoreCommand cancel debug", Timer.getFPGATimestamp());
     return (!m_SuperstructureSub.hasCoral);// && (Timer.getFPGATimestamp() - timerStart) > .5);
   }
 }

@@ -7,19 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Score 9 L4 YIPPIE Path"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "L4"
+            "pathName": "Score 9 BLUE L4 YIPPIE Path"
           }
         },
         {
           "type": "wait",
           "data": {
             "waitTime": 0.1
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "L4"
           }
         },
         {
@@ -57,7 +57,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.2
+            "waitTime": 0.5
           }
         },
         {
@@ -93,15 +93,15 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "L4"
-          }
-        },
-        {
           "type": "wait",
           "data": {
             "waitTime": 0.1
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "L4"
           }
         },
         {

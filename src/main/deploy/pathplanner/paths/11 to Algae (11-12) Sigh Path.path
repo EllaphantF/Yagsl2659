@@ -3,32 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.15,
-        "y": 4.167744006849315
+        "x": 6.195,
+        "y": 4.232
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.721147260273973,
-        "y": 4.287693493150684
+        "x": 6.000933984840125,
+        "y": 4.074398027423617
       },
       "isLocked": false,
       "linkedName": "11 to Algae (11-12) Sigh"
-    },
-    {
-      "anchor": {
-        "x": 6.400941780821918,
-        "y": 4.0
-      },
-      "prevControl": {
-        "x": 6.643688567766231,
-        "y": 4.059782919201158
-      },
-      "nextControl": {
-        "x": 5.739811643835617,
-        "y": 3.8371789383561645
-      },
-      "isLocked": false,
-      "linkedName": null
     },
     {
       "anchor": {
@@ -36,8 +20,8 @@
         "y": 4.0
       },
       "prevControl": {
-        "x": 5.950462213215099,
-        "y": 4.249999572717522
+        "x": 6.11056338028169,
+        "y": 4.251760563380281
       },
       "nextControl": null,
       "isLocked": false,
@@ -49,7 +33,7 @@
     {
       "name": "Constraints Zone",
       "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 0.7285714285714285,
+      "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 0.3,
         "maxAcceleration": 0.5,
@@ -64,14 +48,14 @@
   "eventMarkers": [
     {
       "name": "GoHome",
-      "waypointRelativePos": 0.1666666666666667,
+      "waypointRelativePos": 0.1,
       "endWaypointRelativePos": null,
       "command": null
     }
   ],
   "globalConstraints": {
     "maxVelocity": 4.0,
-    "maxAcceleration": 4.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

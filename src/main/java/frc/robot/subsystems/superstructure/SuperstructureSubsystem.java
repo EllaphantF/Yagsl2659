@@ -204,7 +204,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
    */
   public void nomNomWeebleWobble (){
 
-    SmartDashboard.putBoolean("zzzdebugNOMNOM", Timer.getFPGATimestamp()%.6 > .5);
+    //SmartDashboard.putBoolean("zzzdebugNOMNOM", Timer.getFPGATimestamp()%.6 > .5);
     if (Timer.getFPGATimestamp() %.6 > .5){
       TARGETSTATE = STATE.IntakeWobble;
     } 
@@ -426,7 +426,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
 
   public void stopAllWheels(){
     setEndeffectorWheelSpeed(0);
-    setIntakeWheelSpeed(2);
+    setIntakeWheelSpeed(0.8);
     setFunnelWheelSpeed(0);
   }
 
@@ -464,6 +464,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
       TARGETSTATE = STATE.StowWithCoral;
       stowing = false;
       // STATE.StowCoral; //option for putting positions in a state
+
     }
     else if (hasAlgae && safeToStow()){
       TARGETSTATE = STATE.StowWithAlgae;
@@ -520,12 +521,12 @@ public class SuperstructureSubsystem extends SubsystemBase {
 
   public void justGotCoral(){
     if(hasCoral && mEndeffectorPivot.getPosition().getValueAsDouble() > -5 * Constants.endEffectorPivotGearRatio / 360 ){      
-      SmartDashboard.putNumber("zEEDebug", 0.5);
+      //SmartDashboard.putNumber("zEEDebug", 0.5);
       mEndeffectorRollers.setControl(new MotionMagicVoltage(0.0));
       mEndeffectorRollers.setPosition(0.5);
       intaking = false;}
     else{
-      SmartDashboard.putNumber("zEEDebug", 3);
+      //SmartDashboard.putNumber("zEEDebug", 3);
       mEndeffectorRollers.setControl(new MotionMagicVoltage(0.0));
       mEndeffectorRollers.setPosition(2.5); //3 for wheelspeed 4 (inconsistent), 4 for wheelspeed 2
       intaking = false;
@@ -786,7 +787,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
     //SD_MotionMagicEEPivotTEST();
     //SD_motionMagicElevatorTEST();
     SmartDashboard.putNumber("CANDi State", CANdi.getS1State().getValueAsDouble());
-    SmartDashboard.putNumber("Superstructure Timer Debug", Timer.getFPGATimestamp());
+    //SmartDashboard.putNumber("Superstructure Timer Debug", Timer.getFPGATimestamp());
     
     updatePositions();
 

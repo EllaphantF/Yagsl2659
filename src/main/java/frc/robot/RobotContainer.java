@@ -305,6 +305,15 @@ public class RobotContainer
           ));
       driverXbox.rightTrigger(.5).onFalse(Commands.runOnce(() -> CommandScheduler.getInstance().cancelAll())); //this seems to work, but might cancel other commands? Drive seems to work fine after this is called
 
+
+      // Bind the Xbox button to the getScoreSequenceCommand
+      driverXbox.leftTrigger(.5).whileTrue(new StartEndCommand(
+          () -> getAlgaeSequenceCommand().schedule(),
+          () -> CommandScheduler.getInstance().cancelAll()
+          ));
+      driverXbox.leftTrigger(.5).onFalse(Commands.runOnce(() -> CommandScheduler.getInstance().cancelAll())); //this seems to work, but might cancel other commands? Drive seems to work fine after this is called
+
+
       /* Operator Controller **TEST** */
       /* operatorXbox.leftBumper().onTrue(new InstantCommand(() -> superstructure.setCoralLevel(1.)));
       operatorXbox.back().onTrue(new InstantCommand(() -> superstructure.setCoralLevel(2.)));
@@ -452,6 +461,27 @@ public class RobotContainer
       autoScoreSequence = new SequentialCommandGroup(driveToPrescore, superStructureScore, driveToScore, release, waitForRelease);}
     
     return autoScoreSequence;
+  }
+
+  
+  /**
+   * 
+   * @param withAutoRelease whether or not the robot should autorelease once it's at position
+   * @return
+   */
+  public Command getAlgaeSequenceCommand(){
+    double selectPose = SmartDashboard.getNumber("Select Scoring Location",0);
+    Pose2d prescoreDrivePose = drivebase.getPrescorePose(selectPose);
+    
+    Command driveToPrescore = drivebase.driveToPose(prescoreDrivePose);
+    Command driveToScore = drivebase.driveToTargetPosePID(prescoreDrivePose);
+    Command algaeDrive = drivebase.algaeBasicDrive();
+    Command raiseAlgae = Commands.none();
+    if (selectPose == 1 ||selectPose == 2 ||selectPose == 5 ||selectPose == 6 ||selectPose == 9 ||selectPose == 10) raiseAlgae = new InstantCommand(() -> superstructure.clearAlgae(3.));
+    else raiseAlgae = new InstantCommand(() -> superstructure.clearAlgae(2.));
+    Command autoAlgaeSequence = Commands.none();
+    autoAlgaeSequence = new SequentialCommandGroup(driveToPrescore, driveToScore, raiseAlgae, algaeDrive);
+    return autoAlgaeSequence;
   }
 
   /**

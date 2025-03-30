@@ -52,10 +52,12 @@ public class SuperstructureStates {
         //grabAlgaeL2 = new SuperstructureState(80*Constants.endEffectorPivotGearRatio / 360, 14 / 2.25, 15/9);
         //grabAlgaeL3 = new SuperstructureState(80*Constants.endEffectorPivotGearRatio / 360, 33 / 2.25, 15/9);
 
-        grabAlgaeL2 = new SuperstructureState(60*Constants.endEffectorPivotGearRatio / 360, 24 / 2.25, 15/9);
-        grabAlgaeL3 = new SuperstructureState(60*Constants.endEffectorPivotGearRatio / 360, 43 / 2.25, 15/9);
+        grabAlgaeL2 = new SuperstructureState(60*Constants.endEffectorPivotGearRatio / 360, 24 / 2.25, 15/9); //CONTRA - DAY 1
+        grabAlgaeL3 = new SuperstructureState(60*Constants.endEffectorPivotGearRatio / 360, 43 / 2.25, 15/9); //CONTRA - DAY 1
 
 
+        //grabAlgaeL2 = new SuperstructureState(90*Constants.endEffectorPivotGearRatio / 360, 24 / 2.25, 15/9);
+        //grabAlgaeL3 = new SuperstructureState(90*Constants.endEffectorPivotGearRatio / 360, 43 / 2.25, 15/9);
         /**
          * use these for manual scoring (i.e. )
          */

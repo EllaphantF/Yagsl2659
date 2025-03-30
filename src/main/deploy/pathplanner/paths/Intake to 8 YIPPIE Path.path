@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 3.762,
-        "y": 5.615
+        "x": 3.769,
+        "y": 5.58
       },
       "prevControl": {
-        "x": 1.7129280821917807,
-        "y": 5.62523544520548
+        "x": 3.200470890410959,
+        "y": 5.09933647260274
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,7 +32,7 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.9056603773584906,
+      "minWaypointRelativePos": 0.7617924528301885,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 0.5,
@@ -48,7 +48,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.0,
-    "maxAcceleration": 4.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -56,7 +56,7 @@
   },
   "goalEndState": {
     "velocity": 0.0,
-    "rotation": 119.99999999999999
+    "rotation": 120.8
   },
   "reversed": false,
   "folder": "9, 8, 7 L4 Left Folder",

@@ -316,8 +316,8 @@ public class SwerveSubsystem extends SubsystemBase
                     ProfiledPIDController xController = new ProfiledPIDController(1, 0.0 , 0.05, xyConstraints);
                     PIDController yController = new PIDController(2, 0.0 , 0.05);
 
-                    xController.setGoal(10);
-                    yController.setSetpoint(10);
+                    xController.setGoal(-10);
+                    yController.setSetpoint(5);
 
                     double cameraAngleDown = 20;
                     double camerainchesOffGround = 30;
@@ -327,22 +327,26 @@ public class SwerveSubsystem extends SubsystemBase
                     double xSet = xController.calculate(x);
                     SmartDashboard.putNumber("xSetVisionIntake", xSet);
                     
-                    if (xSet > 1) xSet = 1;
-                    if (xSet < -1) xSet = -1;
+                    if (xSet > 4) xSet = 4;
+                    if (xSet < -4) xSet = -4;
 
                     //xSet = xSet * 0.6;
-                    xSet = xSet * 1.5;
+                    xSet = xSet * .3;
 
                     //double ySet = yController.calculate(y);
-                    y= y - 5; //offset for camera angle
                     double ySet = y * .4;
                     SmartDashboard.putNumber("ySetVisionIntake", ySet);
-                    if (ySet > 1) ySet = 1;
-                    if (ySet < -1) ySet = -1;
+                    if (ySet > 1.5) ySet = 1.5;
+                    if (ySet < -1.5) ySet = -1.5;
                     drive(new Translation2d(-xSet, 0.0), -ySet, false);
                 }
             }
         });
+  }
+
+
+  public Command algaeBasicDrive(){
+    return run(() -> {drive(new Translation2d(-.2, 0.0), 0, false);});
   }
 
 /**
@@ -359,7 +363,7 @@ public class SwerveSubsystem extends SubsystemBase
     //SmartDashboard.putNumber("kD PID",        SmartDashboard.getNumber("kD PID", .2));
 
     //TrapezoidProfile.Constraints xyConstraints = new Constraints(SmartDashboard.getNumber("Max Vel PID", 2), SmartDashboard.getNumber("max Accel PID",1));
-    TrapezoidProfile.Constraints xyConstraints = new Constraints(2,.8);
+    TrapezoidProfile.Constraints xyConstraints = new Constraints(2,.6);
     //TrapezoidProfile.Constraints thetaConstraints = new Constraints(540,720);
     
 //    ProfiledPIDController xcontroller = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 5), SmartDashboard.getNumber("kI PID", 2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
@@ -373,10 +377,10 @@ public class SwerveSubsystem extends SubsystemBase
     
 
     xcontroller.setIZone(.5);
-    xcontroller.setTolerance(.01);
+    xcontroller.setTolerance(.008);
     
     ycontroller.setIZone(.5);
-    ycontroller.setTolerance(.01);
+    ycontroller.setTolerance(.008);
 
     BooleanSupplier atTarget = () -> (xcontroller.atGoal() && ycontroller.atSetpoint()&& (Math.abs(getPose().getRotation().getDegrees() - targetPose.getRotation().getDegrees())<1
     

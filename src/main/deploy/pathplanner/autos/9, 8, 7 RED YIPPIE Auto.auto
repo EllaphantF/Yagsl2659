@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Score 2 L4 POG Path"
+            "pathName": "Score 9 RED L4 YIPPIE Path"
           }
         },
         {
@@ -29,13 +29,26 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "2 to Intake POG Path"
+                  "pathName": "9 to Intake YIPPIE Path"
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "GoHome"
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.1
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "GoHome"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -54,7 +67,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Intake to 3 POG Path"
+                  "pathName": "Intake to 8 YIPPIE Path"
                 }
               },
               {
@@ -64,7 +77,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.2
+                        "waitTime": 0.4
                       }
                     },
                     {
@@ -98,32 +111,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "3 to Intake POG Path"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "GoHome"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Intake to 4 POG Path"
+                  "pathName": "8 to Intake YIPPIE Path"
                 }
               },
               {
@@ -133,13 +121,13 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.2
+                        "waitTime": 0.1
                       }
                     },
                     {
                       "type": "named",
                       "data": {
-                        "name": "Intake"
+                        "name": "GoHome"
                       }
                     }
                   ]
@@ -152,6 +140,44 @@
           "type": "wait",
           "data": {
             "waitTime": 0.2
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Intake to 7 YIPPIE Path"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.4
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.1
           }
         },
         {
