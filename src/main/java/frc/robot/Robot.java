@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.Set;
+
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -128,6 +130,15 @@ public class Robot extends TimedRobot
   {
     m_robotContainer.setMotorBrake(true);
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+
+    /*m_autonomousCommand = new SequentialCommandGroup(
+      new InstantCommand(() -> SmartDashboard.putNumber("Select Scoring Location", 6)),
+      Commands.defer(() -> m_robotContainer.getScoreSequenceCommand(true), Set.of(m_robotContainer.getSuperstructure(), m_robotContainer.getSwerveSubsystem())).withTimeout(5.0),
+      
+      new InstantCommand(() -> SmartDashboard.putNumber("Select Scoring Location", 5)),
+      Commands.defer(() -> m_robotContainer.getScoreSequenceCommand(false), Set.of(m_robotContainer.getSuperstructure(), m_robotContainer.getSwerveSubsystem())));
+    */
+    
     /*m_autonomousCommand = new SequentialCommandGroup(
       new InstantCommand(()-> SmartDashboard.putNumber("Select Scoring Location", 6)),
       
