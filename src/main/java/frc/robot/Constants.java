@@ -61,10 +61,11 @@ public final class Constants
   
   /* EndEffector and Elevator IDs */
   public static final int endEffectorWheelID = 14;
-  public static final int endEffectorPivotID = 15;
+  public static final int endEffectorWheelIDRIGHT = 15;
+  public static final int endEffectorPivotID = 22;
   public static final int elevatorLeftID = 17;
   public static final int elevatorRightID = 16;
-  public static final int intakePivotLeftID = 18;
+  public static final int intakePivotLeftID = 18;//now arm
   public static final int intakePivotRightID = 21;
   public static final int intakeWheelsID = 19;
   public static final int funnelWheelsID = 20;

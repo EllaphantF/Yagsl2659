@@ -330,7 +330,7 @@ public class RobotContainer
       driverXbox.b().whileTrue(new InstantCommand(() -> superstructure.startReleasingCoral(false)).repeatedly());
       driverXbox.b().onFalse(new InstantCommand(() -> superstructure.ureleaseCoral()));
       driverXbox.a().onTrue(new InstantCommand(() -> superstructure.disableManualOverride())); //3-4-25 MPF added disable manual override to intake
-      //driverXbox.leftBumper().onTrue(new InstantCommand(() -> superstructure.intake()));
+      //driverXbox.leftBumper().onrue(new InstantCommand(() -> superstructure.intake()));
       driverXbox.leftBumper().onTrue(new InstantCommand(() -> superstructure.intake()));
       driverXbox.leftBumper().whileTrue(visionIntake());
 
