@@ -195,7 +195,7 @@ public class RobotContainer
   public RobotContainer()
   {
     /* Added Named Commands for Pathplanner */
-	  NamedCommands.registerCommand("Intake", new IntakeCommand(superstructure).withTimeout(1.5));
+	  NamedCommands.registerCommand("Intake", new IntakeCommand(superstructure).withTimeout(3));
     //NamedCommands.registerCommand("Intake", new InstantCommand(() -> superstructure.intake()).withTimeout(3));
     NamedCommands.registerCommand("L1", new L1Command(superstructure).withTimeout(3));
     NamedCommands.registerCommand("L2", new L2Command(superstructure).withTimeout(3));
@@ -231,29 +231,41 @@ public class RobotContainer
     NamedCommands.registerCommand("AutonScoreCommandP4L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  4 , 4).withTimeout(5));
     NamedCommands.registerCommand("AutonScoreCommandP5L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  5 , 4).withTimeout(5));
     
+
     NamedCommands.registerCommand("AutonScoreCommandP6L4" , new SequentialCommandGroup(
+      new InstantCommand(()-> superstructure.setCoralLevel(4.)),
       new InstantCommand(() -> SmartDashboard.putNumber("Select Scoring Location", 6)),
-      Commands.defer(() -> getScoreSequenceCommand(true), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(3.0)));
+      Commands.defer(() -> getScoreSequenceCommand(false), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(3.0)));
     //NamedCommands.registerCommand("AutonScoreCommandP7L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  7 , 4).withTimeout(5));
     
     NamedCommands.registerCommand("AutonScoreCommandP7L4" , new SequentialCommandGroup(
       new InstantCommand(() -> SmartDashboard.putNumber("Select Scoring Location", 7)),
-      Commands.defer(() -> getScoreSequenceCommand(true), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(3.0)));
+      Commands.defer(() -> getScoreSequenceCommand(false), Set.of(getSuperstructure(), getSwerveSubsystem()))));/* /.withTimeout(3.0)*/
 
-      NamedCommands.registerCommand("AutonScoreCommandP8L4" , new SequentialCommandGroup(
-      new InstantCommand(() -> SmartDashboard.putNumber("Select Scoring Location", 8)),
-      Commands.defer(() -> getScoreSequenceCommand(true), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(3.0)));
+    NamedCommands.registerCommand("AutonScoreCommandP8L4" , new SequentialCommandGroup(
+     new InstantCommand(() -> SmartDashboard.putNumber("Select Scoring Location", 8)),
+     Commands.defer(() -> getScoreSequenceCommand(false), Set.of(getSuperstructure(), getSwerveSubsystem()))));//.withTimeout(3.0)));
 
 
     NamedCommands.registerCommand("AutonScoreCommandP9L4" , new SequentialCommandGroup(
-      new InstantCommand(() -> SmartDashboard.putNumber("Select Scoring Location", 9)),
-    Commands.defer(() -> getScoreSequenceCommand(true), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(3.0)));
+     new InstantCommand(() -> SmartDashboard.putNumber("Select Scoring Location", 9)),
+     //new InstantCommand(() -> superstructure.setCoralLevel(4.0)),
+     Commands.defer(() -> getScoreSequenceCommand(false), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(6.0)));
     
     NamedCommands.registerCommand("AutonScoreCommandP10L4" , new SequentialCommandGroup(
+      new InstantCommand(()-> superstructure.setCoralLevel(4.)),
       new InstantCommand(() -> SmartDashboard.putNumber("Select Scoring Location", 10)),
-    Commands.defer(() -> getScoreSequenceCommand(true), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(3.0)));
+     Commands.defer(() -> getScoreSequenceCommand(true), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(3.0)));
     
-    NamedCommands.registerCommand("AutonScoreCommandP11L4", new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(), 11 , 4).withTimeout(5));
+     NamedCommands.registerCommand("AutonScoreCommandP11L4" , new SequentialCommandGroup(
+     new InstantCommand(()-> superstructure.setCoralLevel(4.)),
+     new InstantCommand(() -> SmartDashboard.putNumber("Select Scoring Location", 11)),
+      Commands.defer(() -> getScoreSequenceCommand(true), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(3.0)));
+      
+     NamedCommands.registerCommand("AlgaeP11" , new SequentialCommandGroup(
+      new InstantCommand(() -> SmartDashboard.putNumber("Select Scoring Location", 11)),
+       Commands.defer(() -> getAlgaeSequenceCommand(), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(3.0)));
+
     NamedCommands.registerCommand("AutonScoreCommandP12L4", new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(), 12 , 4).withTimeout(5));
     //NamedCommands.registerCommand("AutonScoreCommandP3L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  3 , 4).withTimeout(5));
     //NamedCommands.registerCommand("AutonScoreCommandP4L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  4 , 4).withTimeout(5));
@@ -483,6 +495,7 @@ public class RobotContainer
     //Command driveToPrescore = drivebase.driveToTargetPosePID(prescoreDrivePose);
     Command driveToScore = drivebase.driveToTargetPosePID(scoreDrivePose);
     Command superStructureScore = new InstantCommand(() -> superstructure.startLifting());
+    Command superStructurePrescore = new InstantCommand(() -> superstructure.startLifting());
     Command release = new InstantCommand(() -> superstructure.startReleasingCoral(true));
     //Command waitForRelease = new InstantCommand(() -> Timer.delay(.02)).repeatedly().until(superstructure.notHasCoralCheck());
     Command waitForRelease = new WaitCommand(0.05).repeatedly().until(superstructure.notHasCoralCheck());
@@ -493,7 +506,7 @@ public class RobotContainer
     //Command driveToScore = drivebase.driveToTargetPosePID(drivebase.getScorePose(SmartDashboard.getNumber("Select Scoring Location",0)));
     Command autoScoreSequence = Commands.none();
     if(!withAutoRelease){
-      autoScoreSequence = new SequentialCommandGroup(driveToPrescore, superStructureScore, driveToScore,delayRelease);}
+      autoScoreSequence = new SequentialCommandGroup(driveToPrescore, driveToScore);}
     else{
       autoScoreSequence = new SequentialCommandGroup(driveToPrescore, superStructureScore, driveToScore, release, waitForRelease);}
     

@@ -17,18 +17,20 @@ public class L2Command extends Command {
         structure.startLifting();
 
         }
+        structure.startReleasingCoral(true);
     }
     @Override
     public void execute() {
-        if(structure.atPositionScoring() == true /*&& structure.sequenceState == 1*/){
+        /*if(structure.atPositionScoring() == true /*&& structure.sequenceState == 1){
             // if(getFPGATimestamp)
             structure.startReleasingCoral(false);
-        }
+        }*/
     }
 
     @Override
     public void end(boolean interrupted){
-        structure.goHome();
+        //structure.goHome();
+        structure.hasCoral = false;
     }
     
     public boolean isFinished() {

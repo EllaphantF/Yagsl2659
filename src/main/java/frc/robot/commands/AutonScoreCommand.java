@@ -9,6 +9,9 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import frc.robot.subsystems.superstructure.*;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+
+import java.util.Set;
+
 import drivebase.driveToPose;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Timer;
@@ -69,7 +72,10 @@ public AutonScoreCommand(RobotContainer m_RobotContainer, SuperstructureSubsyste
     SmartDashboard.putNumber("Select Scoring Location", ScoringLocation);
     m_SuperstructureSub.setCoralLevel(ScoringLevel);
     //SmartDashboard.putNumber("ZZ Debug", 11);
-    Command autoScore = m_RobotContainer.getScoreSequenceCommand(true);
+    Command autoScore = new SequentialCommandGroup(
+    new InstantCommand(()-> m_SuperstructureSub.setCoralLevel(2.)),
+      new InstantCommand(() -> SmartDashboard.putNumber("Select Scoring Location", 6)),
+      Commands.defer(() -> m_RobotContainer.getScoreSequenceCommand(true), Set.of(m_RobotContainer.getSuperstructure(), m_RobotContainer.getSwerveSubsystem())).withTimeout(3.0));
     /*
     Command autoScore = 
     new StartEndCommand(
@@ -89,6 +95,7 @@ public AutonScoreCommand(RobotContainer m_RobotContainer, SuperstructureSubsyste
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    
    /* if (!m_SuperstructureSub.hasCoral && !timerStarted){ //scoring timer
       timerStarted = true;
       timerStart = Timer.getFPGATimestamp();
@@ -96,7 +103,7 @@ public AutonScoreCommand(RobotContainer m_RobotContainer, SuperstructureSubsyste
     
     //SmartDashboard.putNumber("ZZ Debug", 44);
     //SmartDashboard.putBoolean("Is AutoScore Canceled?", !m_SuperstructureSub.hasCoral);
-    if(!m_SuperstructureSub.hasCoral) CommandScheduler.getInstance().cancel(this);
+    //if(!m_SuperstructureSub.hasCoral) CommandScheduler.getInstance().cancel(this);
     }
 
 

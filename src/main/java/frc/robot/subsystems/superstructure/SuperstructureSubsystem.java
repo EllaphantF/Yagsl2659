@@ -39,7 +39,12 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public double releaseTimer = 0;
   public final double intake = -20;
   public double sequenceState = 0;
-  public double scoreLevel = 0;
+  public double scoreLevel = 3;
+  
+
+  
+  
+  ;
   public double algaeLevel = 0;
   public boolean hasCoral = true;
   public BooleanSupplier notHasCoralCheck = () -> !hasCoral;
@@ -343,7 +348,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
       nomNomWeebleWobble();
     if(atPosition()){
       // mLED.setLightMode(1);
-      setEndeffectorWheelSpeed(2);
+      setEndeffectorWheelSpeed(3);
       setIntakeWheelSpeed(45); // was 23 -- 40 works great 3-8-2025
       setFunnelWheelSpeed(-8);}//was -10 -- -8 works great 3-8-2025
     if ( 
@@ -646,6 +651,12 @@ public class SuperstructureSubsystem extends SubsystemBase {
     clearMotionStates();
     lifting = true;
     sequenceState = 0; 
+  }
+
+  public void setSuperstructurePrescore(){
+    clearMotionStates();
+    sequenceState = 0; 
+    TARGETSTATE = STATE.CoralPreL4;
   }
 
   /**
