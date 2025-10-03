@@ -371,7 +371,7 @@ public class RobotContainer
       //operatorXbox.b().onTrue(Commands.runOnce(superstructure::stow));
 
       /* Set Coral Scoring Location */
-      buttonBox1.button(1).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 12)));
+      buttonBox1.button(1).onTrue(new SequentialCommandGroup(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 12)))); //BVN 10-2-25 -- Remembering the weirdness with old / stale commands at Contra, we might need to be warming up these commands, might also need to set a defer command as we did at Contra
       buttonBox1.button(2).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 1)));
       buttonBox1.button(3).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 2)));
       buttonBox1.button(4).onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 3)));
@@ -523,7 +523,7 @@ public class RobotContainer
     if (selectPose == 1 ||selectPose == 2 ||selectPose == 5 ||selectPose == 6 ||selectPose == 9 ||selectPose == 10) raiseAlgae = new InstantCommand(() -> superstructure.grabAlgae(3.));
     else raiseAlgae = new InstantCommand(() -> superstructure.grabAlgae(2.));
     Command autoAlgaeSequence = Commands.none();
-    autoAlgaeSequence = new SequentialCommandGroup(driveToPrescore, driveToScore, raiseAlgae, algaeDrive);
+    autoAlgaeSequence = new SequentialCommandGroup(raiseAlgae,driveToPrescore, driveToScore, algaeDrive);
     return autoAlgaeSequence;
   }
 
