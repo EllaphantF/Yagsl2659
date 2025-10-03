@@ -32,10 +32,11 @@ public class SuperstructureSubsystem extends SubsystemBase {
   private double simulatedMotorMotionTimer = 0;
   public double elevatorTarget = 0;
   public double pivotTarget = 0;
-  public double intakeTarget = 0;  
+  public double intakeTarget = 0;
+  public double climbPos = 0;  
   public double elevatorPos = 0;
-  public double pivotPos = 0;
-  public double intakePos = 0;
+  public double armPivotPos = 0;
+  public double endeffectorPivotPos = 0;
   public double releaseTimer = 0;
   public final double intake = -20;
   public double sequenceState = 0;
@@ -50,6 +51,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public BooleanSupplier notHasCoralCheck = () -> !hasCoral;
   public boolean hasAlgae = false;
   public boolean seatingCoral = false;
+  public boolean grabbingAlgae = false;
   
   
   public static boolean autoReleaseCoral = true;
@@ -70,16 +72,28 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public SuperstructureState TARGETSTATE = STATE.Home;
   
   //private final LEDs mLED = new LEDs();
-
-  private static final TalonFX mElevatorRight = new TalonFX(Constants.elevatorRightID, "Superstructure");//MPF Hi I have IDs
-  private static final TalonFX mElevatorLeft = new TalonFX(Constants.elevatorLeftID,"Superstructure");//
-  private static final TalonFX mEndeffectorPivot = new TalonFX(Constants.endEffectorPivotID,"Superstructure");//
-  private static final TalonFX mEndeffectorRollers = new TalonFX(Constants.endEffectorWheelID,"Superstructure");//
+/*
+  private static final TalonFX mElevatorRight = new TalonFX(Constants.elevatorRightID, "rio");//MPF Hi I have IDs
+  private static final TalonFX mElevatorLeft = new TalonFX(Constants.elevatorLeftID,"rio");//
+  private static final TalonFX mEndeffectorPivot = new TalonFX(Constants.endEffectorPivotID,"rio");//
+  private static final TalonFX mEndeffectorRollers = new TalonFX(Constants.endEffectorWheelID,"rio");//
   private static final TalonFX mIntakePivotLeft = new TalonFX(Constants.intakePivotLeftID,"Superstructure");//
   private static final TalonFX mIntakePivotRight = new TalonFX(Constants.intakePivotRightID,"Superstructure");
   private static final TalonFX mIntakeWheels = new TalonFX(Constants.intakeWheelsID,"Superstructure");//
   private static final TalonFX mFunnelWheels = new TalonFX(Constants.funnelWheelsID);//on rio loop
-  private static final CANdi CANdi = new CANdi(25,"Superstructure");
+  private static final CANdi CANdi = new CANdi(25,"Superstructure");*/
+
+
+  private static final TalonFX mElevatorRight = new TalonFX(Constants.elevatorRightID, "rio");//MPF Hi I have IDs
+  private static final TalonFX mElevatorLeft = new TalonFX(Constants.elevatorLeftID,"rio");//
+  private static final TalonFX mEndeffectorPivot = new TalonFX(Constants.endEffectorPivotID,"rio");//
+  private static final TalonFX mEndEffectorRollersL = new TalonFX(Constants.eeWheelsLeftID, "rio");//
+  private static final TalonFX mArmPivot = new TalonFX(Constants.armID,"rio");//
+  private static final TalonFX mEndEffectorRollersR = new TalonFX(Constants.eeWheelsRightID,"rio");
+  private static final TalonFX mFunnelWheelsTop = new TalonFX(Constants.topFunnelWheelsID,"rio");//
+  private static final TalonFX mFunnelWheelsBottom = new TalonFX(Constants.bottomFunnelWheelsID,"rio");//
+  private static final TalonFX mClimbPivot = new TalonFX(Constants.climbPivotID,"rio");
+  private static final CANdi CANdi = new CANdi(25,"drive");
 
   private final Mechanism2d mech;
   private final MechanismRoot2d root;
@@ -113,6 +127,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public SuperstructureSubsystem() {
         //mLED.setLightMode(0);
     /* Configurations */
+    /*
         mElevatorRight.getConfigurator().apply(Constants.SuperstructureConfigs.getElevatorConfigRight());
         mElevatorLeft.getConfigurator().apply(Constants.SuperstructureConfigs.getElevatorConfigLeft());
         mEndeffectorPivot.getConfigurator().apply(Constants.SuperstructureConfigs.getEndeffectorPivotConfig());
@@ -122,7 +137,18 @@ public class SuperstructureSubsystem extends SubsystemBase {
         mIntakeWheels.getConfigurator().apply(Constants.SuperstructureConfigs.getIntakeWheelsConfiguration());
         mFunnelWheels.getConfigurator().apply(Constants.SuperstructureConfigs.getFunnelWheelsConfiguration());
         mElevatorRight.setControl(new Follower(mElevatorLeft.getDeviceID(), true)); //
-        mIntakePivotRight.setControl(new Follower(mIntakePivotLeft.getDeviceID(), true));
+        mIntakePivotRight.setControl(new Follower(mIntakePivotLeft.getDeviceID(), true));*/
+        
+        mElevatorRight.getConfigurator().apply(Constants.SuperstructureConfigs.getElevatorConfigRight());
+        mElevatorLeft.getConfigurator().apply(Constants.SuperstructureConfigs.getElevatorConfigLeft());
+        mEndeffectorPivot.getConfigurator().apply(Constants.SuperstructureConfigs.getEndeffectorPivotConfig());
+        mEndEffectorRollersL.getConfigurator().apply(Constants.SuperstructureConfigs.getEndeffectorWheelsConfiguration());//
+        mEndEffectorRollersR.getConfigurator().apply(Constants.SuperstructureConfigs.getEndeffectorWheelsConfiguration()); //
+        mArmPivot.getConfigurator().apply(Constants.SuperstructureConfigs.getArmPivotConfiguration()); //
+        mFunnelWheelsBottom.getConfigurator().apply(Constants.SuperstructureConfigs.getFunnelWheelsConfiguration());
+        mFunnelWheelsTop.getConfigurator().apply(Constants.SuperstructureConfigs.getFunnelWheelsConfiguration());
+        mElevatorRight.setControl(new Follower(mElevatorLeft.getDeviceID(), true)); //
+        mClimbPivot.getConfigurator().apply(Constants.SuperstructureConfigs.getClimbPivotConfiguration());
 
 
          /* Mechanism2d */
@@ -142,9 +168,10 @@ public class SuperstructureSubsystem extends SubsystemBase {
 
   public void setCurrentState(){
     
+    CURRENTSTATE.arm = armPivotPos;
     CURRENTSTATE.elevator = elevatorPos;
-    CURRENTSTATE.intake = intakePos;
-    CURRENTSTATE.pivot = pivotPos;
+    CURRENTSTATE.climb = climbPos;
+    CURRENTSTATE.ee = endeffectorPivotPos;
 
     TARGETSTATE = CURRENTSTATE;
   }
@@ -164,31 +191,21 @@ public class SuperstructureSubsystem extends SubsystemBase {
     }
     if (state == 3) {
       TARGETSTATE = STATE.climb3;
-      mIntakePivotLeft.getConfigurator().apply(Constants.SuperstructureConfigs.getIntakePivotLeftConfigurationCLIMB()); //
-      mIntakePivotRight.getConfigurator().apply(Constants.SuperstructureConfigs.getIntakePivotRightConfigurationCLIMB()); //
+//      mIntakePivotLeft.getConfigurator().apply(Constants.SuperstructureConfigs.getIntakePivotLeftConfigurationCLIMB()); //
+//      mIntakePivotRight.getConfigurator().apply(Constants.SuperstructureConfigs.getIntakePivotRightConfigurationCLIMB()); //
       // mLED.setLightMode(2);
       lightMode = 9;
     }
   }
 
-  public void motionMagicSetElevatorAndEndeffector(double ElevatorPosTarget, double PivotPosTarget, double IntakePosTarget){
-    mElevatorLeft.setControl(new MotionMagicVoltage(ElevatorPosTarget));
+  public void motionMagicSetElevatorAndEndeffector(double ElevatorPosTarget, double ArmPivotPosTarget, double climbPosTarget, double EndeffectorPivotTarget){
+    mElevatorLeft.setControl(new MotionMagicVoltage(ElevatorPosTarget)); //elevator right is following left
     //mElevatorRight.setControl(new Follower(mElevatorLeft.getDeviceID(), true));
-    mEndeffectorPivot.setControl(new MotionMagicVoltage(PivotPosTarget ));
+    mEndeffectorPivot.setControl(new MotionMagicVoltage(EndeffectorPivotTarget ));
 
-    if(!manualOverride){
-    mIntakePivotLeft.setControl(new MotionMagicVoltage(IntakePosTarget  ));
-    mIntakePivotRight.setControl(new MotionMagicVoltage(IntakePosTarget ));}
-    else if (intaking){ //intake always down == manual override
-    mIntakePivotLeft.setControl(new MotionMagicVoltage(STATE.Intake.intake));
-    mIntakePivotRight.setControl(new MotionMagicVoltage(STATE.Intake.intake ));
-    }
-    else {
-    mIntakePivotLeft.setControl(new MotionMagicVoltage(STATE.Intake.intake - 1));
-    mIntakePivotRight.setControl(new MotionMagicVoltage(STATE.Intake.intake - 1));
-    }
+    mArmPivot.setControl(new MotionMagicVoltage(ArmPivotPosTarget));
 
-    //mIntakePivotRight.setControl(new MotionMagicVoltage(IntakePosTarget * Constants.intakePivotGearRatio / 360));
+
   }
 
   public void SD_motionMagicElevatorTEST(){
@@ -199,21 +216,16 @@ public class SuperstructureSubsystem extends SubsystemBase {
   }
 
   /*
-   * Whats up chat we're here at LAR and its time for some nom nom weeble wobble
+   * Sets target state to intake
    * 
-   * Also Bobby is losing his mind
-   * 
-   * If you're reading this, check something for loctite
-   * 
-   * NOM NOM NOM
-   */
+   *    */
   public void nomNomWeebleWobble (){
 
     //SmartDashboard.putBoolean("zzzdebugNOMNOM", Timer.getFPGATimestamp()%.6 > .5);
-    if (Timer.getFPGATimestamp() %.6 > .5){
+    /*if (Timer.getFPGATimestamp() %.6 > .5){
       TARGETSTATE = STATE.IntakeWobble;
     } 
-    else TARGETSTATE = STATE.Intake;
+    else */ TARGETSTATE = STATE.Intake;
 
   }
 
@@ -348,7 +360,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
       nomNomWeebleWobble();
     if(atPosition()){
       // mLED.setLightMode(1);
-      setEndeffectorWheelSpeed(3);
+      setEndeffectorWheelSpeed(3,-3);
       setIntakeWheelSpeed(45); // was 23 -- 40 works great 3-8-2025
       setFunnelWheelSpeed(-8);}//was -10 -- -8 works great 3-8-2025
     if ( 
@@ -367,14 +379,21 @@ public class SuperstructureSubsystem extends SubsystemBase {
 
   public void stayIntaking(){
     intaking = true;
-    setEndeffectorWheelSpeed(4);
+    setEndeffectorWheelSpeed(4,-4);
     setIntakeWheelSpeed(13);
     setFunnelWheelSpeed(-10);
   }
 
-  public void setEndeffectorWheelSpeed(double wheelSpeed){
+/**
+ *use Left/Right differential to spin-spit for L1 
+ *for both wheels, positive is forwards, for feeding and for out-taking/scoring 
+ * @param wheelSpeedL
+ * @param wheelSpeedR
+ */
+  public void setEndeffectorWheelSpeed(double wheelSpeedL,double wheelSpeedR){
     //mEndeffectorRollers.setControl(new VelocityVoltage(wheelSpeed));
-    mEndeffectorRollers.setControl(new VoltageOut(-wheelSpeed));
+    mEndEffectorRollersL.setControl(new VoltageOut(wheelSpeedL));
+    mEndEffectorRollersR.setControl(new VoltageOut(wheelSpeedR));
     if(RobotBase.isSimulation()) m_EndeffectorRollers.setAngle(m_EndeffectorRollers.getAngle()+10);
   }
 
@@ -385,15 +404,20 @@ public class SuperstructureSubsystem extends SubsystemBase {
 
   public void setIntakeWheelSpeed(double wheelSpeed){
     
-    if(RobotBase.isSimulation()) m_IntakeWheels.setAngle(m_IntakeWheels.getAngle()+10);
+  /*  if(RobotBase.isSimulation()) m_IntakeWheels.setAngle(m_IntakeWheels.getAngle()+10);
   
     if(wheelSpeed == 0) {mIntakeWheels.setControl(new VoltageOut(0));}
     else{
       mIntakeWheels.setControl(new VelocityVoltage(-wheelSpeed));
-    }}
+  }*/ }
 
+    /**
+     * set voltage output for feeder wheels
+     * @param wheelSpeed
+     */
   public void setFunnelWheelSpeed(double wheelSpeed){
-    mFunnelWheels.setControl(new VoltageOut(wheelSpeed));
+    mFunnelWheelsTop.setControl(new VoltageOut(wheelSpeed));
+    mFunnelWheelsBottom.setControl(new VoltageOut(-wheelSpeed));
     if(RobotBase.isSimulation()) m_FunnelWheels.setAngle(m_FunnelWheels.getAngle()+10);
   }
 
@@ -414,7 +438,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
    * @return
    */
   public Boolean safeToLift(){
-    if(pivotPos > Constants.endeffectorElevatorClearancePos){
+    if(armPivotPos > Constants.endeffectorElevatorClearancePos){
       return true;
     }
     else return false;
@@ -427,12 +451,12 @@ public class SuperstructureSubsystem extends SubsystemBase {
     intaking = false;
     releasingCoral = false;
     seatingCoral = false;
+    grabbingAlgae = false;
   }
 
   public void stopAllWheels(){
-    setEndeffectorWheelSpeed(0);
-    setIntakeWheelSpeed(0.8);
     setFunnelWheelSpeed(0);
+    setEndeffectorWheelSpeed(0,0);
   }
 
   public void goHome(){
@@ -481,12 +505,24 @@ public class SuperstructureSubsystem extends SubsystemBase {
 
     }
   }
-
-  public void clearAlgae(Double level){
+/**
+ * was previously 'clear algae'
+ * @param level
+ */
+  public void grabAlgae(Double level){
+    grabbingAlgae = true;
     if (level == 2) TARGETSTATE = STATE.grabAlgaeL2;
     if (level == 3) TARGETSTATE = STATE.grabAlgaeL3;
-    setEndeffectorWheelSpeed(-10);
+    setEndeffectorWheelSpeed(-10,-10);
     lightMode = 10;
+  }
+
+  public void grabbingAlgae(){
+    if(CANdi.getS1State(true).getValueAsDouble() == 1){
+      setEndeffectorWheelSpeed(-1,-1);
+      hasAlgae = true;
+      grabbingAlgae = false;
+    }
   }
 
   public void panic(){
@@ -525,15 +561,19 @@ public class SuperstructureSubsystem extends SubsystemBase {
   
 
   public void justGotCoral(){
-    if(hasCoral && mEndeffectorPivot.getPosition().getValueAsDouble() > -5 * Constants.endEffectorPivotGearRatio / 360 ){      
+    if(hasCoral && mArmPivot.getPosition().getValueAsDouble() > -.5){//-5 * Constants.endEffectorPivotGearRatio / 360 ){     
       //SmartDashboard.putNumber("zEEDebug", 0.5);
-      mEndeffectorRollers.setControl(new MotionMagicVoltage(0.0));
-      mEndeffectorRollers.setPosition(0.5);
+      mEndEffectorRollersL.setControl(new MotionMagicVoltage(0.0));
+      mEndEffectorRollersL.setPosition(0.5);
+      mEndEffectorRollersR.setControl(new MotionMagicVoltage(0.0));
+      mEndEffectorRollersR.setPosition(0.5);
       intaking = false;}
     else{
       //SmartDashboard.putNumber("zEEDebug", 3);
-      mEndeffectorRollers.setControl(new MotionMagicVoltage(0.0));
-      mEndeffectorRollers.setPosition(2.5); //3 for wheelspeed 4 (inconsistent), 4 for wheelspeed 2
+      mEndEffectorRollersL.setControl(new MotionMagicVoltage(0.0));
+      mEndEffectorRollersL.setPosition(2.5); //3 for wheelspeed 4 (inconsistent), 4 for wheelspeed 2
+      mEndEffectorRollersR.setControl(new MotionMagicVoltage(0.0));
+      mEndEffectorRollersR.setPosition(2.5); //3 for wheelspeed 4 (inconsistent), 4 for wheelspeed 2
       intaking = false;
     }
     hasCoral = true;
@@ -541,19 +581,20 @@ public class SuperstructureSubsystem extends SubsystemBase {
   }
 
   private void seatCoral(){
-    if(Math.abs( mEndeffectorRollers.getClosedLoopError().getValueAsDouble()) < 1){
+    if(Math.abs( mEndEffectorRollersL.getClosedLoopError().getValueAsDouble()) < .5){
       stowing = true;
       seatingCoral = false;
     }
   }
-
+/*
 	public void moveCoralIn(){
 		mEndeffectorRollers.setPosition(mEndeffectorRollers.getPosition().getValueAsDouble() + 0.1); //was 0.5
 	}
 
 	public void moveCoralOut(){
 		mEndeffectorRollers.setPosition(mEndeffectorRollers.getPosition().getValueAsDouble() - 0.1); //was 0.5
-	}
+	}*/
+
 /**
  * setting whenAtPos to true makes the superstructure wait until its at position to score
  * @param whenAtPos
@@ -573,21 +614,21 @@ public class SuperstructureSubsystem extends SubsystemBase {
     // mLED.setLightMode(7);
     lightMode = 12;
     if(scoreLevel == 1) {
-      mEndeffectorRollers.setControl(new MotionMagicVelocityVoltage(-35)); //set wheelspeed here for EE rollers to release coral with the right velocity for L1
-      if(mEndeffectorRollers.getPosition().getValueAsDouble() < -8) {
+      setEndeffectorWheelSpeed(20,0);
+      if(mEndEffectorRollersL.getPosition().getValueAsDouble() > 8) {
         hasCoral = false;
         releasingCoral = false;
         releaseAtPos = false;
-        setEndeffectorWheelSpeed(0);
+        setEndeffectorWheelSpeed(0,0);
         lightMode = 2;
     }}
     else{
-      mEndeffectorRollers.setControl(new MotionMagicVelocityVoltage(28)); //Was 18 was 20
-      if(mEndeffectorRollers.getPosition().getValueAsDouble() > 8 &&  CANdi.getS1State(true).getValueAsDouble() == 2) {//Was 10
+      setEndeffectorWheelSpeed(25, 25);
+      if(mEndEffectorRollersL.getPosition().getValueAsDouble() > 8 &&  CANdi.getS1State(true).getValueAsDouble() == 2) {//
         hasCoral = false;
         releasingCoral = false;
         releaseAtPos = false;
-        setEndeffectorWheelSpeed(0);
+        setEndeffectorWheelSpeed(0,0);
     }
   }}}
 
@@ -596,28 +637,37 @@ public class SuperstructureSubsystem extends SubsystemBase {
   return notHasCoralCheck;
   }
 
-  public void ureleaseCoral(){
-    releasingCoral = false;
-    mEndeffectorRollers.setControl(new MotionMagicVoltage(0));
-   
+  public void goToBargeAlgaeScoring(){
+    TARGETSTATE = STATE.bargeAlgae;
   }
-  
+ 
+  public void goToProcessorAlgaeScoring(){
+    TARGETSTATE = STATE.processorAlgae;
+  }
+
+  public void releaseAlgae(double speed){
+    setEndeffectorWheelSpeed(speed, speed);
+  }
 
   public void spit(){
     setIntakeWheelSpeed(-10);
     setFunnelWheelSpeed(10);
   }
 
-  public void l1Score(){
-    setIntakeWheelSpeed(-15);
-    TARGETSTATE = STATE.L1Intake;
-  }
 
+  /**
+   * unreleases coral and goes back to holding position
+   */
+  public void ureleaseCoral(){
+    mEndEffectorRollersL.setControl(new MotionMagicVoltage(0.0));
+    mEndEffectorRollersR.setControl(new MotionMagicVoltage(0.0));
+    
+  }
   /**
    * releases coral with a timer to clear the 'has coral' flag and trigger the retraction
    */
   public void testReleaseCoral(){
-    mEndeffectorRollers.setControl(new VoltageOut(4));
+    setEndeffectorWheelSpeed(4,4);
     releaseTimer++;
     if(releaseTimer > 80){//} && mEndeffectorRollers.getSupplyCurrent().getValueAsDouble() < 7){
       releaseTimer = 0;
@@ -630,14 +680,6 @@ public class SuperstructureSubsystem extends SubsystemBase {
     //SmartDashboard.putNumber("zzz elevator hold debug", Timer.getFPGATimestamp());
   }
 
-  /**
-   * pulls coral back in
-   */
-  public void testUnreleaseCoral(){
-    releasingCoral = false;
-    releaseTimer = 0;
-    mEndeffectorRollers.setControl(new VoltageOut(-2));
-  }
 
   public Command autoCoral(){
     InstantCommand score = new InstantCommand(() -> releaseCoral());
@@ -703,31 +745,32 @@ public class SuperstructureSubsystem extends SubsystemBase {
   private void updatePositions(){
     if(RobotBase.isSimulation()){
       elevatorPos = m_ElevatorLeft.getLength();
-      pivotPos = -180 - m_EndeffectorPivot.getAngle();
-      intakePos = 60 -m_IntakeLeftPivot.getAngle();
+      endeffectorPivotPos = -180 - m_EndeffectorPivot.getAngle();
+      armPivotPos = 60 -m_IntakeLeftPivot.getAngle();
       return;
     }
+
     elevatorPos = mElevatorLeft.getPosition().getValueAsDouble();
-    pivotPos = mEndeffectorPivot.getPosition().getValueAsDouble() ;
-    intakePos = mIntakePivotLeft.getPosition().getValueAsDouble() ;
+    endeffectorPivotPos = mEndeffectorPivot.getPosition().getValueAsDouble();
+    armPivotPos = mArmPivot.getPosition().getValueAsDouble();
+    climbPos = mClimbPivot.getPosition().getValueAsDouble();
 
   }
 
   public void updateSD(){
     //PID position device targets and positions
-    SmartDashboard.putNumber("zIntake Pivot Target", TARGETSTATE.intake);
-    SmartDashboard.putNumber("zIntake Pivot Position", intakePos);
+    SmartDashboard.putNumber("zArm Pivot Target", TARGETSTATE.arm);
+    SmartDashboard.putNumber("zArm Pivot Position", armPivotPos);
     
     SmartDashboard.putNumber("zElevator Target", TARGETSTATE.elevator);
     SmartDashboard.putNumber("zElevator Position", elevatorPos);
 
-    SmartDashboard.putNumber("zEndeffector Pivot Target", TARGETSTATE.pivot);
-    SmartDashboard.putNumber("zEndeffector Pivot Position", pivotPos);
+    SmartDashboard.putNumber("zEndeffector Pivot Target", TARGETSTATE.ee);
+    SmartDashboard.putNumber("zEndeffector Pivot Position", endeffectorPivotPos);
 
     //Wheelspeeds
-    SmartDashboard.putNumber("zFunnel Wheelspeed", mFunnelWheels.getVelocity().getValueAsDouble());
-    SmartDashboard.putNumber("zEndeffector Wheelspeed", mEndeffectorRollers.getVelocity().getValueAsDouble());
-    SmartDashboard.putNumber("zIntake Wheelspeed", mIntakeWheels.getVelocity().getValueAsDouble());
+    SmartDashboard.putNumber("zFunnel Top Wheelspeed", mFunnelWheelsTop.getVelocity().getValueAsDouble());
+    SmartDashboard.putNumber("zEndeffector Wheelspeed", mEndEffectorRollersL.getVelocity().getValueAsDouble());
 
     //Bools and sequences
     
@@ -757,7 +800,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
    * @return
    */
   public boolean atPosition(){
-    if( Math.abs(elevatorPos - TARGETSTATE.elevator) < Constants.positionTolerance && Math.abs(pivotPos - TARGETSTATE.pivot) < Constants.positionTolerance){
+    if( Math.abs(elevatorPos - TARGETSTATE.elevator) < Constants.positionTolerance && Math.abs(endeffectorPivotPos - TARGETSTATE.ee) < Constants.positionTolerance && Math.abs(armPivotPos - TARGETSTATE.arm) < Constants.positionTolerance){
       return true;
     }
     else return false;
@@ -770,18 +813,18 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public boolean atPositionScoring(){
 
     if (scoreLevel == 2){
-        if( Math.abs(elevatorPos - STATE.CoralL2.elevator) < Constants.scoringPositionTolerance && Math.abs(pivotPos - STATE.CoralL2.pivot) < Constants.scoringPositionTolerance){
+        if( Math.abs(elevatorPos - STATE.CoralL2.elevator) < Constants.scoringPositionTolerance && Math.abs(endeffectorPivotPos - STATE.CoralL2.ee) < Constants.scoringPositionTolerance && Math.abs(armPivotPos - STATE.CoralL2.arm) < Constants.scoringPositionTolerance){
           // mLED.setLightMode(7);
           lightMode = 13;
           return true; } }
     else if(scoreLevel == 3){
-        if( Math.abs(elevatorPos - STATE.CoralL3.elevator) < Constants.scoringPositionTolerance && Math.abs(pivotPos - STATE.CoralL3.pivot) < Constants.scoringPositionTolerance){
-          // mLED.setLightMode(7);
+      if( Math.abs(elevatorPos - STATE.CoralL3.elevator) < Constants.scoringPositionTolerance && Math.abs(endeffectorPivotPos - STATE.CoralL3.ee) < Constants.scoringPositionTolerance && Math.abs(armPivotPos - STATE.CoralL3.arm) < Constants.scoringPositionTolerance){
+        // mLED.setLightMode(7);
           lightMode = 13;
           return true; } }
     else if(scoreLevel == 4){
-        if( Math.abs(elevatorPos - STATE.CoralL4.elevator) < Constants.scoringPositionTolerance && Math.abs(pivotPos - STATE.CoralL4.pivot) < Constants.scoringPositionTolerance){
-          // mLED.setLightMode(7);
+       if( Math.abs(elevatorPos - STATE.CoralL4.elevator) < Constants.scoringPositionTolerance && Math.abs(endeffectorPivotPos - STATE.CoralL4.ee) < Constants.scoringPositionTolerance && Math.abs(armPivotPos - STATE.CoralL4.arm) < Constants.scoringPositionTolerance){
+        // mLED.setLightMode(7);
           lightMode = 13;
           return true; } }
     else {
@@ -811,7 +854,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
 
     updateSD();
 
-    if (TARGETSTATE != PREVIOUSSTATE || previousOverrideStatus != manualOverride) motionMagicSetElevatorAndEndeffector(TARGETSTATE.elevator, TARGETSTATE.pivot , TARGETSTATE.intake);
+    if (TARGETSTATE != PREVIOUSSTATE || previousOverrideStatus != manualOverride) motionMagicSetElevatorAndEndeffector(TARGETSTATE.elevator, TARGETSTATE.arm, TARGETSTATE.climb,  TARGETSTATE.ee);
     
     PREVIOUSSTATE = TARGETSTATE;
     previousOverrideStatus = manualOverride;
@@ -849,22 +892,20 @@ private void simulateMotorMotionFeedback() {
     SmartDashboard.putData("MyMechanism", mech);
     SmartDashboard.putNumber("ElevatorLeft", elevatorPos);
 //    SmartDashboard.putNumber("ElevatorRight", mElevatorRight.getPosition().getValueAsDouble());
-    SmartDashboard.putNumber("EndeffectorPivot", pivotPos);
-    SmartDashboard.putNumber("IntakePivot", intakePos);
-    SmartDashboard.putNumber("EndeffectorRollers", mEndeffectorRollers.getPosition().getValueAsDouble()); 
-    SmartDashboard.putNumber("IntakeWheels", mIntakeWheels.getPosition().getValueAsDouble());
-    SmartDashboard.putNumber("FunnelWheels", mFunnelWheels.getPosition().getValueAsDouble());
+    SmartDashboard.putNumber("EndeffectorPivot", endeffectorPivotPos);
+    SmartDashboard.putNumber("ArmPivot", armPivotPos);
+    SmartDashboard.putNumber("EndeffectorRollers", mEndEffectorRollersL.getPosition().getValueAsDouble()); 
+    SmartDashboard.putNumber("FunnelWheels", mFunnelWheelsTop.getPosition().getValueAsDouble());
 
 
     // Update the lengths and angles of the ligaments based on the motor positions
     m_ElevatorLeft.setLength(m_ElevatorLeft.getLength()*.9 + TARGETSTATE.elevator*.1);
     //m_ElevatorRight.setLength(mElevatorRight.getPosition().getValueAsDouble());
-    m_EndeffectorPivot.setAngle(m_EndeffectorPivot.getAngle()*.9+ (-TARGETSTATE.pivot-180) *.1);
+    m_EndeffectorPivot.setAngle(m_EndeffectorPivot.getAngle()*.9+ (-TARGETSTATE.ee-180) *.1);
     //m_IntakeRightPivot.setAngle(mIntakePivot.getPosition().getValueAsDouble());
-    m_IntakeLeftPivot.setAngle(m_IntakeLeftPivot.getAngle()*.9 + (-TARGETSTATE.intake+60)*.1);
-    m_EndeffectorRollers.setAngle(mEndeffectorRollers.getPosition().getValueAsDouble());
-    m_IntakeWheels.setAngle(mIntakeWheels.getPosition().getValueAsDouble());
-    m_FunnelWheels.setAngle(mFunnelWheels.getPosition().getValueAsDouble());
+    //m_IntakeLeftPivot.setAngle(m_IntakeLeftPivot.getAngle()*.9 + (-TARGETSTATE.intake+60)*.1);
+    m_EndeffectorRollers.setAngle(mEndEffectorRollersL.getPosition().getValueAsDouble());
+    m_FunnelWheels.setAngle(mFunnelWheelsTop.getPosition().getValueAsDouble());
   }
 
 }

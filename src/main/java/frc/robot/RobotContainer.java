@@ -49,12 +49,6 @@ import frc.robot.commands.L1Command;
 import frc.robot.commands.L2Command;
 import frc.robot.commands.L3Command;
 import frc.robot.commands.L4Command;
-/*import frc.robot.commands.L1Command;
-import frc.robot.commands.L2Command;
-import frc.robot.commands.L3Command;
-import frc.robot.commands.L4Command;*/
-import frc.robot.commands.VisionIntakeCommand;
-//import frc.robot.commands.*;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import frc.robot.subsystems.superstructure.SuperstructureSubsystem;
@@ -206,8 +200,7 @@ public class RobotContainer
     NamedCommands.registerCommand("AlgaeL3", new AlgaeL3Command(superstructure).withTimeout(3));
     NamedCommands.registerCommand("PANIC", new InstantCommand(() -> superstructure.panic()));
     NamedCommands.registerCommand("FIRE", new InstantCommand(() -> superstructure.startReleasingCoral(false)));
-	  NamedCommands.registerCommand("VisionIntake", new VisionIntakeCommand(this, getSuperstructure(), getSwerveSubsystem()).withTimeout(3));
-
+	  
     NamedCommands.registerCommand("AutonScoreCommand", Commands.defer(() -> getScoreSequenceCommand(true), Set.of(getSuperstructure(), getSwerveSubsystem()))); // gift from the green limey team
     
     //NamedCommands.registerCommand("AutonScoreCommandP1L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  1 , 4).withTimeout(5));
@@ -336,7 +329,7 @@ public class RobotContainer
 
       // driverXbox.leftBumper().onTrue(new InstantCommand(() -> superstructure.enableManualOverride()));
 
-      driverXbox.x().whileTrue(new InstantCommand(() -> superstructure.l1Score()).repeatedly());
+      //driverXbox.x().whileTrue(new InstantCommand(() -> superstructure.l1Score()).repeatedly());
       driverXbox.x().onFalse(new InstantCommand(() -> superstructure.goHome()));
       driverXbox.start().onTrue(new InstantCommand(() -> superstructure.panic()));
       //Commands.defer(() -> getScoreSequenceCommand(true), Set.of(getSuperstructure(), getSwerveSubsystem()));
@@ -396,8 +389,8 @@ public class RobotContainer
       buttonBox2.button(2).onTrue(new InstantCommand( () -> superstructure.setCoralLevel(2.0)));
       buttonBox2.button(3).onTrue(new InstantCommand( () -> superstructure.setCoralLevel(3.0)));
       buttonBox2.button(4).onTrue(new InstantCommand( () -> superstructure.setCoralLevel(4.0)));
-      buttonBox2.button(9).onTrue(new InstantCommand( () -> superstructure.clearAlgae(2.)));
-      buttonBox2.button(10).onTrue(new InstantCommand( () -> superstructure.clearAlgae(3.)));
+      buttonBox2.button(9).onTrue(new InstantCommand( () -> superstructure.grabAlgae(2.)));
+      buttonBox2.button(10).onTrue(new InstantCommand( () -> superstructure.grabAlgae(3.)));
       buttonBox2.button(7).onTrue(new InstantCommand( () -> superstructure.intake()));
       buttonBox2.button(8).onTrue(new InstantCommand( () -> superstructure.goHome()));
       buttonBox2.button(6).whileTrue(new InstantCommand( () -> superstructure.spit()).repeatedly());
@@ -527,8 +520,8 @@ public class RobotContainer
     Command driveToScore = drivebase.driveToTargetPosePID(prescoreDrivePose);
     Command algaeDrive = drivebase.algaeBasicDrive();
     Command raiseAlgae = Commands.none();
-    if (selectPose == 1 ||selectPose == 2 ||selectPose == 5 ||selectPose == 6 ||selectPose == 9 ||selectPose == 10) raiseAlgae = new InstantCommand(() -> superstructure.clearAlgae(3.));
-    else raiseAlgae = new InstantCommand(() -> superstructure.clearAlgae(2.));
+    if (selectPose == 1 ||selectPose == 2 ||selectPose == 5 ||selectPose == 6 ||selectPose == 9 ||selectPose == 10) raiseAlgae = new InstantCommand(() -> superstructure.grabAlgae(3.));
+    else raiseAlgae = new InstantCommand(() -> superstructure.grabAlgae(2.));
     Command autoAlgaeSequence = Commands.none();
     autoAlgaeSequence = new SequentialCommandGroup(driveToPrescore, driveToScore, raiseAlgae, algaeDrive);
     return autoAlgaeSequence;
@@ -566,33 +559,4 @@ public class RobotContainer
     superstructure.setCurrentState();
   }
 
-  /*private Command pidToPose(Pose2d targetPosePID){
-    Pose2d currentPose = drivebase.getPose();
-    TrapezoidProfile.Constraints xyConstraints = new Constraints(3 ,3);
-    TrapezoidProfile.Constraints thetaConstraints = new Constraints(Math.PI*2,Math.PI*4);
-    
-    ProfiledPIDController xcontroller = new ProfiledPIDController(.2, 0, 0, xyConstraints);
-    ProfiledPIDController ycontroller = new ProfiledPIDController(.2, 0, 0, xyConstraints);
-    ProfiledPIDController thetacontroller = new ProfiledPIDController(.1, 0, 0, thetaConstraints);
-    
-    //PIDController xcontroller = new PIDController(1, 0, 0);
-    //PIDController ycontroller = new PIDController(1, 0, 0);
-    //PIDController thetacontroller = new PIDController(1, 0, 0);
-    //thetacontroller.enableContinuousInput(-Math.PI,Math.PI);
-    
-    count++;
-    SmartDashboard.putNumber("RobotContainer PID Debug", count);
-    SwerveInputStream pidDrive = SwerveInputStream.of(drivebase.getSwerveDrive(),
-        () -> xcontroller.calculate(currentPose.getX(), targetPosePID.getX()) * -1,
-        () -> ycontroller.calculate(currentPose.getY(), targetPosePID.getY()) * -1)//
-      //.withControllerRotationAxis(driverXbox::getRightX)
-      .withControllerRotationAxis(() -> thetacontroller.calculate(currentPose.getRotation().getRadians(), targetPosePID.getRotation().getRadians()) * -1) //
-      .deadband(0.001)
-      .scaleTranslation(.8)
-      .allianceRelativeControl(false);
-
-    Command drivePIDtoPose = drivebase.driveFieldOriented(pidDrive);
-    return drivePIDtoPose;
-  } */
-  
 }

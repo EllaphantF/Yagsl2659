@@ -60,15 +60,18 @@ public final class Constants
   }
   
   /* EndEffector and Elevator IDs */
-  public static final int endEffectorWheelID = 14;
-  public static final int endEffectorWheelIDRIGHT = 15;
+  public static final int eeWheelsLeftID = 14;
+  public static final int eeWheelsRightID = 15;
   public static final int endEffectorPivotID = 22;
   public static final int elevatorLeftID = 17;
   public static final int elevatorRightID = 16;
-  public static final int intakePivotLeftID = 18;//now arm
-  public static final int intakePivotRightID = 21;
-  public static final int intakeWheelsID = 19;
-  public static final int funnelWheelsID = 20;
+  public static final int armID = 18;//arm
+
+  public static final int topFunnelWheelsID = 21;
+  
+  public static final int bottomFunnelWheelsID = 20;
+  public static final int climbPivotID = 22;
+
 
 /* Clearance positions*/
   public static final double intakePivotGearRatio = 270; // 200:1 gear ratio
@@ -323,7 +326,7 @@ public final class Constants
           return funnelConfig;
         }
 
-        public static TalonFXConfiguration getIntakePivotLeftConfiguration(){
+        public static TalonFXConfiguration getClimbPivotConfiguration(){
           TalonFXConfiguration intakePivotLeftConfig = new TalonFXConfiguration();
           intakePivotLeftConfig.Slot0.kG = 0.0; // Volts to overcome gravity
           intakePivotLeftConfig.Slot0.kS = 0.0; // Volts to overcome static friction
@@ -347,32 +350,31 @@ public final class Constants
           intakePivotLeftConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
           return intakePivotLeftConfig;
         }
-        
-        public static TalonFXConfiguration getIntakePivotLeftConfigurationCLIMB(){
-          TalonFXConfiguration intakePivotLeftConfigCLIMB = new TalonFXConfiguration();
-          intakePivotLeftConfigCLIMB = getIntakePivotLeftConfiguration();
-          intakePivotLeftConfigCLIMB.CurrentLimits.SupplyCurrentLimit = 8;//climbed on 5
-          intakePivotLeftConfigCLIMB.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-          return intakePivotLeftConfigCLIMB;
-        }
 
-        public static TalonFXConfiguration getIntakePivotRightConfiguration(){
-          TalonFXConfiguration intakePivotRightConfig = new TalonFXConfiguration();
-          intakePivotRightConfig = getIntakePivotLeftConfiguration();
-          intakePivotRightConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-          return intakePivotRightConfig;
+        public static TalonFXConfiguration getArmPivotConfiguration(){
+          TalonFXConfiguration intakePivotLeftConfig = new TalonFXConfiguration();
+          intakePivotLeftConfig.Slot0.kG = 0.0; // Volts to overcome gravity
+          intakePivotLeftConfig.Slot0.kS = 0.0; // Volts to overcome static friction
+          intakePivotLeftConfig.Slot0.kA = 0.001; // Volts for an acceleration of 1 rps/s
+          intakePivotLeftConfig.Slot0.kP = 5;// was 8
+          intakePivotLeftConfig.Slot0.kI = 0.000001; //
+          intakePivotLeftConfig.Slot0.kV = 0.12; //
+          intakePivotLeftConfig.Slot0.kD = 0.02; //
+          intakePivotLeftConfig.CurrentLimits.SupplyCurrentLimit = 15;//climbed on 5
+          intakePivotLeftConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = .02;        
+          intakePivotLeftConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .02;
+          intakePivotLeftConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .02;
+          intakePivotLeftConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .02;
+          intakePivotLeftConfig.MotionMagic.MotionMagicCruiseVelocity = 80 ; //
+          intakePivotLeftConfig.MotionMagic.MotionMagicAcceleration = 100; //
+          intakePivotLeftConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+          intakePivotLeftConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+          intakePivotLeftConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 98.5 / 9;
+          intakePivotLeftConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 0.0;
+          intakePivotLeftConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+          intakePivotLeftConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+          return intakePivotLeftConfig;
         }
-        
-        public static TalonFXConfiguration getIntakePivotRightConfigurationCLIMB(){
-          TalonFXConfiguration intakePivotRightConfigCLIMB = new TalonFXConfiguration();
-          intakePivotRightConfigCLIMB = getIntakePivotRightConfiguration();
-          intakePivotRightConfigCLIMB.CurrentLimits.SupplyCurrentLimit = 8;//climbed on 5
-          intakePivotRightConfigCLIMB.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-          return intakePivotRightConfigCLIMB;
-        }
-
-        
-
 
 
   }

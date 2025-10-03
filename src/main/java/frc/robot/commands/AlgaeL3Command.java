@@ -12,7 +12,7 @@ public class AlgaeL3Command extends Command {
     @Override
     public void initialize() {
         structure.goHome();
-        structure.clearAlgae(3.0);
+        structure.grabAlgae(3.0);
     }
     @Override
     public void execute() {

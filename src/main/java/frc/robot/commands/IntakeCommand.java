@@ -5,6 +5,10 @@ import frc.robot.subsystems.superstructure.SuperstructureSubsystem;
 public class IntakeCommand extends Command {
     SuperstructureSubsystem structure;
 
+    /**
+     * was 'intake' on in-season bot. is now 'load the hopper'
+     * @param structure
+     */
     public IntakeCommand(SuperstructureSubsystem structure) {
         this.structure = structure;
     }
