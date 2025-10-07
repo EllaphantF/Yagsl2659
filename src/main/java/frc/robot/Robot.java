@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.commands.AutonScoreCommand;
 import frc.robot.commands.VisionIntakeCommand;
 import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.superstructure.SuperstructureSubsystem;
@@ -69,10 +68,7 @@ public class Robot extends TimedRobot
     disabledTimer = new Timer();
     PortForwarder.add(5800, "photonvision.local", 5800);
 
-    Command backupAuto = new SequentialCommandGroup(
-      new InstantCommand(()-> SmartDashboard.putNumber("Select Scoring Location", 6)),
-      new InstantCommand(() -> m_robotContainer.getScoreSequenceCommand(true))
-    );
+    
   }
 
   /**
@@ -131,35 +127,11 @@ public class Robot extends TimedRobot
     m_robotContainer.setMotorBrake(true);
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-    /*m_autonomousCommand = new SequentialCommandGroup(
-      new InstantCommand(() -> SmartDashboard.putNumber("Select Scoring Location", 6)),
-      Commands.defer(() -> m_robotContainer.getScoreSequenceCommand(true), Set.of(m_robotContainer.getSuperstructure(), m_robotContainer.getSwerveSubsystem())).withTimeout(5.0),
-      
-      new InstantCommand(() -> SmartDashboard.putNumber("Select Scoring Location", 5)),
-      Commands.defer(() -> m_robotContainer.getScoreSequenceCommand(false), Set.of(m_robotContainer.getSuperstructure(), m_robotContainer.getSwerveSubsystem())));
-    */
-    
-    /*m_autonomousCommand = new SequentialCommandGroup(
-      new InstantCommand(()-> SmartDashboard.putNumber("Select Scoring Location", 6)),
-      
-      new SequentialCommandGroup(m_robotContainer.getScoreSequenceCommand(true)).withTimeout(3.0),
-      new InstantCommand(()->m_robotContainer.visionIntake().repeatedly()).until(()->m_SuperstructureSubsystem.hasCoral).withTimeout(3.0),
-      new InstantCommand(()-> SmartDashboard.putNumber("Select Scoring Location", 5)),
-      m_robotContainer.getScoreSequenceCommand(true));*/
-    
-    //m_autonomousCommand = backupAuto;
-    // schedule the autonomous command (example)
     
     if (m_autonomousCommand != null)
     {
       m_autonomousCommand.schedule();
-    }/*
-    new SequentialCommandGroup(
-      new AutonScoreCommand(m_robotContainer, m_robotContainer.getSuperstructure(), m_robotContainer.getSwerveSubsystem(),8.0, 4.0).withTimeout(.02),
-      new AutonScoreCommand(m_robotContainer, m_robotContainer.getSuperstructure(), m_robotContainer.getSwerveSubsystem(),8.0, 4.0),
-      new VisionIntakeCommand(m_robotContainer, m_robotContainer.getSuperstructure(), m_robotContainer.getSwerveSubsystem(),5.0),
-      new AutonScoreCommand(m_robotContainer, m_robotContainer.getSuperstructure(), m_robotContainer.getSwerveSubsystem(),6.0, 4.0)
-      ).schedule(); */ // backup
+    }
   }
 
   /**

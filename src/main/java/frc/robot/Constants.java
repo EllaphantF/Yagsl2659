@@ -123,6 +123,8 @@ public final class Constants
       public static   final Pose2d  BLUE_3	       = new Pose2d( 3.847, 2.432,   Rotation2d.fromDegrees( 	-118.8 	)); // /* */
       public static   final Pose2d  BLUE_2	       = new Pose2d( 5.205, 2.471,   Rotation2d.fromDegrees( 	-60 	)); // /* */
       public static   final Pose2d  BLUE_1	       = new Pose2d( 5.52, 2.65,   Rotation2d.fromDegrees( 	-60 	)); // /* */
+      public	static	final	Pose2d	BLUEBARGE	     = new Pose2d(	7.4, 6.0,	Rotation2d.fromDegrees( 	180-40 	)); // /*note: super approx. value! Also made it turn a bit to prevent bounce-outs */
+      public	static	final	Pose2d	BLUEPROCESSOR	 = new Pose2d(	6.5, 0.2,	Rotation2d.fromDegrees( 	270 	)); // /*note: super approx. value! */
 
       public	static	final	Pose2d	RED_12	      =	new	Pose2d(	11.351,	4.185,	Rotation2d.fromDegrees(	 -179.3    )); // /* */
       public	static	final	Pose2d	RED_11	      =	new	Pose2d(	11.352,	3.838,	Rotation2d.fromDegrees(	 -178    )); // /* */
@@ -136,6 +138,9 @@ public final class Constants
       public	static	final	Pose2d	RED_3	        =	new	Pose2d(	13.695,	5.627,	Rotation2d.fromDegrees(  62.9 ));	// /* */
       public	static	final	Pose2d	RED_2	        =	new	Pose2d(	12.339,	5.581,	Rotation2d.fromDegrees(	 120.08  ));	// 
       public	static	final	Pose2d	RED_1	        =	new	Pose2d(	12.011,	5.388,	Rotation2d.fromDegrees(	 122.8  )); // /* */
+      public	static	final	Pose2d	REDBARGE	    =	new	Pose2d(	10.0,	2.5,	Rotation2d.fromDegrees(	 0-40  )); // /*note: super approx. value! Also made it turn a bit to prevent bounce-outs */
+      public	static	final	Pose2d	REDPROCESSOR  =	new	Pose2d(	11.4,	7.9,	Rotation2d.fromDegrees(	 -90  )); // /*note: super approx. value! */
+      
       
       public static Pose2d getScorePose(Boolean isRedAlliance, Double selectPose){
         Pose2d scoreDrivePose = new Pose2d(); 
@@ -184,6 +189,10 @@ public final class Constants
           if(selectPose ==  10 ) prescoreDrivePose= REDPRESCORE_10;
           if(selectPose ==  11 ) prescoreDrivePose= REDPRESCORE_11;
           if(selectPose ==  12 ) prescoreDrivePose= REDPRESCORE_12;
+          if(selectPose ==  13 ) prescoreDrivePose= REDBARGE;
+          if(selectPose ==  14 ) prescoreDrivePose= REDPROCESSOR;
+          
+          
         }else{
           if(selectPose ==  1 ) prescoreDrivePose = BLUEPRESCORE_1;
           if(selectPose ==  2 ) prescoreDrivePose = BLUEPRESCORE_2;
@@ -197,6 +206,8 @@ public final class Constants
           if(selectPose ==  10 ) prescoreDrivePose= BLUEPRESCORE_10;
           if(selectPose ==  11 ) prescoreDrivePose= BLUEPRESCORE_11;
           if(selectPose ==  12 ) prescoreDrivePose= BLUEPRESCORE_12;
+          if(selectPose ==  13 ) prescoreDrivePose= BLUEBARGE;
+          if(selectPose ==  14 ) prescoreDrivePose= BLUEPROCESSOR;
     }
     return prescoreDrivePose;
       }

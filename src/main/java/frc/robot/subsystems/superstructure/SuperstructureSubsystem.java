@@ -52,6 +52,8 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public boolean hasAlgae = false;
   public boolean seatingCoral = false;
   public boolean grabbingAlgae = false;
+  public boolean releasingAlgae = false;
+  public double algaeTimestamp = 0;
   
   
   public static boolean autoReleaseCoral = true;
@@ -452,6 +454,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
     releasingCoral = false;
     seatingCoral = false;
     grabbingAlgae = false;
+    releasingAlgae = false;
   }
 
   public void stopAllWheels(){
@@ -505,6 +508,18 @@ public class SuperstructureSubsystem extends SubsystemBase {
 
     }
   }
+
+  /**
+ * was previously 'clear algae'
+ * @param level
+ */
+public void groundIntakeAlgae(){
+  grabbingAlgae = true;
+  TARGETSTATE = STATE.groundIntakeAlgae;
+  setEndeffectorWheelSpeed(-10,-10);
+  lightMode = 10;
+}
+
 /**
  * was previously 'clear algae'
  * @param level
@@ -519,9 +534,10 @@ public class SuperstructureSubsystem extends SubsystemBase {
 
   public void grabbingAlgae(){
     if(CANdi.getS1State(true).getValueAsDouble() == 1){
-      setEndeffectorWheelSpeed(-1,-1);
+      setEndeffectorWheelSpeed(-1,-1); //ACE - tune the holding voltage here
       hasAlgae = true;
       grabbingAlgae = false;
+      TARGETSTATE = STATE.StowWithAlgae;
     }
   }
 
@@ -561,7 +577,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
   
 
   public void justGotCoral(){
-    if(hasCoral && mArmPivot.getPosition().getValueAsDouble() > -.5){//-5 * Constants.endEffectorPivotGearRatio / 360 ){     
+    if(hasCoral && mArmPivot.getPosition().getValueAsDouble() > -.5){//-5 * Constants.endEffectorPivotGearRatio / 360 ){     ACE - tune this number
       //SmartDashboard.putNumber("zEEDebug", 0.5);
       mEndEffectorRollersL.setControl(new MotionMagicVoltage(0.0));
       mEndEffectorRollersL.setPosition(0.5);
@@ -614,7 +630,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
     // mLED.setLightMode(7);
     lightMode = 12;
     if(scoreLevel == 1) {
-      setEndeffectorWheelSpeed(20,0);
+      setEndeffectorWheelSpeed(20,2); //sideways spin-release for L1 - ACE - tune these numbers
       if(mEndEffectorRollersL.getPosition().getValueAsDouble() > 8) {
         hasCoral = false;
         releasingCoral = false;
@@ -646,7 +662,17 @@ public class SuperstructureSubsystem extends SubsystemBase {
   }
 
   public void releaseAlgae(double speed){
+    releasingAlgae = true;
+    algaeTimestamp = Timer.getFPGATimestamp();
     setEndeffectorWheelSpeed(speed, speed);
+  }
+
+  public void releasingAlgae(){
+    if(CANdi.getS1State(true).getValueAsDouble() == 0 && Timer.getFPGATimestamp() - algaeTimestamp > 0.3){ //if the CANdi says it's released and it's been at least 0.3 seconds
+      setEndeffectorWheelSpeed(0,0);
+      hasAlgae = false;
+      releasingAlgae = false;
+    }   
   }
 
   public void spit(){
@@ -662,17 +688,6 @@ public class SuperstructureSubsystem extends SubsystemBase {
     mEndEffectorRollersL.setControl(new MotionMagicVoltage(0.0));
     mEndEffectorRollersR.setControl(new MotionMagicVoltage(0.0));
     
-  }
-  /**
-   * releases coral with a timer to clear the 'has coral' flag and trigger the retraction
-   */
-  public void testReleaseCoral(){
-    setEndeffectorWheelSpeed(4,4);
-    releaseTimer++;
-    if(releaseTimer > 80){//} && mEndeffectorRollers.getSupplyCurrent().getValueAsDouble() < 7){
-      releaseTimer = 0;
-      hasCoral = false;
-    }
   }
 
   public void elevatorHoldPos(){
