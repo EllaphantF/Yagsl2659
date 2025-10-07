@@ -159,6 +159,34 @@ public class SwerveSubsystem extends SubsystemBase
                                              Rotation2d.fromDegrees(0)));
   }
 
+  public double getClosestScoringLocation(boolean rightTrueLeftFalse){
+    double currentPoseX = getPose().getX();
+    double currentPoseY = getPose().getY();
+    double closestPose = 0;
+    double closestDiff = 100;
+    if (rightTrueLeftFalse){
+      for (double i=1; i<=12; i = i+2){
+        double checkPoseX = Constants.ReefScoringLocations.getScorePose(isRedAlliance(),i).getX();
+        double checkPoseY = Constants.ReefScoringLocations.getScorePose(isRedAlliance(),i).getY();
+        double diff = Math.hypot(checkPoseX-currentPoseX, checkPoseY-currentPoseY);
+        if (diff < closestDiff){
+          closestDiff = diff;
+          closestPose = i;}
+      }}
+    else{
+      for (double i=2; i<=12; i = i+2){
+        double checkPoseX = Constants.ReefScoringLocations.getScorePose(isRedAlliance(),i).getX();
+        double checkPoseY = Constants.ReefScoringLocations.getScorePose(isRedAlliance(),i).getY();
+        double diff = Math.hypot(checkPoseX-currentPoseX, checkPoseY-currentPoseY);
+        if (diff < closestDiff){
+          closestDiff = diff;
+          closestPose = i;}
+      }}
+
+    SmartDashboard.putNumber("Select Scoring Location", closestPose);
+    return closestPose;
+    }
+
 //  /**
 //   * Setup the photon vision class.
 //   */

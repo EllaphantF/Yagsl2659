@@ -290,7 +290,7 @@ public class RobotContainer
 
     if (Robot.isSimulation())
     {
-      driverXbox.start().onTrue(Commands.runOnce(() -> drivebase.resetOdometry(new Pose2d(3, 3, new Rotation2d()))));
+      //driverXbox.start().onTrue(Commands.runOnce(() -> drivebase.resetOdometry(new Pose2d(3, 3, new Rotation2d()))));
       driverXbox.povUp().onTrue(new SequentialCommandGroup(new InstantCommand(() -> scoringLocation = scoringLocation+.25 ), new InstantCommand(()->SmartDashboard.putNumber("Select Scoring Location", scoringLocation)))); //TEST 10-7-25 to test scoring locations in sim
       driverXbox.povDown().onTrue(new SequentialCommandGroup(new InstantCommand(() -> scoringLocation = scoringLocation-.25 ), new InstantCommand(()->SmartDashboard.putNumber("Select Scoring Location", scoringLocation))));
     }
@@ -319,7 +319,20 @@ public class RobotContainer
 
       //driverXbox.x().whileTrue(new InstantCommand(() -> superstructure.l1Score()).repeatedly());
       driverXbox.x().onFalse(new InstantCommand(() -> superstructure.goHome()));
-      driverXbox.start().onTrue(new InstantCommand(() -> superstructure.panic()));
+      driverXbox.y().onTrue(new InstantCommand(() -> superstructure.panic()));
+      
+      driverXbox.start().whileTrue(new StartEndCommand(
+        () -> getScoreSequenceCommandByProximity(true,true).schedule(),
+        () -> CommandScheduler.getInstance().cancelAll()
+        ));
+      driverXbox.start().onFalse(Commands.runOnce(() -> CommandScheduler.getInstance().cancelAll())); //this seems to work, but might cancel other commands? Drive seems to work fine after this is called
+
+      driverXbox.back().whileTrue(new StartEndCommand(
+        () -> getScoreSequenceCommandByProximity(true,false).schedule(),
+        () -> CommandScheduler.getInstance().cancelAll()
+        ));
+      driverXbox.back().onFalse(Commands.runOnce(() -> CommandScheduler.getInstance().cancelAll())); //this seems to work, but might cancel other commands? Drive seems to work fine after this is called
+
       //Commands.defer(() -> getScoreSequenceCommand(true), Set.of(getSuperstructure(), getSwerveSubsystem()));
       //driverXbox.start().onTrue(new InstantCommand(() -> superstructure.climb(1)));
       //driverXbox.back().onTrue(new InstantCommand(() -> superstructure.climb(2)));
@@ -507,6 +520,19 @@ public class RobotContainer
     return autoScoreSequence;
   }
 
+  /**
+   * 
+   * @param withAutoRelease whether or not the robot should autorelease once it's at position
+   * @return
+   */
+  public Command getScoreSequenceCommandByProximity(boolean withAutoRelease, boolean rightTrueLeftFalse){
+    setClosestScoringLocation(rightTrueLeftFalse);
+    return getScoreSequenceCommand(withAutoRelease);
+  }
+
+  public void setClosestScoringLocation(boolean rightTrueLeftFalse){
+    scoringLocation = drivebase.getClosestScoringLocation(rightTrueLeftFalse);
+  }
   
   /**
    * 
