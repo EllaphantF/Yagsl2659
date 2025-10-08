@@ -540,6 +540,7 @@ public class RobotContainer
    */
   public Command getAlgaeGrabSequenceCommand(){
     //double selectPose = SmartDashboard.getNumber("Select Scoring Location",0);
+    setClosestScoringLocation(false);
     double selectPose = scoringLocation;
     Pose2d prescoreDrivePose = drivebase.getPrescorePose(selectPose);
     Command driveToPrescore = drivebase.driveToPose(prescoreDrivePose);

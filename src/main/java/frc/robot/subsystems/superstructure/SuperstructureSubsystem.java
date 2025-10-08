@@ -95,7 +95,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
   private static final TalonFX mFunnelWheelsTop = new TalonFX(Constants.topFunnelWheelsID,"rio");//
   private static final TalonFX mFunnelWheelsBottom = new TalonFX(Constants.bottomFunnelWheelsID,"rio");//
   private static final TalonFX mClimbPivot = new TalonFX(Constants.climbPivotID,"rio");
-  private static final CANdi CANdi = new CANdi(25,"drive");
+  private static final CANdi CANdi = new CANdi(0);
 
   private final Mechanism2d mech;
   private final MechanismRoot2d root;
@@ -144,7 +144,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
         mElevatorRight.getConfigurator().apply(Constants.SuperstructureConfigs.getElevatorConfigRight());
         mElevatorLeft.getConfigurator().apply(Constants.SuperstructureConfigs.getElevatorConfigLeft());
         mEndeffectorPivot.getConfigurator().apply(Constants.SuperstructureConfigs.getEndeffectorPivotConfig());
-        mEndEffectorRollersL.getConfigurator().apply(Constants.SuperstructureConfigs.getEndeffectorWheelsConfiguration());//
+        mEndEffectorRollersL.getConfigurator().apply(Constants.SuperstructureConfigs.getEndeffectorWheelsConfigurationLeft());//
         mEndEffectorRollersR.getConfigurator().apply(Constants.SuperstructureConfigs.getEndeffectorWheelsConfiguration()); //
         mArmPivot.getConfigurator().apply(Constants.SuperstructureConfigs.getArmPivotConfiguration()); //
         mFunnelWheelsBottom.getConfigurator().apply(Constants.SuperstructureConfigs.getFunnelWheelsConfiguration());
@@ -359,17 +359,14 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public void intaking(){
     releasingCoral = false;
     //hasCoral = true; //temporary for testing 2/19/2025
-      nomNomWeebleWobble();
+    TARGETSTATE = STATE.Intake;
     if(atPosition()){
       // mLED.setLightMode(1);
-      setEndeffectorWheelSpeed(3,-3);
-      setIntakeWheelSpeed(45); // was 23 -- 40 works great 3-8-2025
-      setFunnelWheelSpeed(-8);}//was -10 -- -8 works great 3-8-2025
-    if ( 
-        CANdi.getS1State(true).getValueAsDouble() == 1){ //was 19 amps 
-    //if ( CANdi.getS1State(true).getValueAsDouble() == 1){ //was 19 amps 
-      //added manualOverride boolean to allo  w for manual control of the intake
-      
+      setEndeffectorWheelSpeed(3,3);
+      //setIntakeWheelSpeed(45); // was 23 -- 40 works great 3-8-2025
+      setFunnelWheelSpeed(-4);}//was -10 -- -8 works great 3-8-2025
+    if ( CANdi.getS1State(true).getValueAsDouble() == 1){ //was 19 amps 
+    
       justGotCoral();
       setIntakeWheelSpeed(0);
       setFunnelWheelSpeed(0);
@@ -418,8 +415,8 @@ public class SuperstructureSubsystem extends SubsystemBase {
      * @param wheelSpeed
      */
   public void setFunnelWheelSpeed(double wheelSpeed){
-    mFunnelWheelsTop.setControl(new VoltageOut(wheelSpeed));
-    mFunnelWheelsBottom.setControl(new VoltageOut(-wheelSpeed));
+    mFunnelWheelsTop.setControl(new VoltageOut(-wheelSpeed));
+    mFunnelWheelsBottom.setControl(new VoltageOut(-wheelSpeed*0.8));
     if(RobotBase.isSimulation()) m_FunnelWheels.setAngle(m_FunnelWheels.getAngle()+10);
   }
 
@@ -459,7 +456,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
 
   public void stopAllWheels(){
     setFunnelWheelSpeed(0);
-    setEndeffectorWheelSpeed(0,0);
+    if(!hasAlgae)setEndeffectorWheelSpeed(0,0);
   }
 
   public void goHome(){
@@ -533,11 +530,14 @@ public void groundIntakeAlgae(){
   }
 
   public void grabbingAlgae(){
+    
     if(CANdi.getS1State(true).getValueAsDouble() == 1){
-      setEndeffectorWheelSpeed(-1,-1); //ACE - tune the holding voltage here
+      setEndeffectorWheelSpeed(-2,-2); //ACE - tune the holding voltage here
       hasAlgae = true;
       grabbingAlgae = false;
-      TARGETSTATE = STATE.StowWithAlgae;
+      if(TARGETSTATE == STATE.grabAlgaeL2) TARGETSTATE = STATE.StowWithAlgaeL2;
+      else if(TARGETSTATE == STATE.grabAlgaeL3) TARGETSTATE = STATE.StowWithAlgaeL3;
+      else TARGETSTATE = STATE.StowWithAlgae;
     }
   }
 
@@ -633,6 +633,7 @@ public void groundIntakeAlgae(){
       setEndeffectorWheelSpeed(20,2); //sideways spin-release for L1 - ACE - tune these numbers
       if(mEndEffectorRollersL.getPosition().getValueAsDouble() > 8) {
         hasCoral = false;
+        hasAlgae = false;
         releasingCoral = false;
         releaseAtPos = false;
         setEndeffectorWheelSpeed(0,0);
@@ -642,6 +643,7 @@ public void groundIntakeAlgae(){
       setEndeffectorWheelSpeed(25, 25);
       if(mEndEffectorRollersL.getPosition().getValueAsDouble() > 8 &&  CANdi.getS1State(true).getValueAsDouble() == 2) {//
         hasCoral = false;
+        hasAlgae = false;
         releasingCoral = false;
         releaseAtPos = false;
         setEndeffectorWheelSpeed(0,0);
@@ -866,6 +868,7 @@ public void groundIntakeAlgae(){
     if(lifting)lift();
     if(releasingCoral)releaseCoral();
     if(seatingCoral)seatCoral();
+    if(grabbingAlgae)grabbingAlgae();
 
     updateSD();
 

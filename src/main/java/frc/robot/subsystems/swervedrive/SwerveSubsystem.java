@@ -374,7 +374,7 @@ public class SwerveSubsystem extends SubsystemBase
 
 
   public Command algaeBasicDrive(){
-    return run(() -> {drive(new Translation2d(-.2, 0.0), 0, false);});
+    return run(() -> {drive(new Translation2d(.5, 0.0), 0, false);});
   }
 
 /**

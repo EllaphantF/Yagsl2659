@@ -31,7 +31,7 @@ public final class Constants
   public static final double MAX_SPEED  = Units.feetToMeters(14.5);
   // Maximum speed of the robot in meters per second, used to limit acceleration.
 
-  public static final double scoringPositionTolerance = 0.05; // Scoring position tolerance for superstructure
+  public static final double scoringPositionTolerance = 0.2; // Scoring position tolerance for superstructure
   public static final double positionToleranceUp = 0.2; // general position tolerance for superstructure
   public static final double positionTolerance = 0.5; // general position tolerance for superstructure
 
@@ -61,8 +61,8 @@ public final class Constants
   
   /* EndEffector and Elevator IDs */
   public static final int eeWheelsLeftID = 14;
-  public static final int eeWheelsRightID = 15;
-  public static final int endEffectorPivotID = 22;
+  public static final int eeWheelsRightID = 19;
+  public static final int endEffectorPivotID = 15;
   public static final int elevatorLeftID = 17;
   public static final int elevatorRightID = 16;
   public static final int armID = 18;//arm
@@ -84,62 +84,62 @@ public final class Constants
 
   public static class ReefScoringLocations{
       // REEF PRE-SCORING POSES
-      public static   final Pose2d  BLUEPRESCORE_12        = new Pose2d( 6.225,	4.0,   Rotation2d.fromDegrees( 	0 	)); //
-      public static   final Pose2d  BLUEPRESCORE_11        = new Pose2d( 6.232,	4.0,   Rotation2d.fromDegrees( 	0 	)); //
-      public static   final Pose2d  BLUEPRESCORE_10        = new Pose2d( 5.36,	5.53,   Rotation2d.fromDegrees(  60          ));  //
-      public static   final Pose2d  BLUEPRESCORE_9	       = new Pose2d( 5.36,	5.53,   Rotation2d.fromDegrees(  60          ));  //
-      public static   final Pose2d  BLUEPRESCORE_8	       = new Pose2d( 3.62, 5.53,   Rotation2d.fromDegrees(  	120	         )); //
-      public static   final Pose2d  BLUEPRESCORE_7	       = new Pose2d( 3.62, 5.53,   Rotation2d.fromDegrees(  	120	         ));  //
-      public static   final Pose2d  BLUEPRESCORE_6	       = new Pose2d( 2.748, 4.0,    Rotation2d.fromDegrees( 	180	   )); //
-      public static   final Pose2d  BLUEPRESCORE_5	       = new Pose2d( 2.742, 4.0,    Rotation2d.fromDegrees( 	180 	  )); //
-      public static   final Pose2d  BLUEPRESCORE_4	       = new Pose2d( 3.62, 2.52,   Rotation2d.fromDegrees( 	-120 	)); //
-      public static   final Pose2d  BLUEPRESCORE_3	       = new Pose2d( 3.62, 2.52,   Rotation2d.fromDegrees( 	-120 	)); //
-      public static   final Pose2d  BLUEPRESCORE_2	       = new Pose2d( 5.36, 2.52,   Rotation2d.fromDegrees( 	-60 	)); //
-      public static   final Pose2d  BLUEPRESCORE_1	       = new Pose2d( 5.36, 2.52,   Rotation2d.fromDegrees( 	-60 	)); //
+      public static   final Pose2d  BLUEPRESCORE_12        = new Pose2d( 6.225,	4.0,   Rotation2d.fromDegrees( 	0+180 	)); //
+      public static   final Pose2d  BLUEPRESCORE_11        = new Pose2d( 6.232,	4.0,   Rotation2d.fromDegrees( 	0+180 	)); //
+      public static   final Pose2d  BLUEPRESCORE_10        = new Pose2d( 5.36,	5.53,   Rotation2d.fromDegrees(  60+180          ));  //
+      public static   final Pose2d  BLUEPRESCORE_9	       = new Pose2d( 5.36,	5.53,   Rotation2d.fromDegrees(  60+180          ));  //
+      public static   final Pose2d  BLUEPRESCORE_8	       = new Pose2d( 3.62, 5.53,   Rotation2d.fromDegrees(  	120+180	         )); //
+      public static   final Pose2d  BLUEPRESCORE_7	       = new Pose2d( 3.62, 5.53,   Rotation2d.fromDegrees(  	120+180	         ));  //
+      public static   final Pose2d  BLUEPRESCORE_6	       = new Pose2d( 2.748, 4.0,    Rotation2d.fromDegrees( 	180+180	   )); //
+      public static   final Pose2d  BLUEPRESCORE_5	       = new Pose2d( 2.742, 4.0,    Rotation2d.fromDegrees( 	180+180 	  )); //
+      public static   final Pose2d  BLUEPRESCORE_4	       = new Pose2d( 3.62, 2.52,   Rotation2d.fromDegrees( 	-120+180 	)); //
+      public static   final Pose2d  BLUEPRESCORE_3	       = new Pose2d( 3.62, 2.52,   Rotation2d.fromDegrees( 	-120+180 	)); //
+      public static   final Pose2d  BLUEPRESCORE_2	       = new Pose2d( 5.36, 2.52,   Rotation2d.fromDegrees( 	-60+180 	)); //
+      public static   final Pose2d  BLUEPRESCORE_1	       = new Pose2d( 5.36, 2.52,   Rotation2d.fromDegrees( 	-60+180 	)); //
 
-      public	static	final	Pose2d	REDPRESCORE_12	      =	new	Pose2d(	11.317,	4.0,	Rotation2d.fromDegrees(	 180    )); //
-      public	static	final	Pose2d	REDPRESCORE_11	      =	new	Pose2d(	11.311,	4.0,	Rotation2d.fromDegrees(	 180    )); //
-      public	static	final	Pose2d	REDPRESCORE_10	      =	new	Pose2d(	12.17,	2.52,	Rotation2d.fromDegrees(	 -120   )); //
-      public	static	final	Pose2d	REDPRESCORE_9	        =	new	Pose2d(	12.17,	2.52,	Rotation2d.fromDegrees(	 -120   )); //
-      public	static	final	Pose2d	REDPRESCORE_8	        =	new	Pose2d(	13.927,	2.52,	Rotation2d.fromDegrees(	 -60  )); //
-      public	static	final	Pose2d	REDPRESCORE_7	        =	new	Pose2d(	13.927,	2.52,	Rotation2d.fromDegrees(	 -60  )); //
-      public	static	final	Pose2d	REDPRESCORE_6	        =	new	Pose2d(	14.792,	4.0,	Rotation2d.fromDegrees(	 0  )); //
-      public	static	final	Pose2d	REDPRESCORE_5	        =	new	Pose2d(	14.805,	4.0,	Rotation2d.fromDegrees(	 0  )); //
-      public	static	final	Pose2d	REDPRESCORE_4	        =	new	Pose2d(	13.936,	5.53,	Rotation2d.fromDegrees(  60 ));	//
-      public	static	final	Pose2d	REDPRESCORE_3	        =	new	Pose2d(	13.936,	5.53,	Rotation2d.fromDegrees(  60 ));	//
-      public	static	final	Pose2d	REDPRESCORE_2	        =	new	Pose2d(	12.189,	5.53,	Rotation2d.fromDegrees(	 120  ));	//
-      public	static	final	Pose2d	REDPRESCORE_1	        =	new	Pose2d(	12.189,	5.53,	Rotation2d.fromDegrees(	 120  )); //
+      public	static	final	Pose2d	REDPRESCORE_12	      =	new	Pose2d(	11.317,	4.0,	Rotation2d.fromDegrees(	 180+180    )); //
+      public	static	final	Pose2d	REDPRESCORE_11	      =	new	Pose2d(	11.311,	4.0,	Rotation2d.fromDegrees(	 180+180    )); //
+      public	static	final	Pose2d	REDPRESCORE_10	      =	new	Pose2d(	12.17,	2.52,	Rotation2d.fromDegrees(	 -120+180   )); //
+      public	static	final	Pose2d	REDPRESCORE_9	        =	new	Pose2d(	12.17,	2.52,	Rotation2d.fromDegrees(	 -120+180   )); //
+      public	static	final	Pose2d	REDPRESCORE_8	        =	new	Pose2d(	13.927,	2.52,	Rotation2d.fromDegrees(	 -60+180  )); //
+      public	static	final	Pose2d	REDPRESCORE_7	        =	new	Pose2d(	13.927,	2.52,	Rotation2d.fromDegrees(	 -60+180  )); //
+      public	static	final	Pose2d	REDPRESCORE_6	        =	new	Pose2d(	14.792,	4.0,	Rotation2d.fromDegrees(	 0+180  )); //
+      public	static	final	Pose2d	REDPRESCORE_5	        =	new	Pose2d(	14.805,	4.0,	Rotation2d.fromDegrees(	 0+180  )); //
+      public	static	final	Pose2d	REDPRESCORE_4	        =	new	Pose2d(	13.936,	5.53,	Rotation2d.fromDegrees(  60+180 ));	//
+      public	static	final	Pose2d	REDPRESCORE_3	        =	new	Pose2d(	13.936,	5.53,	Rotation2d.fromDegrees(  60+180 ));	//
+      public	static	final	Pose2d	REDPRESCORE_2	        =	new	Pose2d(	12.189,	5.53,	Rotation2d.fromDegrees(	 120+180  ));	//
+      public	static	final	Pose2d	REDPRESCORE_1	        =	new	Pose2d(	12.189,	5.53,	Rotation2d.fromDegrees(	 120+180  )); //
       
   // REEF SCORING POSES - Contra Measure
-      public static   final Pose2d  BLUE_12        = new Pose2d( 6.193,	3.855,   Rotation2d.fromDegrees( 	-0.3	)); // /* */
-      public static   final Pose2d  BLUE_11        = new Pose2d( 6.195,	4.232,   Rotation2d.fromDegrees( 	2.5 	)); // /* */
-      public static   final Pose2d  BLUE_10        = new Pose2d( 5.468,	5.430,   Rotation2d.fromDegrees(  60.5         ));  //
-      public static   final Pose2d  BLUE_9	       = new Pose2d( 5.144,	5.617,   Rotation2d.fromDegrees(  62.7          ));  // /* */
-      public static   final Pose2d  BLUE_8	       = new Pose2d( 3.769, 5.580,   Rotation2d.fromDegrees(  	120.8	         )); // /* */
-      public static   final Pose2d  BLUE_7	       = new Pose2d( 3.452, 5.397,   Rotation2d.fromDegrees(  	121.7	         ));  // /* */
-      public static   final Pose2d  BLUE_6	       = new Pose2d( 2.784, 4.156,    Rotation2d.fromDegrees( 	-179.2	   )); // /* */
-      public static   final Pose2d  BLUE_5	       = new Pose2d( 2.785, 3.813,    Rotation2d.fromDegrees( 	-178 	  )); // /* */
-      public static   final Pose2d  BLUE_4	       = new Pose2d( 3.536, 2.604,   Rotation2d.fromDegrees( 	-118.8 	)); // /* */
-      public static   final Pose2d  BLUE_3	       = new Pose2d( 3.847, 2.432,   Rotation2d.fromDegrees( 	-118.8 	)); // /* */
-      public static   final Pose2d  BLUE_2	       = new Pose2d( 5.205, 2.471,   Rotation2d.fromDegrees( 	-60 	)); // /* */
-      public static   final Pose2d  BLUE_1	       = new Pose2d( 5.52, 2.65,   Rotation2d.fromDegrees( 	-60 	)); // /* */
-      public	static	final	Pose2d	BLUEBARGE	     = new Pose2d(	7.4, 6.0,	Rotation2d.fromDegrees( 	180-40 	)); // /*note: super approx. value! Also made it turn a bit to prevent bounce-outs */
-      public	static	final	Pose2d	BLUEPROCESSOR	 = new Pose2d(	6.5, 0.2,	Rotation2d.fromDegrees( 	270 	)); // /*note: super approx. value! */
+      public static   final Pose2d  BLUE_12        = new Pose2d( 6.193,	3.855,   Rotation2d.fromDegrees( 	-0.3+180	)); // /* */
+      public static   final Pose2d  BLUE_11        = new Pose2d( 6.195,	4.232,   Rotation2d.fromDegrees( 	2.5+180 	)); // /* */
+      public static   final Pose2d  BLUE_10        = new Pose2d( 5.468,	5.430,   Rotation2d.fromDegrees(  60.5+180         ));  //
+      public static   final Pose2d  BLUE_9	       = new Pose2d( 5.144,	5.617,   Rotation2d.fromDegrees(  62.7 +180         ));  // /* */
+      public static   final Pose2d  BLUE_8	       = new Pose2d( 3.769, 5.580,   Rotation2d.fromDegrees(  	120.8+180	         )); // /* */
+      public static   final Pose2d  BLUE_7	       = new Pose2d( 3.452, 5.397,   Rotation2d.fromDegrees(  	121.7+180	         ));  // /* */
+      public static   final Pose2d  BLUE_6	       = new Pose2d( 2.784, 4.156,    Rotation2d.fromDegrees( 	-179.2+180	   )); // /* */
+      public static   final Pose2d  BLUE_5	       = new Pose2d( 2.785, 3.813,    Rotation2d.fromDegrees( 	-178+180 	  )); // /* */
+      public static   final Pose2d  BLUE_4	       = new Pose2d( 3.536, 2.604,   Rotation2d.fromDegrees( 	-118.8+180 	)); // /* */
+      public static   final Pose2d  BLUE_3	       = new Pose2d( 3.847, 2.432,   Rotation2d.fromDegrees( 	-118.8+180 	)); // /* */
+      public static   final Pose2d  BLUE_2	       = new Pose2d( 5.205, 2.471,   Rotation2d.fromDegrees( 	-60+180 	)); // /* */
+      public static   final Pose2d  BLUE_1	       = new Pose2d( 5.52, 2.65,   Rotation2d.fromDegrees( 	-60+180 	)); // /* */
+      public	static	final	Pose2d	BLUEBARGE	     = new Pose2d(	7.4, 6.0,	Rotation2d.fromDegrees( 	-40 	)); // /*note: super approx. value! Also made it turn a bit to prevent bounce-outs */
+      public	static	final	Pose2d	BLUEPROCESSOR	 = new Pose2d(	6.5, 0.2,	Rotation2d.fromDegrees( 	90 	)); // /*note: super approx. value! */
 
-      public	static	final	Pose2d	RED_12	      =	new	Pose2d(	11.351,	4.185,	Rotation2d.fromDegrees(	 -179.3    )); // /* */
-      public	static	final	Pose2d	RED_11	      =	new	Pose2d(	11.352,	3.838,	Rotation2d.fromDegrees(	 -178    )); // /* */
-      public	static	final	Pose2d	RED_10	      =	new	Pose2d(	12.082,	2.622,	Rotation2d.fromDegrees(	 -120.05   )); //
-      public	static	final	Pose2d	RED_9	        =	new	Pose2d(	12.396,	2.441,	Rotation2d.fromDegrees(	 -118.1   )); //
-      public	static	final	Pose2d	RED_8	        =	new	Pose2d(	13.775,	2.470,	Rotation2d.fromDegrees(	 -59.8  )); // /* */
-      public	static	final	Pose2d	RED_7	        =	new	Pose2d(	14.098,	2.655,	Rotation2d.fromDegrees(	 -57.4  )); // /* */
-      public	static	final	Pose2d	RED_6	        =	new	Pose2d(	14.765,	3.870,	Rotation2d.fromDegrees(	 -.05  )); // /* */
-      public	static	final	Pose2d	RED_5	        =	new	Pose2d(	14.764,	4.250,	Rotation2d.fromDegrees(	 2.71  )); //
-      public	static	final	Pose2d	RED_4	        =	new	Pose2d(	14.053,	5.421,	Rotation2d.fromDegrees(  59.7 ));	// /* */
-      public	static	final	Pose2d	RED_3	        =	new	Pose2d(	13.695,	5.627,	Rotation2d.fromDegrees(  62.9 ));	// /* */
-      public	static	final	Pose2d	RED_2	        =	new	Pose2d(	12.339,	5.581,	Rotation2d.fromDegrees(	 120.08  ));	// 
-      public	static	final	Pose2d	RED_1	        =	new	Pose2d(	12.011,	5.388,	Rotation2d.fromDegrees(	 122.8  )); // /* */
-      public	static	final	Pose2d	REDBARGE	    =	new	Pose2d(	10.0,	2.5,	Rotation2d.fromDegrees(	 0-40  )); // /*note: super approx. value! Also made it turn a bit to prevent bounce-outs */
-      public	static	final	Pose2d	REDPROCESSOR  =	new	Pose2d(	11.4,	7.9,	Rotation2d.fromDegrees(	 -90  )); // /*note: super approx. value! */
+      public	static	final	Pose2d	RED_12	      =	new	Pose2d(	11.351,	4.185,	Rotation2d.fromDegrees(	 -179.3 +180   )); // /* */
+      public	static	final	Pose2d	RED_11	      =	new	Pose2d(	11.352,	3.838,	Rotation2d.fromDegrees(	 -178+180    )); // /* */
+      public	static	final	Pose2d	RED_10	      =	new	Pose2d(	12.082,	2.622,	Rotation2d.fromDegrees(	 -120.05 +180  )); //
+      public	static	final	Pose2d	RED_9	        =	new	Pose2d(	12.396,	2.441,	Rotation2d.fromDegrees(	 -118.1+180   )); //
+      public	static	final	Pose2d	RED_8	        =	new	Pose2d(	13.775,	2.470,	Rotation2d.fromDegrees(	 -59.8+180  )); // /* */
+      public	static	final	Pose2d	RED_7	        =	new	Pose2d(	14.098,	2.655,	Rotation2d.fromDegrees(	 -57.4 +180 )); // /* */
+      public	static	final	Pose2d	RED_6	        =	new	Pose2d(	14.765,	3.870,	Rotation2d.fromDegrees(	 -.05+180  )); // /* */
+      public	static	final	Pose2d	RED_5	        =	new	Pose2d(	14.764,	4.250,	Rotation2d.fromDegrees(	 2.71+180  )); //
+      public	static	final	Pose2d	RED_4	        =	new	Pose2d(	14.053,	5.421,	Rotation2d.fromDegrees(  59.7+180 ));	// /* */
+      public	static	final	Pose2d	RED_3	        =	new	Pose2d(	13.695,	5.627,	Rotation2d.fromDegrees(  62.9+180 ));	// /* */
+      public	static	final	Pose2d	RED_2	        =	new	Pose2d(	12.339,	5.581,	Rotation2d.fromDegrees(	 120.08+180  ));	// 
+      public	static	final	Pose2d	RED_1	        =	new	Pose2d(	12.011,	5.388,	Rotation2d.fromDegrees(	 122.8+180  )); // /* */
+      public	static	final	Pose2d	REDBARGE	    =	new	Pose2d(	10.0,	2.5,	Rotation2d.fromDegrees(	 180-40  )); // /*note: super approx. value! Also made it turn a bit to prevent bounce-outs */
+      public	static	final	Pose2d	REDPROCESSOR  =	new	Pose2d(	11.4,	7.9,	Rotation2d.fromDegrees(	 90  )); // /*note: super approx. value! */
       
       
       public static Pose2d getScorePose(Boolean isRedAlliance, Double selectPose){
@@ -226,18 +226,18 @@ public final class Constants
           elevatorConfigLeft.Slot0.kI = 0.0000001; //
           elevatorConfigLeft.Slot0.kD = 0.02; //
           
-          elevatorConfigLeft.CurrentLimits.SupplyCurrentLimit = 30;//was 20
+          elevatorConfigLeft.CurrentLimits.SupplyCurrentLimit = 30/1.5;//
           elevatorConfigLeft.OpenLoopRamps.VoltageOpenLoopRampPeriod = .01;
           elevatorConfigLeft.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .01;
           elevatorConfigLeft.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .01;
           elevatorConfigLeft.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .01;
 
-          elevatorConfigLeft.MotionMagic.MotionMagicCruiseVelocity = 75; //100 was smooth, 200 is faster than kraken max 100
+          elevatorConfigLeft.MotionMagic.MotionMagicCruiseVelocity = 75/1.5; //100 was smooth, 200 is faster than kraken max 100
           elevatorConfigLeft.MotionMagic.MotionMagicAcceleration = 125;// 80 was good, 150 zippy
 
           elevatorConfigLeft.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
           elevatorConfigLeft.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
-          elevatorConfigLeft.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 77/2.25;
+          elevatorConfigLeft.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 26.8;
           elevatorConfigLeft.SoftwareLimitSwitch.ReverseSoftLimitThreshold = -0.5;
           elevatorConfigLeft.MotorOutput.NeutralMode = NeutralModeValue.Brake;
           elevatorConfigLeft.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
@@ -267,8 +267,8 @@ public final class Constants
           endeffectorPivotConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .02;
           endeffectorPivotConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .04;
           endeffectorPivotConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .02;
-          endeffectorPivotConfig.MotionMagic.MotionMagicCruiseVelocity = 80; //20 was smooth
-          endeffectorPivotConfig.MotionMagic.MotionMagicAcceleration = 180; //50 was smooth
+          endeffectorPivotConfig.MotionMagic.MotionMagicCruiseVelocity = 80/2; //20 was smooth
+          endeffectorPivotConfig.MotionMagic.MotionMagicAcceleration = 180/2; //50 was smooth
           endeffectorPivotConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
           /*endeffectorPivotConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
           endeffectorPivotConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
@@ -307,13 +307,34 @@ public final class Constants
 //          endeffectorWheelsConfig.Slot0.kI = 0.01; //
           endeffectorWheelsConfig.Slot0.kV = 0.12; //
           endeffectorWheelsConfig.Slot0.kD = 0.2; //
-          endeffectorWheelsConfig.CurrentLimits.SupplyCurrentLimit = 20;//
+          endeffectorWheelsConfig.CurrentLimits.SupplyCurrentLimit = 15;//
           endeffectorWheelsConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = .02;        
           endeffectorWheelsConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .02;
           endeffectorWheelsConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .02;
           endeffectorWheelsConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .02;
           endeffectorWheelsConfig.MotionMagic.MotionMagicCruiseVelocity = 50; //
           endeffectorWheelsConfig.MotionMagic.MotionMagicAcceleration =  200; //
+          endeffectorWheelsConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+          return endeffectorWheelsConfig;
+        }
+
+        public static TalonFXConfiguration getEndeffectorWheelsConfigurationLeft(){
+          TalonFXConfiguration endeffectorWheelsConfig = new TalonFXConfiguration();
+          endeffectorWheelsConfig.Slot0.kG = 0.0; // Volts to overcome gravity
+          endeffectorWheelsConfig.Slot0.kS = 0.0; // Volts to overcome static friction
+          endeffectorWheelsConfig.Slot0.kA = 0.001; // Volts for an acceleration of 1 rps/s
+          endeffectorWheelsConfig.Slot0.kP = 10;//
+//          endeffectorWheelsConfig.Slot0.kI = 0.01; //
+          endeffectorWheelsConfig.Slot0.kV = 0.12; //
+          endeffectorWheelsConfig.Slot0.kD = 0.2; //
+          endeffectorWheelsConfig.CurrentLimits.SupplyCurrentLimit = 15;//
+          endeffectorWheelsConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = .02;        
+          endeffectorWheelsConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .02;
+          endeffectorWheelsConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .02;
+          endeffectorWheelsConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .02;
+          endeffectorWheelsConfig.MotionMagic.MotionMagicCruiseVelocity = 50; //
+          endeffectorWheelsConfig.MotionMagic.MotionMagicAcceleration =  200; //
+          endeffectorWheelsConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
           return endeffectorWheelsConfig;
         }
 
@@ -326,7 +347,7 @@ public final class Constants
           funnelConfig.Slot0.kP = 20;//
           funnelConfig.Slot0.kI = 0.00; //
           funnelConfig.Slot0.kD = 0.00001; //
-          funnelConfig.CurrentLimits.SupplyCurrentLimit = 30;//was 20
+          funnelConfig.CurrentLimits.SupplyCurrentLimit = 15;//was 20
           funnelConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = .08;        
           funnelConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .08;
           funnelConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .08;
@@ -346,7 +367,7 @@ public final class Constants
           intakePivotLeftConfig.Slot0.kI = 0.000001; //
           intakePivotLeftConfig.Slot0.kV = 0.12; //
           intakePivotLeftConfig.Slot0.kD = 0.02; //
-          intakePivotLeftConfig.CurrentLimits.SupplyCurrentLimit = 15;//climbed on 5
+          intakePivotLeftConfig.CurrentLimits.SupplyCurrentLimit = 15/3;//climbed on 5
           intakePivotLeftConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = .02;        
           intakePivotLeftConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .02;
           intakePivotLeftConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .02;
@@ -355,7 +376,7 @@ public final class Constants
           intakePivotLeftConfig.MotionMagic.MotionMagicAcceleration = 100; //
           intakePivotLeftConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
           intakePivotLeftConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-          intakePivotLeftConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 98.5 / 9;
+          intakePivotLeftConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 50;
           intakePivotLeftConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 0.0;
           intakePivotLeftConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
           intakePivotLeftConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
@@ -376,11 +397,11 @@ public final class Constants
           intakePivotLeftConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .02;
           intakePivotLeftConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .02;
           intakePivotLeftConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .02;
-          intakePivotLeftConfig.MotionMagic.MotionMagicCruiseVelocity = 80 ; //
-          intakePivotLeftConfig.MotionMagic.MotionMagicAcceleration = 100; //
+          intakePivotLeftConfig.MotionMagic.MotionMagicCruiseVelocity = 80/2 ; //
+          intakePivotLeftConfig.MotionMagic.MotionMagicAcceleration = 100/2; //
           intakePivotLeftConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
           intakePivotLeftConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-          intakePivotLeftConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 98.5 / 9;
+          intakePivotLeftConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 26.0;
           intakePivotLeftConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 0.0;
           intakePivotLeftConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
           intakePivotLeftConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;

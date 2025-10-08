@@ -158,7 +158,7 @@ public class Robot extends TimedRobot
     }
      m_robotContainer.setDriveMode();
      m_robotContainer.setSuperstructureCurrentState();
-     CommandScheduler.getInstance().schedule(m_robotContainer.getScoreSequenceCommandByProximity(true, true));
+     //CommandScheduler.getInstance().schedule(m_robotContainer.getScoreSequenceCommandByProximity(true, true));
      //driverXbox.rightBumper().whileTrue(m_robotContainer.getScoreSequenceCommand());
     // m_robotContainer.setMotorBrake(true);
   }
