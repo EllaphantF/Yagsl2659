@@ -406,7 +406,8 @@ public class RobotContainer
       buttonBox2.button(10).onTrue(new InstantCommand( () -> superstructure.grabAlgae(3.)));
       buttonBox2.button(7).onTrue(new InstantCommand( () -> superstructure.intake()));
       buttonBox2.button(8).onTrue(new InstantCommand( () -> superstructure.goHome()));
-      buttonBox2.button(6).whileTrue(new InstantCommand( () -> superstructure.spit()).repeatedly());
+      buttonBox2.button(6).onTrue(new InstantCommand( () -> superstructure.goToBargeAlgaeScoring()));
+      //buttonBox2.button(6).whileTrue(new InstantCommand( () -> superstructure.spit()).repeatedly());
       buttonBox2.button(5).onTrue(new InstantCommand(() -> superstructure.startLifting()));
       buttonBox2.button(11).onTrue(new InstantCommand( () -> superstructure.enableManualOverride()));
       buttonBox2.button(11).onFalse(new InstantCommand( () -> superstructure.disableManualOverride()));
@@ -515,7 +516,8 @@ public class RobotContainer
     if(!withAutoRelease){
       autoScoreSequence = new SequentialCommandGroup(driveToPrescore, driveToScore);}
     else{
-      autoScoreSequence = new SequentialCommandGroup(driveToPrescore, superStructureScore, driveToScore, release, waitForRelease);}
+//      autoScoreSequence = new SequentialCommandGroup(driveToPrescore, superStructureScore, driveToScore, release, waitForRelease);}
+      autoScoreSequence = new SequentialCommandGroup( superStructureScore, driveToScore, release, waitForRelease);}
     
     return autoScoreSequence;
   }

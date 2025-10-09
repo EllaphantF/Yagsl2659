@@ -76,7 +76,7 @@ public final class Constants
 /* Clearance positions*/
   public static final double intakePivotGearRatio = 270; // 200:1 gear ratio
   public static final double endEffectorPivotGearRatio = 60 / 8 * 4; // 30:1 gear ratio
-  public static final double crossbarClearancePos = 4 / 2.25; //elevator height to clear crossbar (must be below)
+  public static final double crossbarClearancePos = 20; //elevator height to clear crossbar (must be below)
   public static final double intakeEndeffectorClearancePos = 3; //intake pivot position to clear the endeffector (intake must be deployed enough)
   public static final double endeffectorElevatorClearancePos = 10 * endEffectorPivotGearRatio / 360 / 2.25; //Endeffector pivot position to clear elevator
   
@@ -226,14 +226,14 @@ public final class Constants
           elevatorConfigLeft.Slot0.kI = 0.0000001; //
           elevatorConfigLeft.Slot0.kD = 0.02; //
           
-          elevatorConfigLeft.CurrentLimits.SupplyCurrentLimit = 30/1.5;//
+          elevatorConfigLeft.CurrentLimits.SupplyCurrentLimit = 60;//
           elevatorConfigLeft.OpenLoopRamps.VoltageOpenLoopRampPeriod = .01;
           elevatorConfigLeft.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .01;
           elevatorConfigLeft.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .01;
           elevatorConfigLeft.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .01;
 
-          elevatorConfigLeft.MotionMagic.MotionMagicCruiseVelocity = 75/1.5; //100 was smooth, 200 is faster than kraken max 100
-          elevatorConfigLeft.MotionMagic.MotionMagicAcceleration = 125;// 80 was good, 150 zippy
+          elevatorConfigLeft.MotionMagic.MotionMagicCruiseVelocity = 80; //100 was smooth, 200 is faster than kraken max 100
+          elevatorConfigLeft.MotionMagic.MotionMagicAcceleration = 150;// 80 was good, 150 zippy
 
           elevatorConfigLeft.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
           elevatorConfigLeft.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
@@ -267,8 +267,8 @@ public final class Constants
           endeffectorPivotConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .02;
           endeffectorPivotConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .04;
           endeffectorPivotConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .02;
-          endeffectorPivotConfig.MotionMagic.MotionMagicCruiseVelocity = 80/2; //20 was smooth
-          endeffectorPivotConfig.MotionMagic.MotionMagicAcceleration = 180/2; //50 was smooth
+          endeffectorPivotConfig.MotionMagic.MotionMagicCruiseVelocity = 80; //20 was smooth
+          endeffectorPivotConfig.MotionMagic.MotionMagicAcceleration = 100; //50 was smooth
           endeffectorPivotConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
           /*endeffectorPivotConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
           endeffectorPivotConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
@@ -397,8 +397,8 @@ public final class Constants
           intakePivotLeftConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .02;
           intakePivotLeftConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .02;
           intakePivotLeftConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .02;
-          intakePivotLeftConfig.MotionMagic.MotionMagicCruiseVelocity = 80/2 ; //
-          intakePivotLeftConfig.MotionMagic.MotionMagicAcceleration = 100/2; //
+          intakePivotLeftConfig.MotionMagic.MotionMagicCruiseVelocity = 80 ; //
+          intakePivotLeftConfig.MotionMagic.MotionMagicAcceleration = 100; //
           intakePivotLeftConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
           intakePivotLeftConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
           intakePivotLeftConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 26.0;

@@ -832,21 +832,25 @@ public void groundIntakeAlgae(){
     if (scoreLevel == 2){
         if( Math.abs(elevatorPos - STATE.CoralL2.elevator) < Constants.scoringPositionTolerance && Math.abs(endeffectorPivotPos - STATE.CoralL2.ee) < Constants.scoringPositionTolerance && Math.abs(armPivotPos - STATE.CoralL2.arm) < Constants.scoringPositionTolerance){
           // mLED.setLightMode(7);
+          SmartDashboard.putBoolean("At Position Scoring", true);
           lightMode = 13;
           return true; } }
     else if(scoreLevel == 3){
       if( Math.abs(elevatorPos - STATE.CoralL3.elevator) < Constants.scoringPositionTolerance && Math.abs(endeffectorPivotPos - STATE.CoralL3.ee) < Constants.scoringPositionTolerance && Math.abs(armPivotPos - STATE.CoralL3.arm) < Constants.scoringPositionTolerance){
         // mLED.setLightMode(7);
+          SmartDashboard.putBoolean("At Position Scoring", true);
           lightMode = 13;
           return true; } }
     else if(scoreLevel == 4){
        if( Math.abs(elevatorPos - STATE.CoralL4.elevator) < Constants.scoringPositionTolerance && Math.abs(endeffectorPivotPos - STATE.CoralL4.ee) < Constants.scoringPositionTolerance && Math.abs(armPivotPos - STATE.CoralL4.arm) < Constants.scoringPositionTolerance){
         // mLED.setLightMode(7);
+          SmartDashboard.putBoolean("At Position Scoring", true);
           lightMode = 13;
           return true; } }
     else {
       // mLED.setLightMode(0);
       return false;}
+      SmartDashboard.putBoolean("At Position Scoring", false);
     // mLED.setLightMode(7);
     return false;
   }

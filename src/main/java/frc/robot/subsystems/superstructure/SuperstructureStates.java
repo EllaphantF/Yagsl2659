@@ -59,13 +59,13 @@ public class SuperstructureStates {
 
         /*(x )*/ StartingConfig = new SuperstructureState(0., 0.0, 0., 0.);
         /*(x )*/ Home = new SuperstructureState(0., 0.2, 3., 0. );
-        /*(x )*/ Intake = new SuperstructureState(0., 2.8+.3, 0.,0.); //intake 97, eepiv -23
+        /*(x )*/ Intake = new SuperstructureState(0., 2.8, 0.,0.); //intake 97, eepiv -23
 
-        /*(x )*/ groundIntakeAlgae = new SuperstructureState(0., 0.1, 5.8, 9.5);
+        /*(x )*/ groundIntakeAlgae = new SuperstructureState(0., 0.1, 5.8, 9.5+1);
 
-        /*(x )*/ grabAlgaeL2 = new SuperstructureState(0., 0.1, 15.6, 11.55);
+        /*(x )*/ grabAlgaeL2 = new SuperstructureState(0., 0.1, 15.6, 11.55+1);
 
-        /*(x )*/ grabAlgaeL3 = new SuperstructureState(0., 17.3, 15.6, 11.55);
+        /*(x )*/ grabAlgaeL3 = new SuperstructureState(0., 17.3, 15.6, 11.55+1);
                 /**
                  * use these for manual scoring (i.e. )
                  */
@@ -75,14 +75,14 @@ public class SuperstructureStates {
         /*( )*/ CoralL4Manual = new SuperstructureState(0., 76., 15., 0.);
 
         /*(x )*/ CoralL1 = new SuperstructureState(0., 0.1, 9., 6.7);
-        /*(x )*/ CoralL2 = new SuperstructureState(0., 0.1, 14., 14.1);
-        /*(x )*/ CoralL3 = new SuperstructureState(0., 17.3, 13.8, 14.1);
+        /*(x )*/ CoralL2 = new SuperstructureState(0., 9.7, 7.8, 8.05+1);
+        /*(x )*/ CoralL3 = new SuperstructureState(0., 14.3, 12.6, 14.1);
         /*(x )*/ CoralL4 = new SuperstructureState(0., 26.5, 19.8, 19.4); // elevator at 71
 
         /* need to send the elevator up with endeffector in so we dont crash into the reef */
         /*(x )*/ CoralPreL1 = new SuperstructureState(0., 0.1, 9., 6.7);
-        /*(x )*/ CoralPreL2 = new SuperstructureState(0., 1.2, 17, 14.8);
-        /*(x )*/ CoralPreL3 = new SuperstructureState(0., 17.3+1.5, 17, 14.8);
+        /*(x )*/ CoralPreL2 = new SuperstructureState(0., 16.27,2.65,3.05);
+        /*(x )*/ CoralPreL3 = new SuperstructureState(0., 17., 8.6, 12.1-10);
         /*(x )*/ CoralPreL4 = new SuperstructureState(0., 26.5, 22.0, 19.4);
 
         /*ACE - We never actually used them in season but might need them for Ace */
@@ -92,7 +92,7 @@ public class SuperstructureStates {
         CoralPostL4 = new SuperstructureState(0., 76.5, 15., 0.);
 
 //        AlgaePassOff = new SuperstructureState(0., 4., 4., 0.); // might not be used on Ace
-        StowEEClear  = new SuperstructureState(0., 0.2, 1., 0.); // 
+        StowEEClear  = new SuperstructureState(0., 0.2, 18., 18.); // 
         StowClearIntakeDeployed = new SuperstructureState(0., 1., 1., 0.);
         StowWithCoral = new SuperstructureState(0., 0.2, 1., 0.);
         StowWithAlgae = new SuperstructureState(0., 0.2, 4., 0.2);
