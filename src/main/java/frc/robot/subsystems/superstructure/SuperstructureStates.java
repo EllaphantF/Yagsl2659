@@ -59,8 +59,9 @@ public class SuperstructureStates {
 
         /*(x )*/ StartingConfig = new SuperstructureState(0., 0.0, 0., 0.);
         /*(x )*/ Home = new SuperstructureState(0., 0.2, 3., 0. );
-        /*(x )*/ Intake = new SuperstructureState(0., 2.8, 0.,0.); //intake 97, eepiv -23
-
+        /*(x )*/ //Intake = new SuperstructureState(0., 2.8, 0.,0.); //intake 97, eepiv -23
+        /*(x )*/ Intake = new SuperstructureState(0., 1.68, 0.,2.09); //intake 97, eepiv -23
+                //ee 2.12
         /*(x )*/ groundIntakeAlgae = new SuperstructureState(0., 0.1, 5.8, 9.5+1);
 
         /*(x )*/ grabAlgaeL2 = new SuperstructureState(0., 0.1, 15.6, 11.55+1);
