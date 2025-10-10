@@ -251,7 +251,7 @@ public final class Constants
           TalonFXConfiguration elevatorConfigRight = new TalonFXConfiguration();
           elevatorConfigRight = getElevatorConfigLeft();
 
-          elevatorConfigRight.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+          elevatorConfigRight.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive; //changed from CounterClockwise_Positive
           return elevatorConfigRight;
         }
 
