@@ -159,15 +159,17 @@ public class SwerveSubsystem extends SubsystemBase
                                              Rotation2d.fromDegrees(0)));
   }
 
-  public double getClosestScoringLocation(boolean rightTrueLeftFalse){
+  public double getClosestScoringLocation(boolean rightTrueLeftFalse, boolean isOnAllianceSide){
     double currentPoseX = getPose().getX();
     double currentPoseY = getPose().getY();
     double closestPose = 0;
     double closestDiff = 100;
+    boolean redAlliance = isRedAlliance();
+    if (!isOnAllianceSide) redAlliance = !redAlliance;
     if (rightTrueLeftFalse){
       for (double i=1; i<=12; i = i+2){
-        double checkPoseX = Constants.ReefScoringLocations.getScorePose(isRedAlliance(),i).getX();
-        double checkPoseY = Constants.ReefScoringLocations.getScorePose(isRedAlliance(),i).getY();
+        double checkPoseX = Constants.ReefScoringLocations.getScorePose(redAlliance,i).getX();
+        double checkPoseY = Constants.ReefScoringLocations.getScorePose(redAlliance,i).getY();
         double diff = Math.hypot(checkPoseX-currentPoseX, checkPoseY-currentPoseY);
         if (diff < closestDiff){
           closestDiff = diff;
@@ -175,8 +177,8 @@ public class SwerveSubsystem extends SubsystemBase
       }}
     else{
       for (double i=2; i<=12; i = i+2){
-        double checkPoseX = Constants.ReefScoringLocations.getScorePose(isRedAlliance(),i).getX();
-        double checkPoseY = Constants.ReefScoringLocations.getScorePose(isRedAlliance(),i).getY();
+        double checkPoseX = Constants.ReefScoringLocations.getScorePose(redAlliance,i).getX();
+        double checkPoseY = Constants.ReefScoringLocations.getScorePose(redAlliance,i).getY();
         double diff = Math.hypot(checkPoseX-currentPoseX, checkPoseY-currentPoseY);
         if (diff < closestDiff){
           closestDiff = diff;
@@ -381,6 +383,38 @@ public class SwerveSubsystem extends SubsystemBase
  * 2659 custom - drive into the reef with a profiled PID controller to perform the final approach. We'll put our superstructure into scoring position right before this command is called 
  * @param targetPose
  * @return
+  */
+  public Command driveToAlgaePosePID(Pose2d targetPose, boolean isOnAllianceSide)
+  {
+    TrapezoidProfile.Constraints xyConstraints = new Constraints(2,1.5); //Contra was 2,.6
+    ProfiledPIDController xcontroller = new ProfiledPIDController(15.,10.,.4, xyConstraints);
+    ProfiledPIDController ycontroller = new ProfiledPIDController(15.,10.,.4, xyConstraints);
+    xcontroller.setIZone(.5);
+    xcontroller.setTolerance(.025); //.008m for contra
+    ycontroller.setIZone(.5);
+    ycontroller.setTolerance(.025);
+    BooleanSupplier atTarget = () -> (xcontroller.atGoal() && ycontroller.atSetpoint()&& (Math.abs(getPose().getRotation().getDegrees() - targetPose.getRotation().getDegrees())<1 ));
+    Command resetTheThing = new InstantCommand(
+      () ->     { xcontroller.reset(getPose().getX());
+                  ycontroller.reset(getPose().getY());
+                  } );
+    Command doTheThing = run(() -> {
+      driveFieldOriented(getTargetSpeeds( xcontroller.calculate(getPose().getX(), targetPose.getX()),
+                                          ycontroller.calculate(getPose().getY(), targetPose.getY()),
+                                          //Rotation2d.fromDegrees(thetacontroller.calculate(getPose().getRotation().getDegrees(), targetPose.getRotation().getDegrees())))
+                                          targetPose.getRotation()));
+                                          SmartDashboard.putNumber("targetpose X",targetPose.getX());
+                                          SmartDashboard.putNumber("targetpose Y",targetPose.getY());
+                                          SmartDashboard.putBoolean("x at goal", xcontroller.atGoal());
+                                          SmartDashboard.putBoolean("y at goal", ycontroller.atGoal());
+    }).until(atTarget);
+      return new SequentialCommandGroup(resetTheThing, doTheThing);
+  }
+
+/**
+ * 2659 custom - drive into the reef with a profiled PID controller to perform the final approach. We'll put our superstructure into scoring position right before this command is called 
+ * @param targetPose
+ * @return
  */
   public Command driveToTargetPosePID(Pose2d targetPose)
   {
@@ -482,7 +516,7 @@ public class SwerveSubsystem extends SubsystemBase
     {Pose2d scoreDrivePose = Constants.ReefScoringLocations.getScorePose(isRedAlliance(),selectPose); 
       return scoreDrivePose;
     }  
-    
+  
   
   /**
    * returns an alliance specific pre-scoring pose to go to before scoreing from 1pm through 12pm position on the reef 
@@ -493,6 +527,18 @@ public class SwerveSubsystem extends SubsystemBase
   {
    Pose2d prescoreDrivePose = Constants.ReefScoringLocations.getPrescorePose(isRedAlliance(),selectPose); 
     return prescoreDrivePose;
+  }  
+  
+  /**
+   * returns an alliance specific pre-scoring pose to go to before scoreing from 1pm through 12pm position on the reef 
+   * @param selectPose
+   * @return
+   */  
+  public Pose2d getAlgaeGrabPose(double selectPose, boolean isOnAllianceSide)
+  { Pose2d algaePose = Constants.ReefScoringLocations.getPrescorePose(isRedAlliance(),selectPose); 
+    if(!isOnAllianceSide) algaePose = Constants.ReefScoringLocations.getPrescorePose(!isRedAlliance(),selectPose); //if not on alliance side, flip the boolean for alliance side
+    SmartDashboard.putString("algaeGrabPose", algaePose.toString());
+    return algaePose;
   }  
   
   //BVN 3-4-25, I commented out the 254 setpoint generator code, I've heard it uses a lot of memory. We can come back to it in the offseason
@@ -808,6 +854,14 @@ public class SwerveSubsystem extends SubsystemBase
   {
     var alliance = DriverStation.getAlliance();
     return alliance.isPresent() ? alliance.get() == DriverStation.Alliance.Red : false;
+  }
+
+  public boolean isOnAllianceSide(){
+    if (isRedAlliance() && getPose().getX() > 8.01){
+      return true;}
+    else if (!isRedAlliance() && getPose().getX() < 8.01){
+      return true;}
+    else {return false;}
   }
 
   /**

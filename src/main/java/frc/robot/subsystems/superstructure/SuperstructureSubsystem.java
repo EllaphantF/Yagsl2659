@@ -129,27 +129,18 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public SuperstructureSubsystem() {
         //mLED.setLightMode(0);
     /* Configurations */
-    /*
-        mElevatorRight.getConfigurator().apply(Constants.SuperstructureConfigs.getElevatorConfigRight());
-        mElevatorLeft.getConfigurator().apply(Constants.SuperstructureConfigs.getElevatorConfigLeft());
-        mEndeffectorPivot.getConfigurator().apply(Constants.SuperstructureConfigs.getEndeffectorPivotConfig());
-        mEndeffectorRollers.getConfigurator().apply(Constants.SuperstructureConfigs.getEndeffectorWheelsConfiguration());//using intake config for now, should be similar. Once we tune one of the EE rollers / funnel / intake rollers, we can copy that starting point for the others
-        mIntakePivotLeft.getConfigurator().apply(Constants.SuperstructureConfigs.getIntakePivotLeftConfiguration()); //
-        mIntakePivotRight.getConfigurator().apply(Constants.SuperstructureConfigs.getIntakePivotRightConfiguration()); //
-        mIntakeWheels.getConfigurator().apply(Constants.SuperstructureConfigs.getIntakeWheelsConfiguration());
-        mFunnelWheels.getConfigurator().apply(Constants.SuperstructureConfigs.getFunnelWheelsConfiguration());
-        mElevatorRight.setControl(new Follower(mElevatorLeft.getDeviceID(), true)); //
-        mIntakePivotRight.setControl(new Follower(mIntakePivotLeft.getDeviceID(), true));*/
         
-        mElevatorRight.getConfigurator().apply(Constants.SuperstructureConfigs.getElevatorConfigRight());
         mElevatorLeft.getConfigurator().apply(Constants.SuperstructureConfigs.getElevatorConfigLeft());
+        mElevatorRight.getConfigurator().apply(Constants.SuperstructureConfigs.getElevatorConfigRight());
+        
+        //mElevatorRight.setControl(new Follower(mElevatorLeft.getDeviceID(), true)); //try removing this
+
         mEndeffectorPivot.getConfigurator().apply(Constants.SuperstructureConfigs.getEndeffectorPivotConfig());
         mEndEffectorRollersL.getConfigurator().apply(Constants.SuperstructureConfigs.getEndeffectorWheelsConfigurationLeft());//
         mEndEffectorRollersR.getConfigurator().apply(Constants.SuperstructureConfigs.getEndeffectorWheelsConfiguration()); //
         mArmPivot.getConfigurator().apply(Constants.SuperstructureConfigs.getArmPivotConfiguration()); //
         mFunnelWheelsBottom.getConfigurator().apply(Constants.SuperstructureConfigs.getFunnelWheelsConfiguration());
         mFunnelWheelsTop.getConfigurator().apply(Constants.SuperstructureConfigs.getFunnelWheelsConfiguration());
-        mElevatorRight.setControl(new Follower(mElevatorLeft.getDeviceID(), true)); //
         mClimbPivot.getConfigurator().apply(Constants.SuperstructureConfigs.getClimbPivotConfiguration());
 
 

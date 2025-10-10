@@ -99,6 +99,7 @@ public class RobotContainer
   
   public double count = 0;
   public double scoringLocation = 0;
+  public boolean onOpponentSide = false;
 
   // Applies deadbands and inverts controls because joysticks
   // are back-right positive while robot
@@ -354,7 +355,7 @@ public class RobotContainer
       driverXbox.leftTrigger(.5).onFalse(Commands.runOnce(() -> CommandScheduler.getInstance().cancelAll())); //this seems to work, but might cancel other commands? Drive seems to work fine after this is called
 
       driverXbox.leftBumper().whileTrue(new StartEndCommand(
-        () -> getAlgaeBargeSequenceCommand().schedule(),
+        () -> getAlgaeBargeSequenceCommand(true).schedule(),
         () -> CommandScheduler.getInstance().cancelAll()
         ));
       driverXbox.leftBumper().onFalse(Commands.runOnce(() -> CommandScheduler.getInstance().cancelAll())); //
@@ -533,27 +534,32 @@ public class RobotContainer
   }
 
   public void setClosestScoringLocation(boolean rightTrueLeftFalse){
-    scoringLocation = drivebase.getClosestScoringLocation(rightTrueLeftFalse);
+    scoringLocation = drivebase.getClosestScoringLocation(rightTrueLeftFalse,true);
   }
   
+  public boolean setAlgaeGrabLocation(boolean checkOpponentSide){
+    if (checkOpponentSide) onOpponentSide = !drivebase.isOnAllianceSide();
+    SmartDashboard.putBoolean("onAllianceSide", !onOpponentSide);
+    scoringLocation = drivebase.getClosestScoringLocation(true,onOpponentSide); //always approach from right side for algae grab
+    return onOpponentSide;
+  }
   /**
    * 
    * @return
    */
   public Command getAlgaeGrabSequenceCommand(){
     //double selectPose = SmartDashboard.getNumber("Select Scoring Location",0);
-    setClosestScoringLocation(false);
+    onOpponentSide = setAlgaeGrabLocation(true);
     double selectPose = scoringLocation;
-    Pose2d prescoreDrivePose = drivebase.getPrescorePose(selectPose);
-    Command driveToPrescore = drivebase.driveToPose(prescoreDrivePose);
-    Command driveToScore = drivebase.driveToTargetPosePID(prescoreDrivePose);
+    Pose2d algaeDrivePose = drivebase.getAlgaeGrabPose(selectPose,!onOpponentSide);
+    Command driveToAlgae = drivebase.driveToTargetPosePID(algaeDrivePose);
     Command algaeDrive = drivebase.algaeBasicDrive();
     Command raiseAlgae = Commands.none();
     if (selectPose == 1 ||selectPose == 2 ||selectPose == 5 ||selectPose == 6 ||selectPose == 9 ||selectPose == 10) raiseAlgae = new InstantCommand(() -> superstructure.grabAlgae(3.));
     else raiseAlgae = new InstantCommand(() -> superstructure.grabAlgae(2.));
     Command autoAlgaeSequence = Commands.none();
     //autoAlgaeSequence = new SequentialCommandGroup(raiseAlgae,driveToPrescore, driveToScore, algaeDrive);
-    autoAlgaeSequence = new SequentialCommandGroup(raiseAlgae, driveToScore, algaeDrive);
+    autoAlgaeSequence = new SequentialCommandGroup(raiseAlgae, driveToAlgae, algaeDrive);
     return autoAlgaeSequence;
   }
 
@@ -561,10 +567,13 @@ public class RobotContainer
    * 
    * @return
    */
-  public Command getAlgaeBargeSequenceCommand(){
+  public Command getAlgaeBargeSequenceCommand(boolean checkOpponentSide){
     //double selectPose = SmartDashboard.getNumber("Select Scoring Location",0);
+    
+    if (checkOpponentSide) onOpponentSide = !drivebase.isOnAllianceSide();
+    SmartDashboard.putBoolean("onAllianceSide", !onOpponentSide);
     double selectPose = 13; //13 for barge
-
+    if (onOpponentSide) selectPose = 15; //if on opponent side, go to the closer barge location
     Pose2d prescoreDrivePose = drivebase.getPrescorePose(selectPose);
     Command driveToScore = drivebase.driveToTargetPosePID(prescoreDrivePose);
     Command scoreAlgaeInBarge = new InstantCommand(() -> superstructure.goToBargeAlgaeScoring());
