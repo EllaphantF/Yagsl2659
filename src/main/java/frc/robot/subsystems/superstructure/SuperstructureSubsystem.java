@@ -642,7 +642,7 @@ public void groundIntakeAlgae(){
   }}}
 
   public BooleanSupplier notHasCoralCheck(){
-    SmartDashboard.putNumber("notHasCoralCheck", Timer.getFPGATimestamp());
+    //SmartDashboard.putNumber("notHasCoralCheck", Timer.getFPGATimestamp());
   return notHasCoralCheck;
   }
 
@@ -767,28 +767,30 @@ public void groundIntakeAlgae(){
 
   public void updateSD(){
     //PID position device targets and positions
-    SmartDashboard.putNumber("zArm Pivot Target", TARGETSTATE.arm);
-    SmartDashboard.putNumber("zArm Pivot Position", armPivotPos);
+    SmartDashboard.putNumber("Arm Pivot Target", TARGETSTATE.arm);
+    SmartDashboard.putNumber("Arm Pivot Position", armPivotPos);
     
-    SmartDashboard.putNumber("zElevator Target", TARGETSTATE.elevator);
-    SmartDashboard.putNumber("zElevator Position", elevatorPos);
+    SmartDashboard.putNumber("Elevator Target", TARGETSTATE.elevator);
+    SmartDashboard.putNumber("Elevator Position", elevatorPos);
 
-    SmartDashboard.putNumber("zEndeffector Pivot Target", TARGETSTATE.ee);
-    SmartDashboard.putNumber("zEndeffector Pivot Position", endeffectorPivotPos);
+    SmartDashboard.putNumber("Endeffector Pivot Target", TARGETSTATE.ee);
+    SmartDashboard.putNumber("Endeffector Pivot Position", endeffectorPivotPos);
 
     //Wheelspeeds
-    SmartDashboard.putNumber("zFunnel Top Wheelspeed", mFunnelWheelsTop.getVelocity().getValueAsDouble());
-    SmartDashboard.putNumber("zEndeffector Wheelspeed", mEndEffectorRollersL.getVelocity().getValueAsDouble());
+    //SmartDashboard.putNumber("zFunnel Top Wheelspeed", mFunnelWheelsTop.getVelocity().getValueAsDouble());
+    //SmartDashboard.putNumber("zEndeffector Wheelspeed", mEndEffectorRollersL.getVelocity().getValueAsDouble());
 
     //Bools and sequences
     
-    SmartDashboard.putBoolean("zAtPos", atPosition());
-    SmartDashboard.putBoolean("zstowing", stowing);
-    SmartDashboard.putBoolean("zintakeTraversing", intakeTraversing);
-    SmartDashboard.putBoolean("zintaking", intaking);
-    SmartDashboard.putBoolean("zlifting", lifting);
-    SmartDashboard.putBoolean("zscoringCoral", scoringCoral);
-    SmartDashboard.putBoolean("zhasCoral", hasCoral);
+    SmartDashboard.putBoolean("Superstructure At Pos", atPosition());
+    SmartDashboard.putBoolean("Superstructure At Scoring Pos", atPositionScoring());
+    SmartDashboard.putBoolean("Stowing", stowing);
+    SmartDashboard.putBoolean("IntakeTraversing", intakeTraversing);
+    SmartDashboard.putBoolean("Intaking", intaking);
+    SmartDashboard.putBoolean("Lifting", lifting);
+    SmartDashboard.putBoolean("ScoringCoral", scoringCoral);
+    SmartDashboard.putBoolean("HasCoral", hasCoral);
+    SmartDashboard.putBoolean("HasAlgae", hasAlgae);
     
     SmartDashboard.putBoolean("zSafeToLift", safeToLift());
     SmartDashboard.putBoolean("zSafeToStow", safeToStow());
@@ -819,33 +821,64 @@ public void groundIntakeAlgae(){
    * @return
    */
   public boolean atPositionScoring(){
-
-    if (scoreLevel == 2){
-        if( Math.abs(elevatorPos - STATE.CoralL2.elevator) < Constants.scoringPositionTolerance && Math.abs(endeffectorPivotPos - STATE.CoralL2.ee) < Constants.scoringPositionTolerance && Math.abs(armPivotPos - STATE.CoralL2.arm) < Constants.scoringPositionTolerance){
+    boolean eeAtPos = false;
+    boolean elevatorAtPos = false;
+    boolean armAtPos = false;
+      if(scoreLevel == 1){
+        elevatorAtPos = Math.abs(elevatorPos - STATE.CoralL1.elevator) < Constants.scoringPositionTolerance;
+        SmartDashboard.putBoolean("Elevator At Pos Scoring", elevatorAtPos);
+        eeAtPos = Math.abs(endeffectorPivotPos - STATE.CoralL1.ee) < Constants.scoringPositionTolerance;
+        SmartDashboard.putBoolean("EE At Pos Scoring", eeAtPos);
+        armAtPos = Math.abs(armPivotPos - STATE.CoralL1.arm) < Constants.scoringPositionTolerance;
+        SmartDashboard.putBoolean("Arm At Pos Scoring", armAtPos);
+        if(elevatorAtPos  && eeAtPos && armAtPos){
           // mLED.setLightMode(7);
-          SmartDashboard.putBoolean("At Position Scoring", true);
-          lightMode = 13;
-          return true; } }
-    else if(scoreLevel == 3){
-      if( Math.abs(elevatorPos - STATE.CoralL3.elevator) < Constants.scoringPositionTolerance && Math.abs(endeffectorPivotPos - STATE.CoralL3.ee) < Constants.scoringPositionTolerance && Math.abs(armPivotPos - STATE.CoralL3.arm) < Constants.scoringPositionTolerance){
-        // mLED.setLightMode(7);
-          SmartDashboard.putBoolean("At Position Scoring", true);
-          lightMode = 13;
-          return true; } }
-    else if(scoreLevel == 4){
-       if( Math.abs(elevatorPos - STATE.CoralL4.elevator) < Constants.scoringPositionTolerance && Math.abs(endeffectorPivotPos - STATE.CoralL4.ee) < Constants.scoringPositionTolerance && Math.abs(armPivotPos - STATE.CoralL4.arm) < Constants.scoringPositionTolerance){
-        // mLED.setLightMode(7);
-          SmartDashboard.putBoolean("At Position Scoring", true);
-          lightMode = 13;
-          return true; } }
-    else {
-      // mLED.setLightMode(0);
-      return false;}
-      SmartDashboard.putBoolean("At Position Scoring", false);
-    // mLED.setLightMode(7);
-    return false;
-  }
-
+            SmartDashboard.putBoolean("At Position Scoring", true);
+            lightMode = 13;
+            return true; }}
+      else if (scoreLevel == 2){
+        elevatorAtPos = Math.abs(elevatorPos - STATE.CoralL2.elevator) < Constants.scoringPositionTolerance;
+        SmartDashboard.putBoolean("Elevator At Pos Scoring", elevatorAtPos);
+        eeAtPos = Math.abs(endeffectorPivotPos - STATE.CoralL2.ee) < Constants.scoringPositionTolerance;
+        SmartDashboard.putBoolean("EE At Pos Scoring", eeAtPos);
+        armAtPos = Math.abs(armPivotPos - STATE.CoralL2.arm) < Constants.scoringPositionTolerance;
+        SmartDashboard.putBoolean("Arm At Pos Scoring", armAtPos);
+        if(elevatorAtPos  && eeAtPos && armAtPos){
+          // mLED.setLightMode(7);
+            SmartDashboard.putBoolean("At Position Scoring", true);
+            lightMode = 13;
+            return true; }}
+      else if(scoreLevel == 3){
+        elevatorAtPos = Math.abs(elevatorPos - STATE.CoralL3.elevator) < Constants.scoringPositionTolerance;
+        SmartDashboard.putBoolean("Elevator At Pos Scoring", elevatorAtPos);
+        eeAtPos = Math.abs(endeffectorPivotPos - STATE.CoralL3.ee) < Constants.scoringPositionTolerance;
+        SmartDashboard.putBoolean("EE At Pos Scoring", eeAtPos);
+        armAtPos = Math.abs(armPivotPos - STATE.CoralL3.arm) < Constants.scoringPositionTolerance;
+        SmartDashboard.putBoolean("Arm At Pos Scoring", armAtPos);
+        if(elevatorAtPos  && eeAtPos && armAtPos){
+          // mLED.setLightMode(7);
+            SmartDashboard.putBoolean("At Position Scoring", true);
+            lightMode = 13;
+            return true; }}
+      else if(scoreLevel == 4){
+        elevatorAtPos = Math.abs(elevatorPos - STATE.CoralL4.elevator) < Constants.scoringPositionTolerance;
+        SmartDashboard.putBoolean("Elevator At Pos Scoring", elevatorAtPos);
+        eeAtPos = Math.abs(endeffectorPivotPos - STATE.CoralL4.ee) < Constants.scoringPositionTolerance;
+        SmartDashboard.putBoolean("EE At Pos Scoring", eeAtPos);
+        armAtPos = Math.abs(armPivotPos - STATE.CoralL4.arm) < Constants.scoringPositionTolerance;
+        SmartDashboard.putBoolean("Arm At Pos Scoring", armAtPos);
+        if(elevatorAtPos  && eeAtPos && armAtPos){
+          // mLED.setLightMode(7);
+            SmartDashboard.putBoolean("At Position Scoring", true);
+            lightMode = 13;
+            return true; }}
+      else {
+        // mLED.setLightMode(0);
+        return false;}
+        SmartDashboard.putBoolean("At Position Scoring", false);
+      // mLED.setLightMode(7);
+      return false;
+    }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
