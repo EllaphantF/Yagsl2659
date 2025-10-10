@@ -291,8 +291,8 @@ public class Vision
     LEFT_CAM("REEF_FRONT_RIGHT",
         new Rotation3d(0*Math.PI/180, -40*Math.PI/180, (0 )*Math.PI / 180),//new Rotation3d(0, -18*Math.PI / 180, 0),
         new Translation3d(
-          (4. )/39.4 +.175, //x robot forward -- SUBTRACTING MOVES ACTUAL ROBOT POSITION BACK
-          (-14.5)/39.4 +.2+.2+.2 ,  //y robot left ADDING MOVES ACTUAL ROBOT POSITION RIGHT
+          0.275, //x robot forward -- SUBTRACTING MOVES ACTUAL ROBOT POSITION BACK
+          (0.233),  //y robot left ADDING MOVES ACTUAL ROBOT POSITION RIGHT
           (39.75)/39.4), //z
         //VecBuilder.fill(5, 5, 20), VecBuilder.fill(1, 1, 10))//,
         //VecBuilder.fill(.5, .5, 5), VecBuilder.fill(1,1, 5)),//,
@@ -301,12 +301,12 @@ public class Vision
     /**
      * Right Camera
      */
-    RIGHT_CAM("REEF_BACK_LEFT",//,
-        new Rotation3d(0*Math.PI/180, 0*Math.PI/180, (180)*Math.PI / 180),//new Rotation3d(0, -18*Math.PI / 180, 0), wooden mount was 25.5 deg, measure in photonvision gui
+    RIGHT_CAM("REEF_FRONT_LEFT",//,
+        new Rotation3d(0*Math.PI/180, -40*Math.PI/180, (0 )*Math.PI / 180),//new Rotation3d(0, -18*Math.PI / 180, 0), wooden mount was 25.5 deg, measure in photonvision gui
         new Translation3d(
-         (-12.5 - 12.5 + 1)/39.4 +.3 , //x - forward
-         (4.5)/39.4 +.22 , //y - left
-         (7.25)/39.4),  //z 
+          .275, //x robot forward -- SUBTRACTING MOVES ACTUAL ROBOT POSITION BACK
+          (-0.233) ,  //y robot left ADDING MOVES ACTUAL ROBOT POSITION RIGHT
+          (39.75)/39.4), //z
         //VecBuilder.fill(5, 5, 20), VecBuilder.fill(1, 1, 10))//,
         VecBuilder.fill(.5,.5, 5), VecBuilder.fill(1,1, 5)),//,
         

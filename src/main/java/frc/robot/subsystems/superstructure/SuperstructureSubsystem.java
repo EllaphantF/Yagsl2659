@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.subsystems.LEDs;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -127,7 +128,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
 
   /** Creates a new ExampleSubsystem. */
   public SuperstructureSubsystem() {
-        //mLED.setLightMode(0);
+        
     /* Configurations */
         
         mElevatorLeft.getConfigurator().apply(Constants.SuperstructureConfigs.getElevatorConfigLeft());
@@ -330,14 +331,14 @@ public class SuperstructureSubsystem extends SubsystemBase {
     intakeTraversing = true;
     /* This block checks that the system is in a safe spot before it commands motion, and if there's potential interference(i.e. endeffector would crash) then it goes to a safe stow position first until its below a safety threshold */
     if(elevatorPos > Constants.crossbarClearancePos){ //If elevator is above the crossbar
-          // mLED.setLightMode(1);
+          
           lightMode = 8;
           TARGETSTATE = STATE.StowClearIntakeDeployed; //put the intake down and bring the elevator down with the endeffector towards the scoring side of the robot
         //}
     }
     else { //if the elevator is below the crossbar (i.e. wont crash the endeffector into the crossbar)    
           TARGETSTATE = STATE.Intake;//put the intake down and bring the elevator down with the endeffector towards the scoring side of the robot 
-          // mLED.setLightMode(1);
+          
           lightMode = 8;
           intakeTraversing = false;
           intaking = true;
@@ -351,18 +352,18 @@ public class SuperstructureSubsystem extends SubsystemBase {
     releasingCoral = false;
     //hasCoral = true; //temporary for testing 2/19/2025
     TARGETSTATE = STATE.Intake;
+    lightMode = 8;
     if(atPosition()){
-      // mLED.setLightMode(1);
+      lightMode = 3;
       setEndeffectorWheelSpeed(3,3);
       //setIntakeWheelSpeed(45); // was 23 -- 40 works great 3-8-2025
       setFunnelWheelSpeed(-4);}//was -10 -- -8 works great 3-8-2025
     if ( CANdi.getS1State(true).getValueAsDouble() == 1){ //was 19 amps 
     
       justGotCoral();
-      setIntakeWheelSpeed(0);
       setFunnelWheelSpeed(0);
       intaking = false;
-      lightMode = 3; 
+      lightMode = 6; 
       //stowing = true; //removed 3-8-25 so that coral will fully stow before EE pivot stows
     }
   }
@@ -447,7 +448,8 @@ public class SuperstructureSubsystem extends SubsystemBase {
 
   public void stopAllWheels(){
     setFunnelWheelSpeed(0);
-    if(!hasAlgae)setEndeffectorWheelSpeed(0,0);
+    if(hasAlgae) setEndeffectorWheelSpeed(-1,-1);
+    else setEndeffectorWheelSpeed(0,0);
   }
 
   public void goHome(){
@@ -523,7 +525,7 @@ public void groundIntakeAlgae(){
   public void grabbingAlgae(){
     
     if(CANdi.getS1State(true).getValueAsDouble() == 1){
-      setEndeffectorWheelSpeed(-2,-2); //ACE - tune the holding voltage here
+      setEndeffectorWheelSpeed(-1,-1); //ACE - tune the holding voltage here
       hasAlgae = true;
       grabbingAlgae = false;
       if(TARGETSTATE == STATE.grabAlgaeL2) TARGETSTATE = STATE.StowWithAlgaeL2;
@@ -669,8 +671,7 @@ public void groundIntakeAlgae(){
   }
 
   public void spit(){
-    setIntakeWheelSpeed(-10);
-    setFunnelWheelSpeed(10);
+    setFunnelWheelSpeed(2);
   }
 
 

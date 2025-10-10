@@ -1043,8 +1043,11 @@ public class SwerveSubsystem extends SubsystemBase
     SmartDashboard.putNumber("Absolute Encoder mod1" +  " Angle (degrees): ", CANCoder1.getAbsolutePosition());
     SmartDashboard.putNumber("Absolute Encoder mod2" +  " Angle (degrees): ", CANCoder2.getAbsolutePosition());
     SmartDashboard.putNumber("Absolute Encoder mod3" +  " Angle (degrees): ", CANCoder3.getAbsolutePosition());
-  
+    
+    swerveDrive.field.setRobotPose(swerveDrive.getPose());
+
     SmartDashboard.putData("Field",swerveDrive.field);
+    
     SmartDashboard.putNumber("XPos",swerveDrive.getPose().getX());
     SmartDashboard.putNumber("YPos",swerveDrive.getPose().getY());
     SmartDashboard.putNumber("yaw angle", swerveDrive.getPose().getRotation().getDegrees());
