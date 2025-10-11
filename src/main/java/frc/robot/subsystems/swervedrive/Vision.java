@@ -285,31 +285,32 @@ public class Vision
   enum Cameras
   {
     /**
-     * Left Camera
+     * Right Camera
      */
     
-    LEFT_CAM("REEF_FRONT_RIGHT",
-        new Rotation3d(0*Math.PI/180, -40*Math.PI/180, (0 )*Math.PI / 180),//new Rotation3d(0, -18*Math.PI / 180, 0),
+    RIGHT_CAM("REEF_BACK_RIGHT",
+
+        new Rotation3d(0*Math.PI/180, -40*Math.PI/180, (5 )*Math.PI / 180),//new Rotation3d(0, -18*Math.PI / 180, 0),
         new Translation3d(
-          0.275, //x robot forward -- SUBTRACTING MOVES ACTUAL ROBOT POSITION BACK
-          (0.233),  //y robot left ADDING MOVES ACTUAL ROBOT POSITION RIGHT
+          0.275 , //x robot for  ward -- SUBTRACTING MOVES ACTUAL ROBOT POSITION BACK //.275
+          ( 0.233 + .1 -.12 ),  //y robot - adding moves position the robots actually gets to rightward, subtracting moves left
           (39.75)/39.4), //z
         //VecBuilder.fill(5, 5, 20), VecBuilder.fill(1, 1, 10))//,
         //VecBuilder.fill(.5, .5, 5), VecBuilder.fill(1,1, 5)),//,
-        VecBuilder.fill(.5, .5, 5), VecBuilder.fill(1,1, 5)),//,
+        VecBuilder.fill(.5, .5, 5), VecBuilder.fill(1,1, 5)),
     
     /**
-     * Right Camera
+     * Left Camera
      */
-    RIGHT_CAM("REEF_FRONT_LEFT",//,
-        new Rotation3d(0*Math.PI/180, -40*Math.PI/180, (0 )*Math.PI / 180),//new Rotation3d(0, -18*Math.PI / 180, 0), wooden mount was 25.5 deg, measure in photonvision gui
+    LEFT_CAM("REEF_BACK_LEFT",//,
+        new Rotation3d(0*Math.PI/180, -40*Math.PI/180, (5 )*Math.PI / 180),//new Rotation3d(0, -18*Math.PI / 180, 0), wooden mount was 25.5 deg, measure in photonvision gui
         new Translation3d(
-          .275, //x robot forward -- SUBTRACTING MOVES ACTUAL ROBOT POSITION BACK
-          (-0.233) ,  //y robot left ADDING MOVES ACTUAL ROBOT POSITION RIGHT
+          -.275 , //x robot forward -- SUBTRACTING MOVES ACTUAL ROBOT POSITION BACK
+          (-0.33 +.3 +.3) ,  //y robot left ADDING MOVES ACTUAL ROBOT POSITION RIGHT
           (39.75)/39.4), //z
         //VecBuilder.fill(5, 5, 20), VecBuilder.fill(1, 1, 10))//,
-        VecBuilder.fill(.5,.5, 5), VecBuilder.fill(1,1, 5)),//,
-        
+        VecBuilder.fill(.5,.5, 5), VecBuilder.fill(1,1, 5))//,
+       
     /**
      * Center Camera
      */

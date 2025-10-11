@@ -22,9 +22,9 @@ public class IntakeCommand extends Command {
     @Override
     public void execute() {
         //structure.intake();
-        if (structure.hasCoral == false){
+        
         structure.intaking();
-        }
+        
 
         
     }

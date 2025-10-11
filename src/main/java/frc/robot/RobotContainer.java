@@ -191,7 +191,7 @@ public class RobotContainer
   public RobotContainer()
   {
     /* Added Named Commands for Pathplanner */
-	  NamedCommands.registerCommand("Intake", new IntakeCommand(superstructure).withTimeout(3));
+	  NamedCommands.registerCommand("Intake", new IntakeCommand(superstructure).withTimeout(4.5));
     //NamedCommands.registerCommand("Intake", new InstantCommand(() -> superstructure.intake()).withTimeout(3));
     NamedCommands.registerCommand("L1", new L1Command(superstructure).withTimeout(3));
     NamedCommands.registerCommand("L2", new L2Command(superstructure).withTimeout(3));
@@ -205,24 +205,16 @@ public class RobotContainer
 	  
     NamedCommands.registerCommand("AutonScoreCommand", Commands.defer(() -> getScoreSequenceCommand(true), Set.of(getSuperstructure(), getSwerveSubsystem()))); // gift from the green limey team
     
-    //NamedCommands.registerCommand("AutonScoreCommandP1L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  1 , 4).withTimeout(5));
-    NamedCommands.registerCommand("AutonScoreCommandP1L4" , Commands.sequence(
-      new SequentialCommandGroup(new InstantCommand( () -> scoringLocation = 1),new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 1))),
+    NamedCommands.registerCommand("AutonScoreCommandP2L4" , new SequentialCommandGroup(
       new InstantCommand(()-> superstructure.setCoralLevel(4.)),
-      new StartEndCommand(
-        () -> getScoreSequenceCommand(true).schedule(),
-        () -> CommandScheduler.getInstance().cancel(getScoreSequenceCommand(true)) ).withTimeout(3.0)
-        )
-      );
-    //NamedCommands.registerCommand("AutonScoreCommandP2L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  2 , 4).withTimeout(.2));
-
-    NamedCommands.registerCommand("AutonScoreCommandP2L4" , Commands.sequence(
       new SequentialCommandGroup(new InstantCommand( () -> scoringLocation = 2),new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 2))),
-      new InstantCommand(()-> superstructure.setCoralLevel(4.)),
-      getScoreSequenceCommand(true).withTimeout(1.5))
-      );
-      
-  
+      Commands.defer(() -> getScoreSequenceCommand(false), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(3.0)));
+   
+      NamedCommands.registerCommand("AutonScoreCommandP4L4" , new SequentialCommandGroup(
+        new InstantCommand(()-> superstructure.setCoralLevel(4.)),
+        new SequentialCommandGroup(new InstantCommand( () -> scoringLocation = 4),new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 4))),
+        Commands.defer(() -> getScoreSequenceCommand(false), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(3.0)));
+     
     NamedCommands.registerCommand("AutonScoreCommandP6L4" , new SequentialCommandGroup(
       new InstantCommand(()-> superstructure.setCoralLevel(4.)),
       new SequentialCommandGroup(new InstantCommand( () -> scoringLocation = 6),new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 6))),
@@ -549,7 +541,7 @@ public class RobotContainer
    */
   public Command getAlgaeGrabSequenceCommand(){
     //double selectPose = SmartDashboard.getNumber("Select Scoring Location",0);
-    onOpponentSide = setAlgaeGrabLocation(true);
+    onOpponentSide = setAlgaeGrabLocation(false);
     double selectPose = scoringLocation;
     Pose2d algaeDrivePose = drivebase.getAlgaeGrabPose(selectPose,!onOpponentSide);
     Command driveToAlgae = drivebase.driveToTargetPosePID(algaeDrivePose);

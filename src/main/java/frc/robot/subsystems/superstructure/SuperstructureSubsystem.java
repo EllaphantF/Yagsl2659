@@ -132,13 +132,14 @@ public class SuperstructureSubsystem extends SubsystemBase {
     /* Configurations */
         
         mElevatorLeft.getConfigurator().apply(Constants.SuperstructureConfigs.getElevatorConfigLeft());
-        mElevatorRight.getConfigurator().apply(Constants.SuperstructureConfigs.getElevatorConfigRight());
+        //mElevatorRight.getConfigurator().apply(Constants.SuperstructureConfigs.getElevatorConfigRight());
         
-        //mElevatorRight.setControl(new Follower(mElevatorLeft.getDeviceID(), true)); //try removing this
+        mElevatorRight.setControl(new Follower(mElevatorLeft.getDeviceID(), true)); //try removing this
 
         mEndeffectorPivot.getConfigurator().apply(Constants.SuperstructureConfigs.getEndeffectorPivotConfig());
         mEndEffectorRollersL.getConfigurator().apply(Constants.SuperstructureConfigs.getEndeffectorWheelsConfigurationLeft());//
         mEndEffectorRollersR.getConfigurator().apply(Constants.SuperstructureConfigs.getEndeffectorWheelsConfiguration()); //
+
         mArmPivot.getConfigurator().apply(Constants.SuperstructureConfigs.getArmPivotConfiguration()); //
         mFunnelWheelsBottom.getConfigurator().apply(Constants.SuperstructureConfigs.getFunnelWheelsConfiguration());
         mFunnelWheelsTop.getConfigurator().apply(Constants.SuperstructureConfigs.getFunnelWheelsConfiguration());
@@ -448,7 +449,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
 
   public void stopAllWheels(){
     setFunnelWheelSpeed(0);
-    if(hasAlgae) setEndeffectorWheelSpeed(-1,-1);
+    if(hasAlgae) setEndeffectorWheelSpeed(-2,-2);
     else setEndeffectorWheelSpeed(0,0);
   }
 
@@ -483,7 +484,8 @@ public class SuperstructureSubsystem extends SubsystemBase {
 
   private void stow(){ //pulls the intake in and elevator down
     if(hasCoral && safeToStow()){
-      TARGETSTATE = STATE.StowWithCoral;
+      if (scoreLevel == 3 || scoreLevel == 4) TARGETSTATE = STATE.StowPreL34;
+      else TARGETSTATE = STATE.StowWithCoral;
       stowing = false;
       // STATE.StowCoral; //option for putting positions in a state
 
@@ -525,7 +527,7 @@ public void groundIntakeAlgae(){
   public void grabbingAlgae(){
     
     if(CANdi.getS1State(true).getValueAsDouble() == 1){
-      setEndeffectorWheelSpeed(-1,-1); //ACE - tune the holding voltage here
+      setEndeffectorWheelSpeed(-2,-2); //ACE - tune the holding voltage here
       hasAlgae = true;
       grabbingAlgae = false;
       if(TARGETSTATE == STATE.grabAlgaeL2) TARGETSTATE = STATE.StowWithAlgaeL2;

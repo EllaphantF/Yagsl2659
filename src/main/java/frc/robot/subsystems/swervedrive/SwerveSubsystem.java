@@ -386,9 +386,9 @@ public class SwerveSubsystem extends SubsystemBase
   */
   public Command driveToAlgaePosePID(Pose2d targetPose, boolean isOnAllianceSide)
   {
-    TrapezoidProfile.Constraints xyConstraints = new Constraints(2,1.5); //Contra was 2,.6
-    ProfiledPIDController xcontroller = new ProfiledPIDController(15.,10.,.4, xyConstraints);
-    ProfiledPIDController ycontroller = new ProfiledPIDController(15.,10.,.4, xyConstraints);
+    TrapezoidProfile.Constraints xyConstraints = new Constraints(2,2); //Contra was 2,.6
+    ProfiledPIDController xcontroller = new ProfiledPIDController(5.,2.,.2, xyConstraints);
+    ProfiledPIDController ycontroller = new ProfiledPIDController(5.,2.,.2, xyConstraints);
     xcontroller.setIZone(.5);
     xcontroller.setTolerance(.025); //.008m for contra
     ycontroller.setIZone(.5);

@@ -272,7 +272,7 @@ public final class Constants
           endeffectorPivotConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .04;
           endeffectorPivotConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .02;
           endeffectorPivotConfig.MotionMagic.MotionMagicCruiseVelocity = 80; //20 was smooth
-          endeffectorPivotConfig.MotionMagic.MotionMagicAcceleration = 100; //50 was smooth
+          endeffectorPivotConfig.MotionMagic.MotionMagicAcceleration = 200; //50 was smooth
           endeffectorPivotConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
           /*endeffectorPivotConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
           endeffectorPivotConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
@@ -402,7 +402,7 @@ public final class Constants
           intakePivotLeftConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .02;
           intakePivotLeftConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .02;
           intakePivotLeftConfig.MotionMagic.MotionMagicCruiseVelocity = 80 ; //
-          intakePivotLeftConfig.MotionMagic.MotionMagicAcceleration = 100; //
+          intakePivotLeftConfig.MotionMagic.MotionMagicAcceleration = 60; //
           intakePivotLeftConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
           intakePivotLeftConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
           intakePivotLeftConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 26.0;

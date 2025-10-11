@@ -5,9 +5,9 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Score 5 L2 Madge Path"
+            "name": "AutonScoreCommandP2L4"
           }
         },
         {
@@ -19,7 +19,7 @@
         {
           "type": "named",
           "data": {
-            "name": "L2"
+            "name": "L4"
           }
         },
         {
@@ -29,51 +29,58 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "5 to Intake Madge Path"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.2
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Intake to 6 Madge Path"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.2
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Copy of WHICHOVERRIDES Path"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.1
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "L2"
+            "name": "AutonScoreCommandP4L4"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.2
+            "waitTime": 0.1
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "6 to Intake Madge Path"
+            "name": "L4"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
           }
         }
       ]
     }
   },
-  "resetOdom": true,
-  "folder": "New Folder",
+  "resetOdom": false,
+  "folder": null,
   "choreoAuto": false
 }
