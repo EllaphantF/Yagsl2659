@@ -432,7 +432,7 @@ public class SwerveSubsystem extends SubsystemBase
 //    ProfiledPIDController ycontroller = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 5), SmartDashboard.getNumber("kI PID", 2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
 
     //ProfiledPIDController xcontroller = new ProfiledPIDController(10.,5.,.2, xyConstraints);
-    ProfiledPIDController xcontroller = new ProfiledPIDController(15.,10.,.4, xyConstraints);
+    ProfiledPIDController xcontroller = new ProfiledPIDController(15.,10.,.4, xyConstraints); //10-12-25 Need to update these values tomorrow
     ProfiledPIDController ycontroller = new ProfiledPIDController(15.,10.,.4, xyConstraints);
 
     //ProfiledPIDController thetacontroller = new ProfiledPIDController(30, 0, 0, thetaConstraints);
@@ -445,7 +445,7 @@ public class SwerveSubsystem extends SubsystemBase
     ycontroller.setIZone(.5);
     ycontroller.setTolerance(.025);
 
-    BooleanSupplier atTarget = () -> (xcontroller.atGoal() && ycontroller.atSetpoint()&& (Math.abs(getPose().getRotation().getDegrees() - targetPose.getRotation().getDegrees())<1
+    BooleanSupplier atTarget = () -> (xcontroller.atGoal() && ycontroller.atGoal()&& (Math.abs(getPose().getRotation().getDegrees() - targetPose.getRotation().getDegrees())<1
     
     
     ));
@@ -464,6 +464,7 @@ public class SwerveSubsystem extends SubsystemBase
                                           SmartDashboard.putNumber("targetpose Y",targetPose.getY());
                                           SmartDashboard.putBoolean("x at goal", xcontroller.atGoal());
                                           SmartDashboard.putBoolean("y at goal", ycontroller.atGoal());
+                                          SmartDashboard.putBoolean("angle at goal", (Math.abs(getPose().getRotation().getDegrees() - targetPose.getRotation().getDegrees())<2));
       
     }).until(atTarget);
       return new SequentialCommandGroup(resetTheThing, doTheThing);
