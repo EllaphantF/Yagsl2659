@@ -534,9 +534,9 @@ public class SwerveSubsystem extends SubsystemBase
    * @param selectPose
    * @return
    */  
-  public Pose2d getAlgaeGrabPose(double selectPose, boolean isOnAllianceSide)
+  public Pose2d getAlgaeGrabPose(double selectPose)
   { Pose2d algaePose = Constants.ReefScoringLocations.getPrescorePose(isRedAlliance(),selectPose); 
-    if(!isOnAllianceSide) algaePose = Constants.ReefScoringLocations.getPrescorePose(!isRedAlliance(),selectPose); //if not on alliance side, flip the boolean for alliance side
+    //if(!isOnAllianceSide) algaePose = Constants.ReefScoringLocations.getPrescorePose(!isRedAlliance(),selectPose); //if not on alliance side, flip the boolean for alliance side
     SmartDashboard.putString("algaeGrabPose", algaePose.toString());
     return algaePose;
   }  

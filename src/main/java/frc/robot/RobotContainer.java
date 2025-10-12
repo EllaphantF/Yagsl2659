@@ -538,21 +538,14 @@ public class RobotContainer
     scoringLocation = drivebase.getClosestScoringLocation(rightTrueLeftFalse,true);
   }
   
-  public boolean setAlgaeGrabLocation(boolean checkOpponentSide){
-    if (checkOpponentSide) onOpponentSide = !drivebase.isOnAllianceSide();
-    SmartDashboard.putBoolean("onAllianceSide", !onOpponentSide);
-    scoringLocation = drivebase.getClosestScoringLocation(true,onOpponentSide); //always approach from right side for algae grab
-    return onOpponentSide;
-  }
   /**
    * 
    * @return
    */
   public Command getAlgaeGrabSequenceCommand(){
     //double selectPose = SmartDashboard.getNumber("Select Scoring Location",0);
-    onOpponentSide = setAlgaeGrabLocation(false);
     double selectPose = scoringLocation;
-    Pose2d algaeDrivePose = drivebase.getAlgaeGrabPose(selectPose,!onOpponentSide);
+    Pose2d algaeDrivePose = drivebase.getAlgaeGrabPose(selectPose);
     Command driveToAlgae = drivebase.driveToTargetPosePID(algaeDrivePose);
     Command algaeDrive = drivebase.algaeBasicDrive();
     Command raiseAlgae = Commands.none();
