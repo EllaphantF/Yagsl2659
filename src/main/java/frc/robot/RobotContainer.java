@@ -515,8 +515,11 @@ public class RobotContainer
     //Command driveToPrescore = drivebase.driveToTargetPosePID(drivebase.getPrescorePose(SmartDashboard.getNumber("Select Scoring Location",0)));
     //Command driveToScore = drivebase.driveToTargetPosePID(drivebase.getScorePose(SmartDashboard.getNumber("Select Scoring Location",0)));
     Command autoScoreSequence = Commands.none();
-    if(!withAutoRelease){
+    if (superstructure.scoreLevel == 2) autoScoreSequence = new SequentialCommandGroup(  driveToScore,superStructureScore, release, waitForRelease);
+
+    /*5if(!withAutoRelease){
       autoScoreSequence = new SequentialCommandGroup(driveToPrescore, driveToScore);}
+    */
     else{
 //      autoScoreSequence = new SequentialCommandGroup(driveToPrescore, superStructureScore, driveToScore, release, waitForRelease);}
       autoScoreSequence = new SequentialCommandGroup( superStructureScore, driveToScore, release, waitForRelease);}

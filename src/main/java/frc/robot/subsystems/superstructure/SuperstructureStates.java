@@ -83,7 +83,7 @@ public class SuperstructureStates {
 
         /* need to send the elevator up with endeffector in so we dont crash into the reef */
         /*(x )*/ CoralPreL1 = new SuperstructureState(0., 5.1, 2., 2);
-        /*(x )*/ CoralPreL2 = new SuperstructureState(0., 0.25,15,0.2);
+        /*(x )*/ CoralPreL2 = new SuperstructureState(0., 5,5,0.2);
         /*(x )*/ CoralPreL3 = new SuperstructureState(0., 5.3, 19, 0.2);
         /*(x )*/ CoralPreL4 = new SuperstructureState(0., 26.9, 25.0, 2);
 

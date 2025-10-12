@@ -432,8 +432,8 @@ public class SwerveSubsystem extends SubsystemBase
 //    ProfiledPIDController ycontroller = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 5), SmartDashboard.getNumber("kI PID", 2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
 
     //ProfiledPIDController xcontroller = new ProfiledPIDController(10.,5.,.2, xyConstraints);
-    ProfiledPIDController xcontroller = new ProfiledPIDController(15.,10.,.4, xyConstraints); //10-12-25 Need to update these values tomorrow
-    ProfiledPIDController ycontroller = new ProfiledPIDController(15.,10.,.4, xyConstraints);
+    ProfiledPIDController xcontroller = new ProfiledPIDController(5.,5.,.45, xyConstraints); //10-12-25 Need to update these values tomorrow
+    ProfiledPIDController ycontroller = new ProfiledPIDController(5.,5.,.45, xyConstraints);
 
     //ProfiledPIDController thetacontroller = new ProfiledPIDController(30, 0, 0, thetaConstraints);
     //thetacontroller.enableContinuousInput(-180, 180);

@@ -326,6 +326,10 @@ public class SuperstructureSubsystem extends SubsystemBase {
    * Start the intaking sequence. Sets subsystem flags to safely handle the motion to intaking
    */
   public void intake(){
+    mElevatorLeft.getConfigurator().apply(Constants.SuperstructureConfigs.getElevatorConfigLeftCoral());
+    mEndeffectorPivot.getConfigurator().apply(Constants.SuperstructureConfigs.getEndeffectorPivotConfigCoral());
+    mArmPivot.getConfigurator().apply(Constants.SuperstructureConfigs.getArmPivotConfigurationCoral());
+        
   intakeTraverse();}
 
   public void intakeTraverse(){
@@ -359,7 +363,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
       setEndeffectorWheelSpeed(3,3);
       //setIntakeWheelSpeed(45); // was 23 -- 40 works great 3-8-2025
       setFunnelWheelSpeed(-4);}//was -10 -- -8 works great 3-8-2025
-    if ( CANdi.getS1State(true).getValueAsDouble() == 1){ //was 19 amps 
+    if ( CANdi.getS1State(true).getValueAsDouble() == 1){ //was 19 amps CANDi closed
     
       justGotCoral();
       setFunnelWheelSpeed(0);
@@ -489,6 +493,8 @@ public class SuperstructureSubsystem extends SubsystemBase {
     }
   }
 
+
+
   private void stow(){ //pulls the intake in and elevator down
     if(hasCoral && safeToStow()){
       if (scoreLevel == 3 || scoreLevel == 4) TARGETSTATE = STATE.StowPreL34;//StowWithCoral
@@ -519,9 +525,15 @@ public class SuperstructureSubsystem extends SubsystemBase {
  * @param level
  */
 public void groundIntakeAlgae(){
+  
+  mElevatorLeft.getConfigurator().apply(Constants.SuperstructureConfigs.getElevatorConfigLeft());
+  mEndeffectorPivot.getConfigurator().apply(Constants.SuperstructureConfigs.getEndeffectorPivotConfig());
+  mArmPivot.getConfigurator().apply(Constants.SuperstructureConfigs.getArmPivotConfiguration());
+
   grabbingAlgae = true;
   TARGETSTATE = STATE.groundIntakeAlgae;
   setEndeffectorWheelVelocity(-90,-90);
+  //setEndeffectorWheelSpeed(-10, -10);
   lightMode = 10;
 }
 
@@ -530,16 +542,22 @@ public void groundIntakeAlgae(){
  * @param level
  */
   public void grabAlgae(Double level){
+    
+  mElevatorLeft.getConfigurator().apply(Constants.SuperstructureConfigs.getElevatorConfigLeft());
+  mEndeffectorPivot.getConfigurator().apply(Constants.SuperstructureConfigs.getEndeffectorPivotConfig());
+  mArmPivot.getConfigurator().apply(Constants.SuperstructureConfigs.getArmPivotConfiguration());
+
     grabbingAlgae = true;
     if (level == 2) TARGETSTATE = STATE.grabAlgaeL2;
     if (level == 3) TARGETSTATE = STATE.grabAlgaeL3;
     setEndeffectorWheelVelocity(-60, -60); //was Speed -10
+    //setEndeffectorWheelSpeed(-10, -10);
     lightMode = 10;
   }
 
   public void grabbingAlgae(){
     
-    if(CANdi.getS1State(true).getValueAsDouble() == 1){
+    if(CANdi.getS1State(true).getValueAsDouble() == 1){ //CANDi closed
       setEndeffectorWheelSpeed(-2.5,-2.5); //ACE - tune the holding voltage here
       hasAlgae = true;
       grabbingAlgae = false;
@@ -649,7 +667,7 @@ public void groundIntakeAlgae(){
     }}
     else{
       setEndeffectorWheelSpeed(15, 15);
-      if(mEndEffectorRollersL.getPosition().getValueAsDouble() > 8 &&  CANdi.getS1State(true).getValueAsDouble() == 2) {//
+      if(mEndEffectorRollersL.getPosition().getValueAsDouble() > 8 &&  CANdi.getS1State(true).getValueAsDouble() == 0) {//check if beam break is open
         hasCoral = false;
         hasAlgae = false;
         releasingCoral = false;
@@ -678,7 +696,7 @@ public void groundIntakeAlgae(){
   }
 
   public void releasingAlgae(){
-    if(CANdi.getS1State(true).getValueAsDouble() == 0 && Timer.getFPGATimestamp() - algaeTimestamp > 0.3){ //if the CANdi says it's released and it's been at least 0.3 seconds
+    if(CANdi.getS1State(true).getValueAsDouble() == 1 && Timer.getFPGATimestamp() - algaeTimestamp > 0.3){ //if the CANdi says it's released and it's been at least 0.3 seconds
       setEndeffectorWheelSpeed(0,0);
       hasAlgae = false;
       releasingAlgae = false;
