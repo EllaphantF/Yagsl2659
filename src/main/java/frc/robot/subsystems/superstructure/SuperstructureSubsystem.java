@@ -389,6 +389,13 @@ public class SuperstructureSubsystem extends SubsystemBase {
     if(RobotBase.isSimulation()) m_EndeffectorRollers.setAngle(m_EndeffectorRollers.getAngle()+10);
   }
 
+  public void setEndeffectorWheelVelocity(double wheelSpeedL,double wheelSpeedR){
+    //mEndeffectorRollers.setControl(new VelocityVoltage(wheelSpeed));
+    mEndEffectorRollersL.setControl(new MotionMagicVelocityVoltage(wheelSpeedL));
+    mEndEffectorRollersR.setControl(new MotionMagicVelocityVoltage(wheelSpeedR));
+    if(RobotBase.isSimulation()) m_EndeffectorRollers.setAngle(m_EndeffectorRollers.getAngle()+10);
+  }
+
 
   public void setEndeffectorHold(){
     //mEndeffectorRollers.setControl(new VoltageOut(-.5)); //stall, but we can decide to change this to PID position hold
@@ -484,16 +491,22 @@ public class SuperstructureSubsystem extends SubsystemBase {
 
   private void stow(){ //pulls the intake in and elevator down
     if(hasCoral && safeToStow()){
-      if (scoreLevel == 3 || scoreLevel == 4) TARGETSTATE = STATE.StowPreL34;
+      if (scoreLevel == 3 || scoreLevel == 4) TARGETSTATE = STATE.StowPreL34;//StowWithCoral
       else TARGETSTATE = STATE.StowWithCoral;
       stowing = false;
-      // STATE.StowCoral; //option for putting positions in a state
+      // STATE.StowCoral; //option for putting positions in a state  
 
     }
+
+    
+    else if (TARGETSTATE == STATE.bargeAlgae)
+      TARGETSTATE = STATE.StowPreL34;
+
     else if (hasAlgae && safeToStow()){
       TARGETSTATE = STATE.StowWithAlgae;
       stowing = false;
     }
+
     else{
       TARGETSTATE = STATE.StowEEClear;
       stowing = false;
@@ -508,7 +521,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
 public void groundIntakeAlgae(){
   grabbingAlgae = true;
   TARGETSTATE = STATE.groundIntakeAlgae;
-  setEndeffectorWheelSpeed(-10,-10);
+  setEndeffectorWheelVelocity(-90,-90);
   lightMode = 10;
 }
 
@@ -520,14 +533,14 @@ public void groundIntakeAlgae(){
     grabbingAlgae = true;
     if (level == 2) TARGETSTATE = STATE.grabAlgaeL2;
     if (level == 3) TARGETSTATE = STATE.grabAlgaeL3;
-    setEndeffectorWheelSpeed(-10,-10);
+    setEndeffectorWheelVelocity(-60, -60); //was Speed -10
     lightMode = 10;
   }
 
   public void grabbingAlgae(){
     
     if(CANdi.getS1State(true).getValueAsDouble() == 1){
-      setEndeffectorWheelSpeed(-2,-2); //ACE - tune the holding voltage here
+      setEndeffectorWheelSpeed(-2.5,-2.5); //ACE - tune the holding voltage here
       hasAlgae = true;
       grabbingAlgae = false;
       if(TARGETSTATE == STATE.grabAlgaeL2) TARGETSTATE = STATE.StowWithAlgaeL2;
@@ -567,12 +580,12 @@ public void groundIntakeAlgae(){
   public void setCoralLevel(Double level){
     scoreLevel = level;
     scoringCoral = true;
-    sequenceState = 0;
+    sequenceState = 0; //2659
   }
   
 
   public void justGotCoral(){
-    if(hasCoral && mArmPivot.getPosition().getValueAsDouble() > -.5){//-5 * Constants.endEffectorPivotGearRatio / 360 ){     ACE - tune this number
+    if(hasCoral && mArmPivot.getPosition().getValueAsDouble() > .5){//-5 * Constants.endEffectorPivotGearRatio / 360 ){     ACE - tune this number
       //SmartDashboard.putNumber("zEEDebug", 0.5);
       mEndEffectorRollersL.setControl(new MotionMagicVoltage(0.0));
       mEndEffectorRollersL.setPosition(0.5);
@@ -582,9 +595,9 @@ public void groundIntakeAlgae(){
     else{
       //SmartDashboard.putNumber("zEEDebug", 3);
       mEndEffectorRollersL.setControl(new MotionMagicVoltage(0.0));
-      mEndEffectorRollersL.setPosition(2.5); //3 for wheelspeed 4 (inconsistent), 4 for wheelspeed 2
+      mEndEffectorRollersL.setPosition(.5); //3 for wheelspeed 4 (inconsistent), 4 for wheelspeed 2
       mEndEffectorRollersR.setControl(new MotionMagicVoltage(0.0));
-      mEndEffectorRollersR.setPosition(2.5); //3 for wheelspeed 4 (inconsistent), 4 for wheelspeed 2
+      mEndEffectorRollersR.setPosition(.5); //3 for wheelspeed 4 (inconsistent), 4 for wheelspeed 2
       intaking = false;
     }
     hasCoral = true;
@@ -635,7 +648,7 @@ public void groundIntakeAlgae(){
         lightMode = 2;
     }}
     else{
-      setEndeffectorWheelSpeed(25, 25);
+      setEndeffectorWheelSpeed(15, 15);
       if(mEndEffectorRollersL.getPosition().getValueAsDouble() > 8 &&  CANdi.getS1State(true).getValueAsDouble() == 2) {//
         hasCoral = false;
         hasAlgae = false;
@@ -673,7 +686,7 @@ public void groundIntakeAlgae(){
   }
 
   public void spit(){
-    setFunnelWheelSpeed(2);
+    setFunnelWheelSpeed(-2);
   }
 
 
@@ -703,7 +716,8 @@ public void groundIntakeAlgae(){
   public void startLifting(){
     clearMotionStates();
     lifting = true;
-    sequenceState = 0; 
+    sequenceState = 0;
+    hasCoral = true; 
   }
 
   public void setSuperstructurePrescore(){

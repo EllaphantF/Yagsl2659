@@ -61,7 +61,7 @@ public class SuperstructureStates {
         /*(x )*/ StartingConfig = new SuperstructureState(0., 0.0, 0., 0.);
         /*(x )*/ Home = new SuperstructureState(0., 1.2, 3., 0. );
         /*(x )*/ //Intake = new SuperstructureState(0., 2.8, 0.,0.); //intake 97, eepiv -23
-        /*(x )*/ Intake = new SuperstructureState(0., 1.8, 0.,2.09-.6); //intake 97, eepiv -23
+        /*(x )*/ Intake = new SuperstructureState(0., 1.8 +.2, 0.,2.09-.6); //intake 97, eepiv -23
                 //ee 2.12
         /*(x )*/ groundIntakeAlgae = new SuperstructureState(0., 0.1, 5.8, 9.5+1);
 
@@ -85,7 +85,7 @@ public class SuperstructureStates {
         /*(x )*/ CoralPreL1 = new SuperstructureState(0., 5.1, 2., 2);
         /*(x )*/ CoralPreL2 = new SuperstructureState(0., 0.25,15,0.2);
         /*(x )*/ CoralPreL3 = new SuperstructureState(0., 5.3, 19, 0.2);
-        /*(x )*/ CoralPreL4 = new SuperstructureState(0., 26.5, 22.0, 19.4-15);
+        /*(x )*/ CoralPreL4 = new SuperstructureState(0., 26.9, 25.0, 2);
 
         /*ACE - We never actually used them in season but might need them for Ace */
         CoralPostL1 = new SuperstructureState(0., 8.,  15., 0.);
@@ -100,7 +100,7 @@ public class SuperstructureStates {
         StowWithAlgae = new SuperstructureState(0., 0.2, 4., 0.2);
         StowWithAlgaeL2 = new SuperstructureState(0., 0.2, 19., 13.);
         StowWithAlgaeL3 = new SuperstructureState(0., 16.5, 19., 17.);
-        StowPreL34 = new SuperstructureState(0., 0., 19, 19);
+        StowPreL34 = new SuperstructureState(0., 0., 24, 19);
         PreScoreCoral = new SuperstructureState(0., .2, 1., 0.);
 
         /*(x )*/bargeAlgae = new SuperstructureState(0.,26.5, 25.8, 12.7);

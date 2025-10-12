@@ -299,17 +299,17 @@ public class Vision
         //VecBuilder.fill(.5, .5, 5), VecBuilder.fill(1,1, 5)),//,
         VecBuilder.fill(.5, .5, 5), VecBuilder.fill(1,1, 5)),
     
-    /**
+    /** 
      * Left Camera
      */
     LEFT_CAM("REEF_BACK_LEFT",//,
-        new Rotation3d(0*Math.PI/180, -40*Math.PI/180, (5 )*Math.PI / 180),//new Rotation3d(0, -18*Math.PI / 180, 0), wooden mount was 25.5 deg, measure in photonvision gui
+        new Rotation3d(0*Math.PI/180, 40*Math.PI/180, (-0 )*Math.PI / 180),//new Rotation3d(0, -18*Math.PI / 180, 0), wooden mount was 25.5 deg, measure in photonvision gui
         new Translation3d(
-          -.275 , //x robot forward -- SUBTRACTING MOVES ACTUAL ROBOT POSITION BACK
-          (-0.33 +.3 +.3) ,  //y robot left ADDING MOVES ACTUAL ROBOT POSITION RIGHT
+          .275-.2 +.3+.01  , //x robot forward -- SUBTRACTING MOVES ACTUAL ROBOT POSITION BACK
+          -(0.231 -.65+.01) ,  //y robot left ADDING MOVES ACTUAL ROBOT POSITION RIGHT
           (39.75)/39.4), //z
         //VecBuilder.fill(5, 5, 20), VecBuilder.fill(1, 1, 10))//,
-        VecBuilder.fill(.5,.5, 5), VecBuilder.fill(1,1, 5))//,
+        VecBuilder.fill(1,1, 10), VecBuilder.fill(2,2, 15))//,
        
     /**
      * Center Camera

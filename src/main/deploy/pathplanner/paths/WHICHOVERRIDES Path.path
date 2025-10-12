@@ -8,36 +8,36 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.679137323943662,
-        "y": 6.887852112676057
+        "x": 3.801498287671232,
+        "y": 6.601904965753424
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.4761443661971818,
-        "y": 6.6469190140845065
+        "x": 1.2321061643835618,
+        "y": 7.458369006849315
       },
       "prevControl": {
-        "x": 2.97520070422535,
-        "y": 7.661982394366196
+        "x": 1.833133561648383,
+        "y": 7.849036815069353
       },
       "nextControl": {
-        "x": 0.8301543417984809,
-        "y": 6.2094966162999645
+        "x": 0.6105671032390795,
+        "y": 7.054368617107569
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.176848591549295,
-        "y": 5.810739436619717
+        "x": 2.7196489726027395,
+        "y": 6.151134417808219
       },
       "prevControl": {
-        "x": 2.454049295774647,
-        "y": 6.235915492957744
+        "x": 1.9968496768280914,
+        "y": 6.576310474146246
       },
       "nextControl": null,
       "isLocked": false,
@@ -47,21 +47,21 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 0.3429602888086643,
-      "rotationDegrees": 175.39889355915489
+      "rotationDegrees": -88.13497976971412
     },
     {
       "waypointRelativePos": 1.6859205776173285,
-      "rotationDegrees": -174.48043941288284
+      "rotationDegrees": -44.78365687122923
     }
   ],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 2.0,
+      "minWaypointRelativePos": 0.8254716981132093,
+      "maxWaypointRelativePos": 1.2122641509433996,
       "constraints": {
-        "maxVelocity": 3.0,
-        "maxAcceleration": 4.0,
+        "maxVelocity": 1.0,
+        "maxAcceleration": 6.0,
         "maxAngularVelocity": 720.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -81,13 +81,13 @@
   },
   "goalEndState": {
     "velocity": 1.0,
-    "rotation": 126.52885536698517
+    "rotation": -58.60358570576916
   },
   "reversed": false,
-  "folder": "9, 8, 7 L4 Left Folder",
+  "folder": "Shade Paths",
   "idealStartingState": {
     "velocity": 0.3,
-    "rotation": 64.88516511385544
+    "rotation": -118.33637679342648
   },
   "useDefaultConstraints": true
 }

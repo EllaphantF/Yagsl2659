@@ -42,12 +42,14 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AlgaeL2Command;
 import frc.robot.commands.AlgaeL3Command;
+import frc.robot.commands.BargeCommand;
 //import frc.robot.commands.AutonScoreCommand;
 import frc.robot.commands.GoHomeCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.L1Command;
 import frc.robot.commands.L2Command;
 import frc.robot.commands.L3Command;
+import frc.robot.commands.L3L4PosCommand;
 import frc.robot.commands.L4Command;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
@@ -202,6 +204,11 @@ public class RobotContainer
     NamedCommands.registerCommand("AlgaeL3", new AlgaeL3Command(superstructure).withTimeout(3));
     NamedCommands.registerCommand("PANIC", new InstantCommand(() -> superstructure.panic()));
     NamedCommands.registerCommand("FIRE", new InstantCommand(() -> superstructure.startReleasingCoral(false)));
+
+    NamedCommands.registerCommand("BYEALGAE", new InstantCommand(() -> superstructure.setEndeffectorWheelSpeed(10, 10)).repeatedly().withTimeout(2));
+
+    NamedCommands.registerCommand("L3L4Pos", new L3L4PosCommand(superstructure).withTimeout(4));
+    NamedCommands.registerCommand("Barge", new BargeCommand(superstructure).withTimeout(6));
 	  
     NamedCommands.registerCommand("AutonScoreCommand", Commands.defer(() -> getScoreSequenceCommand(true), Set.of(getSuperstructure(), getSwerveSubsystem()))); // gift from the green limey team
     
@@ -226,12 +233,14 @@ public class RobotContainer
       Commands.defer(() -> getScoreSequenceCommand(false), Set.of(getSuperstructure(), getSwerveSubsystem()))));/* /.withTimeout(3.0)*/
 
     NamedCommands.registerCommand("AutonScoreCommandP8L4" , new SequentialCommandGroup(
+      new InstantCommand(()-> superstructure.setCoralLevel(4.)),
     new SequentialCommandGroup(new InstantCommand( () -> scoringLocation = 8),new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 8))),
      Commands.defer(() -> getScoreSequenceCommand(false), Set.of(getSuperstructure(), getSwerveSubsystem()))));//.withTimeout(3.0)));
 
 
     NamedCommands.registerCommand("AutonScoreCommandP9L4" , new SequentialCommandGroup(
-     new SequentialCommandGroup(new InstantCommand( () -> scoringLocation = 9),new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 9))),
+      new InstantCommand(()-> superstructure.setCoralLevel(4.)),
+      new SequentialCommandGroup(new InstantCommand( () -> scoringLocation = 9),new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 9))),
      //new InstantCommand(() -> superstructure.setCoralLevel(4.0)),
      Commands.defer(() -> getScoreSequenceCommand(false), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(6.0)));
     
@@ -402,8 +411,8 @@ public class RobotContainer
       buttonBox2.button(6).onTrue(new InstantCommand( () -> superstructure.goToBargeAlgaeScoring()));
       //buttonBox2.button(6).whileTrue(new InstantCommand( () -> superstructure.spit()).repeatedly());
       buttonBox2.button(5).onTrue(new InstantCommand(() -> superstructure.startLifting()));
-      buttonBox2.button(11).onTrue(new InstantCommand( () -> superstructure.enableManualOverride()));
-      buttonBox2.button(11).onFalse(new InstantCommand( () -> superstructure.disableManualOverride()));
+      buttonBox2.button(11).onTrue(new InstantCommand( () -> superstructure.spit()));
+      //buttonBox2.button(11).onFalse(new InstantCommand( () -> superstructure.disableManualOverride()));
 		  //buttonBox2.button(11).onTrue(new InstantCommand( () -> superstructure.moveCoralIn()));
 		  //buttonBox2.button(12).onTrue(new InstantCommand( () -> superstructure.moveCoralOut()));
 
