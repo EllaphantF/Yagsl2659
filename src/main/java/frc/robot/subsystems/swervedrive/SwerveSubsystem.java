@@ -411,6 +411,40 @@ public class SwerveSubsystem extends SubsystemBase
       return new SequentialCommandGroup(resetTheThing, doTheThing);
   }
 
+
+/**
+ * 2659 custom - drive into the reef with a profiled PID controller to perform the final approach. We'll put our superstructure into scoring position right before this command is called 
+ * @param targetPose
+ * @return
+ */
+public Command driveToBargePosePID(Pose2d targetPose, DoubleSupplier yAxSupplier)
+{
+  TrapezoidProfile.Constraints xyConstraints = new Constraints(2,1.5); //Contra was 2,.6
+  ProfiledPIDController xcontroller = new ProfiledPIDController(5.,5.,.45, xyConstraints); //10-12-25 Need to update these values tomorrow
+  
+  xcontroller.setIZone(.5);
+  xcontroller.setTolerance(.03); //.008m for contra
+  
+  BooleanSupplier atTarget = () -> (xcontroller.atGoal() && (Math.abs(getPose().getRotation().getDegrees() - targetPose.getRotation().getDegrees())<5
+  ));
+
+  Command resetTheThing = new InstantCommand(
+    () ->     { xcontroller.reset(getPose().getX());
+                } );
+
+  Command doTheThing = run(() -> {
+    driveFieldOriented(getTargetSpeeds( xcontroller.calculate(getPose().getX(), targetPose.getX()),
+                                        yAxSupplier.getAsDouble(),
+                                        //Rotation2d.fromDegrees(thetacontroller.calculate(getPose().getRotation().getDegrees(), targetPose.getRotation().getDegrees())))
+                                        targetPose.getRotation()));
+                                        SmartDashboard.putNumber("targetpose X",targetPose.getX());
+                                        SmartDashboard.putBoolean("x at goal", xcontroller.atGoal());
+                                        SmartDashboard.putBoolean("angle at goal", (Math.abs(getPose().getRotation().getDegrees() - targetPose.getRotation().getDegrees())<2));
+    
+  }).until(atTarget);
+    return new SequentialCommandGroup(resetTheThing, doTheThing);
+}
+
 /**
  * 2659 custom - drive into the reef with a profiled PID controller to perform the final approach. We'll put our superstructure into scoring position right before this command is called 
  * @param targetPose
