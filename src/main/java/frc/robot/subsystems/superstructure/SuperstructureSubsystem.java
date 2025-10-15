@@ -205,9 +205,9 @@ public class SuperstructureSubsystem extends SubsystemBase {
    //mElevatorLeft.setControl(new PositionVoltage(EndeffectorPivotTarget)); //this should be practically instant acceleration
    mElevatorLeft.setControl(new MotionMagicVoltage(ElevatorPosTarget)); //elevator right is following left
    
-   //mEndeffectorPivot.setControl(new MotionMagicVoltage(EndeffectorPivotTarget )); //original control
-   if(!hasAlgae)mEndeffectorPivot.setControl(new PositionVoltage(EndeffectorPivotTarget));
-   else mEndeffectorPivot.setControl(new MotionMagicVoltage(EndeffectorPivotTarget));
+   mEndeffectorPivot.setControl(new MotionMagicVoltage(EndeffectorPivotTarget )); //original control
+   /*if(!hasAlgae)mEndeffectorPivot.setControl(new PositionVoltage(EndeffectorPivotTarget));
+   else mEndeffectorPivot.setControl(new MotionMagicVoltage(EndeffectorPivotTarget));*/ //test this 
 
    mArmPivot.setControl(new MotionMagicVoltage(ArmPivotPosTarget));
   }

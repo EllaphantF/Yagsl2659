@@ -83,6 +83,33 @@ public final class Constants
   
 
   public static class ReefScoringLocations{
+    
+      // REEF PRE-SCORING POSES
+      public static   final Pose2d  BLUEALGAE_12        = new Pose2d( 6.225,	4.0,   Rotation2d.fromDegrees( 	0+180 	)); //
+      public static   final Pose2d  BLUEALGAE_11        = BLUEALGAE_12; //
+      public static   final Pose2d  BLUEALGAE_10        = new Pose2d( 5.36,	5.53,   Rotation2d.fromDegrees(  60+180          ));  //
+      public static   final Pose2d  BLUEALGAE_9	       = BLUEALGAE_10;  //
+      public static   final Pose2d  BLUEALGAE_8	       = new Pose2d( 3.62, 5.53,   Rotation2d.fromDegrees(  	120+180	         )); //
+      public static   final Pose2d  BLUEALGAE_7	       = BLUEALGAE_8;  //
+      public static   final Pose2d  BLUEALGAE_6	       = new Pose2d( 2.748, 4.0,    Rotation2d.fromDegrees( 	180+180	   )); //
+      public static   final Pose2d  BLUEALGAE_5	       = BLUEALGAE_6; //
+      public static   final Pose2d  BLUEALGAE_4	       = new Pose2d( 3.62, 2.52,   Rotation2d.fromDegrees( 	-120+180 	)); //
+      public static   final Pose2d  BLUEALGAE_3	       = BLUEALGAE_4; //
+      public static   final Pose2d  BLUEALGAE_2	       = new Pose2d( 5.36, 2.52,   Rotation2d.fromDegrees( 	-60+180 	)); //
+      public static   final Pose2d  BLUEALGAE_1	       = BLUEALGAE_2; //
+
+      public	static	final	Pose2d	REDALGAE_12	      =	new	Pose2d(	11.317,	4.0,	Rotation2d.fromDegrees(	 180+180    )); //
+      public	static	final	Pose2d	REDALGAE_11	      =	REDALGAE_12; //
+      public	static	final	Pose2d	REDALGAE_10	      =	new	Pose2d(	12.17,	2.52,	Rotation2d.fromDegrees(	 -120+180   )); //
+      public	static	final	Pose2d	REDALGAE_9	        =	REDALGAE_10; //
+      public	static	final	Pose2d	REDALGAE_8	        =	new	Pose2d(	13.927,	2.52,	Rotation2d.fromDegrees(	 -60+180  )); //
+      public	static	final	Pose2d	REDALGAE_7	        =	REDALGAE_8; //
+      public	static	final	Pose2d	REDALGAE_6	        =	new	Pose2d(	14.792,	4.0,	Rotation2d.fromDegrees(	 0+180  )); //
+      public	static	final	Pose2d	REDALGAE_5	        =	REDALGAE_6; //
+      public	static	final	Pose2d	REDALGAE_4	        =	new	Pose2d(	13.936,	5.53,	Rotation2d.fromDegrees(  60+180 ));	//
+      public	static	final	Pose2d	REDALGAE_3	        =	REDALGAE_4;	//
+      public	static	final	Pose2d	REDALGAE_2	        =	new	Pose2d(	12.189,	5.53,	Rotation2d.fromDegrees(	 120+180  ));	//
+      public	static	final	Pose2d	REDALGAE_1	        =	REDALGAE_2; //
       // REEF PRE-SCORING POSES
       public static   final Pose2d  BLUEPRESCORE_12        = new Pose2d( 6.225,	4.0,   Rotation2d.fromDegrees( 	0+180 	)); //
       public static   final Pose2d  BLUEPRESCORE_11        = new Pose2d( 6.232,	4.0,   Rotation2d.fromDegrees( 	0+180 	)); //
