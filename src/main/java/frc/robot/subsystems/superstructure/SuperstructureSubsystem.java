@@ -19,10 +19,14 @@ import edu.wpi.first.wpilibj.Timer;
 import java.lang.annotation.Target;
 import java.util.function.BooleanSupplier;
 
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.configs.Slot1Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DynamicMotionMagicVoltage;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.CANdi;
@@ -55,6 +59,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public boolean grabbingAlgae = false;
   public boolean releasingAlgae = false;
   public double algaeTimestamp = 0;
+  public int PIDSlot = 0; //0 for algae (gentle), 1 for coral (fast)
   
   
   public static boolean autoReleaseCoral = true;
@@ -194,13 +199,17 @@ public class SuperstructureSubsystem extends SubsystemBase {
   }
 
   public void motionMagicSetElevatorAndEndeffector(double ElevatorPosTarget, double ArmPivotPosTarget, double climbPosTarget, double EndeffectorPivotTarget){
-    mElevatorLeft.setControl(new MotionMagicVoltage(ElevatorPosTarget)); //elevator right is following left
-    //mElevatorRight.setControl(new Follower(mElevatorLeft.getDeviceID(), true));
-    mEndeffectorPivot.setControl(new MotionMagicVoltage(EndeffectorPivotTarget ));
+   /*final MotionMagicVoltage ElevatorGo = new MotionMagicVoltage(ElevatorPosTarget);
+   mElevatorLeft.setControl(ElevatorGo);*/ // playing around with this to try to adjust acceleration on the fly, but looks like we need the pro licensed features: https://v6.docs.ctr-electronics.com/en/latest/docs/api-reference/device-specific/talonfx/motion-magic.html
+    
+   //mElevatorLeft.setControl(new PositionVoltage(EndeffectorPivotTarget)); //this should be practically instant acceleration
+   mElevatorLeft.setControl(new MotionMagicVoltage(ElevatorPosTarget)); //elevator right is following left
+   
+   //mEndeffectorPivot.setControl(new MotionMagicVoltage(EndeffectorPivotTarget )); //original control
+   if(!hasAlgae)mEndeffectorPivot.setControl(new PositionVoltage(EndeffectorPivotTarget));
+   else mEndeffectorPivot.setControl(new MotionMagicVoltage(EndeffectorPivotTarget));
 
-    mArmPivot.setControl(new MotionMagicVoltage(ArmPivotPosTarget));
-
-
+   mArmPivot.setControl(new MotionMagicVoltage(ArmPivotPosTarget));
   }
 
   public void SD_motionMagicElevatorTEST(){
@@ -326,9 +335,9 @@ public class SuperstructureSubsystem extends SubsystemBase {
    * Start the intaking sequence. Sets subsystem flags to safely handle the motion to intaking
    */
   public void intake(){
-    mElevatorLeft.getConfigurator().apply(Constants.SuperstructureConfigs.getElevatorConfigLeftCoral());
-    mEndeffectorPivot.getConfigurator().apply(Constants.SuperstructureConfigs.getEndeffectorPivotConfigCoral());
-    mArmPivot.getConfigurator().apply(Constants.SuperstructureConfigs.getArmPivotConfigurationCoral());
+    //mElevatorLeft.;
+    //selectProfileSlot(0);
+    //mArmPivot.getConfigurator().apply(Constants.SuperstructureConfigs.getArmPivotConfigurationCoral());
         
   intakeTraverse();}
 
@@ -526,9 +535,9 @@ public class SuperstructureSubsystem extends SubsystemBase {
  */
 public void groundIntakeAlgae(){
   
-  mElevatorLeft.getConfigurator().apply(Constants.SuperstructureConfigs.getElevatorConfigLeft());
+  /*mElevatorLeft.getConfigurator().apply(Constants.SuperstructureConfigs.getElevatorConfigLeft());
   mEndeffectorPivot.getConfigurator().apply(Constants.SuperstructureConfigs.getEndeffectorPivotConfig());
-  mArmPivot.getConfigurator().apply(Constants.SuperstructureConfigs.getArmPivotConfiguration());
+  mArmPivot.getConfigurator().apply(Constants.SuperstructureConfigs.getArmPivotConfiguration()); */
 
   grabbingAlgae = true;
   TARGETSTATE = STATE.groundIntakeAlgae;
@@ -543,9 +552,9 @@ public void groundIntakeAlgae(){
  */
   public void grabAlgae(Double level){
     
-  mElevatorLeft.getConfigurator().apply(Constants.SuperstructureConfigs.getElevatorConfigLeft());
+  /*mElevatorLeft.getConfigurator().apply(Constants.SuperstructureConfigs.getElevatorConfigLeft());
   mEndeffectorPivot.getConfigurator().apply(Constants.SuperstructureConfigs.getEndeffectorPivotConfig());
-  mArmPivot.getConfigurator().apply(Constants.SuperstructureConfigs.getArmPivotConfiguration());
+  mArmPivot.getConfigurator().apply(Constants.SuperstructureConfigs.getArmPivotConfiguration());*/
 
     grabbingAlgae = true;
     if (level == 2) TARGETSTATE = STATE.grabAlgaeL2;
@@ -588,11 +597,19 @@ public void groundIntakeAlgae(){
     if (level == 4) TARGETSTATE = STATE.CoralL4;
   }
 
+  public SuperstructureState getScoreCoralState(Double level){ //note, this is only to compare state
+    if (level == 1) return STATE.CoralL1;
+    else if (level == 2) return  STATE.CoralL2;
+    else if (level == 3) return  STATE.CoralL3;
+    else if (level == 4) return  STATE.CoralL4;
+    else return STATE.Home; 
+  }
+
   public void setPostScoreCoralState(Double level){ //sets up elevator and EE pivot for pre-score position for drive-up    
-    if (level == 1) TARGETSTATE = STATE.CoralPreL1;
-    if (level == 2) TARGETSTATE = STATE.CoralPreL2;
-    if (level == 3) TARGETSTATE = STATE.CoralPreL3;
-    if (level == 4) TARGETSTATE = STATE.CoralPreL4;
+    if (level == 1) TARGETSTATE = STATE.CoralPostL1;
+    if (level == 2) TARGETSTATE = STATE.CoralPostL2;
+    if (level == 3) TARGETSTATE = STATE.CoralPostL3;
+    if (level == 4) TARGETSTATE = STATE.CoralPostL4;
   }
 
   public void setCoralLevel(Double level){
@@ -738,7 +755,7 @@ public void groundIntakeAlgae(){
     hasCoral = true; 
   }
 
-  public void setSuperstructurePrescore(){
+  public void setSuperstructurePrescoreL4(){
     clearMotionStates();
     sequenceState = 0; 
     TARGETSTATE = STATE.CoralPreL4;
@@ -753,9 +770,8 @@ public void groundIntakeAlgae(){
     if(safeToLift()){
       if(scoringCoral){
         if(sequenceState == 0){
-          setPreScoreCoralState(scoreLevel);
-
-          if(scoreLevel == 1){
+          if(TARGETSTATE != getScoreCoralState(scoreLevel)) setPreScoreCoralState(scoreLevel); //if it's already at the score position, don't set the pre-score position again
+          if(scoreLevel == 1){ //LED stuff we never implemented
             lightMode = 4;
           } else if(scoreLevel == 2){
             lightMode = 5;
@@ -764,22 +780,20 @@ public void groundIntakeAlgae(){
           } else if(scoreLevel == 4){
             lightMode = 7;
           }
-
           if (atPosition()) {
-            sequenceState = 1; //if at the pre-score position, move to the score position
-          }
-        }
+            sequenceState = 1;}        } //if at the pre-score position, move to the score position
+
         else if(sequenceState == 1){
           setScoreCoralState(scoreLevel);
-          if(!hasCoral)sequenceState = 2;
-        }
+          if(!hasCoral)sequenceState = 2;        }
+
         else if(sequenceState == 2){
           setPostScoreCoralState(scoreLevel);
           if(atPosition()){
           goHome();
           sequenceState = 0;
-        }
-        }
+        }        }
+
       }
     }
     else TARGETSTATE = STATE.StowEEClear; //stow pre-lift

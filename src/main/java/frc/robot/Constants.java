@@ -237,7 +237,7 @@ public final class Constants
           elevatorConfigLeft.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .01;
 
           elevatorConfigLeft.MotionMagic.MotionMagicCruiseVelocity = 80; //100 was smooth, 200 is faster than kraken max 100
-          elevatorConfigLeft.MotionMagic.MotionMagicAcceleration = 150;// 80 was good, 150 zippy
+          elevatorConfigLeft.MotionMagic.MotionMagicAcceleration = 150+100;// 80 was good, 150 zippy
 
           elevatorConfigLeft.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
           elevatorConfigLeft.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
@@ -247,7 +247,7 @@ public final class Constants
           elevatorConfigLeft.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
           return elevatorConfigLeft;
         }
-        public static TalonFXConfiguration getElevatorConfigLeftCoral() { // ELEVATOR
+        public static TalonFXConfiguration getElevatorConfigLeftFast() { // ELEVATOR
           TalonFXConfiguration elevatorConfigLeft = new TalonFXConfiguration();
           elevatorConfigLeft.Slot0.kG = 0.35 * 2.25; // Volts to overcome gravity
           elevatorConfigLeft.Slot0.kS = 0.0; // Volts to overcome static friction
@@ -265,7 +265,7 @@ public final class Constants
           elevatorConfigLeft.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .01;
 
           elevatorConfigLeft.MotionMagic.MotionMagicCruiseVelocity = 90; //100 was smooth, 200 is faster than kraken max 100
-          elevatorConfigLeft.MotionMagic.MotionMagicAcceleration = 200;// 80 was good, 150 zippy
+          elevatorConfigLeft.MotionMagic.MotionMagicAcceleration = 200+200;// 80 was good, 150 zippy
 
           elevatorConfigLeft.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
           elevatorConfigLeft.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
@@ -300,7 +300,7 @@ public final class Constants
           endeffectorPivotConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .04;
           endeffectorPivotConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .02;
           endeffectorPivotConfig.MotionMagic.MotionMagicCruiseVelocity = 80; //20 was smooth
-          endeffectorPivotConfig.MotionMagic.MotionMagicAcceleration = 200; //50 was smooth
+          endeffectorPivotConfig.MotionMagic.MotionMagicAcceleration = 200+200; //50 was smooth
           endeffectorPivotConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
           /*endeffectorPivotConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
           endeffectorPivotConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
@@ -309,7 +309,7 @@ public final class Constants
           endeffectorPivotConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
           return endeffectorPivotConfig;
         }
-        public static TalonFXConfiguration getEndeffectorPivotConfigCoral(){
+        public static TalonFXConfiguration getEndeffectorPivotConfigFast(){
           TalonFXConfiguration endeffectorPivotConfig = new TalonFXConfiguration();
           endeffectorPivotConfig.Slot0.kG = 0.0; // Volts to overcome gravity
           endeffectorPivotConfig.Slot0.kS = 0.0; // Volts to overcome static friction
@@ -467,7 +467,7 @@ public final class Constants
         }
 
         
-        public static TalonFXConfiguration getArmPivotConfigurationCoral(){
+        public static TalonFXConfiguration getArmPivotConfigurationFast(){
           TalonFXConfiguration intakePivotLeftConfig = new TalonFXConfiguration();
           intakePivotLeftConfig.Slot0.kG = 0.0; // Volts to overcome gravity
           intakePivotLeftConfig.Slot0.kS = 0.0; // Volts to overcome static friction
@@ -483,6 +483,7 @@ public final class Constants
           intakePivotLeftConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .02;
           intakePivotLeftConfig.MotionMagic.MotionMagicCruiseVelocity = 90 ; //
           intakePivotLeftConfig.MotionMagic.MotionMagicAcceleration = 150; //
+          //intakePivotLeftConfig.Slot0.MotionMagic.MotionMagicAcceleration = 10; //
           intakePivotLeftConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
           intakePivotLeftConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
           intakePivotLeftConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 26.0;
