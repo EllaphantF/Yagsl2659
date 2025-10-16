@@ -459,15 +459,15 @@ public Command driveToBargePosePID(Pose2d targetPose, DoubleSupplier yAxSupplier
     //SmartDashboard.putNumber("kD PID",        SmartDashboard.getNumber("kD PID", .2));
 
     //TrapezoidProfile.Constraints xyConstraints = new Constraints(SmartDashboard.getNumber("Max Vel PID", 2), SmartDashboard.getNumber("max Accel PID",1));
-    TrapezoidProfile.Constraints xyConstraints = new Constraints(2,1.5); //Contra was 2,.6
+    TrapezoidProfile.Constraints xyConstraints = new Constraints(2,2); //Contra was 2,.6
     //TrapezoidProfile.Constraints thetaConstraints = new Constraints(540,720);
     
 //    ProfiledPIDController xcontroller = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 5), SmartDashboard.getNumber("kI PID", 2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
 //    ProfiledPIDController ycontroller = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 5), SmartDashboard.getNumber("kI PID", 2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
 
     //ProfiledPIDController xcontroller = new ProfiledPIDController(10.,5.,.2, xyConstraints);
-    ProfiledPIDController xcontroller = new ProfiledPIDController(5.,5.,.45, xyConstraints); //10-12-25 Need to update these values tomorrow
-    ProfiledPIDController ycontroller = new ProfiledPIDController(5.,5.,.45, xyConstraints);
+    ProfiledPIDController xcontroller = new ProfiledPIDController(4.,4.,.5, xyConstraints); //10-12-25 Need to update these values tomorrow
+    ProfiledPIDController ycontroller = new ProfiledPIDController(4.,4.,.5, xyConstraints); //5 kp,5 ki,.45 kd
 
     //ProfiledPIDController thetacontroller = new ProfiledPIDController(30, 0, 0, thetaConstraints);
     //thetacontroller.enableContinuousInput(-180, 180);
@@ -478,11 +478,12 @@ public Command driveToBargePosePID(Pose2d targetPose, DoubleSupplier yAxSupplier
     
     ycontroller.setIZone(.5);
     ycontroller.setTolerance(.025);
-
-    BooleanSupplier atTarget = () -> (xcontroller.atGoal() && ycontroller.atGoal()&& (Math.abs(getPose().getRotation().getDegrees() - targetPose.getRotation().getDegrees())<1
+//
+    BooleanSupplier atTarget = () -> (xcontroller.atGoal() && 
+                                      ycontroller.atGoal()&& 
+                                      (Math.abs(getPose().getRotation().getDegrees() - targetPose.getRotation().getDegrees())%360 <4 )  //angleTol from  1 deg to 2 deg
     
-    
-    ));
+    );
 
     Command resetTheThing = new InstantCommand(
       () ->     { xcontroller.reset(getPose().getX());
@@ -494,11 +495,12 @@ public Command driveToBargePosePID(Pose2d targetPose, DoubleSupplier yAxSupplier
                                           ycontroller.calculate(getPose().getY(), targetPose.getY()),
                                           //Rotation2d.fromDegrees(thetacontroller.calculate(getPose().getRotation().getDegrees(), targetPose.getRotation().getDegrees())))
                                           targetPose.getRotation()));
+                                          SmartDashboard.putNumber("targetpose angle",targetPose.getRotation().getDegrees());
                                           SmartDashboard.putNumber("targetpose X",targetPose.getX());
                                           SmartDashboard.putNumber("targetpose Y",targetPose.getY());
                                           SmartDashboard.putBoolean("x at goal", xcontroller.atGoal());
                                           SmartDashboard.putBoolean("y at goal", ycontroller.atGoal());
-                                          SmartDashboard.putBoolean("angle at goal", (Math.abs(getPose().getRotation().getDegrees() - targetPose.getRotation().getDegrees())<2));
+                                          SmartDashboard.putBoolean("angle at goal", (Math.abs(getPose().getRotation().getDegrees() - targetPose.getRotation().getDegrees())<4));
       
     }).until(atTarget);
       return new SequentialCommandGroup(resetTheThing, doTheThing);
@@ -570,7 +572,8 @@ public Command driveToBargePosePID(Pose2d targetPose, DoubleSupplier yAxSupplier
    * @return
    */  
   public Pose2d getAlgaeGrabPose(double selectPose)
-  { Pose2d algaePose = Constants.ReefScoringLocations.getPrescorePose(isRedAlliance(),selectPose); 
+  { 
+    Pose2d algaePose = Constants.ReefScoringLocations.getAlgaeGrabPose(isRedAlliance(),selectPose); 
     //if(!isOnAllianceSide) algaePose = Constants.ReefScoringLocations.getPrescorePose(!isRedAlliance(),selectPose); //if not on alliance side, flip the boolean for alliance side
     SmartDashboard.putString("algaeGrabPose", algaePose.toString());
     return algaePose;

@@ -371,7 +371,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
       lightMode = 3;
       setEndeffectorWheelSpeed(3,3);
       //setIntakeWheelSpeed(45); // was 23 -- 40 works great 3-8-2025
-      setFunnelWheelSpeed(-4);}//was -10 -- -8 works great 3-8-2025
+      setFunnelWheelSpeed(-8);}//was -10 -- -8 works great 3-8-2025
     if ( CANdi.getS1State(true).getValueAsDouble() == 1){ //was 19 amps CANDi closed
     
       justGotCoral();
@@ -428,7 +428,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
      * @param wheelSpeed
      */
   public void setFunnelWheelSpeed(double wheelSpeed){
-    mFunnelWheelsTop.setControl(new VoltageOut(-wheelSpeed));
+    mFunnelWheelsTop.setControl(new VoltageOut(-wheelSpeed*1.4));
     mFunnelWheelsBottom.setControl(new VoltageOut(-wheelSpeed*0.8));
     if(RobotBase.isSimulation()) m_FunnelWheels.setAngle(m_FunnelWheels.getAngle()+10);
   }
@@ -541,7 +541,7 @@ public void groundIntakeAlgae(){
 
   grabbingAlgae = true;
   TARGETSTATE = STATE.groundIntakeAlgae;
-  setEndeffectorWheelVelocity(-90,-90);
+  setEndeffectorWheelVelocity(-60,-60);
   //setEndeffectorWheelSpeed(-10, -10);
   lightMode = 10;
 }
@@ -559,7 +559,7 @@ public void groundIntakeAlgae(){
     grabbingAlgae = true;
     if (level == 2) TARGETSTATE = STATE.grabAlgaeL2;
     if (level == 3) TARGETSTATE = STATE.grabAlgaeL3;
-    setEndeffectorWheelVelocity(-60, -60); //was Speed -10
+    setEndeffectorWheelVelocity(-80, -80); //was Speed -10
     //setEndeffectorWheelSpeed(-10, -10);
     lightMode = 10;
   }
@@ -721,7 +721,7 @@ public void groundIntakeAlgae(){
   }
 
   public void spit(){
-    setFunnelWheelSpeed(-2);
+    setFunnelWheelSpeed(-4);
   }
 
 

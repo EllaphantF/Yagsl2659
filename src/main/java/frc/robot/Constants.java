@@ -91,14 +91,14 @@ public final class Constants
       public static   final Pose2d  BLUEALGAE_9	       = BLUEALGAE_10;  //
       public static   final Pose2d  BLUEALGAE_8	       = new Pose2d( 3.62, 5.53,   Rotation2d.fromDegrees(  	120+180	         )); //
       public static   final Pose2d  BLUEALGAE_7	       = BLUEALGAE_8;  //
-      public static   final Pose2d  BLUEALGAE_6	       = new Pose2d( 2.748, 4.0,    Rotation2d.fromDegrees( 	180+180	   )); //
+      public static   final Pose2d  BLUEALGAE_6	       = new Pose2d( 2.748, 4.0,    Rotation2d.fromDegrees( 	0	   )); //
       public static   final Pose2d  BLUEALGAE_5	       = BLUEALGAE_6; //
       public static   final Pose2d  BLUEALGAE_4	       = new Pose2d( 3.62, 2.52,   Rotation2d.fromDegrees( 	-120+180 	)); //
       public static   final Pose2d  BLUEALGAE_3	       = BLUEALGAE_4; //
       public static   final Pose2d  BLUEALGAE_2	       = new Pose2d( 5.36, 2.52,   Rotation2d.fromDegrees( 	-60+180 	)); //
       public static   final Pose2d  BLUEALGAE_1	       = BLUEALGAE_2; //
 
-      public	static	final	Pose2d	REDALGAE_12	      =	new	Pose2d(	11.317,	4.0,	Rotation2d.fromDegrees(	 180+180    )); //
+      public	static	final	Pose2d	REDALGAE_12	      =	new	Pose2d(	11.317,	4.0,	Rotation2d.fromDegrees(	 0    )); //
       public	static	final	Pose2d	REDALGAE_11	      =	REDALGAE_12; //
       public	static	final	Pose2d	REDALGAE_10	      =	new	Pose2d(	12.17,	2.52,	Rotation2d.fromDegrees(	 -120+180   )); //
       public	static	final	Pose2d	REDALGAE_9	        =	REDALGAE_10; //
@@ -110,33 +110,33 @@ public final class Constants
       public	static	final	Pose2d	REDALGAE_3	        =	REDALGAE_4;	//
       public	static	final	Pose2d	REDALGAE_2	        =	new	Pose2d(	12.189,	5.53,	Rotation2d.fromDegrees(	 120+180  ));	//
       public	static	final	Pose2d	REDALGAE_1	        =	REDALGAE_2; //
-      // REEF PRE-SCORING POSES
-      public static   final Pose2d  BLUEPRESCORE_12        = new Pose2d( 6.225,	4.0,   Rotation2d.fromDegrees( 	0+180 	)); //
-      public static   final Pose2d  BLUEPRESCORE_11        = new Pose2d( 6.232,	4.0,   Rotation2d.fromDegrees( 	0+180 	)); //
-      public static   final Pose2d  BLUEPRESCORE_10        = new Pose2d( 5.36,	5.53,   Rotation2d.fromDegrees(  60+180          ));  //
-      public static   final Pose2d  BLUEPRESCORE_9	       = new Pose2d( 5.36,	5.53,   Rotation2d.fromDegrees(  60+180          ));  //
-      public static   final Pose2d  BLUEPRESCORE_8	       = new Pose2d( 3.62, 5.53,   Rotation2d.fromDegrees(  	120+180	         )); //
-      public static   final Pose2d  BLUEPRESCORE_7	       = new Pose2d( 3.62, 5.53,   Rotation2d.fromDegrees(  	120+180	         ));  //
-      public static   final Pose2d  BLUEPRESCORE_6	       = new Pose2d( 2.748, 4.0,    Rotation2d.fromDegrees( 	180+180	   )); //
-      public static   final Pose2d  BLUEPRESCORE_5	       = new Pose2d( 2.742, 4.0,    Rotation2d.fromDegrees( 	180+180 	  )); //
-      public static   final Pose2d  BLUEPRESCORE_4	       = new Pose2d( 3.62, 2.52,   Rotation2d.fromDegrees( 	-120+180 	)); //
-      public static   final Pose2d  BLUEPRESCORE_3	       = new Pose2d( 3.62, 2.52,   Rotation2d.fromDegrees( 	-120+180 	)); //
-      public static   final Pose2d  BLUEPRESCORE_2	       = new Pose2d( 5.36, 2.52,   Rotation2d.fromDegrees( 	-60+180 	)); //
-      public static   final Pose2d  BLUEPRESCORE_1	       = new Pose2d( 5.36, 2.52,   Rotation2d.fromDegrees( 	-60+180 	)); //
+            // REEF PRE-SCORING POSES
+      public static   final Pose2d  BLUEPRESCORE_12  = new Pose2d( 6.417, 3.826, Rotation2d.fromDegrees(   	0	 +180 )); 
+      public static   final Pose2d  BLUEPRESCORE_11  = new Pose2d( 6.418, 4.217, Rotation2d.fromDegrees(   	0	+180  )); 
+      public static   final Pose2d  BLUEPRESCORE_10  = new Pose2d( 5.629, 5.585, Rotation2d.fromDegrees(   	60-180	));    
+      public static   final Pose2d  BLUEPRESCORE_9  = new Pose2d( 5.289, 5.801, Rotation2d.fromDegrees(   	60-180	));    
+      public static   final Pose2d  BLUEPRESCORE_8  = new Pose2d( 3.703, 5.782, Rotation2d.fromDegrees(   	120-180	));    
+      public static   final Pose2d  BLUEPRESCORE_7  = new Pose2d( 3.360, 5.612, Rotation2d.fromDegrees(   	120-180	));    
+      public static   final Pose2d  BLUEPRESCORE_6  = new Pose2d( 2.561, 4.217, Rotation2d.fromDegrees(   	0	)); 
+      public static   final Pose2d  BLUEPRESCORE_5  = new Pose2d( 2.562, 3.826, Rotation2d.fromDegrees(   	0)); 
+      public static   final Pose2d  BLUEPRESCORE_4  = new Pose2d( 3.351, 2.451, Rotation2d.fromDegrees(   -120      +180   ));  
+      public static   final Pose2d  BLUEPRESCORE_3 = new Pose2d( 3.689, 2.262, Rotation2d.fromDegrees(   -120        +180 ));  
+      public static   final Pose2d  BLUEPRESCORE_2 = new Pose2d( 5.283, 2.255, Rotation2d.fromDegrees(   	-60	      +180  )); 
+      public static   final Pose2d  BLUEPRESCORE_1 = new Pose2d( 5.620, 2.450, Rotation2d.fromDegrees(   	-60	       +180 )); 
 
-      public	static	final	Pose2d	REDPRESCORE_12	      =	new	Pose2d(	11.317,	4.0,	Rotation2d.fromDegrees(	 180+180    )); //
-      public	static	final	Pose2d	REDPRESCORE_11	      =	new	Pose2d(	11.311,	4.0,	Rotation2d.fromDegrees(	 180+180    )); //
-      public	static	final	Pose2d	REDPRESCORE_10	      =	new	Pose2d(	12.17,	2.52,	Rotation2d.fromDegrees(	 -120+180   )); //
-      public	static	final	Pose2d	REDPRESCORE_9	        =	new	Pose2d(	12.17,	2.52,	Rotation2d.fromDegrees(	 -120+180   )); //
-      public	static	final	Pose2d	REDPRESCORE_8	        =	new	Pose2d(	13.927,	2.52,	Rotation2d.fromDegrees(	 -60+180  )); //
-      public	static	final	Pose2d	REDPRESCORE_7	        =	new	Pose2d(	13.927,	2.52,	Rotation2d.fromDegrees(	 -60+180  )); //
-      public	static	final	Pose2d	REDPRESCORE_6	        =	new	Pose2d(	14.792,	4.0,	Rotation2d.fromDegrees(	 0+180  )); //
-      public	static	final	Pose2d	REDPRESCORE_5	        =	new	Pose2d(	14.805,	4.0,	Rotation2d.fromDegrees(	 0+180  )); //
-      public	static	final	Pose2d	REDPRESCORE_4	        =	new	Pose2d(	13.936,	5.53,	Rotation2d.fromDegrees(  60+180 ));	//
-      public	static	final	Pose2d	REDPRESCORE_3	        =	new	Pose2d(	13.936,	5.53,	Rotation2d.fromDegrees(  60+180 ));	//
-      public	static	final	Pose2d	REDPRESCORE_2	        =	new	Pose2d(	12.189,	5.53,	Rotation2d.fromDegrees(	 120+180  ));	//
-      public	static	final	Pose2d	REDPRESCORE_1	        =	new	Pose2d(	12.189,	5.53,	Rotation2d.fromDegrees(	 120+180  )); //
-      
+      public	static	final	Pose2d	REDPRESCORE_12	  =	new	Pose2d(	11.118,	4.220,	Rotation2d.fromDegrees( 180 ));   
+      public	static	final	Pose2d	REDPRESCORE_11	  =	new	Pose2d(	11.117,	3.829,	Rotation2d.fromDegrees( 180 ));   
+      public	static	final	Pose2d	REDPRESCORE_10	  =	new	Pose2d(	11.906,	2.461,	Rotation2d.fromDegrees( -120));	          
+      public	static	final	Pose2d	REDPRESCORE_9	  =	new	Pose2d(	12.246,	2.245,	Rotation2d.fromDegrees( -120));	          
+      public	static	final	Pose2d	REDPRESCORE_8	  =	new	Pose2d(	13.832,	2.264,	Rotation2d.fromDegrees( -60 ));	          
+      public	static	final	Pose2d	REDPRESCORE_7	  =	new	Pose2d(	14.175,	2.434,	Rotation2d.fromDegrees( -60 ));	          
+      public	static	final	Pose2d	REDPRESCORE_6	  =	new	Pose2d(	14.974,	3.829,	Rotation2d.fromDegrees( 0   ));   
+      public	static	final	Pose2d	REDPRESCORE_5	  =	new	Pose2d(	14.973,	4.220,	Rotation2d.fromDegrees( 0   ));   
+      public	static	final	Pose2d	REDPRESCORE_4	  =	new	Pose2d(	14.184,	5.595,	Rotation2d.fromDegrees( 60  ));   
+      public	static	final	Pose2d	REDPRESCORE_3	=	new	Pose2d(	13.846,	5.784,	Rotation2d.fromDegrees( 60  ));   
+      public	static	final	Pose2d	REDPRESCORE_2	=	new	Pose2d(	12.252,	5.791,	Rotation2d.fromDegrees( 120 ));    
+      public	static	final	Pose2d	REDPRESCORE_1	=	new	Pose2d(	11.915,	5.596,	Rotation2d.fromDegrees( 120 ));    
+
   // REEF SCORING POSES - Contra Measure
       public static   final Pose2d  BLUE_12        = new Pose2d( 6.193,	3.855,   Rotation2d.fromDegrees( 	-0.3+180	)); // /* */
       public static   final Pose2d  BLUE_11        = new Pose2d( 6.195,	4.232,   Rotation2d.fromDegrees( 	2.5+180 	)); // /* */
@@ -203,6 +203,38 @@ public final class Constants
       return scoreDrivePose;
       }
 
+      public static Pose2d getAlgaeGrabPose(Boolean isRedAlliance, Double selectPose){
+        Pose2d scoreDrivePose = new Pose2d(); 
+        if(isRedAlliance){
+          if(selectPose ==  1 ) scoreDrivePose = REDALGAE_1;
+          if(selectPose ==  2 ) scoreDrivePose = REDALGAE_2;
+          if(selectPose ==  3 ) scoreDrivePose = REDALGAE_3;
+          if(selectPose ==  4 ) scoreDrivePose = REDALGAE_4;
+          if(selectPose ==  5 ) scoreDrivePose = REDALGAE_5;
+          if(selectPose ==  6 ) scoreDrivePose = REDALGAE_6;
+          if(selectPose ==  7 ) scoreDrivePose = REDALGAE_7;
+          if(selectPose ==  8 ) scoreDrivePose = REDALGAE_8;
+          if(selectPose ==  9 ) scoreDrivePose = REDALGAE_9;
+          if(selectPose ==  10 ) scoreDrivePose= REDALGAE_10;
+          if(selectPose ==  11 ) scoreDrivePose= REDALGAE_11;
+          if(selectPose ==  12 ) scoreDrivePose= REDALGAE_12;
+      }else{
+          if(selectPose ==  1 ) scoreDrivePose = BLUEALGAE_1;
+          if(selectPose ==  2 ) scoreDrivePose = BLUEALGAE_2;
+          if(selectPose ==  3 ) scoreDrivePose = BLUEALGAE_3;
+          if(selectPose ==  4 ) scoreDrivePose = BLUEALGAE_4;
+          if(selectPose ==  5 ) scoreDrivePose = BLUEALGAE_5;
+          if(selectPose ==  6 ) scoreDrivePose = BLUEALGAE_6;
+          if(selectPose ==  7 ) scoreDrivePose = BLUEALGAE_7;
+          if(selectPose ==  8 ) scoreDrivePose = BLUEALGAE_8;
+          if(selectPose ==  9 ) scoreDrivePose = BLUEALGAE_9;
+          if(selectPose ==  10 ) scoreDrivePose= BLUEALGAE_10;
+          if(selectPose ==  11 ) scoreDrivePose= BLUEALGAE_11;
+          if(selectPose ==  12 ) scoreDrivePose= BLUEALGAE_12;
+      }
+      return scoreDrivePose;
+      }
+
       public static Pose2d getPrescorePose(Boolean isRedAlliance, Double selectPose){
         Pose2d prescoreDrivePose = new Pose2d();
         if(isRedAlliance){
@@ -243,6 +275,7 @@ public final class Constants
     return prescoreDrivePose;
       }
   }
+  
 
   public static class SuperstructureConfigs{
     
@@ -477,13 +510,13 @@ public final class Constants
           intakePivotLeftConfig.Slot0.kI = 0.000001; //
           intakePivotLeftConfig.Slot0.kV = 0.12; //
           intakePivotLeftConfig.Slot0.kD = 0.02; //
-          intakePivotLeftConfig.CurrentLimits.SupplyCurrentLimit = 15;//climbed on 5
+          intakePivotLeftConfig.CurrentLimits.SupplyCurrentLimit = 20;//climbed on 5
           intakePivotLeftConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = .02;        
           intakePivotLeftConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .02;
           intakePivotLeftConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .02;
           intakePivotLeftConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .02;
           intakePivotLeftConfig.MotionMagic.MotionMagicCruiseVelocity = 80 ; //
-          intakePivotLeftConfig.MotionMagic.MotionMagicAcceleration = 60; //
+          intakePivotLeftConfig.MotionMagic.MotionMagicAcceleration = 80; // 10-15 previously 60
           intakePivotLeftConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
           intakePivotLeftConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
           intakePivotLeftConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 26.0;

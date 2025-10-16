@@ -297,7 +297,7 @@ public class Vision
           (39.75)/39.4), //z
         //VecBuilder.fill(5, 5, 20), VecBuilder.fill(1, 1, 10))//,
         //VecBuilder.fill(.5, .5, 5), VecBuilder.fill(1,1, 5)),//,
-        VecBuilder.fill(.5, .5, 5), VecBuilder.fill(1,1, 5)),
+        VecBuilder.fill(.5, .5, 20), VecBuilder.fill(1,1, 30)),
     
     /** 
      * Left Camera
@@ -309,7 +309,7 @@ public class Vision
           -(0.231 -.65+.01 -.04) ,  //y robot left ADDING MOVES ACTUAL ROBOT POSITION RIGHT
           (39.75)/39.4), //z
         //VecBuilder.fill(5, 5, 20), VecBuilder.fill(1, 1, 10))//,
-        VecBuilder.fill(1,1, 10), VecBuilder.fill(2,2, 15))//,
+        VecBuilder.fill(1,1, 20), VecBuilder.fill(2,2, 30))//,
        
     /**
      * Center Camera
