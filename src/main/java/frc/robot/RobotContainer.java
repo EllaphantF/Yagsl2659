@@ -258,6 +258,10 @@ public class RobotContainer
      new SequentialCommandGroup(new InstantCommand( () -> scoringLocation = 11),new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 11))),
       Commands.defer(() -> getAlgaeGrabSequenceCommand(), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(3.0)));
 
+      NamedCommands.registerCommand("AlgaeP1" , new SequentialCommandGroup(
+     new SequentialCommandGroup(new InstantCommand( () -> scoringLocation = 1),new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 11))),
+      Commands.defer(() -> getAlgaeGrabSequenceCommand(), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(3.0)));
+
     
     // buttonBox = new ButtonBox();
     // buttonBox = new ButtonBox();
