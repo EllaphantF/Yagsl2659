@@ -450,7 +450,7 @@ public Command driveToBargePosePID(Pose2d targetPose, DoubleSupplier yAxSupplier
  * @param targetPose
  * @return
  */
-  public Command driveToTargetPosePID(Pose2d targetPose)
+  public Command driveToTargetPosePID(Pose2d targetPose, double tolerance, double accel )
   {
     //SmartDashboard.putNumber("Max Vel PID",   SmartDashboard.getNumber("Max Vel PID", 2));
     //SmartDashboard.putNumber("max Accel PID", SmartDashboard.getNumber("max Accel PID",1));
@@ -459,25 +459,25 @@ public Command driveToBargePosePID(Pose2d targetPose, DoubleSupplier yAxSupplier
     //SmartDashboard.putNumber("kD PID",        SmartDashboard.getNumber("kD PID", .2));
 
     //TrapezoidProfile.Constraints xyConstraints = new Constraints(SmartDashboard.getNumber("Max Vel PID", 2), SmartDashboard.getNumber("max Accel PID",1));
-    TrapezoidProfile.Constraints xyConstraints = new Constraints(2,2); //Contra was 2,.6
+    TrapezoidProfile.Constraints xyConstraints = new Constraints(2,accel); //Contra was 2,.6
     //TrapezoidProfile.Constraints thetaConstraints = new Constraints(540,720);
     
 //    ProfiledPIDController xcontroller = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 5), SmartDashboard.getNumber("kI PID", 2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
 //    ProfiledPIDController ycontroller = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 5), SmartDashboard.getNumber("kI PID", 2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
 
     //ProfiledPIDController xcontroller = new ProfiledPIDController(10.,5.,.2, xyConstraints);
-    ProfiledPIDController xcontroller = new ProfiledPIDController(4.,4.,.5, xyConstraints); //10-12-25 Need to update these values tomorrow
-    ProfiledPIDController ycontroller = new ProfiledPIDController(4.,4.,.5, xyConstraints); //5 kp,5 ki,.45 kd
+    ProfiledPIDController xcontroller = new ProfiledPIDController(6.,2.,.4, xyConstraints); //10-12-25 Need to update these values tomorrow
+    ProfiledPIDController ycontroller = new ProfiledPIDController(6.,2.,.4, xyConstraints); //5 kp,5 ki,.45 kd
 
     //ProfiledPIDController thetacontroller = new ProfiledPIDController(30, 0, 0, thetaConstraints);
     //thetacontroller.enableContinuousInput(-180, 180);
     
 
     xcontroller.setIZone(.5);
-    xcontroller.setTolerance(.025); //.008m for contra
+    xcontroller.setTolerance(tolerance); //.008m for contra
     
     ycontroller.setIZone(.5);
-    ycontroller.setTolerance(.025);
+    ycontroller.setTolerance(tolerance);
 //
     BooleanSupplier atTarget = () -> (xcontroller.atGoal() && 
                                       ycontroller.atGoal()&& 
@@ -539,15 +539,6 @@ public Command driveToBargePosePID(Pose2d targetPose, DoubleSupplier yAxSupplier
                                      );
   }
 
-  /**
-   * returns an alliance specific scoring pose from 1pm through 12pm position on the reef 
-   * @param selectPose
-   * @return
-   */
-
-   public Command driveTo1(){
-    return new SequentialCommandGroup(driveToPose(getPrescorePose(1)), driveToTargetPosePID(getScorePose(1)));
-   }
 
   public Pose2d getScorePose(double selectPose)
     {Pose2d scoreDrivePose = Constants.ReefScoringLocations.getScorePose(isRedAlliance(),selectPose); 

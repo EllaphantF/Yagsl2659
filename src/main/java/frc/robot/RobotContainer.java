@@ -512,8 +512,8 @@ public class RobotContainer
                                                         prescoreDrivePose = drivebase.getPrescorePose(selectPose);
                                                         scoreDrivePose = drivebase.getScorePose(selectPose);});*/
     //Command driveToPrescore = drivebase.driveToPose(prescoreDrivePose);
-    Command driveToPrescore = drivebase.driveToTargetPosePID(prescoreDrivePose);
-    Command driveToScore = drivebase.driveToTargetPosePID(scoreDrivePose);
+    Command driveToPrescore = drivebase.driveToTargetPosePID(prescoreDrivePose, .04, 1.5);
+    Command driveToScore = drivebase.driveToTargetPosePID(scoreDrivePose, .02, .6);
     Command superStructureScore = new InstantCommand(() -> superstructure.startLifting());
     Command superStructurePrescore = new InstantCommand(() -> superstructure.startLifting());
     Command release = new InstantCommand(() -> superstructure.startReleasingCoral(true));
@@ -560,7 +560,7 @@ public class RobotContainer
     setClosestScoringLocation(true);
     double selectPose = scoringLocation;
     Pose2d algaeDrivePose = drivebase.getAlgaeGrabPose(selectPose);
-    Command driveToAlgae = drivebase.driveToTargetPosePID(algaeDrivePose);
+    Command driveToAlgae = drivebase.driveToTargetPosePID(algaeDrivePose,.03,1);
     Command algaeDrive = drivebase.algaeBasicDrive();
     Command raiseAlgae = Commands.none();
     if (selectPose == 1 ||selectPose == 2 ||selectPose == 5 ||selectPose == 6 ||selectPose == 9 ||selectPose == 10) raiseAlgae = new InstantCommand(() -> superstructure.grabAlgae(3.));
@@ -583,7 +583,7 @@ public class RobotContainer
     double selectPose = 13; //13 for barge
     if (onOpponentSide) selectPose = 15; //if on opponent side, go to the closer barge location
     Pose2d prescoreDrivePose = drivebase.getPrescorePose(selectPose);
-    Command driveToBarge = drivebase.driveToTargetPosePID(prescoreDrivePose);
+    Command driveToBarge = drivebase.driveToTargetPosePID(prescoreDrivePose, .03, 1);
     Command driveToBargeWithControllerY = drivebase.driveToBargePosePID(prescoreDrivePose, () -> driverXbox.getLeftY());
     Command scoreAlgaeInBarge = new InstantCommand(() -> superstructure.goToBargeAlgaeScoring());
     Command autoAlgaeSequence = new SequentialCommandGroup(driveToBarge, scoreAlgaeInBarge);
@@ -599,7 +599,7 @@ public class RobotContainer
     //double selectPose = SmartDashboard.getNumber("Select Scoring Location",0);
     double selectPose = 14; //14 for processor
     Pose2d prescoreDrivePose = drivebase.getPrescorePose(selectPose);
-    Command driveToScore = drivebase.driveToTargetPosePID(prescoreDrivePose);
+    Command driveToScore = drivebase.driveToTargetPosePID(prescoreDrivePose, .03, 1);
     Command scoreAlgaeInProcessor = new InstantCommand(() -> superstructure.goToProcessorAlgaeScoring());
     Command autoAlgaeSequence = new SequentialCommandGroup(scoreAlgaeInProcessor, driveToScore);
     return autoAlgaeSequence;
