@@ -42,6 +42,7 @@ public class SuperstructureStates {
     public SuperstructureState climb2;
     public SuperstructureState climb3;
     public SuperstructureState bargeAlgae;
+    public SuperstructureState bargeAlgaeForward;
     public SuperstructureState processorAlgae;
 
     
@@ -107,7 +108,8 @@ public class SuperstructureStates {
         StowPreL34 = new SuperstructureState(0., 0., 24, 19);
         PreScoreCoral = new SuperstructureState(0., .2, 1., 0.);
 
-        /*(x )*/bargeAlgae = new SuperstructureState(0.,26.5, 25.8, 12.7);
+        /*(x )*/bargeAlgae = new SuperstructureState(0.,26.5, 25.8, 5); 
+        /*(x )*/bargeAlgaeForward = new SuperstructureState(0.,26.5, 25.8, 12.7);
         /*(x )*/processorAlgae = new SuperstructureState(0.,0.2,6.1-3,3.54+2);
 
         climb1 = new SuperstructureState(0., 1., 1., 0.);
