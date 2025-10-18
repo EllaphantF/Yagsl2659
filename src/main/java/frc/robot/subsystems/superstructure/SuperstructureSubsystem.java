@@ -22,6 +22,7 @@ import java.util.function.BooleanSupplier;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot1Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.DynamicMotionMagicVoltage;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
@@ -29,6 +30,8 @@ import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
+import com.ctre.phoenix6.controls.compound.Diff_DutyCycleOut_Position;
+import com.ctre.phoenix6.controls.compound.Diff_MotionMagicDutyCycle_Position;
 import com.ctre.phoenix6.hardware.CANdi;
 import com.ctre.phoenix6.hardware.TalonFX;
 
@@ -46,8 +49,6 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public final double intake = -20;
   public double sequenceState = 0;
   public double scoreLevel = 3;
-  
-
   
   
   ;
@@ -72,6 +73,10 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public boolean releasingCoral = false;
   public boolean releaseAtPos = false;
   public boolean manualOverride = false;
+  public boolean climbing = false;
+  public boolean deployClimb = false;
+  public boolean retractClimb = false;
+  public boolean stopClimb = false;
 
   public SuperstructureStates STATE = new SuperstructureStates();
   public SuperstructureState CURRENTSTATE = STATE.StartingConfig;
@@ -196,6 +201,51 @@ public class SuperstructureSubsystem extends SubsystemBase {
       // mLED.setLightMode(2);
       lightMode = 9;
     }
+  }
+
+  public void climbClimb(){
+
+  }
+
+  public void Climb(int climbLevel){
+
+    TARGETSTATE = STATE.climb3;
+
+    if (climbLevel == 1){
+      deployClimb();
+    }
+
+    else if (climbLevel == 2){
+      retractClimb();
+    }
+    
+    else if (climbLevel == 3){
+      stopClimb();
+    }
+  }
+
+  public void deployClimb(){
+    TARGETSTATE = STATE.climb1;
+    mClimbPivot.setControl(new MotionMagicVoltage(-60));
+    mClimbPivot.setControl(new DutyCycleOut(0.5));
+
+    if (Math.abs(mClimbPivot.getPosition().getValueAsDouble() - TARGETSTATE.climb) < .5){
+      climbing = true;
+    }
+  }
+
+  public void retractClimb(){
+    TARGETSTATE = STATE.climb3;
+
+    mClimbPivot.setControl(new DutyCycleOut(1.0));
+
+    if (Math.abs(mClimbPivot.getPosition().getValueAsDouble() - TARGETSTATE.climb) < .5){
+      climbing = false;
+    }
+  }
+
+  public void stopClimb(){
+    mClimbPivot.setControl(new DutyCycleOut(0.0));
   }
 
   public void motionMagicSetElevatorAndEndeffector(double ElevatorPosTarget, double ArmPivotPosTarget, double climbPosTarget, double EndeffectorPivotTarget){
