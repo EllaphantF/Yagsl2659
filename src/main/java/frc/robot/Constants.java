@@ -79,6 +79,7 @@ public final class Constants
   public static final double crossbarClearancePos = 20; //elevator height to clear crossbar (must be below)
   public static final double intakeEndeffectorClearancePos = 3; //intake pivot position to clear the endeffector (intake must be deployed enough)
   public static final double endeffectorElevatorClearancePos = 10 * endEffectorPivotGearRatio / 360 / 2.25; //Endeffector pivot position to clear elevator
+
   
   
 
@@ -477,28 +478,30 @@ public final class Constants
         }
 
         public static TalonFXConfiguration getClimbPivotConfiguration(){
-          TalonFXConfiguration intakePivotLeftConfig = new TalonFXConfiguration();
-          intakePivotLeftConfig.Slot0.kG = 0.0; // Volts to overcome gravity
-          intakePivotLeftConfig.Slot0.kS = 0.0; // Volts to overcome static friction
-          intakePivotLeftConfig.Slot0.kA = 0.001; // Volts for an acceleration of 1 rps/s
-          intakePivotLeftConfig.Slot0.kP = 5;// was 8
-          intakePivotLeftConfig.Slot0.kI = 0.000001; //
-          intakePivotLeftConfig.Slot0.kV = 0.12; //
-          intakePivotLeftConfig.Slot0.kD = 0.02; //
-          intakePivotLeftConfig.CurrentLimits.SupplyCurrentLimit = 15/3;//climbed on 5
-          intakePivotLeftConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = .02;        
-          intakePivotLeftConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .02;
-          intakePivotLeftConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .02;
-          intakePivotLeftConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .02;
-          intakePivotLeftConfig.MotionMagic.MotionMagicCruiseVelocity = 80 ; //
-          intakePivotLeftConfig.MotionMagic.MotionMagicAcceleration = 100; //
-          intakePivotLeftConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
-          intakePivotLeftConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-          intakePivotLeftConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 50;
-          intakePivotLeftConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 0.0;
-          intakePivotLeftConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
-          intakePivotLeftConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-          return intakePivotLeftConfig;
+          TalonFXConfiguration climbConfig = new TalonFXConfiguration();
+          /* climbConfig.Slot0.kG = 0.0; // Volts to overcome gravity
+          climbConfig.Slot0.kS = 0.0; // Volts to overcome static friction
+          climbConfig.Slot0.kA = 0.001; // Volts for an acceleration of 1 rps/s
+          climbConfig.Slot0.kP = 5;// was 8
+          climbConfig.Slot0.kI = 0.000001; //
+          climbConfig.Slot0.kV = 0.12; //
+          climbConfig.Slot0.kD = 0.02;*/ // 
+          climbConfig.CurrentLimits.SupplyCurrentLimit = 40;//Stole from 604
+          //climbConfig.CurrentLimits.SupplyCurrentLimit = 5; with Calimari
+          climbConfig.CurrentLimits.StatorCurrentLimit = 60;//Stole from 604 (added line)
+          //climbConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = .02;        
+          //climbConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = .02;
+          //climbConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = .02;
+          //climbConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = .02;
+          //climbConfig.MotionMagic.MotionMagicCruiseVelocity = 80 ; //
+          //climbConfig.MotionMagic.MotionMagicAcceleration = 100; //
+          climbConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = false; //was true 604 doesnt use this
+          climbConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = false; //was true 604 doesnt use this
+          climbConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 50;
+          climbConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 0.0;
+          climbConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+          climbConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+          return climbConfig;
         }
 
         public static TalonFXConfiguration getArmPivotConfiguration(){

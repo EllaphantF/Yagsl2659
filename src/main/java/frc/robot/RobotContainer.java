@@ -317,6 +317,12 @@ public class RobotContainer
       driverXbox.b().whileTrue(new InstantCommand(() -> superstructure.startReleasingCoral(false)).repeatedly());
       driverXbox.b().onFalse(new InstantCommand(() -> superstructure.ureleaseCoral()));
       driverXbox.a().onTrue(new InstantCommand(() -> superstructure.groundIntakeAlgae())); //
+
+      /* CLIMB CONTROLS */
+      driverXbox.povUp().whileTrue(new InstantCommand(() -> superstructure.Climb(1)));
+      driverXbox.povUp().onFalse(new InstantCommand(() -> superstructure.Climb(3)));
+      driverXbox.povDown().whileFalse(new InstantCommand(() -> superstructure.Climb(2)));
+      driverXbox.povDown().onFalse(new InstantCommand(() -> superstructure.Climb(3)));
       //driverXbox.leftBumper().onrue(new InstantCommand(() -> superstructure.intake()));
       //driverXbox.leftBumper().onTrue(new InstantCommand(() -> superstructure.intake()));
       //driverXbox.leftBumper().whileTrue(visionIntake());
