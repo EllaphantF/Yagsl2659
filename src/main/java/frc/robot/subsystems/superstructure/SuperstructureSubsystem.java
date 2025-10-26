@@ -54,6 +54,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
   ;
   public double algaeLevel = 0;
   public boolean hasCoral = true;
+  public BooleanSupplier hasCoralCheck = () -> hasCoral;
   public BooleanSupplier notHasCoralCheck = () -> !hasCoral;
   public boolean hasAlgae = false;
   public boolean seatingCoral = false;
@@ -203,10 +204,6 @@ public class SuperstructureSubsystem extends SubsystemBase {
     }
   }
 
-  public void climbClimb(){
-
-  }
-
   public void Climb(int climbLevel){
 
     TARGETSTATE = STATE.climb3;
@@ -225,9 +222,9 @@ public class SuperstructureSubsystem extends SubsystemBase {
   }
 
   public void deployClimb(){
-    TARGETSTATE = STATE.climb1;
-    mClimbPivot.setControl(new MotionMagicVoltage(-60));
-    mClimbPivot.setControl(new DutyCycleOut(0.5));
+    TARGETSTATE = STATE.climb3;
+    //mClimbPivot.setControl(new MotionMagicVoltage(-60));
+    mClimbPivot.setControl(new DutyCycleOut(1));
 
     if (Math.abs(mClimbPivot.getPosition().getValueAsDouble() - TARGETSTATE.climb) < .5){
       climbing = true;
@@ -237,7 +234,8 @@ public class SuperstructureSubsystem extends SubsystemBase {
   public void retractClimb(){
     TARGETSTATE = STATE.climb3;
 
-    mClimbPivot.setControl(new DutyCycleOut(1.0));
+    //mClimbPivot.setControl(new MotionMagicVoltage(1));
+    mClimbPivot.setControl(new DutyCycleOut(-1.));
 
     if (Math.abs(mClimbPivot.getPosition().getValueAsDouble() - TARGETSTATE.climb) < .5){
       climbing = false;
@@ -246,6 +244,11 @@ public class SuperstructureSubsystem extends SubsystemBase {
 
   public void stopClimb(){
     mClimbPivot.setControl(new DutyCycleOut(0.0));
+  }
+
+  public void climbDashboard(){
+    SmartDashboard.putBoolean("climbing", climbing);
+    SmartDashboard.getBoolean("climbing", climbing);
   }
 
   public void motionMagicSetElevatorAndEndeffector(double ElevatorPosTarget, double ArmPivotPosTarget, double climbPosTarget, double EndeffectorPivotTarget){
@@ -388,7 +391,7 @@ public class SuperstructureSubsystem extends SubsystemBase {
     //mElevatorLeft.;
     //selectProfileSlot(0);
     //mArmPivot.getConfigurator().apply(Constants.SuperstructureConfigs.getArmPivotConfigurationCoral());
-        
+    hasAlgae = false;
   intakeTraverse();}
 
   public void intakeTraverse(){
@@ -617,7 +620,7 @@ public void groundIntakeAlgae(){
   public void grabbingAlgae(){
     
     if(CANdi.getS1State(true).getValueAsDouble() == 1){ //CANDi closed
-      setEndeffectorWheelSpeed(-2.5,-2.5); //ACE - tune the holding voltage here
+      setEndeffectorWheelSpeed(-3,-3); //ACE - tune the holding voltage here was -2.5 for both :)
       hasAlgae = true;
       grabbingAlgae = false;
       if(TARGETSTATE == STATE.grabAlgaeL2) TARGETSTATE = STATE.StowWithAlgaeL2;
@@ -721,8 +724,10 @@ public void groundIntakeAlgae(){
     releasingCoral = true;
     if(!releaseAtPos || atPositionScoring()){
     // mLED.setLightMode(7);
+    
     lightMode = 12;
-    if(scoreLevel == 1) {
+    if(hasAlgae) setEndeffectorWheelSpeed(25,25);
+    else if(scoreLevel == 1) {
       setEndeffectorWheelSpeed(20,2); //sideways spin-release for L1 - ACE - tune these numbers
       if(mEndEffectorRollersL.getPosition().getValueAsDouble() > 8) {
         hasCoral = false;
@@ -746,6 +751,10 @@ public void groundIntakeAlgae(){
   public BooleanSupplier notHasCoralCheck(){
     //SmartDashboard.putNumber("notHasCoralCheck", Timer.getFPGATimestamp());
   return notHasCoralCheck;
+  }
+  public BooleanSupplier hasCoralCheck(){
+    //SmartDashboard.putNumber("notHasCoralCheck", Timer.getFPGATimestamp());
+  return hasCoralCheck;
   }
 
   public void goToBargeAlgaeScoring(){

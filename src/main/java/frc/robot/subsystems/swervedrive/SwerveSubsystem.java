@@ -459,15 +459,15 @@ public Command driveToBargePosePID(Pose2d targetPose, DoubleSupplier yAxSupplier
     //SmartDashboard.putNumber("kD PID",        SmartDashboard.getNumber("kD PID", .2));
 
     //TrapezoidProfile.Constraints xyConstraints = new Constraints(SmartDashboard.getNumber("Max Vel PID", 2), SmartDashboard.getNumber("max Accel PID",1));
-    TrapezoidProfile.Constraints xyConstraints = new Constraints(2,accel); //Contra was 2,.6
+    TrapezoidProfile.Constraints xyConstraints = new Constraints(1,accel); //Contra was 2,.6
     //TrapezoidProfile.Constraints thetaConstraints = new Constraints(540,720);
     
 //    ProfiledPIDController xcontroller = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 5), SmartDashboard.getNumber("kI PID", 2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
 //    ProfiledPIDController ycontroller = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 5), SmartDashboard.getNumber("kI PID", 2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
 
     //ProfiledPIDController xcontroller = new ProfiledPIDController(10.,5.,.2, xyConstraints);
-    ProfiledPIDController xcontroller = new ProfiledPIDController(6.,2.,.4, xyConstraints); //10-12-25 Need to update these values tomorrow
-    ProfiledPIDController ycontroller = new ProfiledPIDController(6.,2.,.4, xyConstraints); //5 kp,5 ki,.45 kd
+    ProfiledPIDController xcontroller = new ProfiledPIDController(7.,2.,.4, xyConstraints); //10-12-25 Need to update these values tomorrow
+    ProfiledPIDController ycontroller = new ProfiledPIDController(7.,2.,.4, xyConstraints); //5 kp,5 ki,.45 kd
 
     //ProfiledPIDController thetacontroller = new ProfiledPIDController(30, 0, 0, thetaConstraints);
     //thetacontroller.enableContinuousInput(-180, 180);

@@ -62,7 +62,7 @@ public class SuperstructureStates {
         /*(x )*/ StartingConfig = new SuperstructureState(0., 0.0, 0., 0.);
         /*(x )*/ Home = new SuperstructureState(0., 1.2, 3., 0. );
         /*(x )*/ //Intake = new SuperstructureState(0., 2.8, 0.,0.); //intake 97, eepiv -23
-        /*(x )*/ Intake = new SuperstructureState(0., 1.2, 0.,1.12); //intake 97, eepiv -23
+        /*(x )*/ Intake = new SuperstructureState(0., 1.6, 0.,.8); //intake 97, eepiv -23
                 //ee 2.12
         /*(x )*/ groundIntakeAlgae = new SuperstructureState(0., 0.1, 5.8, 9.5+1);
 
@@ -104,7 +104,7 @@ public class SuperstructureStates {
         StowWithCoral = new SuperstructureState(0., 1.2, 1., 0.);
         StowWithAlgae = new SuperstructureState(0., 0.2, 4., 0.2);
         StowWithAlgaeL2 = new SuperstructureState(0., 0.2, 19., 13.);
-        StowWithAlgaeL3 = new SuperstructureState(0., 16.5, 19., 17.);
+        StowWithAlgaeL3 = new SuperstructureState(0., 13.5, 19., 17.);
         StowPreL34 = new SuperstructureState(0., 0., 24, 19);
         PreScoreCoral = new SuperstructureState(0., .2, 1., 0.);
 
@@ -112,9 +112,9 @@ public class SuperstructureStates {
         /*(x )*/bargeAlgaeForward = new SuperstructureState(0.,26.5, 25.8, 12.7);
         /*(x )*/processorAlgae = new SuperstructureState(0.,0.2,6.1-3,3.54+2);
 
-        climb1 = new SuperstructureState(0., 1., 1., 0.);
-        climb2 = new SuperstructureState(0., 1., 1., 0.);
-        climb3 = new SuperstructureState(0., 0., 1., 0.);
+        climb1 = new SuperstructureState(0., 1.2, 1., 0.);
+        climb2 = new SuperstructureState(0., 1.2, 1., 0.);
+        climb3 = new SuperstructureState(0., 1., 1., 0.);
        
     }
 

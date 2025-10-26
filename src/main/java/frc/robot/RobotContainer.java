@@ -193,12 +193,12 @@ public class RobotContainer
   public RobotContainer()
   {
     /* Added Named Commands for Pathplanner */
-	  NamedCommands.registerCommand("Intake", new IntakeCommand(superstructure).withTimeout(4.5));
+	  NamedCommands.registerCommand("Intake", new IntakeCommand(superstructure).until(superstructure.hasCoralCheck()));
     //NamedCommands.registerCommand("Intake", new InstantCommand(() -> superstructure.intake()).withTimeout(3));
     NamedCommands.registerCommand("L1", new L1Command(superstructure).withTimeout(3));
     NamedCommands.registerCommand("L2", new L2Command(superstructure).withTimeout(3));
-    NamedCommands.registerCommand("L3", new L3Command(superstructure).withTimeout(6));
-    NamedCommands.registerCommand("L4", new L4Command(superstructure).withTimeout(2));
+    NamedCommands.registerCommand("L3", new L3Command(superstructure).withTimeout(3));
+    NamedCommands.registerCommand("L4", new L4Command(superstructure).until(superstructure.notHasCoralCheck()).withTimeout(3));//.withTimeout(2));
     NamedCommands.registerCommand("GoHome", new GoHomeCommand(superstructure).withTimeout(.1));
     NamedCommands.registerCommand("AlgaeL2", new AlgaeL2Command(superstructure).withTimeout(3));
     NamedCommands.registerCommand("AlgaeL3", new AlgaeL3Command(superstructure).withTimeout(3));
@@ -215,27 +215,27 @@ public class RobotContainer
     NamedCommands.registerCommand("AutonScoreCommandP2L4" , new SequentialCommandGroup(
       new InstantCommand(()-> superstructure.setCoralLevel(4.)),
       new SequentialCommandGroup(new InstantCommand( () -> scoringLocation = 2),new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 2))),
-      Commands.defer(() -> getScoreSequenceCommand(false), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(3.0)));
+      Commands.defer(() -> getScoreSequenceCommand(false), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(6.0)));
    
       NamedCommands.registerCommand("AutonScoreCommandP4L4" , new SequentialCommandGroup(
         new InstantCommand(()-> superstructure.setCoralLevel(4.)),
         new SequentialCommandGroup(new InstantCommand( () -> scoringLocation = 4),new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 4))),
-        Commands.defer(() -> getScoreSequenceCommand(false), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(3.0)));
+        Commands.defer(() -> getScoreSequenceCommand(false), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(6.0)));
      
     NamedCommands.registerCommand("AutonScoreCommandP6L4" , new SequentialCommandGroup(
       new InstantCommand(()-> superstructure.setCoralLevel(4.)),
       new SequentialCommandGroup(new InstantCommand( () -> scoringLocation = 6),new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 6))),
-      Commands.defer(() -> getScoreSequenceCommand(false), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(3.0)));
+      Commands.defer(() -> getScoreSequenceCommand(false), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(6.0)));
     //NamedCommands.registerCommand("AutonScoreCommandP7L4" , new AutonScoreCommand(this, getSuperstructure(), getSwerveSubsystem(),  7 , 4).withTimeout(5));
     
     NamedCommands.registerCommand("AutonScoreCommandP7L4" , new SequentialCommandGroup(
       new SequentialCommandGroup(new InstantCommand( () -> scoringLocation = 7),new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 7))),
-      Commands.defer(() -> getScoreSequenceCommand(false), Set.of(getSuperstructure(), getSwerveSubsystem()))));/* /.withTimeout(3.0)*/
+      Commands.defer(() -> getScoreSequenceCommand(false), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(6)));/* /.withTimeout(3.0)*/
 
     NamedCommands.registerCommand("AutonScoreCommandP8L4" , new SequentialCommandGroup(
       new InstantCommand(()-> superstructure.setCoralLevel(4.)),
     new SequentialCommandGroup(new InstantCommand( () -> scoringLocation = 8),new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 8))),
-     Commands.defer(() -> getScoreSequenceCommand(false), Set.of(getSuperstructure(), getSwerveSubsystem()))));//.withTimeout(3.0)));
+     Commands.defer(() -> getScoreSequenceCommand(false), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(6)));//.withTimeout(3.0)));
 
 
     NamedCommands.registerCommand("AutonScoreCommandP9L4" , new SequentialCommandGroup(
@@ -247,20 +247,20 @@ public class RobotContainer
     NamedCommands.registerCommand("AutonScoreCommandP10L4" , new SequentialCommandGroup(
       new InstantCommand(()-> superstructure.setCoralLevel(4.)),
       new SequentialCommandGroup(new InstantCommand( () -> scoringLocation = 10),new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 10))),
-     Commands.defer(() -> getScoreSequenceCommand(true), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(3.0)));
+     Commands.defer(() -> getScoreSequenceCommand(true), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(6.0)));
     
      NamedCommands.registerCommand("AutonScoreCommandP11L4" , new SequentialCommandGroup(
      new InstantCommand(()-> superstructure.setCoralLevel(4.)),
      new SequentialCommandGroup(new InstantCommand( () -> scoringLocation = 11),new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 11))),
-      Commands.defer(() -> getScoreSequenceCommand(true), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(3.0)));
+      Commands.defer(() -> getScoreSequenceCommand(true), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(6.0)));
       
      NamedCommands.registerCommand("AlgaeP11" , new SequentialCommandGroup(
      new SequentialCommandGroup(new InstantCommand( () -> scoringLocation = 11),new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 11))),
-      Commands.defer(() -> getAlgaeGrabSequenceCommand(), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(3.0)));
+      Commands.defer(() -> getAlgaeGrabSequenceCommand(), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(6.0)));
 
-      NamedCommands.registerCommand("AlgaeP1" , new SequentialCommandGroup(
-     new SequentialCommandGroup(new InstantCommand( () -> scoringLocation = 1),new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 11))),
-      Commands.defer(() -> getAlgaeGrabSequenceCommand(), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(3.0)));
+      NamedCommands.registerCommand("AlgaeP9" , new SequentialCommandGroup(
+     new SequentialCommandGroup(new InstantCommand( () -> scoringLocation = 9),new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 11))),
+      Commands.defer(() -> getAlgaeGrabSequenceCommand(), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(6.0)));
 
     
     // buttonBox = new ButtonBox();
@@ -308,21 +308,22 @@ public class RobotContainer
 
     } else
     {
+
       // driverXbox.povLeft().onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", SmartDashboard.getNumber("Select Scoring Location",0)-.5)));
       // driverXbox.povRight().onTrue(new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", SmartDashboard.getNumber("Select Scoring Location",0)+.5)));
 
       /* Drive Controller */
-      driverXbox.povLeft().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+      //driverXbox.povLeft().onTrue((Commands.runOnce(drivebase::zeroGyro)));
       driverXbox.povRight().onTrue((Commands.runOnce(drivebase::resetDriveEncoders)));
       driverXbox.b().whileTrue(new InstantCommand(() -> superstructure.startReleasingCoral(false)).repeatedly());
       driverXbox.b().onFalse(new InstantCommand(() -> superstructure.ureleaseCoral()));
       driverXbox.a().onTrue(new InstantCommand(() -> superstructure.groundIntakeAlgae())); //
 
       /* CLIMB CONTROLS */
-      driverXbox.povUp().whileTrue(new InstantCommand(() -> superstructure.Climb(1)));
-      driverXbox.povUp().onFalse(new InstantCommand(() -> superstructure.Climb(3)));
-      driverXbox.povDown().whileFalse(new InstantCommand(() -> superstructure.Climb(2)));
+      driverXbox.povDown().whileTrue(new InstantCommand(() -> superstructure.Climb(1)));
       driverXbox.povDown().onFalse(new InstantCommand(() -> superstructure.Climb(3)));
+      driverXbox.povUp().whileTrue(new InstantCommand(() -> superstructure.Climb(2)));
+      driverXbox.povUp().onFalse(new InstantCommand(() -> superstructure.Climb(3)));
       //driverXbox.leftBumper().onrue(new InstantCommand(() -> superstructure.intake()));
       //driverXbox.leftBumper().onTrue(new InstantCommand(() -> superstructure.intake()));
       //driverXbox.leftBumper().whileTrue(visionIntake());
@@ -332,6 +333,7 @@ public class RobotContainer
       //driverXbox.x().whileTrue(new InstantCommand(() -> superstructure.l1Score()).repeatedly());
       driverXbox.x().onFalse(new InstantCommand(() -> superstructure.goHome()));
       driverXbox.y().onTrue(new InstantCommand(() -> superstructure.panic()));
+      //driverXbox.y().onTrue((Commands.runOnce(drivebase::zeroGyro)));
       
       driverXbox.rightBumper().whileTrue(new StartEndCommand(
         () -> getScoreSequenceCommandByProximity(true,true).schedule(),
