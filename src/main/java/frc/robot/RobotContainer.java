@@ -520,14 +520,17 @@ public class RobotContainer
     Command superStructurePrescore = new InstantCommand(() -> superstructure.startLifting());
     Command release = new InstantCommand(() -> superstructure.startReleasingCoral(true));
     //Command waitForRelease = new InstantCommand(() -> Timer.delay(.02)).repeatedly().until(superstructure.notHasCoralCheck());
-    Command waitForRelease = new WaitCommand(0.05).repeatedly().until(superstructure.notHasCoralCheck());
+    Command waitForRelease = new WaitCommand(0.025).repeatedly().until(superstructure.notHasCoralCheck());
     Command delayRelease = new WaitCommand(0.5);
 
     //return  (new SequentialCommandGroup(selectReefPoses,driveToPrescore,driveToScore));*/
     //Command driveToPrescore = drivebase.driveToTargetPosePID(drivebase.getPrescorePose(SmartDashboard.getNumber("Select Scoring Location",0)));
     //Command driveToScore = drivebase.driveToTargetPosePID(drivebase.getScorePose(SmartDashboard.getNumber("Select Scoring Location",0)));
     Command autoScoreSequence = Commands.none();
-    if (superstructure.scoreLevel == 1 || superstructure.scoreLevel == 2) autoScoreSequence = new SequentialCommandGroup(  superStructurePrescore,driveToScore,superStructureScore, release, waitForRelease);
+    if(DriverStation.isAutonomous()){ //if it's auto, no prescore pose... Go straight to scoring pose. Requires paths to end relatively close to the prescore pose
+      autoScoreSequence = new SequentialCommandGroup( superStructureScore, driveToScore, release, waitForRelease);
+    }
+    else if (superstructure.scoreLevel == 1 || superstructure.scoreLevel == 2) autoScoreSequence = new SequentialCommandGroup(  superStructurePrescore,driveToScore,superStructureScore, release, waitForRelease);
 
     /*if(!withAutoRelease){
       autoScoreSequence = new SequentialCommandGroup(driveToPrescore, driveToScore);}
