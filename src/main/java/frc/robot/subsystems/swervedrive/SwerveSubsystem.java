@@ -466,8 +466,8 @@ public Command driveToBargePosePID(Pose2d targetPose, DoubleSupplier yAxSupplier
 //    ProfiledPIDController ycontroller = new ProfiledPIDController(SmartDashboard.getNumber("kP PID", 5), SmartDashboard.getNumber("kI PID", 2), SmartDashboard.getNumber("kD PID", .2), xyConstraints);
 
     //ProfiledPIDController xcontroller = new ProfiledPIDController(10.,5.,.2, xyConstraints);
-    ProfiledPIDController xcontroller = new ProfiledPIDController(7.,2.,.4, xyConstraints); //10-12-25 Need to update these values tomorrow
-    ProfiledPIDController ycontroller = new ProfiledPIDController(7.,2.,.4, xyConstraints); //5 kp,5 ki,.45 kd
+    ProfiledPIDController xcontroller = new ProfiledPIDController(6.,2.,.4, xyConstraints); //10-12-25 Need to update these values tomorrow
+    ProfiledPIDController ycontroller = new ProfiledPIDController(6.,2.,.4, xyConstraints); //5 kp,5 ki,.45 kd
 
     //ProfiledPIDController thetacontroller = new ProfiledPIDController(30, 0, 0, thetaConstraints);
     //thetacontroller.enableContinuousInput(-180, 180);
@@ -481,7 +481,7 @@ public Command driveToBargePosePID(Pose2d targetPose, DoubleSupplier yAxSupplier
 //
     BooleanSupplier atTarget = () -> (xcontroller.atGoal() && 
                                       ycontroller.atGoal()&& 
-                                      (Math.abs(getPose().getRotation().getDegrees() - targetPose.getRotation().getDegrees())%360 <4 )  //angleTol from  1 deg to 2 deg
+                                      (Math.abs(getPose().getRotation().getDegrees() - targetPose.getRotation().getDegrees())%360 <3 )  //angleTol from  1 deg to 2 deg
     
     );
 
@@ -1076,7 +1076,7 @@ public Command driveToBargePosePID(Pose2d targetPose, DoubleSupplier yAxSupplier
     swerveDrive.field.setRobotPose(swerveDrive.getPose());
 
     SmartDashboard.putData("Field",swerveDrive.field);
-    
+    SmartDashboard.putString("RobotPose2D",getPose().toString());
     SmartDashboard.putNumber("XPos",swerveDrive.getPose().getX());
     SmartDashboard.putNumber("YPos",swerveDrive.getPose().getY());
     SmartDashboard.putNumber("yaw angle", swerveDrive.getPose().getRotation().getDegrees());

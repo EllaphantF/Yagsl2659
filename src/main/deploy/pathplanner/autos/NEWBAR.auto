@@ -17,6 +17,12 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "New Path"
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "AutonScoreCommandP9L4"
@@ -25,7 +31,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.1
+            "waitTime": 0.05
           }
         },
         {
@@ -37,7 +43,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.1
+            "waitTime": 0.05
           }
         },
         {
@@ -62,7 +68,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.1
+            "waitTime": 0.05
           }
         },
         {
@@ -74,7 +80,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.1
+            "waitTime": 0.05
           }
         },
         {
@@ -86,7 +92,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.1
+            "waitTime": 0.05
           }
         },
         {
@@ -111,7 +117,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.1
+            "waitTime": 0.05
           }
         },
         {
@@ -123,7 +129,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.1
+            "waitTime": 0.05
           }
         },
         {

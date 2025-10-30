@@ -193,7 +193,7 @@ public class RobotContainer
   public RobotContainer()
   {
     /* Added Named Commands for Pathplanner */
-	  NamedCommands.registerCommand("Intake", new IntakeCommand(superstructure).until(superstructure.hasCoralCheck()));
+	  NamedCommands.registerCommand("Intake", new IntakeCommand(superstructure).withTimeout(5).until(superstructure.hasCoralCheck()));
     //NamedCommands.registerCommand("Intake", new InstantCommand(() -> superstructure.intake()).withTimeout(3));
     NamedCommands.registerCommand("L1", new L1Command(superstructure).withTimeout(3));
     NamedCommands.registerCommand("L2", new L2Command(superstructure).withTimeout(3));
@@ -230,12 +230,12 @@ public class RobotContainer
     
     NamedCommands.registerCommand("AutonScoreCommandP7L4" , new SequentialCommandGroup(
       new SequentialCommandGroup(new InstantCommand( () -> scoringLocation = 7),new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 7))),
-      Commands.defer(() -> getScoreSequenceCommand(false), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(6)));/* /.withTimeout(3.0)*/
+      Commands.defer(() -> getScoreSequenceCommand(false), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(6.0)));/* /.withTimeout(3.0)*/
 
     NamedCommands.registerCommand("AutonScoreCommandP8L4" , new SequentialCommandGroup(
       new InstantCommand(()-> superstructure.setCoralLevel(4.)),
     new SequentialCommandGroup(new InstantCommand( () -> scoringLocation = 8),new InstantCommand( () -> SmartDashboard.putNumber("Select Scoring Location", 8))),
-     Commands.defer(() -> getScoreSequenceCommand(false), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(6)));//.withTimeout(3.0)));
+     Commands.defer(() -> getScoreSequenceCommand(false), Set.of(getSuperstructure(), getSwerveSubsystem())).withTimeout(6.0)));//.withTimeout(3.0)));
 
 
     NamedCommands.registerCommand("AutonScoreCommandP9L4" , new SequentialCommandGroup(
@@ -527,7 +527,7 @@ public class RobotContainer
     //Command driveToPrescore = drivebase.driveToTargetPosePID(drivebase.getPrescorePose(SmartDashboard.getNumber("Select Scoring Location",0)));
     //Command driveToScore = drivebase.driveToTargetPosePID(drivebase.getScorePose(SmartDashboard.getNumber("Select Scoring Location",0)));
     Command autoScoreSequence = Commands.none();
-    if (superstructure.scoreLevel == 2) autoScoreSequence = new SequentialCommandGroup(  driveToScore,superStructureScore, release, waitForRelease);
+    if (superstructure.scoreLevel == 1 || superstructure.scoreLevel == 2) autoScoreSequence = new SequentialCommandGroup(  superStructurePrescore,driveToScore,superStructureScore, release, waitForRelease);
 
     /*if(!withAutoRelease){
       autoScoreSequence = new SequentialCommandGroup(driveToPrescore, driveToScore);}

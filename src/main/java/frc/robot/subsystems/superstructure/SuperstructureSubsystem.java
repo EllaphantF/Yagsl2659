@@ -726,9 +726,9 @@ public void groundIntakeAlgae(){
     // mLED.setLightMode(7);
     
     lightMode = 12;
-    if(hasAlgae) setEndeffectorWheelSpeed(25,25);
+    if(hasAlgae) setEndeffectorWheelSpeed(30,30); //upped to 30 on 10-29-2025, was 25
     else if(scoreLevel == 1) {
-      setEndeffectorWheelSpeed(20,2); //sideways spin-release for L1 - ACE - tune these numbers
+      setEndeffectorWheelSpeed(20,1); //sideways spin-release for L1 - ACE - tune these numbers
       if(mEndEffectorRollersL.getPosition().getValueAsDouble() > 8) {
         hasCoral = false;
         hasAlgae = false;
@@ -780,7 +780,7 @@ public void groundIntakeAlgae(){
   }
 
   public void spit(){
-    setFunnelWheelSpeed(-4);
+    setFunnelWheelSpeed(4);
   }
 
 

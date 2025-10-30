@@ -136,26 +136,22 @@ public final class Constants
       public	static	final	Pose2d	REDPRESCORE_4	  =	new	Pose2d(	14.184,	5.595,	Rotation2d.fromDegrees( -120  ));   
       public	static	final	Pose2d	REDPRESCORE_3	=	new	Pose2d(	13.846,	5.784,	Rotation2d.fromDegrees( -120  ));   
       public	static	final	Pose2d	REDPRESCORE_2	=	new	Pose2d(	12.252,	5.791,	Rotation2d.fromDegrees( -60 ));    
-      public	static	final	Pose2d	REDPRESCORE_1	=	new	Pose2d(	11.915,	5.596,	Rotation2d.fromDegrees( -60 ));    
+      public	static	final	Pose2d	REDPRESCORE_1	=	new	Pose2d(	11.915,	5.596,	Rotation2d.fromDegrees( -60 ));  
 
-  // REEF SCORING POSES - 
-
-      //public static   final Pose2d  BLUE_12        = new Pose2d( 6.18,	3.912,   Rotation2d.fromDegrees( 	-0.3+180	)); // /* */
-      //public static   final Pose2d  BLUE_11        = new Pose2d( 6.18,	4.26,   Rotation2d.fromDegrees( 	-0.3+180 	)); // /* */
-      //public static   final Pose2d  BLUE_10        = new Pose2d( 5.468,	5.430,   Rotation2d.fromDegrees(  60.5+180         ));  // 12:37 10-18 - still need
-      //public static   final Pose2d  BLUE_9	       = new Pose2d( 5.144,	5.617,   Rotation2d.fromDegrees(  62.7+180          ));  // /* */
-
-      //public static   final Pose2d  BLUE_8	       = new Pose2d( 3.79, 5.537,   Rotation2d.fromDegrees(  	-57.7	         )); // /* */
-      //public static   final Pose2d  BLUE_7	       = new Pose2d( 3.454, 5.380,   Rotation2d.fromDegrees(  	-57.7	         ));  // /* */
-      //public static   final Pose2d  BLUE_6	       = new Pose2d( 2.852, 4.28,    Rotation2d.fromDegrees( 3.	   )); // /* */
-      //public static   final Pose2d  BLUE_5	       = new Pose2d( 2.852, 3.99,    Rotation2d.fromDegrees( 	3. 	  )); // /* */
-      //public static   final Pose2d  BLUE_4	       = new Pose2d( 3.697, 2.565,   Rotation2d.fromDegrees( 	-118.8+180 	)); // /* */
-      //public static   final Pose2d  BLUE_3	       = new Pose2d( 3.895, 2.412,   Rotation2d.fromDegrees( 61 	)); // /* */
-      //public static   final Pose2d  BLUE_2	       = new Pose2d( 5.26, 2.454,   Rotation2d.fromDegrees( 	63 	)); // /* */
-
+  // REEF SCORING POSES - Contra Measure
+      /*public static   final Pose2d  BLUE_12        = new Pose2d( 6.193,	3.855,   Rotation2d.fromDegrees( 	-0.3+180	)); // 
+      public static   final Pose2d  BLUE_11        = new Pose2d( 6.195,	4.232,   Rotation2d.fromDegrees( 	2.5+180 	)); // 
+      public static   final Pose2d  BLUE_10        = new Pose2d( 5.468,	5.430,   Rotation2d.fromDegrees(  60.5+180         ));  //
+      public static   final Pose2d  BLUE_9	       = new Pose2d( 5.144,	5.617,   Rotation2d.fromDegrees(  62.7 +180         ));  //
+      public static   final Pose2d  BLUE_8	       = new Pose2d( 3.769, 5.580,   Rotation2d.fromDegrees(  	120.8+180	         )); //
+      public static   final Pose2d  BLUE_7	       = new Pose2d( 3.452, 5.397,   Rotation2d.fromDegrees(  	121.7+180	         ));  // 
+      public static   final Pose2d  BLUE_6	       = new Pose2d( 2.784, 4.156,    Rotation2d.fromDegrees( 	-179.2+180	   )); //
+      public static   final Pose2d  BLUE_5	       = new Pose2d( 2.785, 3.813,    Rotation2d.fromDegrees( 	-178+180 	  )); // 
+      public static   final Pose2d  BLUE_4	       = new Pose2d( 3.536, 2.604,   Rotation2d.fromDegrees( 	-118.8+180 	)); // 
+      public static   final Pose2d  BLUE_3	       = new Pose2d( 3.847, 2.432,   Rotation2d.fromDegrees( 	-118.8+180 	)); //  
+      public static   final Pose2d  BLUE_2	       = new Pose2d( 5.205, 2.471,   Rotation2d.fromDegrees( 	-60+180 	)); //  
+      public static   final Pose2d  BLUE_1	       = new Pose2d( 5.52, 2.65,   Rotation2d.fromDegrees( 	-60+180 	));*/ //  
       
-      //public static   final Pose2d  BLUE_1	       = new Pose2d( 5.535, 2.64,   Rotation2d.fromDegrees( 	-60+180 	)); // /* */
-
       public static   final Pose2d  BLUE_12        = new Pose2d( 6.130,	3.979,   Rotation2d.fromDegrees( 	-176.83	)); // /* */
       public static   final Pose2d  BLUE_11        = new Pose2d( 6.090,	4.334,   Rotation2d.fromDegrees( 	-175.77 	)); // /* */
       public static   final Pose2d  BLUE_10        = new Pose2d( 5.316,	5.416,   Rotation2d.fromDegrees(  -114.49         ));  // 12:37 10-18 - still need
@@ -168,11 +164,9 @@ public final class Constants
       public static   final Pose2d  BLUE_3	       = new Pose2d( 3.940, 2.430,   Rotation2d.fromDegrees( 64.113 	)); // /* */
       public static   final Pose2d  BLUE_2	       = new Pose2d( 5.315, 2.606,   Rotation2d.fromDegrees( 	122.88 	)); // /* */
       public static   final Pose2d  BLUE_1	       = new Pose2d( 5.595, 2.763,   Rotation2d.fromDegrees( 	123.87 	)); // /* */
-      public	static	final	Pose2d	BLUEBARGE	     = new Pose2d(	6.5, 6.0,	Rotation2d.fromDegrees( 	180 	)); // /*note: super approx. value! Also made it turn a bit to prevent bounce-outs */
+      public	static	final	Pose2d	BLUEBARGE	     = new Pose2d(	8.2, 6.0,	Rotation2d.fromDegrees( 	180 	)); // /*note: super approx. value! Also made it turn a bit to prevent bounce-outs */
       public	static	final	Pose2d	BLUEBARGEOPP   = new Pose2d(	9.5, 6.0,	Rotation2d.fromDegrees( 	0  	)); // /*note: super approx. value! Also made it turn a bit to prevent bounce-outs */
       public	static	final	Pose2d	BLUEPROCESSOR	 = new Pose2d(	6.5, 0.2,	Rotation2d.fromDegrees( 	90 	)); // /*note: super approx. value! */
-
-
 
       public	static	final	Pose2d	RED_12	      =	new	Pose2d(	11.40,	4.06,	Rotation2d.fromDegrees(	 1.4    )); // /*X */
       public	static	final	Pose2d	RED_11	      =	new	Pose2d(	11.42,	3.71,	Rotation2d.fromDegrees(	 2.9    )); // /* X*/
@@ -188,12 +182,10 @@ public final class Constants
       public	static	final	Pose2d	RED_3	        =	new	Pose2d(	13.63,	5.58,	Rotation2d.fromDegrees(  -117.83 ));	// /*X */
       public	static	final	Pose2d	RED_2	        =	new	Pose2d(	12.28,	5.45,	Rotation2d.fromDegrees(	 -58.35  ));	// X
       public	static	final	Pose2d	RED_1	        =	new	Pose2d(	11.96,	5.30,	Rotation2d.fromDegrees(	 -56.41  )); // /* X*/
-      public	static	final	Pose2d	REDBARGE	    =	new	Pose2d(	9.5,	2.5,	Rotation2d.fromDegrees(	 0  )); // /*note: super approx. value! Also made it turn a bit to prevent bounce-outs */
+      public	static	final	Pose2d	REDBARGE	    =	new	Pose2d(	8.7,	2.5,	Rotation2d.fromDegrees(	 0  )); // /*note: super approx. value! Also made it turn a bit to prevent bounce-outs */
       public	static	final	Pose2d	REDBARGEOPP   =	new	Pose2d(	6.5,	2.5,	Rotation2d.fromDegrees(	 180  )); // /*note: super approx. value! Also made it turn a bit to prevent bounce-outs */
       public	static	final	Pose2d	REDPROCESSOR  =	new	Pose2d(	11.4,	7.9,	Rotation2d.fromDegrees(	 90  )); // /*note: super approx. value! */
       
-      
-
       
       public static Pose2d getScorePose(Boolean isRedAlliance, Double selectPose){
         Pose2d scoreDrivePose = new Pose2d(); 

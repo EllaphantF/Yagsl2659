@@ -81,11 +81,11 @@ public class SuperstructureStates {
         /*(x )*/ CoralL2 = new SuperstructureState(0., .25, 13.02, 13.2);
         //CoralL3 = new SuperstructureState(0., 17.6, 13.02, 13.2); //option for testing
         /*(x )*/ CoralL3 = new SuperstructureState(0., 5.3, 18.66, 18.56);
-        /*(x )*/ CoralL4 = new SuperstructureState(0., 26.9, 19.1, 19.7); // 
+        /*(x )*/ CoralL4 = new SuperstructureState(0., 26.9, 19.1, 19.7+1); // 
 
         /* need to send the elevator up with endeffector in so we dont crash into the reef */
         /*(x )*/ CoralPreL1 = new SuperstructureState(0., 5.1, 2., 2);
-        /*(x )*/ CoralPreL2 = new SuperstructureState(0., 5,5,0.2);
+        /*(x )*/ CoralPreL2 = new SuperstructureState(0., 5,10,0.2);
         //CoralPreL3 = new SuperstructureState(0., 5., 13.02, 3.); //option for testing
         //CoralPreL3 = new SuperstructureState(0., 5.3, 19, 2); //from socal showdown
         /*(x )*/ CoralPreL3 = new SuperstructureState(0., 5.3, 19, 8);
