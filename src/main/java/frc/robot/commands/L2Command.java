@@ -11,25 +11,18 @@ public class L2Command extends Command {
 
     @Override
     public void initialize() {
-        if(structure.hasCoral = true){
-         
-        structure.setCoralLevel(2.0);
-        structure.startLifting();
-
+        if (structure.hasCoral = true){
+            structure.setCoralLevel(2.0);
+            structure.startLifting();
         }
         structure.startReleasingCoral(true);
     }
     @Override
     public void execute() {
-        /*if(structure.atPositionScoring() == true /*&& structure.sequenceState == 1){
-            // if(getFPGATimestamp)
-            structure.startReleasingCoral(false);
-        }*/
     }
 
     @Override
     public void end(boolean interrupted){
-        //structure.goHome();
         structure.hasCoral = false;
     }
     

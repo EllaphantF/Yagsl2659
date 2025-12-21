@@ -11,23 +11,21 @@ public class L1Command extends Command {
 
     @Override
     public void initialize() {
-        if(structure.hasCoral = true){
-        
-        structure.setCoralLevel(1.0);
-        structure.startLifting();
+        if (structure.hasCoral = true){
+            structure.setCoralLevel(1.0);
+            structure.startLifting();
         }
+        structure.startReleasingCoral(true);
     }
+
     @Override
     public void execute() {
-        if(structure.atPositionScoring() == true && structure.sequenceState == 1){
-            structure.startReleasingCoral(false);
-        }
     }
     
 
     @Override
     public void end(boolean interrupted){
-        structure.goHome();
+        structure.hasCoral = false;
     }
     
     public boolean isFinished() {

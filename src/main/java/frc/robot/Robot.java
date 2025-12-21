@@ -4,20 +4,12 @@
 
 package frc.robot;
 
-import java.util.Set;
-
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.commands.VisionIntakeCommand;
-import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.superstructure.SuperstructureSubsystem;
 
 /**
@@ -25,28 +17,23 @@ import frc.robot.subsystems.superstructure.SuperstructureSubsystem;
  * described in the TimedRobot documentation. If you change the name of this class or the package after creating this
  * project, you must also update the build.gradle file in the project.
  */
-public class Robot extends TimedRobot
-{
+public class Robot extends TimedRobot {
 
   private static Robot   instance;
   private        Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-  private double remapLimiterCount = 0;
   public SuperstructureSubsystem m_SuperstructureSubsystem = new SuperstructureSubsystem();
   
   private Timer disabledTimer;
   final         CommandXboxController driverXbox = new CommandXboxController(0);
 
-  // final LEDs m_LEDs = new LEDs();
 
-  public Robot()
-  {
+  public Robot() {
     instance = this;
   }
 
-  public static Robot getInstance()
-  {
+  public static Robot getInstance() {
     return instance;
   }
 
@@ -54,21 +41,17 @@ public class Robot extends TimedRobot
    * This function is run when the robot is first started up and should be used for any initialization code.
    */
   @Override
-  public void robotInit()
-  {
+  public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     
     m_robotContainer.setDriveMode();//added 2-28-25
-    
-    // Create a timer to disable motor brake a few seconds after disable.  This will let the robot stop
+
     // Create a timer to disable motor brake a few seconds after disable.  This will let the robot stop
     // immediately when disabled, but then also let it be pushed more 
     disabledTimer = new Timer();
     PortForwarder.add(5800, "photonvision.local", 5800);
-
-    
   }
 
   /**
@@ -78,17 +61,13 @@ public class Robot extends TimedRobot
    * <p>This runs after the mode specific periodic functions, but before LiveWindow and
    * SmartDashboard integrated updating.
    */
+
   @Override
-  public void robotPeriodic()
-  {
+  public void robotPeriodic() {
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
-    //
-
-    //driverXbox.leftBumper().whileTrue(m_robotContainer.autoscoreDriveCommand());
-    
     CommandScheduler.getInstance().run();
   }
 
@@ -97,20 +76,15 @@ public class Robot extends TimedRobot
    */
   @Override
   public void disabledInit()
-  {
+ {
     m_robotContainer.setMotorBrake(true);
     m_robotContainer.setDriveMode();
     disabledTimer.reset();
     disabledTimer.start();
-    // m_LEDs.setLightMode(0);
   }
 
   @Override
-  public void disabledPeriodic()
-  {
-    m_SuperstructureSubsystem.lightMode = 0;
-
-    //m_LEDs.setLightMode(0);
+  public void disabledPeriodic() {
     if (disabledTimer.hasElapsed(Constants.DrivebaseConstants.WHEEL_LOCK_TIME))
     {
       m_robotContainer.setMotorBrake(false);

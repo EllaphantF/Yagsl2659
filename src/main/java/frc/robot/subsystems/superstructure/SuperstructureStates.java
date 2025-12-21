@@ -1,7 +1,5 @@
 package frc.robot.subsystems.superstructure;
 
-import frc.robot.Constants;
-
 public class SuperstructureStates {
 
     public SuperstructureState StartingConfig;
@@ -79,26 +77,20 @@ public class SuperstructureStates {
 
         /*(x )*/ CoralL1 = new SuperstructureState(0., 0.25, 9.1, 7.05);
         /*(x )*/ CoralL2 = new SuperstructureState(0., .25, 13.02, 13.2);
-        //CoralL3 = new SuperstructureState(0., 17.6, 13.02, 13.2); //option for testing
         /*(x )*/ CoralL3 = new SuperstructureState(0., 5.3, 18.66, 18.56);
         /*(x )*/ CoralL4 = new SuperstructureState(0., 26.9, 19.1, 19.7+1); // 
 
         /* need to send the elevator up with endeffector in so we dont crash into the reef */
         /*(x )*/ CoralPreL1 = new SuperstructureState(0., 5.1, 2., 2);
         /*(x )*/ CoralPreL2 = new SuperstructureState(0., 5,10,0.2);
-        //CoralPreL3 = new SuperstructureState(0., 5., 13.02, 3.); //option for testing
-        //CoralPreL3 = new SuperstructureState(0., 5.3, 19, 2); //from socal showdown
         /*(x )*/ CoralPreL3 = new SuperstructureState(0., 5.3, 19, 8);
-        /*(x )*/ //CoralPreL4 = new SuperstructureState(0., 26.9, 25.0, 2); //from socal showdown
         /*(x )*/ CoralPreL4 = new SuperstructureState(0., 12, 20.0, 8);
-        /*(x )*/ //CoralPreL4 = new SuperstructureState(0., 12, 20.0, 2); 
 
         CoralPostL1 = new SuperstructureState(0., 5.1, 2., 2);
         CoralPostL2 = new SuperstructureState(0., 5,5,0.2); 
         CoralPostL3 = new SuperstructureState(0., 2, 25, 18); //
         CoralPostL4 = new SuperstructureState(0., 23, 25.0, 18); //
 
-//        AlgaePassOff = new SuperstructureState(0., 4., 4., 0.); // might not be used on Ace
         StowEEClear  = new SuperstructureState(0., 1.2, 18., 18.); // 
         StowClearIntakeDeployed = new SuperstructureState(0., 1., 1., 0.);
         StowWithCoral = new SuperstructureState(0., 1.2, 1., 0.);

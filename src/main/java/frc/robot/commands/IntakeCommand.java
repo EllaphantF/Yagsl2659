@@ -15,18 +15,12 @@ public class IntakeCommand extends Command {
 
     @Override
     public void initialize() {
-        //structure.goHome();
         structure.intake();
         
     }
     @Override
     public void execute() {
-        //structure.intake();
-        
         structure.intaking();
-        
-
-        
     }
 
     @Override
